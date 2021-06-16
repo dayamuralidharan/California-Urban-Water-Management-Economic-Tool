@@ -13,5 +13,5 @@
 11,11,Fraction of commercial use that is interior (%),#0000FF
 12,12,Fraction of industrial use that is interior (%),#000080
 13,13,Share of exterior use unaffected by ETAW (% of total exterior use),#00FF00
-14,14,,#800000
+14,14,Other,#800000
 15,15,,#C0C0C0

@@ -73,31 +73,34 @@ def app():
             Long-term demand management measures that are adopted by water users can have a demand hardening effect. Although they can increase reliability by 
             reducing the size, frequency and duration of shortage events, they can make these events relatively more costly when they do occur. A hardening factor can be set to simulate this effect. <TO ADD: description of conservation effectiveness variables.""")
 
-        st.markdown("### **Select Future Planning Year:**")
-        select_contractor = []
-        select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
+        col1, col2 = st.beta_columns(2)
+
+        with col1:
+            st.markdown("### **Select Future Planning Year:**")
+            select_contractor = []
+            select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
         
-        st.markdown("### **Select Base Long-Term Variable:**")
-        select_demands = []
+        with col2:
+            st.markdown("### **Select Base Long-Term Variable:**")
+            select_demands = []
 
-        #Filter df based on selection
-        contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            #Filter df based on selection
+            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
 
-        sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
-            .sort_values(ascending=True).index
+            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+                .sort_values(ascending=True).index
 
-        select_demands.append(st.selectbox('', sorted_demands, key=2))
-        demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            select_demands.append(st.selectbox('', sorted_demands, key=2))
+            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-        major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-            .sort_values(ascending = False).index
+            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
+                .sort_values(ascending = False).index
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
 
         col1, col2, col3 = st.beta_columns(3)
 
-        st.text("")
         st.write("<TO ADD: Will update plot headers and labels to correspond to variable selected in drop down menu.>")
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER
@@ -120,31 +123,33 @@ def app():
             The model assumes contingency conservation campaigns are initiated whenever there is a shortage in available water supplies compared to current
             quantity demanded or in response to low carryover storage availability. The model requires information on the cost for the publicity campaign per capita, population size, and assumed reduction associated with the campaign.""")
 
-        st.markdown("### **Select Future Planning Year:**")
-        select_contractor = []
-        select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
+        col1, col2 = st.beta_columns(2)
+        with col1:
+            st.markdown("### **Select Future Planning Year:**")
+            select_contractor = []
+            select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
         
-        st.markdown("### **Select Contingency Conservation Campaign Variable:**")
-        select_demands = []
+        with col2:
+            st.markdown("### **Select Contingency Conservation Campaign Variable:**")
+            select_demands = []
 
-        #Filter df based on selection
-        contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            #Filter df based on selection
+            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
 
-        sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
-            .sort_values(ascending=True).index
+            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+                .sort_values(ascending=True).index
 
-        select_demands.append(st.selectbox('', sorted_demands, key=4))
-        demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            select_demands.append(st.selectbox('', sorted_demands, key=4))
+            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-        major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-            .sort_values(ascending = False).index
+            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
+                .sort_values(ascending = False).index
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
 
         col1, col2, col3 = st.beta_columns(3)
 
-        st.text("")
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER
         #---------------------------------------------------------------#
@@ -159,34 +164,37 @@ def app():
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
 
+        col1, col2 = st.beta_columns(2)
+
         st.markdown("### **RATIONING PROGRAMS**")
         st.write("During times of severe extended drought, contractors may take further actions to manage shortages through rationing programs. <Methods in development.>")
 
-        st.markdown("### **Select Future Planning Year:**")
-        select_contractor = []
-        select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
-        
-        st.markdown("### **Select Rationing Program Variable:**")
-        select_demands = []
+        with col1:
+            st.markdown("### **Select Future Planning Year:**")
+            select_contractor = []
+            select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
+            
+        with col2:
+            st.markdown("### **Select Rationing Program Variable:**")
+            select_demands = []
 
-        #Filter df based on selection
-        contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            #Filter df based on selection
+            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
 
-        sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
-            .sort_values(ascending=True).index
+            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+                .sort_values(ascending=True).index
 
-        select_demands.append(st.selectbox('', sorted_demands, key=6))
-        demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            select_demands.append(st.selectbox('', sorted_demands, key=6))
+            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-        major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-            .sort_values(ascending = False).index
+            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
+                .sort_values(ascending = False).index
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
 
         col1, col2, col3 = st.beta_columns(3)
 
-        st.text("")
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER
         #---------------------------------------------------------------#
@@ -267,24 +275,25 @@ def app():
             gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
 
             #configures last row to use custom styles based on cell's value, injecting JsCode on components front end
-            cellsytle_jscode = JsCode("""
-            function(params) {
-                if (params.value == 'Normal') {
-                    return {
-                        'color': 'white',
-                        'backgroundColor': 'darkred'
-                    }
-                } else {
-                    return {
-                        'color': 'black',
-                        'backgroundColor': 'white'
-                    }
-                }
-            };
-            """)
-            gb.configure_column("Normal or Better Demands (acre-feet)", cellStyle=cellsytle_jscode)
+            # cellsytle_jscode = JsCode("""
+            # function(params) {
+            #     if (params.value == 'Normal') {
+            #         return {
+            #             'color': 'white',
+            #             'backgroundColor': 'darkred'
+            #         }
+            #     } else {
+            #         return {
+            #             'color': 'black',
+            #             'backgroundColor': 'white'
+            #         }
+            #     }
+            # };
+            # """)
+            # gb.configure_column("Normal or Better Demands (acre-feet)", cellStyle=cellsytle_jscode)
 
             # if enable_sidebar:
             #     gb.configure_side_bar()
@@ -345,7 +354,7 @@ def app():
 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Conservation (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -382,6 +391,7 @@ def app():
             gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
@@ -418,7 +428,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Conservation (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -458,6 +468,7 @@ def app():
             gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
@@ -494,7 +505,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Conservation (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )

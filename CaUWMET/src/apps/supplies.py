@@ -186,7 +186,6 @@ def app():
 
         col1, col2 = st.beta_columns(2)
 
-        st.text("")
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER
         #---------------------------------------------------------------#
@@ -339,7 +338,7 @@ def app():
 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Supply (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -419,7 +418,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Supply (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -500,7 +499,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Supply (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -581,7 +580,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Supply (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -662,7 +661,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Supply (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )

@@ -19,6 +19,9 @@ def summary_poster(contractor_df, color_dict):
                             # 'Demand data by Year'),
             vertical_spacing=0.1, horizontal_spacing= 0.04)
 
+    for i in fig['layout']['annotations']:
+        i['font'] = dict(size=18, family="Times New Roman")
+
     #PIE
     #data for pie
     pie_data = contractor_df.groupby('Study Region')['Value'].sum()
@@ -93,7 +96,7 @@ def summary_poster(contractor_df, color_dict):
                         paper_bgcolor='rgba(0,0,0,0)',
                         plot_bgcolor='rgba(0,0,0,0)',
                         #plot_bgcolor = '#0E1117',#'black',
-                        font_family= 'Nunito',#"Helvetica",
+                        font_family= 'Times New Roman',#"Helvetica",
                         width=1400,
                         height=700,
                         template = 'plotly_dark',
@@ -101,6 +104,7 @@ def summary_poster(contractor_df, color_dict):
                                     font=dict(size = 10),
                                     bordercolor = 'LightGrey',
                                     borderwidth=0.5),
+                        font=dict(size=12),
                         margin = dict(l = 40, t = 40, r = 40, b = 40)
                     )
     
