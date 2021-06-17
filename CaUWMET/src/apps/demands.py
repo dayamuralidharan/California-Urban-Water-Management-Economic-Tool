@@ -65,7 +65,6 @@ def app():
         local_css("style.css")
         st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
 
-
         # with col2: 
         #     st.subheader('Steps')
         #     st.write('Required input data included on this page:')
@@ -95,24 +94,27 @@ def app():
         Conservation is incorporated in the model through the assumptions included in the Demand Management page.
         Users can select to use Normal or Better Year demands adjusted by an ETAW adjustment factor derived from CalSIMETAW, rather than using the Urban Water Management Plan's Single and Multiple Dry-Year Demands. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
 
-        st.markdown("### **Select Future Planning Year:**")
-        select_contractor = []
-        select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
+        col1, col2 = st.beta_columns(2)
+        with col1:
+            st.markdown("### **Select Future Planning Year:**")
+            select_contractor = []
+            select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
         
-        st.markdown("### **Select Year Type:**")
-        select_demands = []
+        with col2:
+            st.markdown("### **Select Year Type:**")
+            select_demands = []
 
-        #Filter df based on selection
-        contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            #Filter df based on selection
+            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
 
-        sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
-            .sort_values(ascending=True).index
+            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+                .sort_values(ascending=True).index
 
-        select_demands.append(st.selectbox('', sorted_demands, key=2))
-        demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            select_demands.append(st.selectbox('', sorted_demands, key=2))
+            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-        major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-            .sort_values(ascending = False).index
+            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
+                .sort_values(ascending=True).index
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
@@ -131,7 +133,7 @@ def app():
         # st.write(stats_df)
     
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
-            .sort_values(ascending=True).index
+            .sort_values().index
 
         st.markdown("### **DEMAND SCENARIOS BY SECTOR**")
         st.write("""Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
@@ -143,24 +145,27 @@ def app():
         street cleaning, line flushing, construction meters, conveyance losses, etc. Agriculture use represents the agricultural related demands within a contractor's service area, such as irrigation. 
         Landscape irrigation includes nonresidential irrigation for areas such as schools and parks, but excludes golf courses which are incorporated in the commercial use sector. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
         
-        st.markdown("### **Select Future Planning Year:**")
-        select_contractor = []
-        select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
+        col1, col2 = st.beta_columns(2)
+        with col1:
+            st.markdown("### **Select Future Planning Year:**")
+            select_contractor = []
+            select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
         
-        st.markdown("### **Select Sector:**")
-        select_demands = []
+        with col2:
+            st.markdown("### **Select Sector:**")
+            select_demands = []
 
-        #Filter df based on selection
-        contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            #Filter df based on selection
+            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
 
-        sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
-            .sort_values(ascending=True).index
+            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+                .sort_values().index
 
-        select_demands.append(st.selectbox('', sorted_demands, key=4))
-        demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            select_demands.append(st.selectbox('', sorted_demands, key=4))
+            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-        major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-            .sort_values(ascending = False).index
+            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
+                .sort_values(ascending = False).index
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
@@ -180,7 +185,7 @@ def app():
         # st.write(stats_df)
     
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
-            .sort_values(ascending=True).index
+            .sort_values().index
 
         st.markdown("### **INTERIOR AND EXTERIOR USE BY SECTOR**")
         st.write("""The model accounts for interior and exterior uses in discerning how conservation and rationing reductions are applie, as well as water available for reuse assumptions. 
@@ -189,31 +194,33 @@ def app():
         for reuse and wastewater treatment costs. Interior use that results in water available for reuse includes urban wastewater that is deep percolated from septic tanks, while 
         exterior use includes irrigation infiltrated to groundwater systems. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
 
-        st.markdown("### **Select Future Planning Year:**")
-        select_contractor = []
-        select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
+        col1, col2 = st.beta_columns(2)
+        with col1:
+            st.markdown("### **Select Future Planning Year:**")
+            select_contractor = []
+            select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
         
-        st.markdown("### **Select Sector:**")
-        select_demands = []
+        with col2:
+            st.markdown("### **Select Sector:**")
+            select_demands = []
 
-        #Filter df based on selection
-        contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            #Filter df based on selection
+            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
 
-        sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
-            .sort_values(ascending=True).index
+            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+                .sort_values(ascending=True).index
 
-        select_demands.append(st.selectbox('', sorted_demands, key=6))
-        demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            select_demands.append(st.selectbox('', sorted_demands, key=6))
+            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-        major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-            .sort_values(ascending=False).index
+            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
+                .sort_values(ascending=False).index
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
 
         col1, col2 = st.beta_columns(2)
 
-        st.text("")
         #---------------------------------------------------------------#
         # COLLAPSIBLE SECTIONS WTIH EDITABLE TABLES
         #---------------------------------------------------------------#
@@ -295,24 +302,25 @@ def app():
             gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
 
             #configures last row to use custom styles based on cell's value, injecting JsCode on components front end
-            cellsytle_jscode = JsCode("""
-            function(params) {
-                if (params.value == 'Normal') {
-                    return {
-                        'color': 'white',
-                        'backgroundColor': 'darkred'
-                    }
-                } else {
-                    return {
-                        'color': 'black',
-                        'backgroundColor': 'white'
-                    }
-                }
-            };
-            """)
-            gb.configure_column("Normal or Better Demands (acre-feet/year)", cellStyle=cellsytle_jscode)
+            # cellsytle_jscode = JsCode("""
+            # function(params) {
+            #     if (params.value == 'Normal') {
+            #         return {
+            #             'color': 'white',
+            #             'backgroundColor': 'darkred'
+            #         }
+            #     } else {
+            #         return {
+            #             'color': 'black',
+            #             'backgroundColor': 'white'
+            #         }
+            #     }
+            # };
+            # """)
+            # gb.configure_column("", cellStyle=cellsytle_jscode)
 
             # if enable_sidebar:
             #     gb.configure_side_bar()
@@ -380,7 +388,7 @@ def app():
 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Demand (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -428,6 +436,7 @@ def app():
             gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
@@ -465,7 +474,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Demand(acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
@@ -506,6 +515,7 @@ def app():
             gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
@@ -543,7 +553,7 @@ def app():
                 
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O"),
+                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Demand (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 )
