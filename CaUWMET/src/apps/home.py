@@ -34,14 +34,16 @@ def app():
         and costs of changes to urban water supply reliability. This tool utilizes the principle 
         of least-cost-planning to provide users information on 1) the cost of a water supply reliability
         enhancement and 2) the cost of unreliability.""")
+        st.write("")
+        st.write("""Users can learn about the model approach, edit model assumptions and review results by navigating through the pages in the navigation tree
+        to the left. If you're curious or would like to modify the source code, please visit the GitHub repository at: <repository link>.
+        Additional information on the model approach, documentation, and video tutorials can be found in the Model Overview page.""")        
 
         local_css("style.css")
         t = """<div><span class='font'>
         Steps to use this tool are summarized in green below. </span></div>"""
         st.markdown(t, unsafe_allow_html=True)
-        st.write("""Users can learn about the model approach, edit model assumptions and review results by navigating through the pages in the navigation tree
-        to the left. If you're curious or would like to modify the source code, please visit the GitHub repository at: <repository link>.
-        Additional information on the model approach, documentation, and video tutorials can be found in the Model Overview page.""") 
+ 
         
         local_css("style.css")
         t = """<div><span class='font'>
@@ -77,6 +79,10 @@ def app():
         t = """<div><span class='center'>
         Download Input Data Template in Excel format</span></div>"""
         st.markdown(t, unsafe_allow_html=True)
+        local_css("style.css")
+        t = """<div><span class='center'>
+        Upload Scenario Input Data from Excel format</span></div>"""
+        st.markdown(t, unsafe_allow_html=True)
         st.write("")
 
         local_css("style.css")
@@ -85,10 +91,6 @@ def app():
         st.markdown(t, unsafe_allow_html=True)
         st.write("""Ensure the input data passes the required tests. If there are any errors, the 
         box to the right will show a red X and a message describing the source of the error.""") 
-        local_css("style.css")
-        t = """<div><span class='center'>
-        Upload Scenario Input Data from Excel format</span></div>"""
-        st.markdown(t, unsafe_allow_html=True)
         st.write("")
         st.write("<span class='font'>✔</span> All tests pass!", unsafe_allow_html=True)
 
