@@ -79,6 +79,10 @@ def app():
         t = """<div><span class='center'>
         Download Input Data Template in Excel format</span></div>"""
         st.markdown(t, unsafe_allow_html=True)
+        local_css("style.css")
+        t = """<div><span class='center'>
+        Upload Scenario Input Data from Excel format</span></div>"""
+        st.markdown(t, unsafe_allow_html=True)
         st.write("")
 
         local_css("style.css")
@@ -87,10 +91,6 @@ def app():
         st.markdown(t, unsafe_allow_html=True)
         st.write("""Ensure the input data passes the required tests. If there are any errors, the 
         box to the right will show a red X and a message describing the source of the error.""") 
-        local_css("style.css")
-        t = """<div><span class='center'>
-        Upload Scenario Input Data from Excel format</span></div>"""
-        st.markdown(t, unsafe_allow_html=True)
         st.write("")
         st.write("<span class='font'>✔</span> All tests pass!", unsafe_allow_html=True)
 
