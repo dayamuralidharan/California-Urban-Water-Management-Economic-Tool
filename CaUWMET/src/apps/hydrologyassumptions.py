@@ -37,6 +37,9 @@ def app():
 
     with opt_echo():
         st.title('Hydrology Assumptions')
+        st.write("")
+        st.write("<Description of Hydrology Assumptions and Steps to use this page to be added.>")
+        st.write("")
 
         @st.cache(suppress_st_warning=True)
         def fetch_data(samples):
