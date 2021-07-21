@@ -391,6 +391,9 @@ def app():
                     x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Demand (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
+                ).configure_axis(
+                    labelFontSize=13,
+                    titleFontSize=13
                 )
 
             st.markdown("""
@@ -477,6 +480,9 @@ def app():
                     x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Demand(acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
+                ).configure_axis(
+                    labelFontSize=13,
+                    titleFontSize=13
                 )
 
             st.markdown("""
@@ -556,6 +562,9 @@ def app():
                     x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
                     y=alt.Y("sum(Water Demand (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
+                ).configure_axis(
+                    labelFontSize=13,
+                    titleFontSize=13
                 )
 
                 st.markdown("""
