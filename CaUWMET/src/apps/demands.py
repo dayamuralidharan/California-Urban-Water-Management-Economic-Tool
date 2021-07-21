@@ -8,7 +8,7 @@ from sklearn import datasets
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 import traceback
 from load_css import local_css
-from demandsHelper import load_data, summary_poster
+from demandsHelper import load_data, summary_poster, getTestValue
 from contextlib import contextmanager
 import sys, os
 from streamlit.hashing import _CodeHasher
@@ -64,7 +64,7 @@ def app():
         
         local_css("style.css")
         st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
-
+        st.write(getTestValue())
         # with col2: 
         #     st.subheader('Steps')
         #     st.write('Required input data included on this page:')
