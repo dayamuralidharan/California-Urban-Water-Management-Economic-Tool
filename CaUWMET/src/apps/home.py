@@ -44,22 +44,21 @@ def app():
         Steps to use this tool are summarized in green below. </span></div>"""
         st.markdown(t, unsafe_allow_html=True)
  
-        
         local_css("style.css")
         t = """<div><span class='font'>
-        1. Select a pre-made or create a new scenario </span></div>"""
+        1. Select a pre-made scenario or create a new scenario </span></div>"""
         st.markdown(t, unsafe_allow_html=True)
-        st.write("""Creating a new scenario will automatically populate all assumptions with default values.
+        # st.write("""Creating a new scenario will automatically populate all assumptions with default values.
+        # These values are primarily based on data in each contractor's 2020 Urban Water Management Plans (UWMPs) and other references as described
+        # in the Model Documentation <hyperlink to documentation>.
+        # <MORE INFO TO BE ADDED ON PRE-MADE SCENARIO.>""")
+        local_css("style.css")      
+        st.button('Create a New Scenario', help="""Creating a new scenario will automatically populate all assumptions with default values.
         These values are primarily based on data in each contractor's 2020 Urban Water Management Plans (UWMPs) and other references as described
-        in the Model Documentation <hyperlink to documentation>.
-        <MORE INFO TO BE ADDED ON PRE-MADE SCENARIO.>""")
-        local_css("style.css")
-        t = """<div><span class='center'>
-        Create a New Scenario </span></div>"""
-        st.markdown(t, unsafe_allow_html=True)
-        a=['Or Choose a Pre-made Scenario']
+        in the Model Documentation <hyperlink to documentation>.""")
+        # a=['Or Choose a Pre-made Scenario']
         st.write("")
-        st.selectbox('',a)
+        st.selectbox("Or Choose a Pre-made Scenario",(''), help="<MORE INFO TO BE ADDED ON PRE-MADE SCENARIO.>")
 
         local_css("style.css")
         t = """<div><span class='font'>
