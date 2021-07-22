@@ -14,29 +14,9 @@ import sys, os
 from streamlit.hashing import _CodeHasher
 # from streamlit.report_thread import get_repo
 from DemandsUiState import DemandsUiState
+from appsUtilities import opt_echo
 
 def app():
-    class opt_echo:
-        def __init__(self):
-            self.checkbox = st.sidebar.checkbox("Show source code")
-
-            self.orig_extract_stack = traceback.extract_stack
-
-            if self.checkbox:
-                traceback.extract_stack = lambda: self.orig_extract_stack()[:-2]
-                self.echo = st.echo()
-
-        def __enter__(self):
-            if self.checkbox:
-                return self.echo.__enter__()
-
-        def __exit__(self, type, value, traceback):
-            if self.checkbox:
-                self.echo.__exit__(type, value, traceback)
-
-            import traceback
-
-            traceback.extract_stack = self.orig_extract_stack
 
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
@@ -67,8 +47,6 @@ def app():
   
         stats_df = load_data("inputData/contractorDemandsGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
-
-        # st.write(stats_df)
 
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
@@ -214,7 +192,7 @@ def app():
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
 
-        #Table 1
+        #Table 1 - Total Demand Scenario
         with st.beta_expander("Total Demand Scenarios"):
 
 
@@ -231,7 +209,6 @@ def app():
             st.sidebar.subheader("Data Filter options")
 
             sample_size = st.sidebar.number_input("Rows", min_value=1, value=10)
-            grid_height = st.sidebar.number_input("Grid height", min_value=100, max_value=800, value=200)
 
             return_mode = st.sidebar.selectbox("Returned Grid Update Mode", list(DataReturnMode.__members__), index=1)
             return_mode_value = DataReturnMode.__members__[return_mode]
@@ -362,7 +339,7 @@ def app():
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
-                #displays the chart
+                #displays the bar chart
                 chart_data = df.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:

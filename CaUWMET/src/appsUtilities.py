@@ -8,7 +8,10 @@ from demandsHelper import load_data, summary_poster
 from contextlib import contextmanager
 from streamlit.hashing import _CodeHasher
 
-# Class for feature to show source code
+# Class with feature to show source code
+# This is a mega-hack!
+# And it's also not thread-safe. Don't use this if you have threaded
+# code that depends on traceback.extract_stack
 class opt_echo:
     def __init__(self):
         self.checkbox = st.sidebar.checkbox("Show source code")
