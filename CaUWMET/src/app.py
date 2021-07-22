@@ -1,7 +1,7 @@
 import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
-from apps import home, demands, demandsmanagement, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq, returnTest
+from apps import home, demands, demandsmanagement, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq, returnTest, watermanagement
 import SessionState
 
 app = MultiApp()
@@ -28,6 +28,7 @@ PAGES = {
     "Demand Management Assumptions": demandsmanagement,
     "Supply Assumptions": supplies,
     "System Operation Assumptions": systemoperations,
+    "Water Management Assumptions": watermanagement,
     "Results": results,
     "FAQ and Support": faq,
     "Return Test": returnTest,

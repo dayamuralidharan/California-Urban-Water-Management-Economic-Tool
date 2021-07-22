@@ -23,11 +23,14 @@ def app():
         # Initialize Session State for this page
         demandsUiState = DemandsUiState()
 
-        st.title('Demand Assumptions')
-        st.title('Steps to use this page')
+        #Set font styling (currently used for green text)
+        local_css("style.css")
+
+        st.title('Demand Assumptions Page')
+        st.header("Steps to use this page")
 
 
-        st.write("There are three variables that need to be set on this page in the three steps below. After making your selection for all three variables, review the data in the plots below.")
+        st.write("There are three variables that need to be set on this page in the steps below. After making your selection for all three variables, review the input data by ensure this page's test pass and checking the data in the plots below.")
         
         #demandsDatasetChoice = st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)', value = demandsUiState.getDefaultDemandsDatasetChoice)
         demandsDatasetChoice = st.radio("1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, update the data in the Total Demand Scenarios table in the first collapsible section below.", ('UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below'))
@@ -36,39 +39,43 @@ def app():
         useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
         demandsUiState.setUseBySectorDatasetChoice(useBySectorDatasetChoice)
 
-        intExtUseBySectorDatasetChoice = st.radio("Select the Input Interior and Exterior Use by Sector Dataset from the options below. If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
+        intExtUseBySectorDatasetChoice = st.radio("""3. Select the Input Interior and Exterior Use by Sector Dataset from the options below. 
+        If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", 
+        ('UWMP reported values', 'Input Use By Sector in table below'))
         demandsUiState.setIntExtUseBySectorDatasetChoice(intExtUseBySectorDatasetChoice)
 
         
-        local_css("style.css")
-        st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
+        st.write("4. Confirm there are no errors in the input data by checking the message below:")
+        st.write("<span class='font'> ✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
+        
 
 
-        st.title('Demand Assumptions Overview')
+        st.header("Demand Assumptions Overview")
   
-        stats_df = load_data("inputData/contractorDemandsGraphData.csv")
+        stats_df = load_data("inputData/totalDemandsGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
 
-        st.markdown("### **TOTAL DEMAND SCENARIOS**")
+        st.subheader("Total Demand Scenarios")
         st.write("""Total demands include all wholesale and retail, and all interior and exterior demands for all sectors including residential, industrial, commercial and governmental, 
         agricultural and large landscape for each contractor, and each future planning year.
         Generally, to estimate future demands, statistical methods are applied based on historical demand patterns related to household income, consumer response to the price of water and 
         weather along with future demographic and economic projections. Single dry-year demands incorporate a demand response to high temperature and low rainfall weather parameters experienced 
         for a single year, and multiple dry-year demands incorporate consumption response to extended drought conditions. These total demands exclude any conservation reduction assumptions. 
         Conservation is incorporated in the model through the assumptions included in the Demand Management page.
-        Users can select to use Normal or Better Year demands adjusted by an ETAW adjustment factor derived from CalSIMETAW, rather than using the Urban Water Management Plan's Single and Multiple Dry-Year Demands. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
+        Users can select to use Normal or Better Year demands adjusted by an ETAW adjustment factor derived from CalSIMETAW, rather than using the Urban Water Management Plan's Single and Multiple Dry-Year Demands. 
+        More information can be found in the model documentation <add hyperlink to Total Demand Scenarios section of model documentation.>""")
 
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.markdown("### **Select Future Planning Year:**")
+            st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
             select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
         
         with col2:
-            st.markdown("### **Select Year Type:**")
+            st.markdown("#### **Select Year Type:**")
             select_demands = []
 
             #Filter df based on selection
@@ -94,14 +101,14 @@ def app():
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
 
-        stats_df = load_data("inputData/contractorUseBySectorGraphData.csv")
+        stats_df = load_data("inputData/useBySectorGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
     
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values().index
 
-        st.markdown("### **DEMAND SCENARIOS BY SECTOR**")
+        st.subheader("Demand Scenario by Sector")
         st.write("""Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
         demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
         Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 
@@ -113,12 +120,12 @@ def app():
         
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.markdown("### **Select Future Planning Year:**")
+            st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
             select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
         
         with col2:
-            st.markdown("### **Select Sector:**")
+            st.markdown("#### **Select Sector:**")
             select_demands = []
 
             #Filter df based on selection
@@ -153,7 +160,7 @@ def app():
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values().index
 
-        st.markdown("### **INTERIOR AND EXTERIOR USE BY SECTOR**")
+        st.subheader("Interior and Exterior Use By Sector")
         st.write("""The model accounts for interior and exterior uses in discerning how conservation and rationing reductions are applie, as well as water available for reuse assumptions. 
         Various conservation programs target demand reductions specifically by sector and by interior versus exterior consumption. Rationing programs typically cut back interior 
         use at a lower rate than exterior use during shortage events. Adjustments in the use associated with conservation and rationing programs impact the amount of water available 
@@ -162,12 +169,12 @@ def app():
 
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.markdown("### **Select Future Planning Year:**")
+            st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
             select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
         
         with col2:
-            st.markdown("### **Select Sector:**")
+            st.markdown("#### **Select Sector:**")
             select_demands = []
 
             #Filter df based on selection
@@ -194,7 +201,7 @@ def app():
         st.write(fig)
 
         #Table 1 - Total Demand Scenario
-        with st.beta_expander("Total Demand Scenarios"):
+        with st.beta_expander("Total Demand Scenarios (default values as reported by 2020 UWMPs)"):
 
 
             @st.cache(suppress_st_warning=True)
@@ -203,7 +210,7 @@ def app():
             #         demands = pd.read_csv(path)
                     
                 # else:
-                demands = pd.read_csv("inputData/contractorDemands.csv")
+                demands = pd.read_csv("inputData/totalDemands.csv")
                 return pd.DataFrame(demands)
 
             #Example controllers
@@ -384,7 +391,7 @@ def app():
             
             @st.cache(suppress_st_warning=True)
             def fetch_data(samples):
-                demands = pd.read_csv("inputData/contractorUseBySector.csv")
+                demands = pd.read_csv("inputData/useBySector.csv")
                 return pd.DataFrame(demands)    
 
             df = fetch_data(sample_size)
