@@ -11,29 +11,9 @@ import pandas as pd
 import altair as alt
 from itertools import cycle
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
+from appsUtilities import opt_echo
 
 def app():
-
-    class opt_echo:
-        def __init__(self):
-            self.checkbox = st.sidebar.checkbox("Show source code")
-
-            self.orig_extract_stack = traceback.extract_stack
-
-            if self.checkbox:
-                traceback.extract_stack = lambda: self.orig_extract_stack()[:-2]
-                self.echo = st.echo()
-
-        def __enter__(self):
-            if self.checkbox:
-                return self.echo.__enter__()
-
-        def __exit__(self, type, value, traceback):
-            if self.checkbox:
-                self.echo.__exit__(type, value, traceback)
-
-            import traceback
-            traceback.extract_stack = self.orig_extract_stack
 
     with opt_echo():
         st.title('Supply Assumptions')
