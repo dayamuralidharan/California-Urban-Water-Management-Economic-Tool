@@ -8,14 +8,15 @@ from sklearn import datasets
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 import traceback
 from load_css import local_css
-from demandsHelper import load_data, summary_poster, getTestValue
+from demandsHelper import load_data, summary_poster
 from contextlib import contextmanager
 import sys, os
 from streamlit.hashing import _CodeHasher
 # from streamlit.report_thread import get_repo
+from DemandsUiState import DemandsUiState
 
 def app():
-
+##################################### move this to a global file
     class opt_echo:
         def __init__(self):
             self.checkbox = st.sidebar.checkbox("Show source code")
@@ -34,23 +35,25 @@ def app():
             if self.checkbox:
                 self.echo.__exit__(type, value, traceback)
 
-            # For some reason I need to import this again.
             import traceback
 
             traceback.extract_stack = self.orig_extract_stack
 
+# "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
+        # Initialize Session State for this page
+        demandsUiState = DemandsUiState()
 
         st.title('Demand Assumptions')
-
         st.title('Steps to use this page')
 
-        # col1, col2 = st.beta_columns((2.5,1))
 
         # with col1:
         st.write("First select from the demand assumption options in the 3 steps below. Next, review the data in the plots. Last, if needed, update data in the tables at the end of this page.")
         st.write("<span class='font'> 1. Input Total Demand Scenario Data</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)')
+        
+        demandsDatasetChoice = st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)', value = demandsUiState.getDefaultDemandsDatasetChoice)
+        demandsUiState.setDemandsDatasetChoice(demandsDatasetChoice)
         st.checkbox('Use ETAW adjusted demands <add hyperlink for more info on these assumptions>')
         st.checkbox('Enter user-defined values in table at the bottom of this page')
 
@@ -64,7 +67,6 @@ def app():
         
         local_css("style.css")
         st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
-        st.write(getTestValue())
         # with col2: 
         #     st.subheader('Steps')
         #     st.write('Required input data included on this page:')

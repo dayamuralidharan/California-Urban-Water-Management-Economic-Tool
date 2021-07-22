@@ -1,8 +1,7 @@
 import streamlit as st
 import traceback
 from load_css import local_css
-from demandsHelper import getTestValue
-import GlobalUiState
+import SessionState
 
 def app():
     
@@ -30,9 +29,8 @@ def app():
 
     with opt_echo():
         st.title('Testing page')
-        globalUiState = GlobalUiState()
-        globalUiState.updateState(checkBoxReturn = True)
-        defaultState = globalUiState.getState()
-        testVar = st.checkbox('Test Check Box', value = defaultState.checkBoxReturn)
+        testVar = st.checkbox('Test Check Box', value = True)
         st.write(testVar)
-        st.write(getTestValue() + 1)
+        st.write(SessionState.get().demandsDatasetChoice)
+
+

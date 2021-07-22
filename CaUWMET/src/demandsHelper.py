@@ -2,12 +2,6 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
-import GlobalUiState
-
-def getTestValue():
-    globalUiState = GlobalUiState()
-    currentState = globalUiState.getState()
-    return currentState.test
     
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
