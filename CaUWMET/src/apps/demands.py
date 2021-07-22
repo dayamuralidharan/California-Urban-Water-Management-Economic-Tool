@@ -47,16 +47,17 @@ def app():
         st.title('Steps to use this page')
 
 
-        # with col1:
         st.write("There are three variables that need to be set on this page in the three steps below. After making your selection for all three variables, review the data in the plots below.")
         
         #demandsDatasetChoice = st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)', value = demandsUiState.getDefaultDemandsDatasetChoice)
-        demandsDatasetChoice = st.radio("1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, update the data in the Total Demand Scenarios table in the first collapsible section below.", ('UWMP demands', 'ETAW adjusted demands', 'Input demands in table below'))
+        demandsDatasetChoice = st.radio("1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, update the data in the Total Demand Scenarios table in the first collapsible section below.", ('UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below'))
         demandsUiState.setDemandsDatasetChoice(demandsDatasetChoice)
 
         useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
+        demandsUiState.setUseBySectorDatasetChoice(useBySectorDatasetChoice)
 
         intExtUseBySectorDatasetChoice = st.radio("Select the Input Interior and Exterior Use by Sector Dataset from the options below. If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
+        demandsUiState.setIntExtUseBySectorDatasetChoice(intExtUseBySectorDatasetChoice)
 
         
         local_css("style.css")
@@ -68,7 +69,6 @@ def app():
         stats_df = load_data("inputData/contractorDemandsGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
-        # st.write(stats_df)
 
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
