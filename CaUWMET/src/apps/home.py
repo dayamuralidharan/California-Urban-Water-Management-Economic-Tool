@@ -23,7 +23,6 @@ def app():
         to the left. If you're curious or would like to modify the source code, please visit the GitHub repository at: <repository link>.
         Additional information on the model approach, documentation, and video tutorials can be found in the Model Overview page.""")        
 
-        
         st.markdown("""<div><span class='font'>
         Steps to use this tool are summarized in green below. </span></div>""", unsafe_allow_html=True)
  

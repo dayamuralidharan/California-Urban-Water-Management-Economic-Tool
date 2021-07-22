@@ -538,6 +538,3 @@ def app():
                 df = grid_response['data']
                 selected = grid_response['selected_rows']
                 selected_df = pd.DataFrame(selected)
-
-                # st.subheader("Returned grid data:")
-                # st.dataframe(grid_response['data'])
