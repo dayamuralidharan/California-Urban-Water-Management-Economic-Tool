@@ -13,74 +13,40 @@ from contextlib import contextmanager
 import sys, os
 from streamlit.hashing import _CodeHasher
 # from streamlit.report_thread import get_repo
+from DemandsUiState import DemandsUiState
+from appsUtilities import opt_echo
 
 def app():
 
-    class opt_echo:
-        def __init__(self):
-            self.checkbox = st.sidebar.checkbox("Show source code")
-
-            self.orig_extract_stack = traceback.extract_stack
-
-            if self.checkbox:
-                traceback.extract_stack = lambda: self.orig_extract_stack()[:-2]
-                self.echo = st.echo()
-
-        def __enter__(self):
-            if self.checkbox:
-                return self.echo.__enter__()
-
-        def __exit__(self, type, value, traceback):
-            if self.checkbox:
-                self.echo.__exit__(type, value, traceback)
-
-            # For some reason I need to import this again.
-            import traceback
-
-            traceback.extract_stack = self.orig_extract_stack
-
+# "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
+        # Initialize Session State for this page
+        demandsUiState = DemandsUiState()
 
         st.title('Demand Assumptions')
-
         st.title('Steps to use this page')
 
-        # col1, col2 = st.beta_columns((2.5,1))
 
         # with col1:
-        st.write("First select from the demand assumption options in the 3 steps below. Next, review the data in the plots. Last, if needed, update data in the tables at the end of this page.")
-        st.write("<span class='font'> 1. Input Total Demand Scenario Data</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)')
-        st.checkbox('Use ETAW adjusted demands <add hyperlink for more info on these assumptions>')
-        st.checkbox('Enter user-defined values in table at the bottom of this page')
+        st.write("There are three variables that need to be set on this page in the three steps below. After making your selection for all three variables, review the data in the plots below.")
+        
+        #demandsDatasetChoice = st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)', value = demandsUiState.getDefaultDemandsDatasetChoice)
+        demandsDatasetChoice = st.radio("1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, update the data in the Total Demand Scenarios table in the first collapsible section below.", ('UWMP demands', 'ETAW adjusted demands', 'Input demands in table below'))
+        demandsUiState.setDemandsDatasetChoice(demandsDatasetChoice)
 
-        st.write("<span class='font'>2. Input Demands by Sector Data</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported demand types by sector (default)')
-        st.checkbox('Enter user-defined values in table at the bottom of this page', key="1")
+        useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
 
-        st.write("<span class='font'>3. Input Interior and Exterior Use by Sector</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported interior and exterior uses by sector (default)')
-        st.checkbox('Enter user-defined values in table at the bottom of this page', key="2")
+        intExtUseBySectorDatasetChoice = st.radio("Select the Input Interior and Exterior Use by Sector Dataset from the options below. If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
+
         
         local_css("style.css")
         st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
 
-        # with col2: 
-        #     st.subheader('Steps')
-        #     st.write('Required input data included on this page:')
-        #     st.write('1. Total Contractor Demands')
-        #     st.write('2. Contractor Demand Types')
-        #     st.write('3. Check water balance')
-        #     st.write('Want more information on the data you are looking at here?')
-        #     st.write('Try hovering your mouse over a table or input control to read the Tool tip!')
-        #     st.write('Or read the Contractor Demand Assumptions Section in Model Documentation')
 
         st.title('Demand Assumptions Overview')
   
         stats_df = load_data("inputData/contractorDemandsGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
-
-        # st.write(stats_df)
 
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
@@ -130,7 +96,6 @@ def app():
         stats_df = load_data("inputData/contractorUseBySectorGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
-        # st.write(stats_df)
     
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values().index
@@ -227,10 +192,9 @@ def app():
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
 
-        #Table 1
+        #Table 1 - Total Demand Scenario
         with st.beta_expander("Total Demand Scenarios"):
 
-            # path = st.text_input('CSV File Path', key = "1")
 
             @st.cache(suppress_st_warning=True)
             def fetch_data(samples):
@@ -241,11 +205,10 @@ def app():
                 demands = pd.read_csv("inputData/contractorDemands.csv")
                 return pd.DataFrame(demands)
 
-            #Example controlers
+            #Example controllers
             st.sidebar.subheader("Data Filter options")
 
             sample_size = st.sidebar.number_input("Rows", min_value=1, value=10)
-            grid_height = st.sidebar.number_input("Grid height", min_value=100, max_value=800, value=200)
 
             return_mode = st.sidebar.selectbox("Returned Grid Update Mode", list(DataReturnMode.__members__), index=1)
             return_mode_value = DataReturnMode.__members__[return_mode]
@@ -376,7 +339,7 @@ def app():
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
-                #displays the chart
+                #displays the bar chart
                 chart_data = df.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
