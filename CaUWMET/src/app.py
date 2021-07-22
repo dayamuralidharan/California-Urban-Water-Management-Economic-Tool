@@ -7,7 +7,7 @@ import SessionState
 app = MultiApp()
 
 #Initialize default values
-SessionState.get(name="Kensey", test = 5, demandsDatasetChoice = True, dog = "Navi")
+SessionState.get(name="Kensey", test = 5, demandsDatasetChoice = 'UWMP demands', dog = "Navi")
 
 col1, col2 = st.beta_columns([5, 1])
 with col1:

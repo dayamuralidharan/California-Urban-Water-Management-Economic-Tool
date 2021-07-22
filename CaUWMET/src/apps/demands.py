@@ -16,7 +16,6 @@ from streamlit.hashing import _CodeHasher
 from DemandsUiState import DemandsUiState
 
 def app():
-##################################### move this to a global file
     class opt_echo:
         def __init__(self):
             self.checkbox = st.sidebar.checkbox("Show source code")
@@ -49,33 +48,20 @@ def app():
 
 
         # with col1:
-        st.write("First select from the demand assumption options in the 3 steps below. Next, review the data in the plots. Last, if needed, update data in the tables at the end of this page.")
-        st.write("<span class='font'> 1. Input Total Demand Scenario Data</span>", unsafe_allow_html=True)
+        st.write("There are three variables that need to be set on this page in the three steps below. After making your selection for all three variables, review the data in the plots below.")
         
-        demandsDatasetChoice = st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)', value = demandsUiState.getDefaultDemandsDatasetChoice)
+        #demandsDatasetChoice = st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)', value = demandsUiState.getDefaultDemandsDatasetChoice)
+        demandsDatasetChoice = st.radio("1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, update the data in the Total Demand Scenarios table in the first collapsible section below.", ('UWMP demands', 'ETAW adjusted demands', 'Input demands in table below'))
         demandsUiState.setDemandsDatasetChoice(demandsDatasetChoice)
-        st.checkbox('Use ETAW adjusted demands <add hyperlink for more info on these assumptions>')
-        st.checkbox('Enter user-defined values in table at the bottom of this page')
 
-        st.write("<span class='font'>2. Input Demands by Sector Data</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported demand types by sector (default)')
-        st.checkbox('Enter user-defined values in table at the bottom of this page', key="1")
+        useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
 
-        st.write("<span class='font'>3. Input Interior and Exterior Use by Sector</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported interior and exterior uses by sector (default)')
-        st.checkbox('Enter user-defined values in table at the bottom of this page', key="2")
+        intExtUseBySectorDatasetChoice = st.radio("Select the Input Interior and Exterior Use by Sector Dataset from the options below. If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.", ('UWMP reported values', 'Input Use By Sector in table below'))
+
         
         local_css("style.css")
         st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
-        # with col2: 
-        #     st.subheader('Steps')
-        #     st.write('Required input data included on this page:')
-        #     st.write('1. Total Contractor Demands')
-        #     st.write('2. Contractor Demand Types')
-        #     st.write('3. Check water balance')
-        #     st.write('Want more information on the data you are looking at here?')
-        #     st.write('Try hovering your mouse over a table or input control to read the Tool tip!')
-        #     st.write('Or read the Contractor Demand Assumptions Section in Model Documentation')
+
 
         st.title('Demand Assumptions Overview')
   
@@ -132,7 +118,6 @@ def app():
         stats_df = load_data("inputData/contractorUseBySectorGraphData.csv")
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
-        # st.write(stats_df)
     
         sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
             .sort_values().index
@@ -232,7 +217,6 @@ def app():
         #Table 1
         with st.beta_expander("Total Demand Scenarios"):
 
-            # path = st.text_input('CSV File Path', key = "1")
 
             @st.cache(suppress_st_warning=True)
             def fetch_data(samples):
@@ -243,7 +227,7 @@ def app():
                 demands = pd.read_csv("inputData/contractorDemands.csv")
                 return pd.DataFrame(demands)
 
-            #Example controlers
+            #Example controllers
             st.sidebar.subheader("Data Filter options")
 
             sample_size = st.sidebar.number_input("Rows", min_value=1, value=10)
