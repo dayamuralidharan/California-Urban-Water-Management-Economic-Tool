@@ -1,7 +1,5 @@
 import streamlit as st
 import traceback
-from load_css import local_css
-import SessionState
 from appsUtilities import opt_echo
 
 def app():
@@ -12,6 +10,8 @@ def app():
         #st.write(SessionState.get().useBySectorDatasetChoice)
         #st.write(SessionState.get().intExtUseBySectorDatasetChoice)
 
-        #st.write(SessionState.get().totalDemands)
+        #st.write(SessionState.get().demandsInput)
+        st.write(st.session_state.totalDemandsChoice)
+        st.write(st.session_state.demandsInput)
 
 

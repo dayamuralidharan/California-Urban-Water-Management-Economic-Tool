@@ -315,7 +315,7 @@ def app():
                 b64 = base64.b64encode(object_to_download.encode()).decode()
                 return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
                 
-            if st.button('Download Dataframe to CSV format', key = "6"):
+            if st.button('Download Dataframe to CSV format', key = "Base Long-term Conservation"):
                 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
@@ -389,7 +389,7 @@ def app():
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            if st.button('Download Dataframe to CSV format', key = "10"):
+            if st.button('Download Dataframe to CSV format', key = "Contingency Conservation"):
                 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
@@ -466,7 +466,7 @@ def app():
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            if st.button('Download Dataframe to CSV format', key = "11"):
+            if st.button('Download Dataframe to CSV format', key = "Rationing Programs"):
                 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
