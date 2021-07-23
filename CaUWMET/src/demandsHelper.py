@@ -16,7 +16,6 @@ def summary_poster(contractor_df, color_dict):
             # [ {"type":"scatter", "colspan": 2}, None]],
             subplot_titles=('Demands by Study Region', 
                             'Demands by Year'), 
-                            # 'Demand data by Year'),
             vertical_spacing=0.1, horizontal_spacing= 0.04)
 
     for i in fig['layout']['annotations']:

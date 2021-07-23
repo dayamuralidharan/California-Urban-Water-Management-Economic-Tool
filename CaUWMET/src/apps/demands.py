@@ -58,6 +58,7 @@ def app():
         intExtUseBySectorDatasetChoice = st.radio("""3. Select the Input Interior and Exterior Use by Sector Dataset from the options below. 
         If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", intExtUseBySectorDatasetOptions)
 
+        print(st.session_state.totalDemandsdf)
         
         st.write("4. Confirm there are no errors in the input data by checking the message below:")
         st.write("<span class='font'> ✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
@@ -151,13 +152,14 @@ def app():
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
         
-        #---------------------------------------------------------------#
-        # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY SECTOR
-        #---------------------------------------------------------------#
         col1, col2 = st.beta_columns(2)
         st.text("")
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
+
+        #---------------------------------------------------------------#
+        # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY SECTOR
+        #---------------------------------------------------------------#
 
         intExtUseBySectorPlotInputData = load_data("inputData/intAndExtUseBySectorGraphData.csv")
     
@@ -190,20 +192,19 @@ def app():
             select_demands.append(st.selectbox('', sorted_demands, key='6'))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-
-        #---------------------------------------------------------------#
-        # COLLAPSIBLE SECTIONS WTIH EDITABLE TABLES
-        #---------------------------------------------------------------#
         col1, col2 = st.beta_columns(2)
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
 
+        #---------------------------------------------------------------#
+        # COLLAPSIBLE SECTIONS WTIH EDITABLE TABLES
+        #---------------------------------------------------------------#
+
         ########################### TABLE 1 - TOTAL DEMAND SCENARIOS
         with st.beta_expander("Total Demand Scenarios (default values as reported by 2020 UWMPs)"):
-            demandsEditableTabledf = st.session_state.totalDemandsdf
 
             #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(demandsEditableTabledf)
+            gb = GridOptionsBuilder.from_dataframe(st.session_state.totalDemandsdf)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
@@ -228,7 +229,7 @@ def app():
             update_mode_value = GridUpdateMode.__members__[update_mode]
 
             grid_response = AgGrid(
-                demandsEditableTabledf, 
+                st.session_state.totalDemandsdf, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -238,7 +239,8 @@ def app():
                 allow_unsafe_jscode=True, #Set it to True to allow jsfunction to be injected
                 )
             
-            demandsEditableTabledf = grid_response['data']
+            st.session_state.totalDemandsdf = grid_response['data']
+            print(st.session_state.totalDemandsdf)
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
@@ -257,12 +259,12 @@ def app():
                 return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
                 
             if st.button('Download Dataframe to CSV format', key = "Total Demand Scenarios"):
-                tmp_download_link = download_link(demandsEditableTabledf, 'Total_Demand_Scenarios.csv', 'Click here to download your data!')
+                tmp_download_link = download_link(st.session_state.totalDemandsdf, 'Total_Demand_Scenarios.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
                 #displays the bar chart
-                chart_data = demandsEditableTabledf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                chart_data = st.session_state.totalDemandsdf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
