@@ -20,7 +20,6 @@ def app():
 
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
-        # Initialize Session State for this page
         demandsUiState = DemandsUiState()
 
         #Set font styling (currently used for green text)
@@ -48,6 +47,12 @@ def app():
         st.write("4. Confirm there are no errors in the input data by checking the message below:")
         st.write("<span class='font'> ✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
         
+        if demandsDatasetChoice == 'UWMP reported values':
+            totalDemands = 1
+        elif demandsDatasetChoice == 'ETAW adjusted demands':
+            totalDemands = 2
+        else: 
+            totalDemands = 3
 
 
         st.header("Demand Assumptions Overview")
