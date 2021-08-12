@@ -48,7 +48,7 @@ def app():
 
         
         demandsDatasetOptions = ['UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below']
-        demandsDatasetChoice = st.radio("""1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, 
+        st.radio("""1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, 
         update the data in the Total Demand Scenarios table in the first collapsible section below.""", demandsDatasetOptions, key = "totalDemandsChoice", on_change = setTotalDemandsInputData)
 
         useBySectorDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']

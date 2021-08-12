@@ -8,6 +8,5 @@ def app():
         st.title('Testing page')
 
         st.write(st.session_state.totalDemandsChoice)
-        st.write(st.session_state.demandsInput)
 
 
