@@ -4,138 +4,125 @@ import pandas as pd
 import numpy as np
 import altair as alt
 from itertools import cycle
-from sklearn import datasets
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 import traceback
 from load_css import local_css
 from demandsHelper import load_data, summary_poster
 from contextlib import contextmanager
 import sys, os
-from streamlit.hashing import _CodeHasher
-# from streamlit.report_thread import get_repo
+from appsUtilities import opt_echo
+
+def setTotalDemandsInputData():
+    if st.session_state.totalDemandsChoice == 'UWMP reported values':
+        st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv")
+        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv")
+    elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
+        st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
+        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
+    else:
+        st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
+        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
+
 
 def app():
-
-    class opt_echo:
-        def __init__(self):
-            self.checkbox = st.sidebar.checkbox("Show source code")
-
-            self.orig_extract_stack = traceback.extract_stack
-
-            if self.checkbox:
-                traceback.extract_stack = lambda: self.orig_extract_stack()[:-2]
-                self.echo = st.echo()
-
-        def __enter__(self):
-            if self.checkbox:
-                return self.echo.__enter__()
-
-        def __exit__(self, type, value, traceback):
-            if self.checkbox:
-                self.echo.__exit__(type, value, traceback)
-
-            # For some reason I need to import this again.
-            import traceback
-
-            traceback.extract_stack = self.orig_extract_stack
-
+    
+# "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
+        # Initialize Session State with Default Values
+        st.session_state['totalDemandsdf'] = load_data("inputData/totalDemandsData.csv")
+        st.session_state['demandsPlotInputdf'] = load_data("inputData/totalDemandsGraphData.csv")
 
-        st.title('Demand Assumptions')
-
-        st.title('Steps to use this page')
-
-        # col1, col2 = st.beta_columns((2.5,1))
-
-        # with col1:
-        st.write("First select from the demand assumption options in the 3 steps below. Next, review the data in the plots. Last, if needed, update data in the tables at the end of this page.")
-        st.write("<span class='font'> 1. Input Total Demand Scenario Data</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported demand scenarios for all hydrologic year types (default)')
-        st.checkbox('Use ETAW adjusted demands <add hyperlink for more info on these assumptions>')
-        st.checkbox('Enter user-defined values in table at the bottom of this page')
-
-        st.write("<span class='font'>2. Input Demands by Sector Data</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported demand types by sector (default)')
-        st.checkbox('Enter user-defined values in table at the bottom of this page', key="1")
-
-        st.write("<span class='font'>3. Input Interior and Exterior Use by Sector</span>", unsafe_allow_html=True)
-        st.checkbox('Use UWMP reported interior and exterior uses by sector (default)')
-        st.checkbox('Enter user-defined values in table at the bottom of this page', key="2")
-        
+        #Set font styling (currently used for green text)
         local_css("style.css")
-        st.write("<span class='font'>✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
 
-        # with col2: 
-        #     st.subheader('Steps')
-        #     st.write('Required input data included on this page:')
-        #     st.write('1. Total Contractor Demands')
-        #     st.write('2. Contractor Demand Types')
-        #     st.write('3. Check water balance')
-        #     st.write('Want more information on the data you are looking at here?')
-        #     st.write('Try hovering your mouse over a table or input control to read the Tool tip!')
-        #     st.write('Or read the Contractor Demand Assumptions Section in Model Documentation')
+        st.title('Demand Assumptions Page')
+        st.header("Steps to use this page")
 
-        st.title('Demand Assumptions Overview')
-  
-        stats_df = load_data("inputData/contractorDemandsGraphData.csv")
-        color_map_df = load_data("inputData/color_map_df_demands.csv")
 
-        # st.write(stats_df)
+        st.write("""There are three variables that need to be set on this page in the steps below including total demands, total water use by sector, and
+        interior and exterior use by sector. More information on what each of these variables are is described in the Demand Assumptions Overview section below.
+        Select which datasets to use for each variable from the options below.
+        After making your selection for all three variables, 
+        review the input data by ensure this page's test pass and checking the data in the plots below.""")
 
-        sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
-            .sort_values(ascending=True).index
 
-        st.markdown("### **TOTAL DEMAND SCENARIOS**")
+        
+        demandsDatasetOptions = ['UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below']
+        st.radio("""1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, 
+        update the data in the Total Demand Scenarios table in the first collapsible section below.""", demandsDatasetOptions, key = "totalDemandsChoice", on_change = setTotalDemandsInputData)
+
+        useBySectorDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']
+        useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", useBySectorDatasetOptions)
+
+        intExtUseBySectorDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']
+        intExtUseBySectorDatasetChoice = st.radio("""3. Select the Input Interior and Exterior Use by Sector Dataset from the options below. 
+        If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", intExtUseBySectorDatasetOptions)
+
+        print(st.session_state.totalDemandsdf)
+        
+        st.write("4. Confirm there are no errors in the input data by checking the message below:")
+        st.write("<span class='font'> ✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
+
+
+        st.header("Demand Assumptions Overview")
+
+        st.subheader("Total Demand Scenarios")
         st.write("""Total demands include all wholesale and retail, and all interior and exterior demands for all sectors including residential, industrial, commercial and governmental, 
         agricultural and large landscape for each contractor, and each future planning year.
         Generally, to estimate future demands, statistical methods are applied based on historical demand patterns related to household income, consumer response to the price of water and 
         weather along with future demographic and economic projections. Single dry-year demands incorporate a demand response to high temperature and low rainfall weather parameters experienced 
         for a single year, and multiple dry-year demands incorporate consumption response to extended drought conditions. These total demands exclude any conservation reduction assumptions. 
         Conservation is incorporated in the model through the assumptions included in the Demand Management page.
-        Users can select to use Normal or Better Year demands adjusted by an ETAW adjustment factor derived from CalSIMETAW, rather than using the Urban Water Management Plan's Single and Multiple Dry-Year Demands. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
+        Users can select to use Normal or Better Year demands adjusted by an ETAW adjustment factor derived from CalSIMETAW, rather than using the Urban Water Management Plan's Single and Multiple Dry-Year Demands. 
+        More information can be found in the model documentation <add hyperlink to Total Demand Scenarios section of model documentation.>""")
+        
+        #---------------------------------------------------------------#
+        # CREATE SUMMARY POSTER FOR TOTAL DEMANDS
+        #---------------------------------------------------------------#       
+        
+
+        demandsPlotInputData = st.session_state.demandsPlotInputdf
+        color_map_df = load_data("inputData/color_map_df_demands.csv")
+
+        sorted_contractors = demandsPlotInputData.groupby('Year')['Contractor'].sum()\
+            .sort_values(ascending=True).index
 
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.markdown("### **Select Future Planning Year:**")
+            st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='1'))  
         
         with col2:
-            st.markdown("### **Select Year Type:**")
+            st.markdown("#### **Select Year Type:**")
             select_demands = []
 
             #Filter df based on selection
-            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            contractor_df = demandsPlotInputData[demandsPlotInputData['Year'].isin(select_contractor)]
 
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
-            select_demands.append(st.selectbox('', sorted_demands, key=2))
+            select_demands.append(st.selectbox('', sorted_demands, key='2'))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
-
-            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-                .sort_values(ascending=True).index
+        
+        col1, col2 = st.beta_columns(2)
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-
-        col1, col2 = st.beta_columns(2)
-
-        #---------------------------------------------------------------#
-        # CREATE SUMMARY POSTER
-        #---------------------------------------------------------------#
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
 
-        stats_df = load_data("inputData/contractorUseBySectorGraphData.csv")
-        color_map_df = load_data("inputData/color_map_df_demands.csv")
+        #---------------------------------------------------------------#
+        # CREATE SUMMARY POSTER FOR TOTAL USE BY SECTOR
+        #---------------------------------------------------------------#
 
-        # st.write(stats_df)
-    
-        sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
+        useBySectorPlotInputData = load_data("inputData/useBySectorGraphData.csv")
+        
+        sorted_contractors = useBySectorPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values().index
 
-        st.markdown("### **DEMAND SCENARIOS BY SECTOR**")
+        st.subheader("Demand Scenario by Sector")
         st.write("""Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
         demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
         Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 
@@ -147,47 +134,39 @@ def app():
         
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.markdown("### **Select Future Planning Year:**")
+            st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='3'))  
         
         with col2:
-            st.markdown("### **Select Sector:**")
+            st.markdown("#### **Select Sector:**")
             select_demands = []
 
             #Filter df based on selection
-            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            contractor_df = useBySectorPlotInputData[useBySectorPlotInputData['Year'].isin(select_contractor)]
 
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values().index
 
-            select_demands.append(st.selectbox('', sorted_demands, key=4))
+            select_demands.append(st.selectbox('', sorted_demands, key='4'))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-                .sort_values(ascending = False).index
-
-        #Setting up color palette dict
-        color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-
+        
         col1, col2 = st.beta_columns(2)
-
         st.text("")
-        #---------------------------------------------------------------#
-        # CREATE SUMMARY POSTER
-        #---------------------------------------------------------------#
         fig = summary_poster(demands_df, color_dict)
         st.write(fig)
 
-        stats_df = load_data("inputData/intAndExtUseBySectorGraphData.csv")
-        color_map_df = load_data("inputData/color_map_df_demands.csv")
+        #---------------------------------------------------------------#
+        # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY SECTOR
+        #---------------------------------------------------------------#
 
-        # st.write(stats_df)
+        intExtUseBySectorPlotInputData = load_data("inputData/intAndExtUseBySectorGraphData.csv")
     
-        sorted_contractors = stats_df.groupby('Year')['Contractor'].sum()\
+        sorted_contractors = intExtUseBySectorPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values().index
 
-        st.markdown("### **INTERIOR AND EXTERIOR USE BY SECTOR**")
+        st.subheader("Interior and Exterior Use By Sector")
         st.write("""The model accounts for interior and exterior uses in discerning how conservation and rationing reductions are applie, as well as water available for reuse assumptions. 
         Various conservation programs target demand reductions specifically by sector and by interior versus exterior consumption. Rationing programs typically cut back interior 
         use at a lower rate than exterior use during shortage events. Adjustments in the use associated with conservation and rationing programs impact the amount of water available 
@@ -196,154 +175,61 @@ def app():
 
         col1, col2 = st.beta_columns(2)
         with col1:
-            st.markdown("### **Select Future Planning Year:**")
+            st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='5'))  
         
         with col2:
-            st.markdown("### **Select Sector:**")
+            st.markdown("#### **Select Sector:**")
             select_demands = []
 
             #Filter df based on selection
-            contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
+            contractor_df = intExtUseBySectorPlotInputData[intExtUseBySectorPlotInputData['Year'].isin(select_contractor)]
 
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
-            select_demands.append(st.selectbox('', sorted_demands, key=6))
+            select_demands.append(st.selectbox('', sorted_demands, key='6'))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
-            major_cluster = demands_df.groupby('Study Region')['Type'].count()\
-                .sort_values(ascending=False).index
-
-        #Setting up color palette dict
-        color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-
         col1, col2 = st.beta_columns(2)
+        fig = summary_poster(demands_df, color_dict)
+        st.write(fig)
 
         #---------------------------------------------------------------#
         # COLLAPSIBLE SECTIONS WTIH EDITABLE TABLES
         #---------------------------------------------------------------#
-        fig = summary_poster(demands_df, color_dict)
-        st.write(fig)
 
-        #Table 1
-        with st.beta_expander("Total Demand Scenarios"):
-
-            # path = st.text_input('CSV File Path', key = "1")
-
-            @st.cache(suppress_st_warning=True)
-            def fetch_data(samples):
-            #     if path:
-            #         demands = pd.read_csv(path)
-                    
-                # else:
-                demands = pd.read_csv("inputData/contractorDemands.csv")
-                return pd.DataFrame(demands)
-
-            #Example controlers
-            st.sidebar.subheader("Data Filter options")
-
-            sample_size = st.sidebar.number_input("Rows", min_value=1, value=10)
-            grid_height = st.sidebar.number_input("Grid height", min_value=100, max_value=800, value=200)
-
-            return_mode = st.sidebar.selectbox("Returned Grid Update Mode", list(DataReturnMode.__members__), index=1)
-            return_mode_value = DataReturnMode.__members__[return_mode]
-
-            update_mode = st.sidebar.selectbox("Chart Update Mode", list(GridUpdateMode.__members__), index=6)
-            update_mode_value = GridUpdateMode.__members__[update_mode]
-
-            #enterprise modules
-            # enable_enterprise_modules = st.sidebar.checkbox("Enable Enterprise Modules")
-            # if enable_enterprise_modules:
-            #     enable_sidebar =st.sidebar.checkbox("Enable grid sidebar", value=False)
-            # else:
-            #     enable_sidebar = False
-
-            #features
-            # fit_columns_on_grid_load = st.sidebar.checkbox("Fit Grid Columns on Load")
-
-            enable_selection=st.sidebar.checkbox("Enable row selection", value=True)
-            if enable_selection:
-                st.sidebar.subheader("Selection options")
-                selection_mode = st.sidebar.radio("Selection Mode", ['single','multiple'])
-
-                use_checkbox = st.sidebar.checkbox("Use check box for selection")
-                if use_checkbox:
-                    groupSelectsChildren = st.sidebar.checkbox("From all elements", value=True)
-                    groupSelectsFiltered = st.sidebar.checkbox("From filtered elements", value=True)
-
-                if ((selection_mode == 'multiple') & (not use_checkbox)):
-                    rowMultiSelectWithClick = st.sidebar.checkbox("Multiselect with click (instead of holding CTRL)", value=False)
-                    if not rowMultiSelectWithClick:
-                        suppressRowDeselection = st.sidebar.checkbox("Suppress deselection (while holding CTRL)", value=False)
-                    else:
-                        suppressRowDeselection=False
-                st.sidebar.text("___")
-
-            enable_pagination = st.sidebar.checkbox("Enable pagination", value=False)
-            if enable_pagination:
-                st.sidebar.subheader("Pagination options")
-                paginationAutoSize = st.sidebar.checkbox("Auto pagination size", value=True)
-                if not paginationAutoSize:
-                    paginationPageSize = st.sidebar.number_input("Page size", value=5, min_value=0, max_value=sample_size)
-                st.sidebar.text("___")
-
-            df = fetch_data(sample_size)
+        ########################### TABLE 1 - TOTAL DEMAND SCENARIOS
+        with st.beta_expander("Total Demand Scenarios (default values as reported by 2020 UWMPs)"):
 
             #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(df)
+            gb = GridOptionsBuilder.from_dataframe(st.session_state.totalDemandsdf)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
 
-            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("Notes", type=["textColumn"])
 
-            #configures last row to use custom styles based on cell's value, injecting JsCode on components front end
-            # cellsytle_jscode = JsCode("""
-            # function(params) {
-            #     if (params.value == 'Normal') {
-            #         return {
-            #             'color': 'white',
-            #             'backgroundColor': 'darkred'
-            #         }
-            #     } else {
-            #         return {
-            #             'color': 'black',
-            #             'backgroundColor': 'white'
-            #         }
-            #     }
-            # };
-            # """)
-            # gb.configure_column("", cellStyle=cellsytle_jscode)
-
-            # if enable_sidebar:
-            #     gb.configure_side_bar()
-
-            if enable_selection:
-                gb.configure_selection(selection_mode)
-                if use_checkbox:
-                    gb.configure_selection(selection_mode, use_checkbox=True, groupSelectsChildren=groupSelectsChildren, groupSelectsFiltered=groupSelectsFiltered)
-                if ((selection_mode == 'multiple') & (not use_checkbox)):
-                    gb.configure_selection(selection_mode, use_checkbox=False, rowMultiSelectWithClick=rowMultiSelectWithClick, suppressRowDeselection=suppressRowDeselection)
-
-            if enable_pagination:
-                if paginationAutoSize:
-                    gb.configure_pagination(paginationAutoPageSize=True)
-                else:
-                    gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=paginationPageSize)
+            selection_mode = 'multiple'
+            gb.configure_selection(selection_mode, use_checkbox=False, rowMultiSelectWithClick=False, suppressRowDeselection=False)
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
 
             #Display the grid
+            return_mode = 'FILTERED'
+            return_mode_value = DataReturnMode.__members__[return_mode]
+            update_mode = 'MODEL_CHANGED'
+            update_mode_value = GridUpdateMode.__members__[update_mode]
+
             grid_response = AgGrid(
-                df, 
+                st.session_state.totalDemandsdf, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -351,9 +237,10 @@ def app():
                 update_mode=update_mode_value,
                 # fit_columns_on_grid_load=fit_columns_on_grid_load,
                 allow_unsafe_jscode=True, #Set it to True to allow jsfunction to be injected
-                # enable_enterprise_modules=enable_enterprise_modules,
                 )
             
+            st.session_state.totalDemandsdf = grid_response['data']
+            print(st.session_state.totalDemandsdf)
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
@@ -371,13 +258,13 @@ def app():
                 b64 = base64.b64encode(object_to_download.encode()).decode()
                 return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
                 
-            if st.button('Download Dataframe to CSV format', key = "6"):
-                tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
+            if st.button('Download Dataframe to CSV format', key = "Total Demand Scenarios"):
+                tmp_download_link = download_link(st.session_state.totalDemandsdf, 'Total_Demand_Scenarios.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
-                #displays the chart
-                chart_data = df.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                #displays the bar chart
+                chart_data = st.session_state.totalDemandsdf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
@@ -402,51 +289,37 @@ def app():
 
             st.altair_chart(chart, use_container_width=True)
 
-            df = grid_response['data']
-            selected = grid_response['selected_rows']
-            selected_df = pd.DataFrame(selected)
 
-            # st.subheader("Returned grid data:")
-            # st.dataframe(grid_response['data'])
-
-            # sum2025 = int(df["2025"].sum())
-            # st.write("The total demand in 2025 will be:", sum2025)
-
-            #s = st.text_input('Enter text here')
-            #st.write(s)
-            #if st.button('Download input as a text file'):
-            #   tmp_download_link = download_link(s, 'YOUR_INPUT.txt', 'Click here to download your text!')
-            #   st.markdown(tmp_download_link, unsafe_allow_html=True)
-
-        #Table 2
+        ##########################  TABLE 2 USE BY SECTOR
         with st.beta_expander("Demand Scenarios By Sector"):
             
             @st.cache(suppress_st_warning=True)
             def fetch_data(samples):
-                demands = pd.read_csv("inputData/contractorUseBySector.csv")
+                demands = pd.read_csv("inputData/useBySector.csv")
                 return pd.DataFrame(demands)    
+            sample_size = 10
 
-            df = fetch_data(sample_size)
+            useBySectorEditableTable = fetch_data(sample_size)
 
             #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(df)
+            gb = GridOptionsBuilder.from_dataframe(useBySectorEditableTable)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
 
-            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+            gb.configure_column("Notes", type=["textColumn"])
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
 
             #Display the grid
             grid_response = AgGrid(
-                df, 
+                useBySectorEditableTable, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -457,17 +330,17 @@ def app():
                 # enable_enterprise_modules=enable_enterprise_modules,
                 )
 
-            df = grid_response['data']
+            useBySectorEditableTable = grid_response['data']
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            if st.button('Download Dataframe to CSV format', key = "7"):
-                tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
+            if st.button('Download Dataframe to CSV format', key = "Use By Sector"):
+                tmp_download_link = download_link(useBySectorEditableTable, 'Use_By_Sector.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
                 #displays the chart
-                chart_data = df.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                chart_data = useBySectorEditableTable.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
@@ -491,44 +364,37 @@ def app():
 
             st.altair_chart(chart, use_container_width=True)
 
-            df = grid_response['data']
-            selected = grid_response['selected_rows']
-            selected_df = pd.DataFrame(selected)
 
-            # st.subheader("Returned grid data:")
-            # st.dataframe(grid_response['data'])
 
-        #Table 3
+        ########################### TABLE 3 INTERIOR AND EXTERIOR USE BY SECTOR
         with st.beta_expander("Interior and Exterior Use by Sector"):
-
-            # path = st.text_input('CSV File Path', key = "3")
 
             @st.cache(suppress_st_warning=True)
             def fetch_data(samples):
                 demands = pd.read_csv("inputData/intAndExtUseBySector.csv")
                 return pd.DataFrame(demands)    
 
-            df = fetch_data(sample_size)
+            intExtUsebySectorEditableTabledf = fetch_data(sample_size)
 
             #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(df)
+            gb = GridOptionsBuilder.from_dataframe(intExtUsebySectorEditableTabledf)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
 
-            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
-            gb.configure_column("Notes", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=2, aggFunc='sum')
+            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=1, aggFunc='sum')
+            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=1, aggFunc='sum')
+            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=1, aggFunc='sum')
+            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=1, aggFunc='sum')
+            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=1, aggFunc='sum')
+            gb.configure_column("Notes", type=["textColumn"])
 
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
 
             #Display the grid
             grid_response = AgGrid(
-                df, 
+                intExtUsebySectorEditableTabledf, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -539,17 +405,17 @@ def app():
                 # enable_enterprise_modules=enable_enterprise_modules,
                 )
 
-            df = grid_response['data']
+            intExtUsebySectorEditableTabledf = grid_response['data']
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            if st.button('Download Dataframe to CSV format', key = "8"):
-                tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
+            if st.button('Download Dataframe to CSV format', key = "Interior and Exterior Use By Sector"):
+                tmp_download_link = download_link(intExtUsebySectorEditableTabledf, 'Interior_Exterior_Use_By_Sector.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
                 #displays the chart
-                chart_data = df.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                chart_data = intExtUsebySectorEditableTabledf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
@@ -572,10 +438,4 @@ def app():
                 """)
 
                 st.altair_chart(chart, use_container_width=True)
-
-                df = grid_response['data']
-                selected = grid_response['selected_rows']
-                selected_df = pd.DataFrame(selected)
-
-                # st.subheader("Returned grid data:")
-                # st.dataframe(grid_response['data'])
+                st.write(st.session_state)

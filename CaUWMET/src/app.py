@@ -1,8 +1,13 @@
 import streamlit as st
 from multiapp import MultiApp
-from apps import home, demands, demandsmanagement, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq # import your app modules here
+# import your app modules here
+from apps import home, demands, demandsmanagement, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq, returnTest, watermanagement
+
 
 app = MultiApp()
+
+
+
 
 col1, col2 = st.beta_columns([5, 1])
 with col1:
@@ -12,7 +17,6 @@ with col1:
     """)
 
 with col2: 
-    # image = Image.open('C:/Users/rajagon/Desktop/DWR/CAUrbanWaterMgmtEconomicsTool/CaUWMET/src/inputData/dwrlogo.jpg')
     st.image('dwrlogo.jpg', width=90)
 
 PAGES = {
@@ -24,8 +28,10 @@ PAGES = {
     "Demand Management Assumptions": demandsmanagement,
     "Supply Assumptions": supplies,
     "System Operation Assumptions": systemoperations,
+    "Water Management Assumptions": watermanagement,
     "Results": results,
     "FAQ and Support": faq,
+    "Return Test": returnTest,
 }
 
 st.sidebar.title('Navigation')

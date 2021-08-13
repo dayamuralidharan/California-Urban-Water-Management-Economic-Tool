@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
-
+    
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
     return df
@@ -16,7 +16,6 @@ def summary_poster(contractor_df, color_dict):
             # [ {"type":"scatter", "colspan": 2}, None]],
             subplot_titles=('Demands by Study Region', 
                             'Demands by Year'), 
-                            # 'Demand data by Year'),
             vertical_spacing=0.1, horizontal_spacing= 0.04)
 
     for i in fig['layout']['annotations']:

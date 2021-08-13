@@ -7,34 +7,11 @@ import altair as alt
 from itertools import cycle
 from sklearn import datasets
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
-import traceback
 from load_css import local_css
 from demandsManagementHelper import load_data, summary_poster
+from appsUtilities import opt_echo
 
 def app():
-
-    class opt_echo:
-        def __init__(self):
-            self.checkbox = st.sidebar.checkbox("Show source code")
-
-            self.orig_extract_stack = traceback.extract_stack
-
-            if self.checkbox:
-                traceback.extract_stack = lambda: self.orig_extract_stack()[:-2]
-                self.echo = st.echo()
-
-        def __enter__(self):
-            if self.checkbox:
-                return self.echo.__enter__()
-
-        def __exit__(self, type, value, traceback):
-            if self.checkbox:
-                self.echo.__exit__(type, value, traceback)
-
-            # For some reason I need to import this again.
-            import traceback
-
-            traceback.extract_stack = self.orig_extract_stack
 
     with opt_echo():
         st.title('Demand Management Assumptions')
@@ -338,7 +315,7 @@ def app():
                 b64 = base64.b64encode(object_to_download.encode()).decode()
                 return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
                 
-            if st.button('Download Dataframe to CSV format', key = "6"):
+            if st.button('Download Dataframe to CSV format', key = "Base Long-term Conservation"):
                 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
@@ -412,7 +389,7 @@ def app():
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            if st.button('Download Dataframe to CSV format', key = "10"):
+            if st.button('Download Dataframe to CSV format', key = "Contingency Conservation"):
                 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
@@ -489,7 +466,7 @@ def app():
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            if st.button('Download Dataframe to CSV format', key = "11"):
+            if st.button('Download Dataframe to CSV format', key = "Rationing Programs"):
                 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
