@@ -9,14 +9,14 @@ from totalDemandsLogic import (
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
-totalDemandsCSV = "../inputData/totalDemands.csv"
-hydroYearTypeCSV = "../inputData/hydrologyAssumptions.csv"
-baseConservationCSV = "../inputData/baseLongTermConservation.csv"
-inputDemandsFile = os.path.join(dirname, totalDemandsCSV)
-inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeCSV)
-inputBaseConservationFile = os.path.join(dirname, baseConservationCSV)
-tempHydroRegionDir = r"C:\Users\nudurus\OneDrive - Jacobs\Documents\Projects\2021_05_CVFPP\tasks\20210806_codingDemandsLogic"
-tempHydroRegionFile = os.path.join(tempHydroRegionDir, "CaUWMET Python Code Dev.xlsx")
+totalDemandsInput = "../inputData/totalDemands.csv"
+hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
+baseConservationInput = "../inputData/baseLongTermConservation.csv"
+inputDemandsFile = os.path.join(dirname, totalDemandsInput)
+inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
+inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
+tempHydroRegionInput = "../inputData/CaUWMETPythonCodeDev.xlsx"
+tempHydroRegionFile = os.path.join(dirname, tempHydroRegionInput)
 tempHydroRegionSheet = "contractorInformation"
 
 # Read input files into pandas dataframes
@@ -33,7 +33,7 @@ assert(
 
 ## Coding the logic
 futureYear = '2030'  # Current assumption
-years = hydroYearType['Year'].values  # 1922 to 2015
+historicHydrologyYears = hydroYearType['Year'].values  # 1922 to 2015
 sacYearType = hydroYearType['Sacramento Valley'].values
 sjYearType = hydroYearType['San Joaquin Valley'].values
 reclassSacYearType = reclassifyYearType(sacYearType)
@@ -41,13 +41,13 @@ reclassSjYearType = reclassifyYearType(sjYearType)
 reclassYearType = pd.DataFrame({
     'sacYearType': reclassSacYearType,
     'sjYearType': reclassSjYearType,
-    'Year': years,
+    'Year': historicHydrologyYears,
     }
 )
 
 contractors = list(hydroRegionDf['Contractor'].values)
-totalDemands = {'Year': years}
-demandsAfterBaseConservation = {'Year': years}
+totalDemands = {'Year': historicHydrologyYears}
+demandsAfterBaseConservation = {'Year': historicHydrologyYears}
 contractor = contractors[-1]
 for contractor in contractors:
     contractorRegion = returnHydroRegion(hydroRegionDf, contractor, colA='Contractor', colB='Hydrologic Region 2')
@@ -64,7 +64,7 @@ for contractor in contractors:
         'SD': 'Single Dry-Year Demands (acre-feet/year)',
         'MD': 'Multiple Dry-Year Demands (acre-feet/year)',
     }
-    for i in range(len(years)):
+    for i in range(len(historicHydrologyYears)):
         contractorDemands.append(
             contractorDf[contractorDf['Demands'] == mapYearType[conYearType[i]]][futureYear].values[0]
         )
