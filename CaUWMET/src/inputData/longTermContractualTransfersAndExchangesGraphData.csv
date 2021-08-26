@@ -1,0 +1,631 @@
+﻿,Type,Study Region,Contractor,Year,Value,k_labels,colors
+0,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2025,,0,#F63366
+1,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2025,,0,#F63366
+2,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2025,,0,#F63366
+3,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2025,,0,#F63366
+4,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2025,,0,#F63366
+5,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2025,,0,#F63366
+6,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2025,,0,#F63366
+7,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2025,,0,#F63366
+8,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2025,,0,#F63366
+9,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2025,,0,#F63366
+10,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2025,,0,#F63366
+11,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2025,,0,#F63366
+12,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2025,,0,#F63366
+13,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2025,,0,#F63366
+14,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2025,,0,#F63366
+15,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2025,,0,#F63366
+16,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2025,,0,#F63366
+17,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2025,,0,#F63366
+18,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2025,,0,#F63366
+19,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2025,,0,#F63366
+20,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2025,,0,#F63366
+21,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2025,,0,#F63366
+22,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2025,,0,#F63366
+23,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2025,,0,#F63366
+24,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2025,,0,#F63366
+25,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2025,,0,#F63366
+26,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2025,,0,#F63366
+27,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2025,,0,#F63366
+28,Normal or Better Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2025,,0,#F63366
+29,Normal or Better Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2025,,0,#F63366
+30,Normal or Better Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2025,,0,#F63366
+31,Normal or Better Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2025,,0,#F63366
+32,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2025,,0,#F63366
+33,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2025,,0,#F63366
+34,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2025,,0,#F63366
+35,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,278000,0,#F63366
+36,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2025,,0,#F63366
+37,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2025,,0,#F63366
+38,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2025,,0,#F63366
+39,Normal or Better Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2025,,0,#F63366
+40,Normal or Better Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2025,,0,#F63366
+41,Normal or Better Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2025,,0,#F63366
+42,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2025,,1,#2BB1BB
+43,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2025,,1,#2BB1BB
+44,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2025,,1,#2BB1BB
+45,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2025,,1,#2BB1BB
+46,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2025,,1,#2BB1BB
+47,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2025,,1,#2BB1BB
+48,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2025,,1,#2BB1BB
+49,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2025,,1,#2BB1BB
+50,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2025,,1,#2BB1BB
+51,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2025,,1,#2BB1BB
+52,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2025,,1,#2BB1BB
+53,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2025,,1,#2BB1BB
+54,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2025,,1,#2BB1BB
+55,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2025,,1,#2BB1BB
+56,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2025,,1,#2BB1BB
+57,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2025,,1,#2BB1BB
+58,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2025,,1,#2BB1BB
+59,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2025,,1,#2BB1BB
+60,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2025,,1,#2BB1BB
+61,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2025,,1,#2BB1BB
+62,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2025,,1,#2BB1BB
+63,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2025,,1,#2BB1BB
+64,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2025,,1,#2BB1BB
+65,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2025,,1,#2BB1BB
+66,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2025,,1,#2BB1BB
+67,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2025,,1,#2BB1BB
+68,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2025,,1,#2BB1BB
+69,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2025,,1,#2BB1BB
+70,Single Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2025,,1,#2BB1BB
+71,Single Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2025,,1,#2BB1BB
+72,Single Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2025,,1,#2BB1BB
+73,Single Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2025,,1,#2BB1BB
+74,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2025,,1,#2BB1BB
+75,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2025,,1,#2BB1BB
+76,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2025,,1,#2BB1BB
+77,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,278000,1,#2BB1BB
+78,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2025,,1,#2BB1BB
+79,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2025,,1,#2BB1BB
+80,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2025,,1,#2BB1BB
+81,Single Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2025,,1,#2BB1BB
+82,Single Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2025,,1,#2BB1BB
+83,Single Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2025,,1,#2BB1BB
+84,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2025,,2,#22466B
+85,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2025,,2,#22466B
+86,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2025,,2,#22466B
+87,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2025,,2,#22466B
+88,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2025,,2,#22466B
+89,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2025,,2,#22466B
+90,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2025,,2,#22466B
+91,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2025,,2,#22466B
+92,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2025,,2,#22466B
+93,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2025,,2,#22466B
+94,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2025,,2,#22466B
+95,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2025,,2,#22466B
+96,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2025,,2,#22466B
+97,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2025,,2,#22466B
+98,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2025,,2,#22466B
+99,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2025,,2,#22466B
+100,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2025,,2,#22466B
+101,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2025,,2,#22466B
+102,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2025,,2,#22466B
+103,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2025,,2,#22466B
+104,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2025,,2,#22466B
+105,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2025,,2,#22466B
+106,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2025,,2,#22466B
+107,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2025,,2,#22466B
+108,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2025,,2,#22466B
+109,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2025,,2,#22466B
+110,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2025,,2,#22466B
+111,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2025,,2,#22466B
+112,Multiple Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2025,,2,#22466B
+113,Multiple Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2025,,2,#22466B
+114,Multiple Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2025,,2,#22466B
+115,Multiple Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2025,,2,#22466B
+116,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2025,,2,#22466B
+117,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2025,,2,#22466B
+118,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2025,,2,#22466B
+119,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,278000,2,#22466B
+120,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2025,,2,#22466B
+121,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2025,,2,#22466B
+122,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2025,,2,#22466B
+123,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2025,,2,#22466B
+124,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2025,,2,#22466B
+125,Multiple Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2025,,2,#22466B
+126,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2030,,2,#F63366
+127,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2030,,2,#F63366
+128,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2030,,2,#F63366
+129,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2030,,2,#F63366
+130,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2030,,2,#F63366
+131,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2030,,2,#F63366
+132,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2030,,2,#F63366
+133,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2030,,2,#F63366
+134,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2030,,2,#F63366
+135,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2030,,2,#F63366
+136,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2030,,2,#F63366
+137,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2030,,2,#F63366
+138,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2030,,2,#F63366
+139,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2030,,2,#F63366
+140,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2030,,2,#F63366
+141,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2030,,2,#F63366
+142,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2030,,2,#F63366
+143,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2030,,2,#F63366
+144,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2030,,2,#F63366
+145,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2030,,2,#F63366
+146,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2030,,2,#F63366
+147,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2030,,2,#F63366
+148,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2030,,2,#F63366
+149,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2030,,2,#F63366
+150,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2030,,2,#F63366
+151,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2030,,2,#F63366
+152,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2030,,2,#F63366
+153,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2030,,2,#F63366
+154,Normal or Better Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2030,,2,#F63366
+155,Normal or Better Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2030,,2,#F63366
+156,Normal or Better Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2030,,2,#F63366
+157,Normal or Better Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2030,,2,#F63366
+158,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2030,,2,#F63366
+159,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2030,,2,#F63366
+160,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2030,,2,#F63366
+161,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,278000,2,#F63366
+162,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2030,,2,#F63366
+163,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2030,,2,#F63366
+164,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2030,,2,#F63366
+165,Normal or Better Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2030,,2,#F63366
+166,Normal or Better Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2030,,2,#F63366
+167,Normal or Better Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2030,,2,#F63366
+168,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2030,,2,#2BB1BB
+169,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2030,,2,#2BB1BB
+170,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2030,,2,#2BB1BB
+171,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2030,,2,#2BB1BB
+172,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2030,,2,#2BB1BB
+173,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2030,,2,#2BB1BB
+174,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2030,,2,#2BB1BB
+175,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2030,,2,#2BB1BB
+176,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2030,,2,#2BB1BB
+177,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2030,,2,#2BB1BB
+178,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2030,,2,#2BB1BB
+179,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2030,,2,#2BB1BB
+180,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2030,,2,#2BB1BB
+181,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2030,,2,#2BB1BB
+182,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2030,,2,#2BB1BB
+183,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2030,,2,#2BB1BB
+184,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2030,,2,#2BB1BB
+185,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2030,,2,#2BB1BB
+186,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2030,,2,#2BB1BB
+187,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2030,,2,#2BB1BB
+188,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2030,,2,#2BB1BB
+189,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2030,,2,#2BB1BB
+190,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2030,,2,#2BB1BB
+191,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2030,,2,#2BB1BB
+192,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2030,,2,#2BB1BB
+193,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2030,,2,#2BB1BB
+194,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2030,,2,#2BB1BB
+195,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2030,,2,#2BB1BB
+196,Single Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2030,,2,#2BB1BB
+197,Single Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2030,,2,#2BB1BB
+198,Single Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2030,,2,#2BB1BB
+199,Single Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2030,,2,#2BB1BB
+200,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2030,,2,#2BB1BB
+201,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2030,,2,#2BB1BB
+202,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2030,,2,#2BB1BB
+203,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,278000,2,#2BB1BB
+204,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2030,,2,#2BB1BB
+205,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2030,,2,#2BB1BB
+206,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2030,,2,#2BB1BB
+207,Single Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2030,,2,#2BB1BB
+208,Single Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2030,,2,#2BB1BB
+209,Single Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2030,,2,#2BB1BB
+210,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2030,,2,#22466B
+211,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2030,,2,#22466B
+212,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2030,,2,#22466B
+213,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2030,,2,#22466B
+214,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2030,,2,#22466B
+215,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2030,,2,#22466B
+216,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2030,,2,#22466B
+217,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2030,,2,#22466B
+218,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2030,,2,#22466B
+219,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2030,,2,#22466B
+220,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2030,,2,#22466B
+221,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2030,,2,#22466B
+222,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2030,,2,#22466B
+223,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2030,,2,#22466B
+224,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2030,,2,#22466B
+225,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2030,,2,#22466B
+226,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2030,,2,#22466B
+227,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2030,,2,#22466B
+228,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2030,,2,#22466B
+229,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2030,,2,#22466B
+230,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2030,,2,#22466B
+231,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2030,,2,#22466B
+232,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2030,,2,#22466B
+233,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2030,,2,#22466B
+234,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2030,,2,#22466B
+235,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2030,,2,#22466B
+236,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2030,,2,#22466B
+237,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2030,,2,#22466B
+238,Multiple Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2030,,2,#22466B
+239,Multiple Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2030,,2,#22466B
+240,Multiple Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2030,,2,#22466B
+241,Multiple Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2030,,2,#22466B
+242,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2030,,2,#22466B
+243,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2030,,2,#22466B
+244,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2030,,2,#22466B
+245,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,278000,2,#22466B
+246,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2030,,2,#22466B
+247,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2030,,2,#22466B
+248,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2030,,2,#22466B
+249,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2030,,2,#22466B
+250,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2030,,2,#22466B
+251,Multiple Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2030,,2,#22466B
+252,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2035,,0,#F63366
+253,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2035,,0,#F63366
+254,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2035,,0,#F63366
+255,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2035,,0,#F63366
+256,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2035,,0,#F63366
+257,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2035,,0,#F63366
+258,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2035,,0,#F63366
+259,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2035,,0,#F63366
+260,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2035,,0,#F63366
+261,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2035,,0,#F63366
+262,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2035,,0,#F63366
+263,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2035,,0,#F63366
+264,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2035,,0,#F63366
+265,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2035,,0,#F63366
+266,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2035,,0,#F63366
+267,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2035,,0,#F63366
+268,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2035,,0,#F63366
+269,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2035,,0,#F63366
+270,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2035,,0,#F63366
+271,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2035,,0,#F63366
+272,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2035,,0,#F63366
+273,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2035,,0,#F63366
+274,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2035,,0,#F63366
+275,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2035,,0,#F63366
+276,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2035,,0,#F63366
+277,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2035,,0,#F63366
+278,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2035,,0,#F63366
+279,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2035,,0,#F63366
+280,Normal or Better Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2035,,0,#F63366
+281,Normal or Better Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2035,,0,#F63366
+282,Normal or Better Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2035,,0,#F63366
+283,Normal or Better Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2035,,0,#F63366
+284,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2035,,0,#F63366
+285,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2035,,0,#F63366
+286,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2035,,0,#F63366
+287,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,278000,0,#F63366
+288,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2035,,0,#F63366
+289,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2035,,0,#F63366
+290,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2035,,0,#F63366
+291,Normal or Better Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2035,,0,#F63366
+292,Normal or Better Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2035,,0,#F63366
+293,Normal or Better Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2035,,0,#F63366
+294,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2035,,1,#2BB1BB
+295,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2035,,1,#2BB1BB
+296,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2035,,1,#2BB1BB
+297,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2035,,1,#2BB1BB
+298,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2035,,1,#2BB1BB
+299,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2035,,1,#2BB1BB
+300,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2035,,1,#2BB1BB
+301,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2035,,1,#2BB1BB
+302,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2035,,1,#2BB1BB
+303,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2035,,1,#2BB1BB
+304,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2035,,1,#2BB1BB
+305,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2035,,1,#2BB1BB
+306,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2035,,1,#2BB1BB
+307,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2035,,1,#2BB1BB
+308,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2035,,1,#2BB1BB
+309,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2035,,1,#2BB1BB
+310,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2035,,1,#2BB1BB
+311,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2035,,1,#2BB1BB
+312,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2035,,1,#2BB1BB
+313,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2035,,1,#2BB1BB
+314,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2035,,1,#2BB1BB
+315,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2035,,1,#2BB1BB
+316,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2035,,1,#2BB1BB
+317,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2035,,1,#2BB1BB
+318,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2035,,1,#2BB1BB
+319,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2035,,1,#2BB1BB
+320,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2035,,1,#2BB1BB
+321,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2035,,1,#2BB1BB
+322,Single Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2035,,1,#2BB1BB
+323,Single Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2035,,1,#2BB1BB
+324,Single Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2035,,1,#2BB1BB
+325,Single Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2035,,1,#2BB1BB
+326,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2035,,1,#2BB1BB
+327,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2035,,1,#2BB1BB
+328,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2035,,1,#2BB1BB
+329,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,278000,1,#2BB1BB
+330,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2035,,1,#2BB1BB
+331,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2035,,1,#2BB1BB
+332,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2035,,1,#2BB1BB
+333,Single Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2035,,1,#2BB1BB
+334,Single Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2035,,1,#2BB1BB
+335,Single Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2035,,1,#2BB1BB
+336,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2035,,2,#22466B
+337,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2035,,2,#22466B
+338,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2035,,2,#22466B
+339,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2035,,2,#22466B
+340,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2035,,2,#22466B
+341,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2035,,2,#22466B
+342,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2035,,2,#22466B
+343,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2035,,2,#22466B
+344,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2035,,2,#22466B
+345,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2035,,2,#22466B
+346,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2035,,2,#22466B
+347,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2035,,2,#22466B
+348,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2035,,2,#22466B
+349,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2035,,2,#22466B
+350,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2035,,2,#22466B
+351,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2035,,2,#22466B
+352,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2035,,2,#22466B
+353,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2035,,2,#22466B
+354,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2035,,2,#22466B
+355,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2035,,2,#22466B
+356,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2035,,2,#22466B
+357,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2035,,2,#22466B
+358,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2035,,2,#22466B
+359,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2035,,2,#22466B
+360,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2035,,2,#22466B
+361,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2035,,2,#22466B
+362,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2035,,2,#22466B
+363,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2035,,2,#22466B
+364,Multiple Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2035,,2,#22466B
+365,Multiple Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2035,,2,#22466B
+366,Multiple Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2035,,2,#22466B
+367,Multiple Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2035,,2,#22466B
+368,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2035,,2,#22466B
+369,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2035,,2,#22466B
+370,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2035,,2,#22466B
+371,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,278000,2,#22466B
+372,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2035,,2,#22466B
+373,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2035,,2,#22466B
+374,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2035,,2,#22466B
+375,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2035,,2,#22466B
+376,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2035,,2,#22466B
+377,Multiple Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2035,,2,#22466B
+378,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2040,,2,#F63366
+379,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2040,,2,#F63366
+380,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2040,,2,#F63366
+381,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2040,,2,#F63366
+382,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2040,,2,#F63366
+383,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2040,,2,#F63366
+384,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2040,,2,#F63366
+385,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2040,,2,#F63366
+386,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2040,,2,#F63366
+387,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2040,,2,#F63366
+388,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2040,,2,#F63366
+389,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2040,,2,#F63366
+390,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2040,,2,#F63366
+391,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2040,,2,#F63366
+392,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2040,,2,#F63366
+393,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2040,,2,#F63366
+394,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2040,,2,#F63366
+395,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2040,,2,#F63366
+396,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2040,,2,#F63366
+397,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2040,,2,#F63366
+398,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2040,,2,#F63366
+399,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2040,,2,#F63366
+400,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2040,,2,#F63366
+401,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2040,,2,#F63366
+402,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2040,,2,#F63366
+403,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2040,,2,#F63366
+404,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2040,,2,#F63366
+405,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2040,,2,#F63366
+406,Normal or Better Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2040,,2,#F63366
+407,Normal or Better Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2040,,2,#F63366
+408,Normal or Better Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2040,,2,#F63366
+409,Normal or Better Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2040,,2,#F63366
+410,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2040,,2,#F63366
+411,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2040,,2,#F63366
+412,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2040,,2,#F63366
+413,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,278000,2,#F63366
+414,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2040,,2,#F63366
+415,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2040,,2,#F63366
+416,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2040,,2,#F63366
+417,Normal or Better Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2040,,2,#F63366
+418,Normal or Better Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2040,,2,#F63366
+419,Normal or Better Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2040,,2,#F63366
+420,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2040,,2,#2BB1BB
+421,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2040,,2,#2BB1BB
+422,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2040,,2,#2BB1BB
+423,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2040,,2,#2BB1BB
+424,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2040,,2,#2BB1BB
+425,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2040,,2,#2BB1BB
+426,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2040,,2,#2BB1BB
+427,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2040,,2,#2BB1BB
+428,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2040,,2,#2BB1BB
+429,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2040,,2,#2BB1BB
+430,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2040,,2,#2BB1BB
+431,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2040,,2,#2BB1BB
+432,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2040,,2,#2BB1BB
+433,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2040,,2,#2BB1BB
+434,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2040,,2,#2BB1BB
+435,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2040,,2,#2BB1BB
+436,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2040,,2,#2BB1BB
+437,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2040,,2,#2BB1BB
+438,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2040,,2,#2BB1BB
+439,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2040,,2,#2BB1BB
+440,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2040,,2,#2BB1BB
+441,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2040,,2,#2BB1BB
+442,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2040,,2,#2BB1BB
+443,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2040,,2,#2BB1BB
+444,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2040,,2,#2BB1BB
+445,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2040,,2,#2BB1BB
+446,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2040,,2,#2BB1BB
+447,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2040,,2,#2BB1BB
+448,Single Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2040,,2,#2BB1BB
+449,Single Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2040,,2,#2BB1BB
+450,Single Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2040,,2,#2BB1BB
+451,Single Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2040,,2,#2BB1BB
+452,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2040,,2,#2BB1BB
+453,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2040,,2,#2BB1BB
+454,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2040,,2,#2BB1BB
+455,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,278000,2,#2BB1BB
+456,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2040,,2,#2BB1BB
+457,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2040,,2,#2BB1BB
+458,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2040,,2,#2BB1BB
+459,Single Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2040,,2,#2BB1BB
+460,Single Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2040,,2,#2BB1BB
+461,Single Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2040,,2,#2BB1BB
+462,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2040,,2,#22466B
+463,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2040,,2,#22466B
+464,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2040,,2,#22466B
+465,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2040,,2,#22466B
+466,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2040,,2,#22466B
+467,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2040,,2,#22466B
+468,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2040,,2,#22466B
+469,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2040,,2,#22466B
+470,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2040,,2,#22466B
+471,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2040,,2,#22466B
+472,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2040,,2,#22466B
+473,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2040,,2,#22466B
+474,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2040,,2,#22466B
+475,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2040,,2,#22466B
+476,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2040,,2,#22466B
+477,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2040,,2,#22466B
+478,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2040,,2,#22466B
+479,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2040,,2,#22466B
+480,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2040,,2,#22466B
+481,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2040,,2,#22466B
+482,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2040,,2,#22466B
+483,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2040,,2,#22466B
+484,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2040,,2,#22466B
+485,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2040,,2,#22466B
+486,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2040,,2,#22466B
+487,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2040,,2,#22466B
+488,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2040,,2,#22466B
+489,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2040,,2,#22466B
+490,Multiple Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2040,,2,#22466B
+491,Multiple Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2040,,2,#22466B
+492,Multiple Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2040,,2,#22466B
+493,Multiple Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2040,,2,#22466B
+494,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2040,,2,#22466B
+495,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2040,,2,#22466B
+496,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2040,,2,#22466B
+497,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,278000,2,#22466B
+498,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2040,,2,#22466B
+499,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2040,,2,#22466B
+500,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2040,,2,#22466B
+501,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2040,,2,#22466B
+502,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2040,,2,#22466B
+503,Multiple Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2040,,2,#22466B
+504,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2045,,0,#F63366
+505,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2045,,0,#F63366
+506,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2045,,0,#F63366
+507,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2045,,0,#F63366
+508,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2045,,0,#F63366
+509,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2045,,0,#F63366
+510,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2045,,0,#F63366
+511,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2045,,0,#F63366
+512,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2045,,0,#F63366
+513,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2045,,0,#F63366
+514,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2045,,0,#F63366
+515,Normal or Better Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2045,,0,#F63366
+516,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2045,,0,#F63366
+517,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2045,,0,#F63366
+518,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2045,,0,#F63366
+519,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2045,,0,#F63366
+520,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2045,,0,#F63366
+521,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2045,,0,#F63366
+522,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2045,,0,#F63366
+523,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2045,,0,#F63366
+524,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2045,,0,#F63366
+525,Normal or Better Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2045,,0,#F63366
+526,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2045,,0,#F63366
+527,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2045,,0,#F63366
+528,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2045,,0,#F63366
+529,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2045,,0,#F63366
+530,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2045,,0,#F63366
+531,Normal or Better Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2045,,0,#F63366
+532,Normal or Better Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2045,,0,#F63366
+533,Normal or Better Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2045,,0,#F63366
+534,Normal or Better Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2045,,0,#F63366
+535,Normal or Better Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2045,,0,#F63366
+536,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2045,,0,#F63366
+537,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2045,,0,#F63366
+538,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2045,,0,#F63366
+539,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,278000,0,#F63366
+540,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2045,,0,#F63366
+541,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2045,,0,#F63366
+542,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2045,,0,#F63366
+543,Normal or Better Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2045,,0,#F63366
+544,Normal or Better Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2045,,0,#F63366
+545,Normal or Better Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2045,,0,#F63366
+546,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2045,,1,#2BB1BB
+547,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2045,,1,#2BB1BB
+548,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2045,,1,#2BB1BB
+549,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2045,,1,#2BB1BB
+550,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2045,,1,#2BB1BB
+551,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2045,,1,#2BB1BB
+552,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2045,,1,#2BB1BB
+553,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2045,,1,#2BB1BB
+554,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2045,,1,#2BB1BB
+555,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2045,,1,#2BB1BB
+556,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2045,,1,#2BB1BB
+557,Single Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2045,,1,#2BB1BB
+558,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2045,,1,#2BB1BB
+559,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2045,,1,#2BB1BB
+560,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2045,,1,#2BB1BB
+561,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2045,,1,#2BB1BB
+562,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2045,,1,#2BB1BB
+563,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2045,,1,#2BB1BB
+564,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2045,,1,#2BB1BB
+565,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2045,,1,#2BB1BB
+566,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2045,,1,#2BB1BB
+567,Single Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2045,,1,#2BB1BB
+568,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2045,,1,#2BB1BB
+569,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2045,,1,#2BB1BB
+570,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2045,,1,#2BB1BB
+571,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2045,,1,#2BB1BB
+572,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2045,,1,#2BB1BB
+573,Single Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2045,,1,#2BB1BB
+574,Single Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2045,,1,#2BB1BB
+575,Single Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2045,,1,#2BB1BB
+576,Single Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2045,,1,#2BB1BB
+577,Single Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2045,,1,#2BB1BB
+578,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2045,,1,#2BB1BB
+579,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2045,,1,#2BB1BB
+580,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2045,,1,#2BB1BB
+581,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,278000,1,#2BB1BB
+582,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2045,,1,#2BB1BB
+583,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2045,,1,#2BB1BB
+584,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2045,,1,#2BB1BB
+585,Single Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2045,,1,#2BB1BB
+586,Single Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2045,,1,#2BB1BB
+587,Single Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2045,,1,#2BB1BB
+588,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,2045,,2,#22466B
+589,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,2045,,2,#22466B
+590,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,2045,,2,#22466B
+591,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,2045,,2,#22466B
+592,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,2045,,2,#22466B
+593,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,2045,,2,#22466B
+594,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,2045,,2,#22466B
+595,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,2045,,2,#22466B
+596,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,2045,,2,#22466B
+597,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,2045,,2,#22466B
+598,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,2045,,2,#22466B
+599,Multiple Dry-Year Demands (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,2045,,2,#22466B
+600,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,2045,,2,#22466B
+601,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,2045,,2,#22466B
+602,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,2045,,2,#22466B
+603,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,2045,,2,#22466B
+604,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,2045,,2,#22466B
+605,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,2045,,2,#22466B
+606,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,2045,,2,#22466B
+607,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,2045,,2,#22466B
+608,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,2045,,2,#22466B
+609,Multiple Dry-Year Demands (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,2045,,2,#22466B
+610,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",2045,,2,#22466B
+611,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Alameda County Water District,2045,,2,#22466B
+612,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,2045,,2,#22466B
+613,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,2045,,2,#22466B
+614,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",2045,,2,#22466B
+615,Multiple Dry-Year Demands (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,2045,,2,#22466B
+616,Multiple Dry-Year Demands (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,2045,,2,#22466B
+617,Multiple Dry-Year Demands (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,2045,,2,#22466B
+618,Multiple Dry-Year Demands (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,2045,,2,#22466B
+619,Multiple Dry-Year Demands (acre-feet/year),Southern California,Santa Clarita Water Division,2045,,2,#22466B
+620,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2045,,2,#22466B
+621,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2045,,2,#22466B
+622,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2045,,2,#22466B
+623,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,278000,2,#22466B
+624,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2045,,2,#22466B
+625,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2045,,2,#22466B
+626,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2045,,2,#22466B
+627,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,2045,,2,#22466B
+628,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,2045,,2,#22466B
+629,Multiple Dry-Year Demands (acre-feet/year),Southern California,Ventura County Watershed Protection District,2045,,2,#22466B
