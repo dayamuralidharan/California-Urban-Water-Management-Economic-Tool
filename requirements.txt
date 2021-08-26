@@ -1,6 +1,6 @@
 ###### Requirements without version specifiers ######
 pandas
-streamlit
+streamlit 0.86.0
 streamlit_aggrid
 plotly
 numpy
