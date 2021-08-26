@@ -6,9 +6,6 @@ from apps import home, demands, demandsmanagement, modeloverview, hydrologyassum
 
 app = MultiApp()
 
-
-
-
 col1, col2 = st.beta_columns([5, 1])
 with col1:
     st.markdown("""
@@ -38,3 +35,13 @@ st.sidebar.title('Navigation')
 selection = st.sidebar.radio("Go to",list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
+
+# Initialize session state variables on Demand Assumptions page
+if 'totalDemandScenarioRadioButtonIndex' not in st.session_state:
+    st.session_state['totalDemandScenarioRadioButtonIndex'] = 0
+
+if 'useBySectorRadioButtonIndex' not in st.session_state:
+    st.session_state['useBySectorRadioButtonIndex'] = 0
+
+if 'intExtUseBySectorRadioButtonIndex' not in st.session_state:
+    st.session_state['intExtUseBySectorRadioButtonIndex'] = 0

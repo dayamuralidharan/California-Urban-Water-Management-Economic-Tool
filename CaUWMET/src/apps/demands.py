@@ -16,13 +16,36 @@ def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
         st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv")
         st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv")
+        st.session_state.totalDemandScenarioRadioButtonIndex = 0
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
         st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
         st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
+        st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
         st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
         st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
+        st.session_state.totalDemandScenarioRadioButtonIndex = 2
 
+
+def setUseBySectorInputData():
+    if st.session_state.useBySectorChoice == 'UWMP reported values':
+        st.session_state.useBySectordf = load_data("inputData/useBySector.csv") 
+        st.session_state.useBySectorPlotInputdf = load_data("inputData/useBySectorGraphData.csv")
+        st.session_state.useBySectorRadioButtonIndex = 0
+    else:
+        st.session_state.useBySectordf = load_data("inputData/useBySector.csv")  ################################ Data needs updating
+        st.session_state.useBySectorPlotInputdf = load_data("inputData/useBySectorGraphData.csv") ################################ Data needs updating
+        st.session_state.useBySectorRadioButtonIndex = 1
+
+def setIntExtUseBySectorInputData():
+    if st.session_state.useBySectorChoice == 'UWMP reported values':
+        st.session_state.useBySectordf = load_data("inputData/intAndExtUseBySector.csv") 
+        st.session_state.useBySectorPlotInputdf = load_data("inputData/intAndExtUseBySectorGraphData.csv")
+        st.session_state.intExtuseBySectorRadioButtonIndex = 0
+    else:
+        st.session_state.useBySectordf = load_data("inputData/intAndExtUseBySector.csv")  ################################ Data needs updating
+        st.session_state.useBySectorPlotInputdf = load_data("inputData/intAndExtUseBySectorGraphData.csv") ################################ Data needs updating
+        st.session_state.intExtUseBySectorRadioButtonIndex = 1
 
 def app():
     
@@ -49,16 +72,15 @@ def app():
         
         demandsDatasetOptions = ['UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below']
         st.radio("""1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, 
-        update the data in the Total Demand Scenarios table in the first collapsible section below.""", demandsDatasetOptions, key = "totalDemandsChoice", on_change = setTotalDemandsInputData)
+        update the data in the Total Demand Scenarios table in the first collapsible section below.""", options = demandsDatasetOptions, index = st.session_state.totalDemandScenarioRadioButtonIndex, key = "totalDemandsChoice", on_change = setTotalDemandsInputData)
 
         useBySectorDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']
-        useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", useBySectorDatasetOptions)
+        useBySectorDatasetChoice = st.radio("2. Select the Use by Sector Dataset from the options below. If the last option is selected, update the data in the Demand Use by Sector table in the second collapsible section below.", options = useBySectorDatasetOptions, index = st.session_state.useBySectorRadioButtonIndex, key = "useBySectorChoice", on_change = setUseBySectorInputData)
 
         intExtUseBySectorDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']
         intExtUseBySectorDatasetChoice = st.radio("""3. Select the Input Interior and Exterior Use by Sector Dataset from the options below. 
-        If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", intExtUseBySectorDatasetOptions)
+        If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", options = intExtUseBySectorDatasetOptions, index = st.session_state.intExtUseBySectorRadioButtonIndex, key = "intExtUseBySectorChoice", on_change = setIntExtUseBySectorInputData)
 
-        print(st.session_state.totalDemandsdf)
         
         st.write("4. Confirm there are no errors in the input data by checking the message below:")
         st.write("<span class='font'> ✔ Tests on this page pass! (or error message if it does not pass indicating what the error is) </span>", unsafe_allow_html=True)
@@ -240,7 +262,6 @@ def app():
                 )
             
             st.session_state.totalDemandsdf = grid_response['data']
-            print(st.session_state.totalDemandsdf)
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 

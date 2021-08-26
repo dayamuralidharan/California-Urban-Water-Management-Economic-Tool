@@ -8,5 +8,7 @@ def app():
         st.title('Testing page')
 
         st.write(st.session_state.totalDemandsChoice)
+        st.write(st.session_state.useBySectorChoice)
+        st.write(st.session_state.intExtUseBySectorChoice)
 
 
