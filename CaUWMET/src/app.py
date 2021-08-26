@@ -1,12 +1,12 @@
 import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
-from apps import home, demands, demandsmanagement, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq, returnTest, watermanagement
+from apps import home, demands, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq, returnTest, watermanagement
 
 
 app = MultiApp()
 
-col1, col2 = st.beta_columns([5, 1])
+col1, col2 = st.columns([5, 1])
 with col1:
     st.markdown("""
     # CaUWMET
@@ -22,7 +22,6 @@ PAGES = {
     "Contractor Assumptions": editcontractors,
     "Hydrology Assumptions": hydrologyassumptions,
     "Demand Assumptions": demands,
-    "Demand Management Assumptions": demandsmanagement,
     "Supply Assumptions": supplies,
     "System Operation Assumptions": systemoperations,
     "Water Management Assumptions": watermanagement,
@@ -45,3 +44,6 @@ if 'useBySectorRadioButtonIndex' not in st.session_state:
 
 if 'intExtUseBySectorRadioButtonIndex' not in st.session_state:
     st.session_state['intExtUseBySectorRadioButtonIndex'] = 0
+
+if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
+    st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
