@@ -2,6 +2,7 @@ import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
 from apps import home, demands, modeloverview, hydrologyassumptions, editcontractors, supplies, systemoperations, results, faq, returnTest, watermanagement
+from appsUtilities import fetch_data
 
 
 app = MultiApp()
@@ -47,3 +48,6 @@ if 'intExtUseBySectorRadioButtonIndex' not in st.session_state:
 
 if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
     st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
+
+if 'totalDemandsdf' not in st.session_state:
+    st.session_state['totalDemandsdf'] = fetch_data("inputData/totalDemandsData.csv")

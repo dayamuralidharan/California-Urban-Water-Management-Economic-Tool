@@ -9,20 +9,20 @@ import traceback
 from load_css import local_css
 from contextlib import contextmanager
 import sys, os
-from appsUtilities import opt_echo
+from appsUtilities import opt_echo, fetch_data
 from demandsHelper import load_data, summary_poster
 
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
-        st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv")
+        #st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv")
         st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv")
         st.session_state.totalDemandScenarioRadioButtonIndex = 0
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
-        st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
+        #st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
         st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
-        st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
+        #st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
         st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
         st.session_state.totalDemandScenarioRadioButtonIndex = 2
 
@@ -62,7 +62,7 @@ def app():
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
         # Initialize Session State with Default Values
-        st.session_state['totalDemandsdf'] = load_data("inputData/totalDemandsData.csv")
+        #st.session_state['totalDemandsdf'] = load_data("inputData/totalDemandsData.csv")
         st.session_state['demandsPlotInputdf'] = load_data("inputData/totalDemandsGraphData.csv")
 
         #Set font styling (currently used for green text)
@@ -365,12 +365,11 @@ def app():
         with st.expander("Demand Scenarios By Sector"):
             
             @st.cache(suppress_st_warning=True)
-            def fetch_data(samples):
+            def fetch_data():
                 demands = pd.read_csv("inputData/useBySector.csv")
-                return pd.DataFrame(demands)    
-            sample_size = 10
+                return pd.DataFrame(demands)   
 
-            useBySectorEditableTable = fetch_data(sample_size)
+            useBySectorEditableTable = fetch_data()
 
             #Infer basic colDefs from dataframe types
             gb = GridOptionsBuilder.from_dataframe(useBySectorEditableTable)
@@ -441,11 +440,11 @@ def app():
         with st.expander("Interior and Exterior Use by Sector"):
 
             @st.cache(suppress_st_warning=True)
-            def fetch_data(samples):
+            def fetch_data():
                 demands = pd.read_csv("inputData/intAndExtUseBySector.csv")
                 return pd.DataFrame(demands)    
 
-            intExtUsebySectorEditableTabledf = fetch_data(sample_size)
+            intExtUsebySectorEditableTabledf = fetch_data()
 
             #Infer basic colDefs from dataframe types
             gb = GridOptionsBuilder.from_dataframe(intExtUsebySectorEditableTabledf)
@@ -509,17 +508,16 @@ def app():
                 """)
 
                 st.altair_chart(chart, use_container_width=True)
-                st.write(st.session_state)
 
         ########################### TABLE 4 BASE LONG-TERM CONSERVATION
         with st.expander("Base Long-Term Conservation"):
 
             @st.cache(suppress_st_warning=True)
-            def fetch_data(samples):
+            def fetch_data():
                 demands = pd.read_csv("inputData/baseLongTermConservation.csv")
                 return pd.DataFrame(demands)    
 
-            baseLongTermConservationEditableTabledf = fetch_data(sample_size)
+            baseLongTermConservationEditableTabledf = fetch_data()
 
             #Infer basic colDefs from dataframe types
             gb = GridOptionsBuilder.from_dataframe(baseLongTermConservationEditableTabledf)
@@ -583,4 +581,3 @@ def app():
                 """)
 
                 st.altair_chart(chart, use_container_width=True)
-                st.write(st.session_state)
