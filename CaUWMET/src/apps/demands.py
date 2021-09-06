@@ -132,7 +132,7 @@ def app():
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Demands by Study Region", "Demands by Contractor", "Demands (acre-feet/year)")
         st.write(fig)
 
         #---------------------------------------------------------------#
@@ -176,7 +176,7 @@ def app():
         
         col1, col2 = st.columns(2)
         st.text("")
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Use by Study Region", "Use by Contractor", "Use (acre-feet/year)")
         st.write(fig)
 
         #---------------------------------------------------------------#
@@ -215,7 +215,7 @@ def app():
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
         col1, col2 = st.columns(2)
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Use by Study Region", "Use by Contractor", "Use (acre-feet/year)")
         st.write(fig)
 
         #---------------------------------------------------------------#
@@ -254,7 +254,7 @@ def app():
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
         col1, col2 = st.columns(2)
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Conservation by Study Region", "Conservation by Contractor", "Conservation (acre-feet/year)")
         st.write(fig)
 
 
