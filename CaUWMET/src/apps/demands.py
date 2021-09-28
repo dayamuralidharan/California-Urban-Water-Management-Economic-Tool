@@ -39,10 +39,8 @@ def setIntExtUseBySectorInputData():
 
 def setBaseLongTermConservationInputData():
     if st.session_state.baseLongTermConservationChoice == 'UWMP reported values':
-        st.session_state.baseLongTermConservationPlotInputdf = load_data("inputData/baseLongTermConservationGraphData.csv")
         st.session_state.baseLongTermConservationRadioButtonIndex = 0
     else:
-        st.session_state.baseLongTermConservationPlotInputdf = load_data("inputData/baseLongTermConservationGraphData.csv") ################################ Data needs updating
         st.session_state.baseLongTermConservationRadioButtonIndex = 1
 
 def app():
@@ -232,7 +230,7 @@ def app():
         # CREATE SUMMARY POSTER FOR BASE LONG-TERM CONSERVATION
         #---------------------------------------------------------------#
 
-        baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf.drop(labels = 'Notes', axis = 1)#load_data("inputData/baseLongTermConservationGraphData.csv")
+        baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf.drop(labels = 'Notes', axis = 1)
         baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Conservation Variable','Contractor','Study Region'])
         baseLongTermConservationPlotInputData.rename(columns = {'Conservation Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
 
