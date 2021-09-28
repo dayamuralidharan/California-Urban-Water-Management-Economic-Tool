@@ -57,11 +57,13 @@ def app():
         st.header("Steps to use this page")
 
 
-        st.write("""There are three variables that need to be set on this page in the steps below including total demands, total water use by sector, and
-        interior and exterior use by sector. More information on what each of these variables are is described in the Demand Assumptions Overview section below.
-        Select which datasets to use for each variable from the options below.
-        After making your selection for all three variables, 
-        review the input data by ensure this page's test pass and checking the data in the plots below.""")
+        st.write("""There are four categories of variables that need to be set on this page including Total Demands, Total Water Use by Sector,
+        Interior and Exterior use by sector, and Base Long-term Conservation. A description of each of variable is provided in the Demand Assumptions Overview section below.
+        """)
+        st. write("")
+        st.write("""Select which datasets to use for each variable from the options below.
+        After making your selection for all four variables, 
+        review the data in the plots below.""")
 
 
         # Radio buttons to select data source for each variable
@@ -76,8 +78,8 @@ def app():
         intExtUseBySectorDatasetChoice = st.radio("""3. Select the Input Interior and Exterior Use by Sector Dataset from the options below. 
         If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", options = intExtUseBySectorDatasetOptions, index = st.session_state.intExtUseBySectorRadioButtonIndex, key = "intExtUseBySectorChoice", on_change = setIntExtUseBySectorInputData)
 
-        baseLongTermConservationDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']
-        intExtUseBySectorDatasetChoice = st.radio("""3. Select the Base Long Term Conservation Dataset from the options below. 
+        baseLongTermConservationDatasetOptions = ['UWMP reported values', 'Input Conservation variables in table below']
+        intExtUseBySectorDatasetChoice = st.radio("""4. Select the Base Long-Term Conservation Dataset from the options below. 
         If the last option is selected, update the data in the Base Long Term Conservation table in the last collapsible section below.""", options = baseLongTermConservationDatasetOptions, index = st.session_state.baseLongTermConservationRadioButtonIndex, key = "baseLongTermConservationChoice", on_change = setBaseLongTermConservationInputData)
 
 
@@ -99,22 +101,21 @@ def app():
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
 
-        # Reformat demands dataframe for plots
-        demandsPlotInputDataMelted = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
-        demandsPlotInputDataMelted = pd.melt(demandsPlotInputDataMelted, id_vars=['Demands','Contractor','Study Region'])
-        demandsPlotInputDataMelted.rename(columns = {'variable': 'Year', 'Demands': 'Type', 'value': 'Value'}, inplace=True)
-        demandTypes = [
-            demandsPlotInputDataMelted['Type'] == 'Normal or Better Demands (acre-feet/year)',
-            demandsPlotInputDataMelted['Type'] == 'Single Dry-Year Demands (acre-feet/year)',
-            demandsPlotInputDataMelted['Type'] == 'Multiple Dry-Year Demands (acre-feet/year)',
+        # Reformat total demands dataframe for plots
+        demandsPlotInputData = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
+        demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Demands','Contractor','Study Region'])
+        demandsPlotInputData.rename(columns = {'variable': 'Year', 'Demands': 'Type', 'value': 'Value'}, inplace=True)
+        demandVars = [
+            demandsPlotInputData['Type'] == 'Normal or Better Demands (acre-feet/year)',
+            demandsPlotInputData['Type'] == 'Single Dry-Year Demands (acre-feet/year)',
+            demandsPlotInputData['Type'] == 'Multiple Dry-Year Demands (acre-feet/year)',
          ]
         k_labelValues = [0, 1, 2]
-        demandsPlotInputDataMelted['k_labels'] = np.select(demandTypes, k_labelValues)
+        demandsPlotInputData['k_labels'] = np.select(demandVars, k_labelValues)
         colors = ['#F63366', '#2BB1BB', '#22466B']
-        demandsPlotInputDataMelted['colors'] = np.select(demandTypes, colors)
-        print(demandsPlotInputDataMelted)
+        demandsPlotInputData['colors'] = np.select(demandVars, colors)
 
-        sorted_contractors = demandsPlotInputDataMelted.groupby('Year')['Contractor'].sum()\
+        sorted_contractors = demandsPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
 
         col1, col2 = st.columns(2)
@@ -129,7 +130,7 @@ def app():
             select_demands = []
 
             #Filter df based on selection
-            contractor_df = demandsPlotInputDataMelted[demandsPlotInputDataMelted['Year'].isin(select_contractor)]
+            contractor_df = demandsPlotInputData[demandsPlotInputData['Year'].isin(select_contractor)]
 
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
@@ -231,7 +232,20 @@ def app():
         # CREATE SUMMARY POSTER FOR BASE LONG-TERM CONSERVATION
         #---------------------------------------------------------------#
 
-        baseLongTermConservationPlotInputData = load_data("inputData/baseLongTermConservationGraphData.csv")
+        baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf.drop(labels = 'Notes', axis = 1)#load_data("inputData/baseLongTermConservationGraphData.csv")
+        baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Conservation Variable','Contractor','Study Region'])
+        baseLongTermConservationPlotInputData.rename(columns = {'Conservation Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
+
+        conservationVars = [
+            baseLongTermConservationPlotInputData['Type'] == 'Base Long-term Conservation (acre-feet)',
+            baseLongTermConservationPlotInputData['Type'] == 'Demand hardening adjustment factor (% of total long-term conservation including base and additional from Water Management Options)',
+        ]
+
+        k_labelValuesConservation = [0, 1]
+        colorsConservation = ['#F63366', '#2BB1BB']
+
+        baseLongTermConservationPlotInputData['k_labels'] = np.select(conservationVars, k_labelValuesConservation)
+        baseLongTermConservationPlotInputData['colors'] = np.select(conservationVars, colorsConservation)
     
         sorted_contractors = baseLongTermConservationPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values().index
@@ -247,10 +261,10 @@ def app():
         with col1:
             st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key='7', help="explanation for tooltip to be added"))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='7', help="Select year to display in plots."))  
         
         with col2:
-            st.markdown("#### **Select Sector:**")
+            st.markdown("#### **Select Conservation Variable:**")
             select_demands = []
 
             #Filter df based on selection
@@ -259,7 +273,7 @@ def app():
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
-            select_demands.append(st.selectbox('', sorted_demands, key='8', help="explanation for tooltip to be added"))
+            select_demands.append(st.selectbox('', sorted_demands, key='8', help="Select variable to display in plots."))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
         col1, col2 = st.columns(2)
