@@ -101,10 +101,25 @@ def app():
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER FOR TOTAL DEMANDS
         #---------------------------------------------------------------#       
-        
+        color_map_df = load_data("inputData/color_map_df_demands.csv")
 
         demandsPlotInputData = st.session_state.demandsPlotInputdf
-        color_map_df = load_data("inputData/color_map_df_demands.csv")
+        
+
+        # Reformat dataframe for plots
+        demandsPlotInputDataMelted = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
+        demandsPlotInputDataMelted = pd.melt(demandsPlotInputDataMelted, id_vars=['Demands','Contractor','Study Region'])
+        demandsPlotInputDataMelted.rename(columns = {'variable': 'Year'}, inplace=True)
+        demandTypes = [
+            demandsPlotInputDataMelted['Demands'] == 'Normal or Better Demands (acre-feet/year)',
+            demandsPlotInputDataMelted['Demands'] == 'Single Dry-Year Demands (acre-feet/year)',
+            demandsPlotInputDataMelted['Demands'] == 'Multiple Dry-Year Demands (acre-feet/year)',
+         ]
+        k_labelValues = [0, 1, 2]
+        demandsPlotInputDataMelted['k_labels'] = np.select(demandTypes, k_labelValues)
+        colors = ['#F63366', '#2BB1BB', '#22466B']
+        demandsPlotInputDataMelted['colors'] = np.select(demandTypes, colors)
+        print(demandsPlotInputDataMelted)
 
         sorted_contractors = demandsPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
@@ -113,7 +128,8 @@ def app():
         with col1:
             st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key='1', help="explanation for tooltip to be added"))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='1', help="Select future planning year to display in plots below."))
+            
         
         with col2:
             st.markdown("#### **Select Year Type:**")
@@ -125,7 +141,7 @@ def app():
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
-            select_demands.append(st.selectbox('', sorted_demands, key='2', help="explanation for tooltip to be added"))
+            select_demands.append(st.selectbox('', sorted_demands, key='2', help="Select hydrologic year type to display in plots below."))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
         
         col1, col2 = st.columns(2)

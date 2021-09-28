@@ -34,7 +34,7 @@
 32,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2025,188500,0,#F63366
 33,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2025,2250,0,#F63366
 34,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2025,47268,0,#F63366
-35,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,4455000,0,#F63366
+35,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,145500,0,#F63366
 36,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2025,159079,0,#F63366
 37,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2025,30186,0,#F63366
 38,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2025,305447,0,#F63366
@@ -76,7 +76,7 @@
 74,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2025,188500,1,#2BB1BB
 75,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2025,2250,1,#2BB1BB
 76,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2025,47268,1,#2BB1BB
-77,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,4455000,1,#2BB1BB
+77,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,245500,1,#2BB1BB
 78,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2025,159079,1,#2BB1BB
 79,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2025,30186,1,#2BB1BB
 80,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2025,305447,1,#2BB1BB
@@ -118,7 +118,7 @@
 116,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2025,188500,2,#22466B
 117,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2025,2250,2,#22466B
 118,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2025,47268,2,#22466B
-119,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,4455000,2,#22466B
+119,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2025,345500,2,#22466B
 120,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2025,159079,2,#22466B
 121,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2025,30186,2,#22466B
 122,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2025,305447,2,#22466B
@@ -160,7 +160,7 @@
 158,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2030,188500,2,#F63366
 159,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2030,2250,2,#F63366
 160,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2030,47268,2,#F63366
-161,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,4455000,2,#F63366
+161,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,445500,2,#F63366
 162,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2030,159079,2,#F63366
 163,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2030,30186,2,#F63366
 164,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2030,305447,2,#F63366
@@ -202,7 +202,7 @@
 200,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2030,188500,2,#2BB1BB
 201,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2030,2250,2,#2BB1BB
 202,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2030,47268,2,#2BB1BB
-203,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,4455000,2,#2BB1BB
+203,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,545500,2,#2BB1BB
 204,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2030,159079,2,#2BB1BB
 205,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2030,30186,2,#2BB1BB
 206,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2030,305447,2,#2BB1BB
@@ -244,7 +244,7 @@
 242,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2030,188500,2,#22466B
 243,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2030,2250,2,#22466B
 244,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2030,47268,2,#22466B
-245,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,4455000,2,#22466B
+245,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2030,645500,2,#22466B
 246,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2030,159079,2,#22466B
 247,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2030,30186,2,#22466B
 248,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2030,305447,2,#22466B
@@ -286,7 +286,7 @@
 284,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2035,188500,0,#F63366
 285,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2035,2250,0,#F63366
 286,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2035,47268,0,#F63366
-287,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,4455000,0,#F63366
+287,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,745500,0,#F63366
 288,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2035,159079,0,#F63366
 289,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2035,30186,0,#F63366
 290,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2035,305447,0,#F63366
@@ -328,7 +328,7 @@
 326,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2035,188500,1,#2BB1BB
 327,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2035,2250,1,#2BB1BB
 328,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2035,47268,1,#2BB1BB
-329,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,4455000,1,#2BB1BB
+329,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,845500,1,#2BB1BB
 330,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2035,159079,1,#2BB1BB
 331,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2035,30186,1,#2BB1BB
 332,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2035,305447,1,#2BB1BB
@@ -370,7 +370,7 @@
 368,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2035,188500,2,#22466B
 369,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2035,2250,2,#22466B
 370,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2035,47268,2,#22466B
-371,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,4455000,2,#22466B
+371,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2035,945500,2,#22466B
 372,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2035,159079,2,#22466B
 373,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2035,30186,2,#22466B
 374,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2035,305447,2,#22466B
@@ -412,7 +412,7 @@
 410,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2040,188500,2,#F63366
 411,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2040,2250,2,#F63366
 412,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2040,47268,2,#F63366
-413,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,4455000,2,#F63366
+413,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,1045500,2,#F63366
 414,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2040,159079,2,#F63366
 415,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2040,30186,2,#F63366
 416,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2040,305447,2,#F63366
@@ -454,7 +454,7 @@
 452,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2040,188500,2,#2BB1BB
 453,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2040,2250,2,#2BB1BB
 454,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2040,47268,2,#2BB1BB
-455,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,4455000,2,#2BB1BB
+455,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,1145500,2,#2BB1BB
 456,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2040,159079,2,#2BB1BB
 457,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2040,30186,2,#2BB1BB
 458,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2040,305447,2,#2BB1BB
@@ -496,7 +496,7 @@
 494,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2040,188500,2,#22466B
 495,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2040,2250,2,#22466B
 496,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2040,47268,2,#22466B
-497,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,4455000,2,#22466B
+497,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2040,1245500,2,#22466B
 498,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2040,159079,2,#22466B
 499,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2040,30186,2,#22466B
 500,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2040,305447,2,#22466B
@@ -538,7 +538,7 @@
 536,Normal or Better Demands (acre-feet/year),Southern California,Coachella Valley Water District,2045,188500,0,#F63366
 537,Normal or Better Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2045,2250,0,#F63366
 538,Normal or Better Demands (acre-feet/year),Southern California,Desert Water Agency,2045,47268,0,#F63366
-539,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,4455000,0,#F63366
+539,Normal or Better Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,1345500,0,#F63366
 540,Normal or Better Demands (acre-feet/year),Southern California,Mojave Water Agency,2045,159079,0,#F63366
 541,Normal or Better Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2045,30186,0,#F63366
 542,Normal or Better Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2045,305447,0,#F63366
@@ -580,7 +580,7 @@
 578,Single Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2045,188500,1,#2BB1BB
 579,Single Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2045,2250,1,#2BB1BB
 580,Single Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2045,47268,1,#2BB1BB
-581,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,4455000,1,#2BB1BB
+581,Single Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,1445500,1,#2BB1BB
 582,Single Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2045,159079,1,#2BB1BB
 583,Single Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2045,30186,1,#2BB1BB
 584,Single Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2045,305447,1,#2BB1BB
@@ -622,7 +622,7 @@
 620,Multiple Dry-Year Demands (acre-feet/year),Southern California,Coachella Valley Water District,2045,188500,2,#22466B
 621,Multiple Dry-Year Demands (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,2045,2250,2,#22466B
 622,Multiple Dry-Year Demands (acre-feet/year),Southern California,Desert Water Agency,2045,47268,2,#22466B
-623,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,4455000,2,#22466B
+623,Multiple Dry-Year Demands (acre-feet/year),Southern California,Metropolitan Water District of Southern California,2045,1545500,2,#22466B
 624,Multiple Dry-Year Demands (acre-feet/year),Southern California,Mojave Water Agency,2045,159079,2,#22466B
 625,Multiple Dry-Year Demands (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,2045,30186,2,#22466B
 626,Multiple Dry-Year Demands (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,2045,305447,2,#22466B

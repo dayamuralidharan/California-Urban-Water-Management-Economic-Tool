@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from streamlit.hashing import _CodeHasher
 import pandas as pd
 
+
 # Class with feature to show source code
 # This is a mega-hack!
 # And it's also not thread-safe. Don't use this if you have threaded
