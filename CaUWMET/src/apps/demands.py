@@ -14,13 +14,10 @@ from demandsHelper import load_data, summary_poster
 
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
-        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv")
         st.session_state.totalDemandScenarioRadioButtonIndex = 0
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
-        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
-        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
         st.session_state.totalDemandScenarioRadioButtonIndex = 2
 
 
@@ -52,8 +49,6 @@ def app():
     
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
-        # Initialize Session State with Default Values
-        st.session_state['demandsPlotInputdf'] = load_data("inputData/totalDemandsGraphData.csv")
 
         #Set font styling (currently used for green text)
         local_css("style.css")
@@ -103,17 +98,15 @@ def app():
         #---------------------------------------------------------------#       
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
-        demandsPlotInputData = st.session_state.demandsPlotInputdf
-        
 
-        # Reformat dataframe for plots
+        # Reformat demands dataframe for plots
         demandsPlotInputDataMelted = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
         demandsPlotInputDataMelted = pd.melt(demandsPlotInputDataMelted, id_vars=['Demands','Contractor','Study Region'])
-        demandsPlotInputDataMelted.rename(columns = {'variable': 'Year'}, inplace=True)
+        demandsPlotInputDataMelted.rename(columns = {'variable': 'Year', 'Demands': 'Type', 'value': 'Value'}, inplace=True)
         demandTypes = [
-            demandsPlotInputDataMelted['Demands'] == 'Normal or Better Demands (acre-feet/year)',
-            demandsPlotInputDataMelted['Demands'] == 'Single Dry-Year Demands (acre-feet/year)',
-            demandsPlotInputDataMelted['Demands'] == 'Multiple Dry-Year Demands (acre-feet/year)',
+            demandsPlotInputDataMelted['Type'] == 'Normal or Better Demands (acre-feet/year)',
+            demandsPlotInputDataMelted['Type'] == 'Single Dry-Year Demands (acre-feet/year)',
+            demandsPlotInputDataMelted['Type'] == 'Multiple Dry-Year Demands (acre-feet/year)',
          ]
         k_labelValues = [0, 1, 2]
         demandsPlotInputDataMelted['k_labels'] = np.select(demandTypes, k_labelValues)
@@ -121,7 +114,7 @@ def app():
         demandsPlotInputDataMelted['colors'] = np.select(demandTypes, colors)
         print(demandsPlotInputDataMelted)
 
-        sorted_contractors = demandsPlotInputData.groupby('Year')['Contractor'].sum()\
+        sorted_contractors = demandsPlotInputDataMelted.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
 
         col1, col2 = st.columns(2)
@@ -136,7 +129,7 @@ def app():
             select_demands = []
 
             #Filter df based on selection
-            contractor_df = demandsPlotInputData[demandsPlotInputData['Year'].isin(select_contractor)]
+            contractor_df = demandsPlotInputDataMelted[demandsPlotInputDataMelted['Year'].isin(select_contractor)]
 
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
