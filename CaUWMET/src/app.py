@@ -51,3 +51,12 @@ if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
 
 if 'totalDemandsdf' not in st.session_state:
     st.session_state['totalDemandsdf'] = fetch_data("inputData/totalDemandsData.csv")
+
+if 'useBySectordf' not in st.session_state:
+    st.session_state['useBySectordf'] = fetch_data("inputData/useBySectorData.csv")
+
+if 'intExtUseBySectordf' not in st.session_state:
+    st.session_state['intExtUseBySectordf'] = fetch_data("inputData/intAndExtUseBySectorData.csv")
+
+if 'baseLongTermConservationdf' not in st.session_state:
+    st.session_state['baseLongTermConservationdf'] = fetch_data("inputData/baseLongTermConservationData.csv")

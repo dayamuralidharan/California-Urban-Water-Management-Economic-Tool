@@ -12,5 +12,8 @@ def app():
         st.write(st.session_state.intExtUseBySectorChoice)
         st.write(st.session_state.baseLongTermConservationChoice)
         st.dataframe(st.session_state.totalDemandsdf)
+        st.dataframe(st.session_state.useBySectordf)
+        st.dataframe(st.session_state.intExtUseBySectordf)
+        st.dataframe(st.session_state.baseLongTermConservationdf)
 
 
