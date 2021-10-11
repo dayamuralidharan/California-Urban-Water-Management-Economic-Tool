@@ -7,15 +7,15 @@ def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
     return df
 
-def summary_poster(contractor_df, color_dict):
+def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisTitle):
     #MAKE SUBPLOTS
     fig = make_subplots(
         rows=1, cols=2, 
         column_widths=[0.35, 0.65],
         specs=[[{"type": "pie"}, {"type": "bar"}]],
             # [ {"type":"scatter", "colspan": 2}, None]],
-            subplot_titles=('Demands by Study Region', 
-                            'Demands by Year'), 
+            subplot_titles=(piePlotTitle, 
+                            barPlotTitle), 
             vertical_spacing=0.1, horizontal_spacing= 0.04)
 
     for i in fig['layout']['annotations']:
@@ -56,7 +56,7 @@ def summary_poster(contractor_df, color_dict):
                                 legendgroup = 'grp2',
                                 showlegend=True),
                                 row = 1, col = 2)
-    fig.update_xaxes(title_text = 'Demands (acre-feet/year)',linecolor = 'grey', mirror = True, 
+    fig.update_xaxes(title_text = barPlotXAxisTitle,linecolor = 'grey', mirror = True, 
                         title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1,
                         zeroline = False, 
                         row = 1, col = 2)

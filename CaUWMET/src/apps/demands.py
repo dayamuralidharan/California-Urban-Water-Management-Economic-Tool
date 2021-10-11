@@ -9,61 +9,44 @@ import traceback
 from load_css import local_css
 from contextlib import contextmanager
 import sys, os
-from appsUtilities import opt_echo, fetch_data
+from appsUtilities import opt_echo, download_link
 from demandsHelper import load_data, summary_poster
 
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
-        #st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv")
-        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv")
         st.session_state.totalDemandScenarioRadioButtonIndex = 0
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
-        #st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
-        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
-        #st.session_state.totalDemandsdf = load_data("inputData/totalDemandsData.csv") ################################ Data needs updating
-        st.session_state.demandsPlotInputdf = load_data("inputData/totalDemandsGraphData.csv") ################################ Data needs updating
         st.session_state.totalDemandScenarioRadioButtonIndex = 2
 
 
 def setUseBySectorInputData():
     if st.session_state.useBySectorChoice == 'UWMP reported values':
-        st.session_state.useBySectordf = load_data("inputData/useBySector.csv") 
         st.session_state.useBySectorPlotInputdf = load_data("inputData/useBySectorGraphData.csv")
         st.session_state.useBySectorRadioButtonIndex = 0
     else:
-        st.session_state.useBySectordf = load_data("inputData/useBySector.csv")  ################################ Data needs updating
         st.session_state.useBySectorPlotInputdf = load_data("inputData/useBySectorGraphData.csv") ################################ Data needs updating
         st.session_state.useBySectorRadioButtonIndex = 1
 
 def setIntExtUseBySectorInputData():
-    if st.session_state.useBySectorChoice == 'UWMP reported values':
-        st.session_state.useBySectordf = load_data("inputData/intAndExtUseBySector.csv") 
-        st.session_state.useBySectorPlotInputdf = load_data("inputData/intAndExtUseBySectorGraphData.csv")
+    if st.session_state.intExtuseBySectorChoice == 'UWMP reported values':
+        st.session_state.intExtuseBySectorPlotInputdf = load_data("inputData/intAndExtUseBySectorGraphData.csv")
         st.session_state.intExtuseBySectorRadioButtonIndex = 0
     else:
-        st.session_state.useBySectordf = load_data("inputData/intAndExtUseBySector.csv")  ################################ Data needs updating
-        st.session_state.useBySectorPlotInputdf = load_data("inputData/intAndExtUseBySectorGraphData.csv") ################################ Data needs updating
+        st.session_state.intExtuseBySectorPlotInputdf = load_data("inputData/intAndExtUseBySectorGraphData.csv") ################################ Data needs updating
         st.session_state.intExtUseBySectorRadioButtonIndex = 1
 
 def setBaseLongTermConservationInputData():
     if st.session_state.baseLongTermConservationChoice == 'UWMP reported values':
-        st.session_state.baseLongTermConservationdf = load_data("inputData/baseLongTermConservation.csv") 
-        st.session_state.baseLongTermConservationPlotInputdf = load_data("inputData/baseLongTermConservationGraphData.csv")
         st.session_state.baseLongTermConservationRadioButtonIndex = 0
     else:
-        st.session_state.baseLongTermConservationdf = load_data("inputData/baseLongTermConservation.csv")  ################################ Data needs updating
-        st.session_state.baseLongTermConservationPlotInputdf = load_data("inputData/baseLongTermConservationGraphData.csv") ################################ Data needs updating
         st.session_state.baseLongTermConservationRadioButtonIndex = 1
 
 def app():
     
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
-        # Initialize Session State with Default Values
-        #st.session_state['totalDemandsdf'] = load_data("inputData/totalDemandsData.csv")
-        st.session_state['demandsPlotInputdf'] = load_data("inputData/totalDemandsGraphData.csv")
 
         #Set font styling (currently used for green text)
         local_css("style.css")
@@ -72,11 +55,13 @@ def app():
         st.header("Steps to use this page")
 
 
-        st.write("""There are three variables that need to be set on this page in the steps below including total demands, total water use by sector, and
-        interior and exterior use by sector. More information on what each of these variables are is described in the Demand Assumptions Overview section below.
-        Select which datasets to use for each variable from the options below.
-        After making your selection for all three variables, 
-        review the input data by ensure this page's test pass and checking the data in the plots below.""")
+        st.write("""There are four categories of variables that need to be set on this page including Total Demands, Total Water Use by Sector,
+        Interior and Exterior use by sector, and Base Long-term Conservation. A description of each of variable is provided in the Demand Assumptions Overview section below.
+        """)
+        st. write("")
+        st.write("""Select which datasets to use for each variable from the options below.
+        After making your selection for all four variables, 
+        review the data in the plots below.""")
 
 
         # Radio buttons to select data source for each variable
@@ -91,8 +76,8 @@ def app():
         intExtUseBySectorDatasetChoice = st.radio("""3. Select the Input Interior and Exterior Use by Sector Dataset from the options below. 
         If the last option is selected, update the data in the Interior and Exterior Use by Sector table in the third collapsible section below.""", options = intExtUseBySectorDatasetOptions, index = st.session_state.intExtUseBySectorRadioButtonIndex, key = "intExtUseBySectorChoice", on_change = setIntExtUseBySectorInputData)
 
-        baseLongTermConservationDatasetOptions = ['UWMP reported values', 'Input Use By Sector in table below']
-        intExtUseBySectorDatasetChoice = st.radio("""3. Select the Base Long Term Conservation Dataset from the options below. 
+        baseLongTermConservationDatasetOptions = ['UWMP reported values', 'Input Conservation variables in table below']
+        intExtUseBySectorDatasetChoice = st.radio("""4. Select the Base Long-Term Conservation Dataset from the options below. 
         If the last option is selected, update the data in the Base Long Term Conservation table in the last collapsible section below.""", options = baseLongTermConservationDatasetOptions, index = st.session_state.baseLongTermConservationRadioButtonIndex, key = "baseLongTermConservationChoice", on_change = setBaseLongTermConservationInputData)
 
 
@@ -111,10 +96,22 @@ def app():
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER FOR TOTAL DEMANDS
         #---------------------------------------------------------------#       
-        
-
-        demandsPlotInputData = st.session_state.demandsPlotInputdf
         color_map_df = load_data("inputData/color_map_df_demands.csv")
+
+
+        # Reformat total demands dataframe for plots
+        demandsPlotInputData = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
+        demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Demands','Contractor','Study Region'])
+        demandsPlotInputData.rename(columns = {'variable': 'Year', 'Demands': 'Type', 'value': 'Value'}, inplace=True)
+        demandVars = [
+            demandsPlotInputData['Type'] == 'Normal or Better Demands (acre-feet/year)',
+            demandsPlotInputData['Type'] == 'Single Dry-Year Demands (acre-feet/year)',
+            demandsPlotInputData['Type'] == 'Multiple Dry-Year Demands (acre-feet/year)',
+         ]
+        k_labelValues = [0, 1, 2]
+        demandsPlotInputData['k_labels'] = np.select(demandVars, k_labelValues)
+        colors = ['#F63366', '#2BB1BB', '#22466B']
+        demandsPlotInputData['colors'] = np.select(demandVars, colors)
 
         sorted_contractors = demandsPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
@@ -123,7 +120,8 @@ def app():
         with col1:
             st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key='1', help="explanation for tooltip to be added"))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='1', help="Select future planning year to display in plots below."))
+            
         
         with col2:
             st.markdown("#### **Select Year Type:**")
@@ -135,14 +133,14 @@ def app():
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
-            select_demands.append(st.selectbox('', sorted_demands, key='2', help="explanation for tooltip to be added"))
+            select_demands.append(st.selectbox('', sorted_demands, key='2', help="Select hydrologic year type to display in plots below."))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
         
         col1, col2 = st.columns(2)
 
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Demands by Study Region", "Demands by Contractor", "Demands (acre-feet/year)")
         st.write(fig)
 
         #---------------------------------------------------------------#
@@ -186,7 +184,7 @@ def app():
         
         col1, col2 = st.columns(2)
         st.text("")
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Use by Study Region", "Use by Contractor", "Use (acre-feet/year)")
         st.write(fig)
 
         #---------------------------------------------------------------#
@@ -225,14 +223,27 @@ def app():
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
         col1, col2 = st.columns(2)
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Use by Study Region", "Use by Contractor", "Use (acre-feet/year)")
         st.write(fig)
 
         #---------------------------------------------------------------#
         # CREATE SUMMARY POSTER FOR BASE LONG-TERM CONSERVATION
         #---------------------------------------------------------------#
 
-        baseLongTermConservationPlotInputData = load_data("inputData/baseLongTermConservationGraphData.csv")
+        baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf.drop(labels = 'Notes', axis = 1)
+        baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Conservation Variable','Contractor','Study Region'])
+        baseLongTermConservationPlotInputData.rename(columns = {'Conservation Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
+
+        conservationVars = [
+            baseLongTermConservationPlotInputData['Type'] == 'Base Long-term Conservation (acre-feet)',
+            baseLongTermConservationPlotInputData['Type'] == 'Demand hardening adjustment factor (% of total long-term conservation including base and additional from Water Management Options)',
+        ]
+
+        k_labelValuesConservation = [0, 1]
+        colorsConservation = ['#F63366', '#2BB1BB']
+
+        baseLongTermConservationPlotInputData['k_labels'] = np.select(conservationVars, k_labelValuesConservation)
+        baseLongTermConservationPlotInputData['colors'] = np.select(conservationVars, colorsConservation)
     
         sorted_contractors = baseLongTermConservationPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values().index
@@ -248,10 +259,10 @@ def app():
         with col1:
             st.markdown("#### **Select Future Planning Year:**")
             select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key='7', help="explanation for tooltip to be added"))  
+            select_contractor.append(st.selectbox('', sorted_contractors, key='7', help="Select year to display in plots."))  
         
         with col2:
-            st.markdown("#### **Select Sector:**")
+            st.markdown("#### **Select Conservation Variable:**")
             select_demands = []
 
             #Filter df based on selection
@@ -260,11 +271,11 @@ def app():
             sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
-            select_demands.append(st.selectbox('', sorted_demands, key='8', help="explanation for tooltip to be added"))
+            select_demands.append(st.selectbox('', sorted_demands, key='8', help="Select variable to display in plots."))
             demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
 
         col1, col2 = st.columns(2)
-        fig = summary_poster(demands_df, color_dict)
+        fig = summary_poster(demands_df, color_dict, "Conservation by Study Region", "Conservation by Contractor", "Conservation (acre-feet/year)")
         st.write(fig)
 
 
@@ -273,7 +284,7 @@ def app():
         #---------------------------------------------------------------#
 
         ########################### TABLE 1 - TOTAL DEMAND SCENARIOS
-        with st.expander("Total Demand Scenarios (default values as reported by 2020 UWMPs)"):
+        with st.expander("Total Demand Scenarios (acre-feet per year)"):
 
             #Infer basic colDefs from dataframe types
             gb = GridOptionsBuilder.from_dataframe(st.session_state.totalDemandsdf)
@@ -315,20 +326,7 @@ def app():
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
-            #downloading the dataframe data to a .csv file
-            def download_link(object_to_download, download_filename, download_link_text):
-                # Generates a link to download the given object_to_download.
-
-                # object_to_download (str, pd.DataFrame):  The object to be downloaded.
-                # download_filename (str): filename and extension of file. e.g. mydata.csv, some_txt_output.txt
-                # download_link_text (str): Text to display for download link.
-
-                if isinstance(object_to_download,pd.DataFrame):
-                    object_to_download = object_to_download.to_csv(index=False)
-                # some strings <-> bytes conversions necessary here
-                b64 = base64.b64encode(object_to_download.encode()).decode()
-                return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
-                
+            #downloading the dataframe data to a .csv file                
             if st.button('Download Dataframe to CSV format', key = "Total Demand Scenarios"):
                 tmp_download_link = download_link(st.session_state.totalDemandsdf, 'Total_Demand_Scenarios.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
@@ -362,17 +360,10 @@ def app():
 
 
         ##########################  TABLE 2 USE BY SECTOR
-        with st.expander("Demand Scenarios By Sector"):
-            
-            @st.cache(suppress_st_warning=True)
-            def fetch_data():
-                demands = pd.read_csv("inputData/useBySector.csv")
-                return pd.DataFrame(demands)   
-
-            useBySectorEditableTable = fetch_data()
+        with st.expander("Water Use By Sector (acre-feet per year)"):
 
             #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(useBySectorEditableTable)
+            gb = GridOptionsBuilder.from_dataframe(st.session_state.useBySectordf)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
@@ -384,12 +375,20 @@ def app():
             gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
             gb.configure_column("Notes", type=["textColumn"])
 
+            selection_mode = 'multiple'
+            gb.configure_selection(selection_mode, use_checkbox=False, rowMultiSelectWithClick=False, suppressRowDeselection=False)
+
             gb.configure_grid_options(domLayout='normal')
             gridOptions = gb.build()
 
             #Display the grid
+            return_mode = 'FILTERED'
+            return_mode_value = DataReturnMode.__members__[return_mode]
+            update_mode = 'MODEL_CHANGED'
+            update_mode_value = GridUpdateMode.__members__[update_mode]
+
             grid_response = AgGrid(
-                useBySectorEditableTable, 
+                st.session_state.useBySectordf, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -400,17 +399,17 @@ def app():
                 # enable_enterprise_modules=enable_enterprise_modules,
                 )
 
-            useBySectorEditableTable = grid_response['data']
+            st.session_state.useBySectordf = grid_response['data']
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
             if st.button('Download Dataframe to CSV format', key = "Use By Sector"):
-                tmp_download_link = download_link(useBySectorEditableTable, 'Use_By_Sector.csv', 'Click here to download your data!')
+                tmp_download_link = download_link(st.session_state.useBySectordf, 'Use_By_Sector.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
                 #displays the chart
-                chart_data = useBySectorEditableTable.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                chart_data = st.session_state.useBySectordf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
@@ -421,7 +420,7 @@ def app():
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
                     x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
-                    y=alt.Y("sum(Water Demand(acre-feet/year)):Q", stack=False),
+                    y=alt.Y("sum(Water Use by Sector (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 ).configure_axis(
                     labelFontSize=13,
@@ -439,15 +438,8 @@ def app():
         ########################### TABLE 3 INTERIOR AND EXTERIOR USE BY SECTOR
         with st.expander("Interior and Exterior Use by Sector"):
 
-            @st.cache(suppress_st_warning=True)
-            def fetch_data():
-                demands = pd.read_csv("inputData/intAndExtUseBySector.csv")
-                return pd.DataFrame(demands)    
-
-            intExtUsebySectorEditableTabledf = fetch_data()
-
-            #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(intExtUsebySectorEditableTabledf)
+            #Infers basic colDefs from dataframe types
+            gb = GridOptionsBuilder.from_dataframe(st.session_state.intExtUseBySectordf)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
@@ -464,7 +456,7 @@ def app():
 
             #Display the grid
             grid_response = AgGrid(
-                intExtUsebySectorEditableTabledf, 
+                st.session_state.intExtUseBySectordf, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -475,17 +467,17 @@ def app():
                 # enable_enterprise_modules=enable_enterprise_modules,
                 )
 
-            intExtUsebySectorEditableTabledf = grid_response['data']
+            st.session_state.intExtUseBySectordf = grid_response['data']
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
             if st.button('Download Dataframe to CSV format', key = "Interior and Exterior Use By Sector"):
-                tmp_download_link = download_link(intExtUsebySectorEditableTabledf, 'Interior_Exterior_Use_By_Sector.csv', 'Click here to download your data!')
+                tmp_download_link = download_link(st.session_state.intExtUseBySectordf, 'Interior_Exterior_Use_By_Sector.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
                 #displays the chart
-                chart_data = intExtUsebySectorEditableTabledf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                chart_data = st.session_state.intExtUseBySectordf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
@@ -496,7 +488,7 @@ def app():
                 #st.dataframe(chart_data)
                 chart = alt.Chart(data=chart_data).mark_bar().encode(
                     x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
-                    y=alt.Y("sum(Water Demand (acre-feet/year)):Q", stack=False),
+                    y=alt.Y("sum(Interior and Exterior Use (acre-feet/year)):Q", stack=False),
                     color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
                 ).configure_axis(
                     labelFontSize=13,
@@ -512,15 +504,8 @@ def app():
         ########################### TABLE 4 BASE LONG-TERM CONSERVATION
         with st.expander("Base Long-Term Conservation"):
 
-            @st.cache(suppress_st_warning=True)
-            def fetch_data():
-                demands = pd.read_csv("inputData/baseLongTermConservation.csv")
-                return pd.DataFrame(demands)    
-
-            baseLongTermConservationEditableTabledf = fetch_data()
-
             #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(baseLongTermConservationEditableTabledf)
+            gb = GridOptionsBuilder.from_dataframe(st.session_state.baseLongTermConservationdf)
 
             #customize gridOptions
             gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
@@ -537,7 +522,7 @@ def app():
 
             #Display the grid
             grid_response = AgGrid(
-                baseLongTermConservationEditableTabledf, 
+                st.session_state.baseLongTermConservationdf, 
                 gridOptions=gridOptions,
                 # height=grid_height, 
                 width='100%',
@@ -548,17 +533,17 @@ def app():
                 # enable_enterprise_modules=enable_enterprise_modules,
                 )
 
-            baseLongTermConservationEditableTabledf = grid_response['data']
+            st.session_state.baseLongTermConservationdf = grid_response['data']
             selected = grid_response['selected_rows']
             selected_df = pd.DataFrame(selected)
 
             if st.button('Download Dataframe to CSV format', key = "Base Long-Term Conservation"):
-                tmp_download_link = download_link(baseLongTermConservationEditableTabledf, 'Base_Long_Term_Conservation.csv', 'Click here to download your data!')
+                tmp_download_link = download_link(st.session_state.baseLongTermConservationdf, 'Base_Long_Term_Conservation.csv', 'Click here to download your data!')
                 st.markdown(tmp_download_link, unsafe_allow_html=True)
 
             with st.spinner("Displaying results..."):
                 #displays the chart
-                chart_data = baseLongTermConservationEditableTabledf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+                chart_data = st.session_state.baseLongTermConservationdf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
 
                 if not selected_df.empty:
                     selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
