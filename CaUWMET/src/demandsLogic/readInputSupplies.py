@@ -9,19 +9,21 @@ from totalDemandsLogic import (
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
-totalDemandsInput = "../inputData/totalDemands.csv"
+recyclingSuppliesInput = "../inputData/recyclingSupplies.csv"
+potableReuseSuppliesInput = "../inputData/potableReuseSupplies.csv"
+desalinationSuppliesInput = "../inputData/desalinationSupplies.csv"
+contractualTransfersSuppliesInput = "../inputData/potableReuselongTermContractualTransfersAndExchangesSupplies.csv"
+localSurfaceWaterSuppliesInput = "../inputData/localSurfaceWaterSupplies.csv"
+otherImportedSuppliesInput = "../inputData/otherSupplies.csv"
+localGroundwaterSuppliesInput = "../inputData/groundwaterPumpingCostsSupplies.csv"
+
 hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
-baseConservationInput = "../inputData/baseLongTermConservation.csv"
 hydroRegionInput = "../inputData/contractorInformation.csv"
-inputDemandsFile = os.path.join(dirname, totalDemandsInput)
 inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
-inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
 inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
 
 # Read input files into pandas dataframes
-demandsData = pd.read_csv(inputDemandsFile)
 hydroYearType = pd.read_csv(inputHydroYearTypeFile)
-baseConservation = pd.read_csv(inputBaseConservationFile)
 hydroRegion = pd.read_csv(inputHydroRegionFile)
 hydroRegionDf = hydroRegion[['Contractor', 'Hydro. Region']]   # df with contractor - hydro region mapping
 
@@ -45,8 +47,7 @@ reclassYearType = pd.DataFrame({
 )
 
 contractors = list(hydroRegionDf['Contractor'].values)
-totalDemands = {'Year': historicHydrologyYears}
-demandsAfterBaseConservation = {'Year': historicHydrologyYears}
+totalLocalSupplies = {'Year': historicHydrologyYears}
 contractor = contractors[-1]
 for contractor in contractors:
     contractorRegion = returnHydroRegion(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')

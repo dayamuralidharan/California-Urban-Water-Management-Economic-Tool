@@ -44,12 +44,12 @@ def reclassifyYearType(yearType):
             rType.append('NB')
     return rType
 
-class demandsAfterBaseConservation():
+class totalLocalSupplies():
     def __init__(self, data):
         """
         :param data: pandas dataframe including columns ['contractor', 'YearType', '']
         """
-        self.df = data
+        self.df = data    
 
-    def calcDemandsAfterBaseConservation(self):
+    def calctotalLocalSupplies(self):
         pass

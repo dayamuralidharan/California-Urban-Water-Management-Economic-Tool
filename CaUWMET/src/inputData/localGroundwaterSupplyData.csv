@@ -1,3 +1,132 @@
+<<<<<<< HEAD
+﻿Supply,Study Region,Contractor,2025,2030,2035,2040,2045,Notes,Supply Type
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),San Francisco Bay Area,Alameda County Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Santa Clarita Water Division,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Coachella Valley Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Desert Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Metropolitan Water District of Southern California,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Mojave Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,7,7,7,7,7,,Groundwater
+Normal or Better Year (acre-feet/year),Southern California,Ventura County Watershed Protection District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),San Francisco Bay Area,Alameda County Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Santa Clarita Water Division,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Coachella Valley Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Desert Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Metropolitan Water District of Southern California,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Mojave Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,7,7,7,7,7,,Groundwater
+Single Dry-Year (acre-feet/year),Southern California,Ventura County Watershed Protection District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of Roseville,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,City of West Sacramento,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Yuba City,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,El Dorado Irrigation District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Napa County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Placer County Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Sacramento County Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,San Juan Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Shasta Contractors,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - Sacramento Valley,Solano County Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Avenal,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Coalinga,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Fresno,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Huron,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Lindsay,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Orange Cove,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,City of Tracy,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,Kern County Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,Other Friant-Kern M&I Contractors,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Valley - San Joaquin Valley,Stockton-East Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),San Francisco Bay Area,"Alameda County Flood Control and Water Conservation District, Zone 7",7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),San Francisco Bay Area,Alameda County Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),San Francisco Bay Area,Contra Costa Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),San Francisco Bay Area,East Bay Municipal Utilities District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),San Francisco Bay Area,"San Benito County Water District, Zone 6",7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),San Francisco Bay Area,Santa Clara Valley Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Coast,San Luis Obispo County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Central Coast,Santa Barbara County Flood Control & Water Conservation District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Antelope Valley-East Kern Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Santa Clarita Water Division,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Coachella Valley Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Crestline-Lake Arrowhead Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Desert Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Metropolitan Water District of Southern California,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Mojave Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Palmdale Water District & Littlerock Creek Irrigation District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,San Bernardino Valley Municipal Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,San Gabriel Valley Municipal Water District,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,San Gorgonio Pass Water Agency,7,7,7,7,7,,Groundwater
+Multiple Dry-Year (acre-feet/year),Southern California,Ventura County Watershed Protection District,7,7,7,7,7,,Groundwater
+=======
 ﻿Supply,Study Region,Contractor,2025,2030,2035,2040,2045,Notes
 Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,City of Folsom,1,1,1,1,1,
 Normal or Better Year (acre-feet/year),Central Valley - Sacramento Valley,City of Redding,1,1,1,1,1,
@@ -209,3 +338,4 @@ Groundwater pumping costs for Multi-Dry Years ($/acre-foot),Southern California,
 Groundwater pumping costs for Multi-Dry Years ($/acre-foot),Southern California,San Gabriel Valley Municipal Water District,1,1,1,1,1,
 Groundwater pumping costs for Multi-Dry Years ($/acre-foot),Southern California,San Gorgonio Pass Water Agency,1,1,1,1,1,
 Groundwater pumping costs for Multi-Dry Years ($/acre-foot),Southern California,Ventura County Watershed Protection District,1,1,1,1,1,
+>>>>>>> 8074bda5f8dd68eed64e4b59c48f0ec4d914c28a
