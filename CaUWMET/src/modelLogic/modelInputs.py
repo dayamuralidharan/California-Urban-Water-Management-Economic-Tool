@@ -7,9 +7,11 @@ from modelUtilities import (
     returnHydroRegion, reclassifyYearType,
 )
 
-#DEMANDS
-# Input directories and filenames
+
+#### Input directories and filenames
 dirname = os.path.dirname(__file__)
+
+### DEMANDS
 totalDemandsInput = "../inputData/totalDemandsData.csv"
 hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
 hydroRegionInput = "../inputData/contractorInformation.csv"
@@ -18,6 +20,28 @@ inputDemandsFile = os.path.join(dirname, totalDemandsInput)
 inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
 inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
 inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
+
+### SUPPLIES
+recyclingSupplyDataInput = "../inputData/recyclingSupplyData.csv"
+potableReuseSupplyDataInput = "../inputData/potableReuseSupplyData.csv"
+desalinationSupplyDataInput = "../inputData/desalinationSupplyData.csv"
+contractualTransfersSupplyDataInput = "../inputData/contractualTransfersSupplyData.csv"
+localSurfaceSupplyDataInput = "../inputData/localSurfaceSupplyData.csv"
+otherImportedSupplyDataInput = "../inputData/otherImportedSupplyData.csv"
+localGroundwaterSupplyDataInput = "../inputData/localGroundwaterSupplyData.csv"
+swpCVPSupplyDataInput = "../inputData/swpCVPSupplyData.csv"
+supplyPriorityInput = '../inputData/supplyPriorityData.csv'
+inputRecyclingSupplyDataFile = os.path.join(dirname, recyclingSupplyDataInput)
+inputPotableReuseSupplyDataFile = os.path.join(dirname, potableReuseSupplyDataInput)
+inputDesalinationSupplyDataFile = os.path.join(dirname, desalinationSupplyDataInput)
+inputContractualTransfersSupplyDataFile = os.path.join(dirname, contractualTransfersSupplyDataInput)
+inputLocalSurfaceSupplyDataFile = os.path.join(dirname, localSurfaceSupplyDataInput)
+inputOtherImportedSupplyDataFile = os.path.join(dirname, otherImportedSupplyDataInput)
+inputLocalGroundwaterSupplyDataFile = os.path.join(dirname, localGroundwaterSupplyDataInput)
+inputSWPCVPSupplyDataFile = os.path.join(dirname, swpCVPSupplyDataInput)
+inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
+inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
+inputSupplyPriorityFile = os.path.join(dirname, supplyPriorityInput)
 
 # Read input files into pandas dataframes
 demandsData = pd.read_csv(inputDemandsFile)
@@ -79,31 +103,7 @@ calculatedTotalDemandsDf.to_csv('calculatedTotalDemands.csv')
 demandsAfterBaseConservationDf = pd.DataFrame(demandsAfterBaseConservation)
 calculatedTotalDemandsDf.to_csv('demandsAfterBaseConservation.csv')
 
-#SUPPLIES
-# Input directories and filenames
-dirname = os.path.dirname(__file__)
-recyclingSupplyDataInput = "../inputData/recyclingSupplyData.csv"
-potableReuseSupplyDataInput = "../inputData/potableReuseSupplyData.csv"
-desalinationSupplyDataInput = "../inputData/desalinationSupplyData.csv"
-contractualTransfersSupplyDataInput = "../inputData/contractualTransfersSupplyData.csv"
-localSurfaceSupplyDataInput = "../inputData/localSurfaceSupplyData.csv"
-otherImportedSupplyDataInput = "../inputData/otherImportedSupplyData.csv"
-localGroundwaterSupplyDataInput = "../inputData/localGroundwaterSupplyData.csv"
-swpCVPSupplyDataInput = "../inputData/swpCVPSupplyData.csv"
-hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
-hydroRegionInput = "../inputData/contractorInformation.csv"
-supplyPriorityInput = '../inputData/supplyPriorityData.csv'
-inputRecyclingSupplyDataFile = os.path.join(dirname, recyclingSupplyDataInput)
-inputPotableReuseSupplyDataFile = os.path.join(dirname, potableReuseSupplyDataInput)
-inputDesalinationSupplyDataFile = os.path.join(dirname, desalinationSupplyDataInput)
-inputContractualTransfersSupplyDataFile = os.path.join(dirname, contractualTransfersSupplyDataInput)
-inputLocalSurfaceSupplyDataFile = os.path.join(dirname, localSurfaceSupplyDataInput)
-inputOtherImportedSupplyDataFile = os.path.join(dirname, otherImportedSupplyDataInput)
-inputLocalGroundwaterSupplyDataFile = os.path.join(dirname, localGroundwaterSupplyDataInput)
-inputSWPCVPSupplyDataFile = os.path.join(dirname, swpCVPSupplyDataInput)
-inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
-inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
-inputSupplyPriorityFile = os.path.join(dirname, supplyPriorityInput)
+
 
 # Read input files into pandas dataframes
 recyclingSupplyData = pd.read_csv(inputRecyclingSupplyDataFile)
