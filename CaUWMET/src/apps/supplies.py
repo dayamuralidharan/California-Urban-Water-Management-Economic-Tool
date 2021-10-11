@@ -30,7 +30,7 @@ def app():
         st.markdown("### **Select Future Planning Year:**")
         select_contractor = []
 
-        select_contractor.append(st.selectbox('', sorted_contractors, key=1))  
+        select_contractor.append(st.selectbox('', sorted_contractors, key='1'))  
 
         #Filter df based on selection
         contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
@@ -61,7 +61,7 @@ def app():
         st.markdown("### **Select Future Planning Year:**")
         select_contractor = []
 
-        select_contractor.append(st.selectbox('', sorted_contractors, key=2))  
+        select_contractor.append(st.selectbox('', sorted_contractors, key='2'))  
 
         #Filter df based on selection
         contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
@@ -92,7 +92,7 @@ def app():
         st.markdown("### **Select Future Planning Year:**")
         select_contractor = []
 
-        select_contractor.append(st.selectbox('', sorted_contractors, key=3))  
+        select_contractor.append(st.selectbox('', sorted_contractors, key='3'))  
 
         #Filter df based on selection
         contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
@@ -122,7 +122,7 @@ def app():
         st.markdown("### **Select Future Planning Year:**")
         select_contractor = []
 
-        select_contractor.append(st.selectbox('', sorted_contractors, key=4))  
+        select_contractor.append(st.selectbox('', sorted_contractors, key='4'))  
 
         #Filter df based on selection
         contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
@@ -153,7 +153,7 @@ def app():
         st.markdown("### **Select Future Planning Year:**")
         select_contractor = []
 
-        select_contractor.append(st.selectbox('', sorted_contractors, key=5))  
+        select_contractor.append(st.selectbox('', sorted_contractors, key='5'))  
 
         #Filter df based on selection
         contractor_df = stats_df[stats_df['Year'].isin(select_contractor)]
