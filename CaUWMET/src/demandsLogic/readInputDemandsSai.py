@@ -12,22 +12,23 @@ dirname = os.path.dirname(__file__)
 totalDemandsInput = "../inputData/totalDemands.csv"
 hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
 baseConservationInput = "../inputData/baseLongTermConservation.csv"
-hydroRegionInput = "../inputData/contractorInformation.csv"
 inputDemandsFile = os.path.join(dirname, totalDemandsInput)
 inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
 inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
-inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
+tempHydroRegionInput = "../inputData/CaUWMETPythonCodeDev.xlsx"
+tempHydroRegionFile = os.path.join(dirname, tempHydroRegionInput)
+tempHydroRegionSheet = "contractorInformation"
 
 # Read input files into pandas dataframes
 demandsData = pd.read_csv(inputDemandsFile)
 hydroYearType = pd.read_csv(inputHydroYearTypeFile)
 baseConservation = pd.read_csv(inputBaseConservationFile)
-hydroRegion = pd.read_csv(inputHydroRegionFile)
-hydroRegionDf = hydroRegion[['Contractor', 'Hydro. Region']]   # df with contractor - hydro region mapping
+hydroRegion = pd.read_excel(tempHydroRegionFile, sheet_name=tempHydroRegionSheet, index_col=0)
+hydroRegionDf = hydroRegion[['Contractor', 'Hydrologic Region 2']]   # df with contractor - hydro region mapping
 
 # Test for returnHydroRegion:
 assert(
-    returnHydroRegion(hydroRegionDf, 'City of Lindsay', colA='Contractor', colB='Hydro. Region') == 'San Joaquin'
+    returnHydroRegion(hydroRegionDf, 'City of Lindsay', colA='Contractor', colB='Hydrologic Region 2') == 'San Joaquin'
 )
 
 ## Coding the logic
@@ -49,7 +50,7 @@ totalDemands = {'Year': historicHydrologyYears}
 demandsAfterBaseConservation = {'Year': historicHydrologyYears}
 contractor = contractors[-1]
 for contractor in contractors:
-    contractorRegion = returnHydroRegion(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
+    contractorRegion = returnHydroRegion(hydroRegionDf, contractor, colA='Contractor', colB='Hydrologic Region 2')
     if contractorRegion == 'San Joaquin':
         conYearType = reclassSjYearType
     else:

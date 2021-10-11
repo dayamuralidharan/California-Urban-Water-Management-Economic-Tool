@@ -12,7 +12,8 @@ def lookupCorrespondingValue(df, item, colA, colB):
     """
     return df[df[colA] == item][colB].values[0]
 
-def returnHydroRegion(df, contractor, colA='Contractor', colB='Hydro. Region'):
+
+def returnHydroRegion(df, contractor, colA='Contractor', colB='Hydrologic Region 2'):
     return lookupCorrespondingValue(df, contractor, colA, colB)
 
 def reclassifyYearType(yearType):
