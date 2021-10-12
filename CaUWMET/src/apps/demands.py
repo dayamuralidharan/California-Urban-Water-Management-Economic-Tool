@@ -1,25 +1,21 @@
-import base64
 import streamlit as st
 import pandas as pd 
 import numpy as np
 import altair as alt
-from itertools import cycle
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
-import traceback
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 from load_css import local_css
-from contextlib import contextmanager
-import sys, os
-from appsUtilities import opt_echo, download_link
+from appsUtilities import opt_echo, download_link, fetch_data
 from demandsHelper import load_data, summary_poster
+from editableTable import editableTable
 
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
         st.session_state.totalDemandScenarioRadioButtonIndex = 0
+        st.session_state.totalDemandsdf = fetch_data("inputData/totalDemandsData.csv")
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
         st.session_state.totalDemandScenarioRadioButtonIndex = 2
-
 
 def setUseBySectorInputData():
     if st.session_state.useBySectorChoice == 'UWMP reported values':
@@ -42,6 +38,10 @@ def setBaseLongTermConservationInputData():
         st.session_state.baseLongTermConservationRadioButtonIndex = 0
     else:
         st.session_state.baseLongTermConservationRadioButtonIndex = 1
+
+
+def setDataToUserInput(gridResponseData): 
+    st.session_state.totalDemandsdf = gridResponseData
 
 def app():
     
@@ -284,79 +284,8 @@ def app():
         #---------------------------------------------------------------#
 
         ########################### TABLE 1 - TOTAL DEMAND SCENARIOS
-        with st.expander("Total Demand Scenarios (acre-feet per year)"):
-
-            #Infer basic colDefs from dataframe types
-            gb = GridOptionsBuilder.from_dataframe(st.session_state.totalDemandsdf)
-
-            #customize gridOptions
-            gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True)
-
-            gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-            gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-            gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-            gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-            gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-            gb.configure_column("Notes", type=["textColumn"])
-
-            selection_mode = 'multiple'
-            gb.configure_selection(selection_mode, use_checkbox=False, rowMultiSelectWithClick=False, suppressRowDeselection=False)
-
-            gb.configure_grid_options(domLayout='normal')
-            gridOptions = gb.build()
-
-            #Display the grid
-            return_mode = 'FILTERED'
-            return_mode_value = DataReturnMode.__members__[return_mode]
-            update_mode = 'MODEL_CHANGED'
-            update_mode_value = GridUpdateMode.__members__[update_mode]
-
-            grid_response = AgGrid(
-                st.session_state.totalDemandsdf, 
-                gridOptions=gridOptions,
-                # height=grid_height, 
-                width='100%',
-                data_return_mode=return_mode_value, 
-                update_mode=update_mode_value,
-                # fit_columns_on_grid_load=fit_columns_on_grid_load,
-                allow_unsafe_jscode=True, #Set it to True to allow jsfunction to be injected
-                )
-            
-            st.session_state.totalDemandsdf = grid_response['data']
-            selected = grid_response['selected_rows']
-            selected_df = pd.DataFrame(selected)
-
-            #downloading the dataframe data to a .csv file                
-            if st.button('Download Dataframe to CSV format', key = "Total Demand Scenarios"):
-                tmp_download_link = download_link(st.session_state.totalDemandsdf, 'Total_Demand_Scenarios.csv', 'Click here to download your data!')
-                st.markdown(tmp_download_link, unsafe_allow_html=True)
-
-            with st.spinner("Displaying results..."):
-                #displays the bar chart
-                chart_data = st.session_state.totalDemandsdf.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
-
-                if not selected_df.empty:
-                    selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
-                    chart_data = pd.concat([chart_data, selected_data])
-
-
-                chart_data = pd.melt(chart_data, id_vars=['Contractor','source'], var_name="Year", value_name="Water Demand (acre-feet/year)")
-
-                #st.dataframe(chart_data)
-                chart = alt.Chart(data=chart_data).mark_bar().encode(
-                    x=alt.X("Year:O", axis=alt.Axis(labelAngle=0)),
-                    y=alt.Y("sum(Water Demand (acre-feet/year)):Q", stack=False),
-                    color=alt.Color('source:N', scale=alt.Scale(domain=['total','selection'])),
-                ).configure_axis(
-                    labelFontSize=13,
-                    titleFontSize=13
-                )
-
-            st.markdown("""
-            Users can select multiple agencies from the table above to highlight in the chart below:
-            """)
-
-            st.altair_chart(chart, use_container_width=True)
+        if st.session_state.totalDemandScenarioRadioButtonIndex == 2:
+            editableTable(st.session_state.totalDemandsdf, setDataToUserInput, "Total Demand Scenarios (acre-feet per year)", "Water Demand (acre-feet/year)")
 
 
         ##########################  TABLE 2 USE BY SECTOR
@@ -432,7 +361,6 @@ def app():
             """)
 
             st.altair_chart(chart, use_container_width=True)
-
 
 
         ########################### TABLE 3 INTERIOR AND EXTERIOR USE BY SECTOR
