@@ -83,14 +83,14 @@ reclassYearType = pd.DataFrame({
 
 # Initialize variables with blank dictionaries
 totalDemands = {'Year': historicHydrologyYears}
-demandsAfterBaseConservation = {'Year': historicHydrologyYears}
+
 
 #
 
 contractorsList = list(hydroRegionDf['Contractor'].values) ####TODO: contractors will need to be dynamically read in from streamlit instead of read in from hydro region dataframe
 
 # Set up contractor total demand time series based on hydrologic year type.
-#contractor = contractorsList[-1]
+
 for contractor in contractorsList:
     contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
     if contractorRegion == 'San Joaquin':
@@ -100,7 +100,7 @@ for contractor in contractorsList:
     totalDemandsInput = demandsData[demandsData['Contractor'] == contractor]
     totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', futureYear]]
     contractorDemands = []
-    demandsAfterBaseConservation = []
+    
     mapYearType = {
         'NB': 'Normal or Better Demands (acre-feet/year)',
         'SD': 'Single Dry-Year Demands (acre-feet/year)',
@@ -110,15 +110,9 @@ for contractor in contractorsList:
         contractorDemands.append(
             totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[conYearType[i]]][futureYear].values[0]
         )
-        baseLongTermConservation = baseConservation[baseConservation['Contractor'] == contractor][futureYear].values[0]
-        #demandsAfterBaseConservation.append(contractorDemands[-1] - baseLongTermConservation)
-
     totalDemands[contractor] = contractorDemands
-    #demandsAfterBaseConservation[contractor] = demandsAfterBaseConservation
 
 totalDemands = pd.DataFrame(totalDemands)
-
-#demandsAfterBaseConservation = pd.DataFrame(demandsAfterBaseConservation)
 
 
 
