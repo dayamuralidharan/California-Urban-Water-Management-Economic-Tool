@@ -13,7 +13,7 @@ dirname = os.path.dirname(__file__)
 totalDemandsInput = "../inputData/totalDemandsData.csv"
 hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
 hydroRegionInput = "../inputData/contractorInformation.csv"
-baseConservationInput = "../inputData/baseLongTermConservation.csv"
+baseConservationInput = "../inputData/baseLongTermConservationData.csv"
 inputDemandsFile = os.path.join(dirname, totalDemandsInput)
 inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
 inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
@@ -56,7 +56,7 @@ for contractor in contractors:
     else:
         conYearType = reclassSacYearType
     contractorDf = demandsData[demandsData['Contractor'] == contractor]
-    contractorDf = contractorDf[['Demands', 'Contractor', futureYear]]
+    contractorDf = contractorDf[['Variable', 'Contractor', futureYear]]
     contractorDemands = []
     contractorDemandsAfterBaseConservation = []
     mapYearType = {
@@ -66,7 +66,7 @@ for contractor in contractors:
     }
     for i in range(len(historicHydrologyYears)):
         contractorDemands.append(
-            contractorDf[contractorDf['Demands'] == mapYearType[conYearType[i]]][futureYear].values[0]
+            contractorDf[contractorDf['Variable'] == mapYearType[conYearType[i]]][futureYear].values[0]
         )
         baseCons = baseConservation[baseConservation['Contractor'] == contractor][futureYear].values[0]
         contractorDemandsAfterBaseConservation.append(contractorDemands[-1] - baseCons)
