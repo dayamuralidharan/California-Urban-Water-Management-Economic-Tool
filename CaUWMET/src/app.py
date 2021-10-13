@@ -36,9 +36,10 @@ selection = st.sidebar.radio("Go to",list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
 
+#TODO include this on side bar for every page.
 st.sidebar.write("")
-futurePlanningYears = [2025, 2030, 2035, 2040, 2045]
-futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYears, key = 'futurePlanningYear')
+futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
+futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYearsList, key = 'futurePlanningYear')
 
 st.sidebar.write("")
 st.sidebar.button('Run Model')

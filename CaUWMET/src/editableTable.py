@@ -3,23 +3,25 @@ import pandas as pd
 import altair as alt
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
-def editableTable(dataframe, setDataframeFunction, dataFrameTitle, dataColumnTitle):
+def editableTable(dataframeInput, futurePlanningYearInput, setDataframeFunction, dataFrameTitle, dataColumnTitle):
     with st.expander(dataFrameTitle):
 
         #Infer basic colDefs from dataframe types
+        dataframe = dataframeInput[['Variable','Study Region', 'Contractor', str(futurePlanningYearInput), 'Notes']]
         gb = GridOptionsBuilder.from_dataframe(dataframe)
 
         #customize gridOptions
         gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True, maintainColumnOrder = True)
         
+        #TODO make contractor column non-editable, this doesn't seem to be working.
         gb.configure_column("Contractor", type=["nonEditableColumn"])
 
-        gb.configure_column("2025", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        gb.configure_column("Notes", type=["textColumn"])
+        gb.configure_column(str(futurePlanningYearInput), type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+        #gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+        #gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+        #gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+        #gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
+        #gb.configure_column("Notes", type=["textColumn"])
 
         selection_mode = 'multiple'
         gb.configure_selection(selection_mode, use_checkbox=False, rowMultiSelectWithClick=False, suppressRowDeselection=False)
@@ -55,7 +57,7 @@ def editableTable(dataframe, setDataframeFunction, dataFrameTitle, dataColumnTit
 
         with st.spinner("Displaying results..."):
             #displays the bar chart
-            chart_data = dataframe.loc[:,['Contractor','2025','2030','2035', '2040', '2045']].assign(source='total')
+            chart_data = dataframe.loc[:,['Contractor',str(futurePlanningYearInput)]].assign(source='total')
 
             if not selected_df.empty:
                 selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')

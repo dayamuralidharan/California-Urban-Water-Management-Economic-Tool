@@ -5,6 +5,7 @@ from load_css import local_css
 from appsUtilities import opt_echo, fetch_data
 from demandsHelper import load_data, summary_poster
 from editableTable import editableTable
+#from app import futurePlanningYear
 
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
@@ -62,6 +63,7 @@ def app():
 
         st.title('Demand Assumptions Page')
         st.header("Steps to use this page")
+        st.write(st.session_state.futurePlanningYear)
 
 
         st.write("""There are four categories of variables that need to be set on this page including Total Demands, Total Water Use by Sector,
@@ -110,9 +112,9 @@ def app():
 
         # Reformat total demands dataframe for plots
         demandsPlotInputData = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
-        print(demandsPlotInputData)
-        demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Demands','Contractor','Study Region'])
-        demandsPlotInputData.rename(columns = {'variable': 'Year', 'Demands': 'Type', 'value': 'Value'}, inplace=True)
+        #print(demandsPlotInputData)
+        demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+        demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
         demandVars = [
             demandsPlotInputData['Type'] == 'Normal or Better Demands (acre-feet/year)',
             demandsPlotInputData['Type'] == 'Single Dry-Year Demands (acre-feet/year)',
@@ -295,7 +297,7 @@ def app():
 
         #### TABLE 1 - TOTAL DEMAND SCENARIOS
         if st.session_state.totalDemandScenarioRadioButtonIndex == 2:
-            editableTable(st.session_state.totalDemandsdf, setTotalDemandsDataToUserInput, "Total Demand Scenarios (acre-feet per year)", "Water Demand (acre-feet/year)")
+            editableTable(st.session_state.totalDemandsdf, st.session_state.futurePlanningYear, setTotalDemandsDataToUserInput, "Total Demand Scenarios (acre-feet per year)", "Water Demand (acre-feet/year)")
 
 
         ####  TABLE 2 DEMANDS BY USE TYPE
