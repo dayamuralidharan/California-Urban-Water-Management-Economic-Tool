@@ -36,14 +36,23 @@ selection = st.sidebar.radio("Go to",list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
 
+#TODO include this on side bar for every page.
 st.sidebar.write("")
-futurePlanningYears = [2025, 2030, 2035, 2040, 2045]
-futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYears, key = 'futurePlanningYear')
+futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
+futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYearsList, key = 'futurePlanningYear')
 
 st.sidebar.write("")
 st.sidebar.button('Run Model')
 
-# Initialize session state variables on Demand Assumptions page
+#### Fetch input data
+inputDataTotalDemands = fetch_data("inputData/totalDemandsData.csv")
+inputDataDemandByUseType = fetch_data("inputData/useBySectorData.csv")
+inputDataIntExtDemandsByUseType = fetch_data("inputData/intAndExtUseBySectorData.csv")
+inputDataBaseLongTermConservation = fetch_data("inputData/baseLongTermConservationData.csv")
+
+#### Initialize session state variables on Demand Assumptions page. Input matrices are read into two separate variables to keep one dataframe with all future planning year columns, 
+# and a second that is filtered for only the selected future planning year.
+
 if 'totalDemandScenarioRadioButtonIndex' not in st.session_state:
     st.session_state['totalDemandScenarioRadioButtonIndex'] = 0
 
@@ -56,14 +65,22 @@ if 'intExtUseBySectorRadioButtonIndex' not in st.session_state:
 if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
     st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
 
+if 'inputDataTotalDemands' not in st.session_state:
+    st.session_state['inputDataTotalDemands'] = inputDataTotalDemands
 if 'totalDemandsdf' not in st.session_state:
-    st.session_state['totalDemandsdf'] = fetch_data("inputData/totalDemandsData.csv")
+    st.session_state['totalDemandsdf'] = inputDataTotalDemands
 
+if 'inputDataDemandByUseType' not in st.session_state:
+    st.session_state['inputDataDemandByUseType'] = inputDataDemandByUseType
 if 'useBySectordf' not in st.session_state:
-    st.session_state['useBySectordf'] = fetch_data("inputData/useBySectorData.csv")
+    st.session_state['useBySectordf'] = inputDataDemandByUseType
 
+if 'inputDataIntExtDemandsByUseType' not in st.session_state:
+    st.session_state['inputDataIntExtDemandsByUseType'] = inputDataIntExtDemandsByUseType
 if 'intExtUseBySectordf' not in st.session_state:
-    st.session_state['intExtUseBySectordf'] = fetch_data("inputData/intAndExtUseBySectorData.csv")
+    st.session_state['intExtUseBySectordf'] = inputDataIntExtDemandsByUseType
 
+if 'inputDataBaseLongTermConservation' not in st.session_state:
+    st.session_state['inputDataBaseLongTermConservation'] = inputDataBaseLongTermConservation
 if 'baseLongTermConservationdf' not in st.session_state:
-    st.session_state['baseLongTermConservationdf'] = fetch_data("inputData/baseLongTermConservationData.csv")
+    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation

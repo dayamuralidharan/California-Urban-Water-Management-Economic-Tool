@@ -45,9 +45,13 @@ def fetch_data(inputDataLocation):
     data = pd.read_csv(inputDataLocation)
     return pd.DataFrame(data)
 
+def fetch_data_and_Filter_Future_Planning_Year(inputDataLocation, columnList):
+    data = pd.read_csv(inputDataLocation)
+    data = pd.DataFrame(data)
+    data = data[[columnList]]
+    return data
 
-
-
+#TODO streamlit also has a download button that may be better.
 #downloading the dataframe data to a .csv file
 def download_link(object_to_download, download_filename, download_link_text):
     # Generates a link to download the given object_to_download.

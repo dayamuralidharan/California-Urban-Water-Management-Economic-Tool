@@ -110,9 +110,9 @@ def app():
 
         # Reformat total demands dataframe for plots
         demandsPlotInputData = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
-        print(demandsPlotInputData)
-        demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Demands','Contractor','Study Region'])
-        demandsPlotInputData.rename(columns = {'variable': 'Year', 'Demands': 'Type', 'value': 'Value'}, inplace=True)
+        #print(demandsPlotInputData)
+        demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+        demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
         demandVars = [
             demandsPlotInputData['Type'] == 'Normal or Better Demands (acre-feet/year)',
             demandsPlotInputData['Type'] == 'Single Dry-Year Demands (acre-feet/year)',
@@ -241,8 +241,8 @@ def app():
         #---------------------------------------------------------------#
 
         baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf.drop(labels = 'Notes', axis = 1)
-        baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Conservation Variable','Contractor','Study Region'])
-        baseLongTermConservationPlotInputData.rename(columns = {'Conservation Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
+        baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+        baseLongTermConservationPlotInputData.rename(columns = {'Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
 
         conservationVars = [
             baseLongTermConservationPlotInputData['Type'] == 'Base Long-term Conservation (acre-feet)',
@@ -294,19 +294,20 @@ def app():
         #---------------------------------------------------------------#
 
         #### TABLE 1 - TOTAL DEMAND SCENARIOS
+        
         if st.session_state.totalDemandScenarioRadioButtonIndex == 2:
-            editableTable(st.session_state.totalDemandsdf, setTotalDemandsDataToUserInput, "Total Demand Scenarios (acre-feet per year)", "Water Demand (acre-feet/year)")
+            editableTable(st.session_state.inputDataTotalDemands, st.session_state.futurePlanningYear, setTotalDemandsDataToUserInput, "Total Demand Scenarios", "Water Demand (acre-feet/year)")
 
 
         ####  TABLE 2 DEMANDS BY USE TYPE
         if st.session_state.useBySectorRadioButtonIndex == 1:
-            editableTable(st.session_state.useBySectordf, setDemandsByUseTypeDataToUserInput, "Demands by Use Type (acre-feet per year)", "Demand by Use Type (acre-feet/year)")
+            editableTable(st.session_state.inputDataDemandByUseType, st.session_state.futurePlanningYear, setDemandsByUseTypeDataToUserInput, "Demands by Use Type", "Demand by Use Type (acre-feet/year)")
 
 #TODO Plot in collapsible section should average, not sum
         ####  TABLE 3 INTERIOR AND EXTERIOR BY USE TYPE 
         if st.session_state.intExtUseBySectorRadioButtonIndex == 1:
-            editableTable(st.session_state.intExtUseBySectordf, setIntExtByUseTypeDataToUserInput, "Interior and Exterior Demands by Use Type (% of Demand by Use Type)", "Interior and Exterior Demands by Use Type (% of Demand by Use Type)")
+            editableTable(st.session_state.inputDataIntExtDemandsByUseType, st.session_state.futurePlanningYear, setIntExtByUseTypeDataToUserInput, "Interior and Exterior Demands by Use Type", "Interior and Exterior Demands by Use Type (% of Demand by Use Type)")
 
         ####  TABLE 4 BASE LONG-TERM CONSERVATION 
         if st.session_state.baseLongTermConservationRadioButtonIndex == 1:
-            editableTable(st.session_state.baseLongTermConservationdf, setBaseLongtermConservationDataToUserInput, "Base Long-term Conservation (acre-feet/year)", "Base Long-term Conservation (acre-feet/year)")
+            editableTable(st.session_state.inputDataBaseLongTermConservation, st.session_state.futurePlanningYear, setBaseLongtermConservationDataToUserInput, "Base Long-term Conservation", "Base Long-term Conservation (acre-feet/year)")

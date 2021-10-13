@@ -11,6 +11,7 @@ def app():
         local_css("style.css")
 
         st.subheader("Welcome to the California Urban Water Management Economics Tool")
+
         st.write("""
         CaUWMET is an open source model that simulates future planning scenarios to optimize the economic benefits 
         and costs of changes to urban water supply reliability. This tool utilizes the principle 
