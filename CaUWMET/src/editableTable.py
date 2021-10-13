@@ -17,10 +17,6 @@ def editableTable(dataframeInput, futurePlanningYearInput, setDataframeFunction,
         gb.configure_column("Contractor", type=["nonEditableColumn"])
 
         gb.configure_column(str(futurePlanningYearInput), type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        #gb.configure_column("2030", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        #gb.configure_column("2035", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        #gb.configure_column("2040", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
-        #gb.configure_column("2045", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], precision=0, aggFunc='sum')
         #gb.configure_column("Notes", type=["textColumn"])
 
         selection_mode = 'multiple'
@@ -60,7 +56,7 @@ def editableTable(dataframeInput, futurePlanningYearInput, setDataframeFunction,
             chart_data = dataframe.loc[:,['Contractor',str(futurePlanningYearInput)]].assign(source='total')
 
             if not selected_df.empty:
-                selected_data = selected_df.loc[:,['Contractor','2025','2030','2035','2040', '2045']].assign(source='selection')
+                selected_data = selected_df.loc[:,['Contractor',str(futurePlanningYearInput)]].assign(source='selection')
                 chart_data = pd.concat([chart_data, selected_data])
 
             #TODO: fix statement so it's not summing all year types, should only show one year type at a time.

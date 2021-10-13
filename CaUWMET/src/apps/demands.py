@@ -5,7 +5,6 @@ from load_css import local_css
 from appsUtilities import opt_echo, fetch_data
 from demandsHelper import load_data, summary_poster
 from editableTable import editableTable
-#from app import futurePlanningYear
 
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
@@ -63,7 +62,6 @@ def app():
 
         st.title('Demand Assumptions Page')
         st.header("Steps to use this page")
-        st.write(st.session_state.futurePlanningYear)
 
 
         st.write("""There are four categories of variables that need to be set on this page including Total Demands, Total Water Use by Sector,
@@ -243,8 +241,8 @@ def app():
         #---------------------------------------------------------------#
 
         baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf.drop(labels = 'Notes', axis = 1)
-        baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Conservation Variable','Contractor','Study Region'])
-        baseLongTermConservationPlotInputData.rename(columns = {'Conservation Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
+        baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+        baseLongTermConservationPlotInputData.rename(columns = {'Variable' : 'Type', 'variable': 'Year', 'value': 'Value'}, inplace=True)
 
         conservationVars = [
             baseLongTermConservationPlotInputData['Type'] == 'Base Long-term Conservation (acre-feet)',
@@ -296,19 +294,20 @@ def app():
         #---------------------------------------------------------------#
 
         #### TABLE 1 - TOTAL DEMAND SCENARIOS
+        
         if st.session_state.totalDemandScenarioRadioButtonIndex == 2:
-            editableTable(st.session_state.totalDemandsdf, st.session_state.futurePlanningYear, setTotalDemandsDataToUserInput, "Total Demand Scenarios (acre-feet per year)", "Water Demand (acre-feet/year)")
+            editableTable(st.session_state.inputDataTotalDemands, st.session_state.futurePlanningYear, setTotalDemandsDataToUserInput, "Total Demand Scenarios", "Water Demand (acre-feet/year)")
 
 
         ####  TABLE 2 DEMANDS BY USE TYPE
         if st.session_state.useBySectorRadioButtonIndex == 1:
-            editableTable(st.session_state.useBySectordf, setDemandsByUseTypeDataToUserInput, "Demands by Use Type (acre-feet per year)", "Demand by Use Type (acre-feet/year)")
+            editableTable(st.session_state.inputDataDemandByUseType, st.session_state.futurePlanningYear, setDemandsByUseTypeDataToUserInput, "Demands by Use Type", "Demand by Use Type (acre-feet/year)")
 
 #TODO Plot in collapsible section should average, not sum
         ####  TABLE 3 INTERIOR AND EXTERIOR BY USE TYPE 
         if st.session_state.intExtUseBySectorRadioButtonIndex == 1:
-            editableTable(st.session_state.intExtUseBySectordf, setIntExtByUseTypeDataToUserInput, "Interior and Exterior Demands by Use Type (% of Demand by Use Type)", "Interior and Exterior Demands by Use Type (% of Demand by Use Type)")
+            editableTable(st.session_state.inputDataIntExtDemandsByUseType, st.session_state.futurePlanningYear, setIntExtByUseTypeDataToUserInput, "Interior and Exterior Demands by Use Type", "Interior and Exterior Demands by Use Type (% of Demand by Use Type)")
 
         ####  TABLE 4 BASE LONG-TERM CONSERVATION 
         if st.session_state.baseLongTermConservationRadioButtonIndex == 1:
-            editableTable(st.session_state.baseLongTermConservationdf, setBaseLongtermConservationDataToUserInput, "Base Long-term Conservation (acre-feet/year)", "Base Long-term Conservation (acre-feet/year)")
+            editableTable(st.session_state.inputDataBaseLongTermConservation, st.session_state.futurePlanningYear, setBaseLongtermConservationDataToUserInput, "Base Long-term Conservation", "Base Long-term Conservation (acre-feet/year)")
