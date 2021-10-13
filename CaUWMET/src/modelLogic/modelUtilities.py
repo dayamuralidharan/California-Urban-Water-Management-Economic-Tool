@@ -13,9 +13,6 @@ def lookupCorrespondingValue(df, item, colA, colB):
     return df[df[colA] == item][colB].values[0]
 
 
-def returnHydroRegion(df, contractor, colA='Contractor', colB='Hydro. Region'):
-    return lookupCorrespondingValue(df, contractor, colA, colB)
-
 def reclassifyYearType(yearType):
     """
     :param yearType: list or array of strings (W, AN, N, BN, D, C)
@@ -54,3 +51,13 @@ class demandsAfterBaseConservation():
 
     def calcDemandsAfterBaseConservation(self):
         pass
+
+
+def subtractSuppliesByPriority(suppliesDf, demandsDf, supplyPriorityNumber):
+    suppliesPriorityNDf = suppliesDf[suppliesDf['Supply Priority'] == supplyPriorityNumber].copy()
+    finalSuppliesPriorityNDf = suppliesPriorityNDf.reset_index()
+    del finalSuppliesPriorityNDf['index']
+    finaldemandsAfterPriorityNSuppliesDf = finalSuppliesPriorityNDf.copy()
+    cols = finalSuppliesPriorityNDf.columns.difference(['Index', 'Contractor', 'Year', 'Supply Type', 'Supply Priority'])                        
+    finaldemandsAfterPriorityNSuppliesDf[cols] = demandsDf[cols] - finalSuppliesPriorityNDf[cols]
+    return finaldemandsAfterPriorityNSuppliesDf
