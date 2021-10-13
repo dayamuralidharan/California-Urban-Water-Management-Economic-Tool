@@ -1,8 +1,8 @@
 import pandas as pd
 
-from readModelInputs import contractorsList, historicHydrologyYears, futureYear
-from readModelInputs import totalDemands, baseConservation 
-#from readModelInputs import finalSuppliesDf, finalDemandsAfterBaseConservationDf
+from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
+from readDemandAssumptions import totalDemands, baseConservation 
+from readSupplyAssumptions import finalSuppliesDf, finalDemandsAfterBaseConservationDf
 from modelUtilities import subtractSuppliesByPriority
 
 demandsAfterBaseConservation = {'Year': historicHydrologyYears}
@@ -19,6 +19,15 @@ for contractor in contractorsList:
 demandsAfterBaseConservation = pd.DataFrame(demandsAfterBaseConservation)
 
 #Subtracting Supply Priority TODO: turn into for loop
+
+# demandsAfterBaseConservationDfIndexSet = demandsAfterBaseConservation.set_index('Year')
+# demandsAfterBaseConservationDfTransposed = demandsAfterBaseConservationDfIndexSet.T
+# demandsAfterBaseConservationDfTransposedStacked = demandsAfterBaseConservationDfTransposed.stack()
+# demandsAfterBaseConservationDfTransposedStacked = demandsAfterBaseConservationDfTransposedStacked.to_frame()
+# demandsAfterBaseConservationDfTransposedStackedReset = demandsAfterBaseConservationDfTransposedStacked.reset_index()
+# demandsAfterBaseConservationDfTransposedStackedReset.columns = ['Contractor', 'Year', 'Supply Volume']
+# finalDemandsAfterBaseConservationDf = demandsAfterBaseConservationDfTransposedStackedReset
+
 # finaldemandsAfterPriority1SuppliesDf = subtractSuppliesByPriority(finalSuppliesDf, finalDemandsAfterBaseConservationDf, 1)
 # finaldemandsAfterPriority2SuppliesDf = subtractSuppliesByPriority(finalSuppliesDf, finaldemandsAfterPriority1SuppliesDf, 2)
 # finaldemandsAfterPriority3SuppliesDf = subtractSuppliesByPriority(finalSuppliesDf, finaldemandsAfterPriority2SuppliesDf, 3)

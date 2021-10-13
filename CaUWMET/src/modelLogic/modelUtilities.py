@@ -42,16 +42,6 @@ def reclassifyYearType(yearType):
             rType.append('NB')
     return rType
 
-class demandsAfterBaseConservation():
-    def __init__(self, data):
-        """
-        :param data: pandas dataframe including columns ['contractor', 'YearType', '']
-        """
-        self.df = data
-
-    def calcDemandsAfterBaseConservation(self):
-        pass
-
 
 def subtractSuppliesByPriority(suppliesDf, demandsDf, supplyPriorityNumber):
     suppliesPriorityNDf = suppliesDf[suppliesDf['Supply Priority'] == supplyPriorityNumber].copy()
