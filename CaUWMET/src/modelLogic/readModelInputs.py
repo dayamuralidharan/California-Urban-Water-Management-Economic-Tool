@@ -90,6 +90,7 @@ demandsAfterBaseConservation = {'Year': historicHydrologyYears}
 contractorsList = list(hydroRegionDf['Contractor'].values) ####TODO: contractors will need to be dynamically read in from streamlit instead of read in from hydro region dataframe
 
 # Set up contractor total demand time series based on hydrologic year type.
+contractor = contractorsList[-1]
 for contractor in contractorsList:
     contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
     if contractorRegion == 'San Joaquin':
