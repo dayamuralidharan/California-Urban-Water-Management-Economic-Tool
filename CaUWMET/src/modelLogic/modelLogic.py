@@ -6,15 +6,15 @@ import pandas as pd
 from modelUtilities import (
     returnHydroRegion, reclassifyYearType,
 )
-from modelInputs import finalSuppliesDf, finalDemandsAfterBaseConservationDf
+from readModelInputs import finalSuppliesDf, finalDemandsAfterBaseConservationDf
 
-def subtractSuppliesByPriority(finalSuppliesDf, finalDemandsAfterBaseConservationDf, supplyPriorityNumber):
-    suppliesPriorityNDf = finalSuppliesDf[finalSuppliesDf['Supply Priority'] == supplyPriorityNumber].copy()
+def subtractSuppliesByPriority(suppliesDf, demandsDf, supplyPriorityNumber):
+    suppliesPriorityNDf = suppliesDf[suppliesDf['Supply Priority'] == supplyPriorityNumber].copy()
     finalSuppliesPriorityNDf = suppliesPriorityNDf.reset_index()
     del finalSuppliesPriorityNDf['index']
     finaldemandsAfterPriorityNSuppliesDf = finalSuppliesPriorityNDf.copy()
     cols = finalSuppliesPriorityNDf.columns.difference(['Index', 'Contractor', 'Year', 'Supply Type', 'Supply Priority'])                        
-    finaldemandsAfterPriorityNSuppliesDf[cols] = finalDemandsAfterBaseConservationDf[cols] - finalSuppliesPriorityNDf[cols]
+    finaldemandsAfterPriorityNSuppliesDf[cols] = demandsDf[cols] - finalSuppliesPriorityNDf[cols]
     return finaldemandsAfterPriorityNSuppliesDf
 
 #Subtracting Supply Priority
