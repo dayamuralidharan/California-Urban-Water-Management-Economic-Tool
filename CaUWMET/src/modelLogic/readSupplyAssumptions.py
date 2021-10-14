@@ -27,7 +27,7 @@ inputSWPCVPSupplyDataFile = os.path.join(dirname, swpCVPSupplyDataInput)
 inputSupplyPriorityFile = os.path.join(dirname, supplyPriorityInput)
 
 
-# Supply Assumptions
+# Read in data from CSV
 recyclingSupplyData = pd.read_csv(inputRecyclingSupplyDataFile)
 potableReuseSupplyData = pd.read_csv(inputPotableReuseSupplyDataFile)
 desalinationSupplyData = pd.read_csv(inputDesalinationSupplyDataFile)
@@ -35,11 +35,26 @@ contractualTransfersSupplyData = pd.read_csv(inputContractualTransfersSupplyData
 localSurfaceSupplyData = pd.read_csv(inputLocalSurfaceSupplyDataFile)
 otherImportedSupplyData = pd.read_csv(inputOtherImportedSupplyDataFile)
 localGroundwaterSupplyData = pd.read_csv(inputLocalGroundwaterSupplyDataFile)
-swpCVPSupplyDataDf = pd.read_csv(inputSWPCVPSupplyDataFile)
-supplyPriorityDf = pd.read_csv(inputSupplyPriorityFile)
+swpCVPSupplyDataDf = pd.read_csv(inputSWPCVPSupplyDataFile) #TODO remove "df" from name
+supplyPriorityDf = pd.read_csv(inputSupplyPriorityFile) #TODO remove "df" from name
+
+print(type(recyclingSupplyData))
+
+# Set up supply dataframe by priority
+
+for contractor in contractorsList:
+
+
+totalRecycleSupplies = {'Year': historicHydrologyYears}
 
 
 
+supplyYearsForPotableReuseSupplies = {'Year': historicHydrologyYears}
+supplyYearsForDesalinationSupplies = {'Year': historicHydrologyYears}
+supplyYearsForContractualTransfersSupplies = {'Year': historicHydrologyYears}
+supplyYearsForLocalSurfaceSupplies = {'Year': historicHydrologyYears}
+supplyYearsForOtherImportedSupplies = {'Year': historicHydrologyYears}
+supplyYearsForGroundwaterSupplies = {'Year': historicHydrologyYears}
 
 #Summing supply values from different csv files to create a dataframe
 totalInputSupplyData2025 = recyclingSupplyData['2025'].values + potableReuseSupplyData['2025'].values + desalinationSupplyData['2025'].values + contractualTransfersSupplyData['2025'].values + localSurfaceSupplyData['2025'].values + otherImportedSupplyData['2025'].values + localGroundwaterSupplyData['2025'].values
@@ -64,13 +79,7 @@ suppliesData = pd.read_csv('totalSupplyData.csv')
 
 
 supplyYearsForTotalSupplies = {'Year': historicHydrologyYears}
-supplyYearsForRecycleSupplies = {'Year': historicHydrologyYears}
-supplyYearsForPotableReuseSupplies = {'Year': historicHydrologyYears}
-supplyYearsForDesalinationSupplies = {'Year': historicHydrologyYears}
-supplyYearsForContractualTransfersSupplies = {'Year': historicHydrologyYears}
-supplyYearsForLocalSurfaceSupplies = {'Year': historicHydrologyYears}
-supplyYearsForOtherImportedSupplies = {'Year': historicHydrologyYears}
-supplyYearsForGroundwaterSupplies = {'Year': historicHydrologyYears}
+
 
 for contractor in contractorsList:
     contractorDf = suppliesData[suppliesData['Contractor'] == contractor] 

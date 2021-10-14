@@ -2,7 +2,7 @@ import pandas as pd
 
 from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from readDemandAssumptions import totalDemands, baseConservation 
-from readSupplyAssumptions import finalSuppliesDf, finalDemandsAfterBaseConservationDf
+from readSupplyAssumptions import finalSuppliesDf, finalDemandsAfterBaseConservationDf, recyclingSupplyData
 from modelUtilities import subtractSuppliesByPriority
 
 demandsAfterBaseConservation = {'Year': historicHydrologyYears}
@@ -11,10 +11,17 @@ for contractor in contractorsList:
     # Calculate demands after long-term base conservation
     contractorDemandsAfterBaseConservation = []
     contractorTotalDemand = totalDemands[contractor]
+    
     for i in range(len(historicHydrologyYears)):
+        
+        # Subtract Base Long-term Conservation from Total Demands
         contractorBaseLongTermConservation = baseConservation[baseConservation['Contractor'] == contractor][futureYear].values[0]
         contractorDemandsAfterBaseConservation.append(contractorTotalDemand[i] - contractorBaseLongTermConservation)
+
+        # Subtract local supplies from demands after base long-term conservation
     demandsAfterBaseConservation[contractor] = contractorDemandsAfterBaseConservation
+
+
 
 demandsAfterBaseConservation = pd.DataFrame(demandsAfterBaseConservation)
 

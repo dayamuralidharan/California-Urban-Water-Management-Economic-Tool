@@ -8,15 +8,15 @@ from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, re
 dirname = os.path.dirname(__file__)
 
 # DEMAND Inputs
-totalDemandsInput = "../inputData/totalDemandsData.csv"
-baseConservationInput = "../inputData/baseLongTermConservationData.csv"
-inputDemandsFile = os.path.join(dirname, totalDemandsInput)
-inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
+totalDemandsInputData = "../inputData/totalDemandsData.csv"
+baseConservationInputData = "../inputData/baseLongTermConservationData.csv"
+inputDemandsFile = os.path.join(dirname, totalDemandsInputData)
+inputBaseConservationFile = os.path.join(dirname, baseConservationInputData)
 
 demandsData = pd.read_csv(inputDemandsFile)
 baseConservation = pd.read_csv(inputBaseConservationFile)
 
-# Initialize variables with blank dictionaries
+# Initialize variable as a time series
 totalDemands = {'Year': historicHydrologyYears}
 
 # Set up total demand time series based on hydrologic year type.
