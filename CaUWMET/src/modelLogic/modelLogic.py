@@ -19,6 +19,7 @@ for contractor in contractorsList:
         contractorDemandsAfterBaseConservation.append(contractorTotalDemand[i] - contractorBaseLongTermConservation)
 
         # Subtract local supplies from demands after base long-term conservation
+        
     demandsAfterBaseConservation[contractor] = contractorDemandsAfterBaseConservation
 
 

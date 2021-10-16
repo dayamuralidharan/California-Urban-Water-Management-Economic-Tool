@@ -1,13 +1,15 @@
 import os
 import pandas as pd
-from readGlobalAssumptions import contractorsList, futureYear, historicHydrologyYears
+from readGlobalAssumptions import contractorsList, futureYear
+from modelUtilities import lookupCorrespondingValue
 
+#TODO: Set up supplies that vary by hydrological year type
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
 
 # SUPPLIES Inputs
-recyclingSupplyDataInput = "../inputData/supplyInput_Recycling.csv"
+recycledSupplyDataInput = "../inputData/supplyInput_Recycled.csv"
 potableReuseSupplyDataInput = "../inputData/supplyInput_PotableReuse.csv"
 desalinationSupplyDataInput = "../inputData/supplyInput_Desalination.csv"
 contractualTransfersSupplyDataInput = "../inputData/supplyInput_ContractualTransfers.csv"
@@ -16,7 +18,7 @@ otherImportedSupplyDataInput = "../inputData/supplyInput_OtherImported.csv"
 localGroundwaterSupplyDataInput = "../inputData/supplyInput_Groundwater.csv"
 swpCVPSupplyDataInput = "../inputData/supplyInput_SWPCVP.csv"
 supplyPriorityInput = '../inputData/supplyInput_supplyPriorities.csv'
-inputRecyclingSupplyDataFile = os.path.join(dirname, recyclingSupplyDataInput)
+inputRecycledSupplyDataFile = os.path.join(dirname, recycledSupplyDataInput)
 inputPotableReuseSupplyDataFile = os.path.join(dirname, potableReuseSupplyDataInput)
 inputDesalinationSupplyDataFile = os.path.join(dirname, desalinationSupplyDataInput)
 inputContractualTransfersSupplyDataFile = os.path.join(dirname, contractualTransfersSupplyDataInput)
@@ -24,163 +26,58 @@ inputLocalSurfaceSupplyDataFile = os.path.join(dirname, localSurfaceSupplyDataIn
 inputOtherImportedSupplyDataFile = os.path.join(dirname, otherImportedSupplyDataInput)
 inputLocalGroundwaterSupplyDataFile = os.path.join(dirname, localGroundwaterSupplyDataInput)
 inputSWPCVPSupplyDataFile = os.path.join(dirname, swpCVPSupplyDataInput)
-inputSupplyPriorityFile = os.path.join(dirname, supplyPriorityInput)
+inputSupplyPrioritiesFile = os.path.join(dirname, supplyPriorityInput)
 
 
 # Read in data from CSV
-recyclingSupplyData = pd.read_csv(inputRecyclingSupplyDataFile)
+recycledSupplyData = pd.read_csv(inputRecycledSupplyDataFile)
 potableReuseSupplyData = pd.read_csv(inputPotableReuseSupplyDataFile)
 desalinationSupplyData = pd.read_csv(inputDesalinationSupplyDataFile)
 contractualTransfersSupplyData = pd.read_csv(inputContractualTransfersSupplyDataFile)
-localSurfaceSupplyData = pd.read_csv(inputLocalSurfaceSupplyDataFile)
+surfaceSupplyData = pd.read_csv(inputLocalSurfaceSupplyDataFile)
 otherImportedSupplyData = pd.read_csv(inputOtherImportedSupplyDataFile)
-localGroundwaterSupplyData = pd.read_csv(inputLocalGroundwaterSupplyDataFile)
-swpCVPSupplyDataDf = pd.read_csv(inputSWPCVPSupplyDataFile) #TODO remove "df" from name
-supplyPriorityDf = pd.read_csv(inputSupplyPriorityFile) #TODO remove "df" from name
+groundwaterSupplyData = pd.read_csv(inputLocalGroundwaterSupplyDataFile)
+swpCVPSupplyData = pd.read_csv(inputSWPCVPSupplyDataFile)
+supplyPrioritiesData = pd.read_csv(inputSupplyPrioritiesFile)
 
-print(type(recyclingSupplyData))
-
-# Set up supply dataframe by priority
-
-for contractor in contractorsList:
-
-
-totalRecycleSupplies = {'Year': historicHydrologyYears}
-
+recycledSupplyData.set_index('Contractor', inplace = True)
+potableReuseSupplyData.set_index('Contractor', inplace = True)
+desalinationSupplyData.set_index('Contractor', inplace = True)
+contractualTransfersSupplyData.set_index('Contractor', inplace = True)
+surfaceSupplyData.set_index('Contractor', inplace = True)
+otherImportedSupplyData.set_index('Contractor', inplace = True)
+groundwaterSupplyData.set_index('Contractor', inplace = True)
 
 
-supplyYearsForPotableReuseSupplies = {'Year': historicHydrologyYears}
-supplyYearsForDesalinationSupplies = {'Year': historicHydrologyYears}
-supplyYearsForContractualTransfersSupplies = {'Year': historicHydrologyYears}
-supplyYearsForLocalSurfaceSupplies = {'Year': historicHydrologyYears}
-supplyYearsForOtherImportedSupplies = {'Year': historicHydrologyYears}
-supplyYearsForGroundwaterSupplies = {'Year': historicHydrologyYears}
+# Create dataframe of Supplies in order of Priority
+supplyPriorities = ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5', 'Priority 6', 'Priority 7', 'Priority 8']
+suppliesByPriority = pd.DataFrame(index = [contractorsList], columns = [supplyPriorities]) 
 
-#Summing supply values from different csv files to create a dataframe
-totalInputSupplyData2025 = recyclingSupplyData['2025'].values + potableReuseSupplyData['2025'].values + desalinationSupplyData['2025'].values + contractualTransfersSupplyData['2025'].values + localSurfaceSupplyData['2025'].values + otherImportedSupplyData['2025'].values + localGroundwaterSupplyData['2025'].values
-totalInputSupplyData2030 = recyclingSupplyData['2030'].values + potableReuseSupplyData['2030'].values + desalinationSupplyData['2030'].values + contractualTransfersSupplyData['2030'].values + localSurfaceSupplyData['2030'].values + otherImportedSupplyData['2030'].values + localGroundwaterSupplyData['2030'].values
-totalInputSupplyData2035 = recyclingSupplyData['2035'].values + potableReuseSupplyData['2035'].values + desalinationSupplyData['2035'].values + contractualTransfersSupplyData['2035'].values + localSurfaceSupplyData['2035'].values + otherImportedSupplyData['2035'].values + localGroundwaterSupplyData['2035'].values
-totalInputSupplyData2040 = recyclingSupplyData['2040'].values + potableReuseSupplyData['2040'].values + desalinationSupplyData['2040'].values + contractualTransfersSupplyData['2040'].values + localSurfaceSupplyData['2040'].values + otherImportedSupplyData['2040'].values + localGroundwaterSupplyData['2040'].values
-totalInputSupplyData2045 = recyclingSupplyData['2045'].values + potableReuseSupplyData['2045'].values + desalinationSupplyData['2045'].values + contractualTransfersSupplyData['2045'].values + localSurfaceSupplyData['2045'].values + otherImportedSupplyData['2045'].values + localGroundwaterSupplyData['2045'].values
-supplyDataDf = pd.DataFrame({
-    'Supply': recyclingSupplyData['Supply'],
-    'Study Region': recyclingSupplyData['Study Region'],
-    'Contractor': recyclingSupplyData['Contractor'],
-    '2025': totalInputSupplyData2025,  
-    '2030': totalInputSupplyData2030,
-    '2035': totalInputSupplyData2035,
-    '2040': totalInputSupplyData2040,
-    '2045': totalInputSupplyData2045,
-    }
-)
+def setSupplyByPriority(priority):
+    for contractor in contractorsList:
+        contractorSupplyTypeByPriority = lookupCorrespondingValue(supplyPrioritiesData, contractor, colA='Contractor', colB=priority)
+        if contractorSupplyTypeByPriority == 'Recycled':
+            suppliesByPriority.loc[[contractor], [priority]] = recycledSupplyData[futureYear].loc[[contractor]].values[0]
+        if contractorSupplyTypeByPriority == 'Potable Reuse':
+            suppliesByPriority.loc[[contractor], [priority]] = potableReuseSupplyData[futureYear].loc[[contractor]].values[0]
+        if contractorSupplyTypeByPriority == 'Desalination':
+            suppliesByPriority.loc[[contractor], [priority]]  = desalinationSupplyData[futureYear].loc[[contractor]].values[0]
+        if contractorSupplyTypeByPriority == 'Contractual Transfers':
+            suppliesByPriority.loc[[contractor], [priority]]  = contractualTransfersSupplyData[futureYear].loc[[contractor]].values[0]
+        if contractorSupplyTypeByPriority == 'Surface':
+            suppliesByPriority.loc[[contractor], [priority]]  = surfaceSupplyData[futureYear].loc[[contractor]].values[0]
+        if contractorSupplyTypeByPriority == 'Other Imported':
+            suppliesByPriority.loc[[contractor], [priority]]  = otherImportedSupplyData[futureYear].loc[[contractor]].values[0]
+        if contractorSupplyTypeByPriority == 'Groundwater':
+            suppliesByPriority.loc[[contractor], [priority]]  = groundwaterSupplyData[futureYear].loc[[contractor]].values[0]
 
+setSupplyByPriority('Priority 1')
+setSupplyByPriority('Priority 2')
+setSupplyByPriority('Priority 3')
+setSupplyByPriority('Priority 4')
+setSupplyByPriority('Priority 5')
+setSupplyByPriority('Priority 6')
+setSupplyByPriority('Priority 7')
+setSupplyByPriority('Priority 8')
 
-suppliesData = pd.read_csv('totalSupplyData.csv')
-
-
-supplyYearsForTotalSupplies = {'Year': historicHydrologyYears}
-
-
-for contractor in contractorsList:
-    contractorDf = suppliesData[suppliesData['Contractor'] == contractor] 
-    contractorDf = contractorDf[['Supply', 'Contractor', futureYear]]
-    recyclingDataDf = recyclingSupplyData[recyclingSupplyData['Contractor'] == contractor] 
-    recyclingDataDf = recyclingDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]    
-    potableReuseDataDf = potableReuseSupplyData[potableReuseSupplyData['Contractor'] == contractor] 
-    potableReuseDataDf = potableReuseDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]
-    desalinationDataDf = desalinationSupplyData[desalinationSupplyData['Contractor'] == contractor] 
-    desalinationDataDf = desalinationDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]
-    contractualTransfersDataDf = contractualTransfersSupplyData[contractualTransfersSupplyData['Contractor'] == contractor] 
-    contractualTransfersDataDf = contractualTransfersDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]
-    localSurfaceDataDf = localSurfaceSupplyData[localSurfaceSupplyData['Contractor'] == contractor] 
-    localSurfaceDataDf = localSurfaceDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]
-    otherImportedDataDf = otherImportedSupplyData[otherImportedSupplyData['Contractor'] == contractor] 
-    otherImportedDataDf = otherImportedDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]
-    groundwaterDataDf = localGroundwaterSupplyData[localGroundwaterSupplyData['Contractor'] == contractor] 
-    groundwaterDataDf = groundwaterDataDf[['Supply', 'Contractor', 'Supply Type', futureYear]]
-    contractorSupplies = []
-    recyclingSupplies = []
-    potableReuseSupplies = []
-    desalinationSupplies = []
-    contractualTransfersSupplies = []
-    localSurfaceSupplies = []
-    otherImportedSupplies = []
-    groundwaterSupplies = []
-    
-
-    for i in range(len(historicHydrologyYears)):
-        contractorSupplies.append(        
-            contractorDf[contractorDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForTotalSupplies[contractor] = contractorSupplies
-    calculatedTotalSuppliesDf = pd.DataFrame(supplyYearsForTotalSupplies)  
-    calculatedTotalSuppliesDf.to_csv('calculatedTotalSupplies.csv')
-    
-    for j in range(len(historicHydrologyYears)):
-        recyclingSupplies.append(
-            recyclingDataDf[recyclingDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForRecycleSupplies[contractor] = recyclingSupplies
-    calculatedRecyclingSuppliesDf = pd.DataFrame(supplyYearsForRecycleSupplies) 
-    # finalRecyclingSuppliesDf = calculatedRecyclingSuppliesDf.join(recyclingSupplyData['Supply Type'])
-    
-    for k in range(len(historicHydrologyYears)):
-        potableReuseSupplies.append(
-            potableReuseDataDf[potableReuseDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForPotableReuseSupplies[contractor] = potableReuseSupplies
-    calculatedPotableReuseSuppliesDf = pd.DataFrame(supplyYearsForPotableReuseSupplies)
-    # finalPotableReuseSuppliesDf = calculatedPotableReuseSuppliesDf.join(potableReuseSupplyData['Supply Type'])
-    
-    for l in range(len(historicHydrologyYears)):
-        desalinationSupplies.append(
-            desalinationDataDf[desalinationDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForDesalinationSupplies[contractor] = desalinationSupplies
-    calculatedDesalinationSuppliesDf = pd.DataFrame(supplyYearsForDesalinationSupplies)
-    # finalDesalinationSuppliesDf = calculatedDesalinationSuppliesDf.join(desalinationSupplyData['Supply Type'])
-    
-    for m in range(len(historicHydrologyYears)):
-        contractualTransfersSupplies.append(
-            contractualTransfersDataDf[contractualTransfersDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForContractualTransfersSupplies[contractor] = contractualTransfersSupplies
-    calculatedContractualTransfersSuppliesDf = pd.DataFrame(supplyYearsForContractualTransfersSupplies)
-    # finalContractualTransfersSuppliesDf = calculatedContractualTransfersSuppliesDf.join(contractualTransfersSupplyData['Supply Type'])
-    
-    for n in range(len(historicHydrologyYears)):
-        localSurfaceSupplies.append(
-            localSurfaceDataDf[localSurfaceDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForLocalSurfaceSupplies[contractor] = localSurfaceSupplies
-    calculatedLocalSurfaceSuppliesDf = pd.DataFrame(supplyYearsForLocalSurfaceSupplies)
-    # finalLocalSurfaceSuppliesDf = calculatedLocalSurfaceSuppliesDf.join(localSurfaceSupplyData['Supply Type'])
-    
-    for o in range(len(historicHydrologyYears)):
-        otherImportedSupplies.append(
-            otherImportedDataDf[otherImportedDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForOtherImportedSupplies[contractor] = otherImportedSupplies
-    calculatedOtherImportedSuppliesDf = pd.DataFrame(supplyYearsForOtherImportedSupplies)
-    # finalOtherImportedSuppliesDf = calculatedOtherImportedSuppliesDf.join(otherImportedSupplyData['Supply Type'])
-    
-    for p in range(len(historicHydrologyYears)):
-        groundwaterSupplies.append(
-            groundwaterDataDf[groundwaterDataDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
-            )
-        supplyYearsForGroundwaterSupplies[contractor] = groundwaterSupplies
-    calculatedLocalGroundwaterSuppliesDf = pd.DataFrame(supplyYearsForGroundwaterSupplies)  
-    # finalLocalGroundwaterSuppliesDf = calculatedLocalGroundwaterSuppliesDf.join(localGroundwaterSupplyData['Supply Type'])
-
-suppliesDataframesCompiled = [calculatedRecyclingSuppliesDf, calculatedPotableReuseSuppliesDf, calculatedDesalinationSuppliesDf, calculatedContractualTransfersSuppliesDf, calculatedLocalSurfaceSuppliesDf, calculatedOtherImportedSuppliesDf, calculatedLocalGroundwaterSuppliesDf, swpCVPSupplyDataDf]
-suppliesDataframesCompiledDf = pd.concat(suppliesDataframesCompiled)
-
-suppliesDataframesCompiledDfIndexSet = suppliesDataframesCompiledDf.set_index('Year')
-suppliesDataframesCompiledDfTransposed = suppliesDataframesCompiledDfIndexSet.T
-suppliesDataframesCompiledDfTransposedStacked = suppliesDataframesCompiledDfTransposed.stack()
-suppliesDataframesCompiledDfTransposedStacked = suppliesDataframesCompiledDfTransposedStacked.to_frame()
-suppliesDataframesCompiledDfTransposedStackedReset =  suppliesDataframesCompiledDfTransposedStacked.reset_index()
-suppliesDataframesCompiledDfTransposedStackedReset.columns = ['Contractor', 'Year', 'Supply Volume']
-
-finalSuppliesDf = suppliesDataframesCompiledDfTransposedStackedReset.reset_index([0]).join(supplyPriorityDf['Supply Type']).join(supplyPriorityDf['Supply Priority'])
-del finalSuppliesDf['index']
+print(suppliesByPriority)
