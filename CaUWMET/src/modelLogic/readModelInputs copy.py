@@ -1,15 +1,14 @@
-
-
 import os
-import numpy as np
 import pandas as pd
 from modelUtilities import (
-    returnHydroRegion, reclassifyYearType,
+    lookupCorrespondingValue, reclassifyYearType,
 )
 
-#DEMANDS
-# Input directories and filenames
+
+#### Input directories and filenames
 dirname = os.path.dirname(__file__)
+
+### DEMAND Inputs
 totalDemandsInput = "../inputData/totalDemandsData.csv"
 hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
 hydroRegionInput = "../inputData/contractorInformation.csv"
@@ -19,69 +18,7 @@ inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
 inputBaseConservationFile = os.path.join(dirname, baseConservationInput)
 inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
 
-# Read input files into pandas dataframes
-demandsData = pd.read_csv(inputDemandsFile)
-hydroYearType = pd.read_csv(inputHydroYearTypeFile)
-baseConservation = pd.read_csv(inputBaseConservationFile)
-hydroRegion = pd.read_csv(inputHydroRegionFile)
-hydroRegionDf = hydroRegion[['Contractor', 'Hydro. Region']]   # df with contractor - hydro region mapping
-
-# Test for returnHydroRegion:
-#assert(
-#    returnHydroRegion(hydroRegionDf, 'City of Lindsay', colA='Contractor', colB='Hydro. Region') == 'San Joaquin'
-#)
-
-## Coding the logic
-futureYear = '2030'  # Current assumption
-historicHydrologyYears = hydroYearType['Year'].values  # 1922 to 2015
-sacYearType = hydroYearType['Sacramento Valley'].values
-sjYearType = hydroYearType['San Joaquin Valley'].values
-reclassSacYearType = reclassifyYearType(sacYearType)
-reclassSjYearType = reclassifyYearType(sjYearType)
-reclassYearType = pd.DataFrame({
-    'sacYearType': reclassSacYearType,
-    'sjYearType': reclassSjYearType,
-    'Year': historicHydrologyYears,
-    }
-)
-
-contractors = list(hydroRegionDf['Contractor'].values)
-totalDemands = {'Year': historicHydrologyYears}
-demandsAfterBaseConservation = {'Year': historicHydrologyYears}
-contractor = contractors[-1]
-for contractor in contractors:
-    contractorRegion = returnHydroRegion(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
-    if contractorRegion == 'San Joaquin':
-        conYearType = reclassSjYearType
-    else:
-        conYearType = reclassSacYearType
-    contractorDf = demandsData[demandsData['Contractor'] == contractor]
-    contractorDf = contractorDf[['Variable', 'Contractor', futureYear]]
-    contractorDemands = []
-    contractorDemandsAfterBaseConservation = []
-    mapYearType = {
-        'NB': 'Normal or Better Demands (acre-feet/year)',
-        'SD': 'Single Dry-Year Demands (acre-feet/year)',
-        'MD': 'Multiple Dry-Year Demands (acre-feet/year)',
-    }
-    for i in range(len(historicHydrologyYears)):
-        contractorDemands.append(
-            contractorDf[contractorDf['Variable'] == mapYearType[conYearType[i]]][futureYear].values[0]
-        )
-        baseCons = baseConservation[baseConservation['Contractor'] == contractor][futureYear].values[0]
-        contractorDemandsAfterBaseConservation.append(contractorDemands[-1] - baseCons)
-
-    totalDemands[contractor] = contractorDemands
-    demandsAfterBaseConservation[contractor] = contractorDemandsAfterBaseConservation
-
-calculatedTotalDemandsDf = pd.DataFrame(totalDemands)
-calculatedTotalDemandsDf.to_csv('calculatedTotalDemands.csv')
-demandsAfterBaseConservationDf = pd.DataFrame(demandsAfterBaseConservation)
-calculatedTotalDemandsDf.to_csv('demandsAfterBaseConservation.csv')
-
-#SUPPLIES
-# Input directories and filenames
-dirname = os.path.dirname(__file__)
+### SUPPLIES Inputs
 recyclingSupplyDataInput = "../inputData/recyclingSupplyData.csv"
 potableReuseSupplyDataInput = "../inputData/potableReuseSupplyData.csv"
 desalinationSupplyDataInput = "../inputData/desalinationSupplyData.csv"
@@ -90,8 +27,6 @@ localSurfaceSupplyDataInput = "../inputData/localSurfaceSupplyData.csv"
 otherImportedSupplyDataInput = "../inputData/otherImportedSupplyData.csv"
 localGroundwaterSupplyDataInput = "../inputData/localGroundwaterSupplyData.csv"
 swpCVPSupplyDataInput = "../inputData/swpCVPSupplyData.csv"
-hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
-hydroRegionInput = "../inputData/contractorInformation.csv"
 supplyPriorityInput = '../inputData/supplyPriorityData.csv'
 inputRecyclingSupplyDataFile = os.path.join(dirname, recyclingSupplyDataInput)
 inputPotableReuseSupplyDataFile = os.path.join(dirname, potableReuseSupplyDataInput)
@@ -105,7 +40,17 @@ inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
 inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
 inputSupplyPriorityFile = os.path.join(dirname, supplyPriorityInput)
 
-# Read input files into pandas dataframes
+
+### Hydrology Assumptions
+hydroYearType = pd.read_csv(inputHydroYearTypeFile)
+hydroRegion = pd.read_csv(inputHydroRegionFile)
+
+
+### Demand Assumptions
+demandsData = pd.read_csv(inputDemandsFile)
+baseConservation = pd.read_csv(inputBaseConservationFile)
+
+### Supply Assumptions
 recyclingSupplyData = pd.read_csv(inputRecyclingSupplyDataFile)
 potableReuseSupplyData = pd.read_csv(inputPotableReuseSupplyDataFile)
 desalinationSupplyData = pd.read_csv(inputDesalinationSupplyDataFile)
@@ -114,10 +59,59 @@ localSurfaceSupplyData = pd.read_csv(inputLocalSurfaceSupplyDataFile)
 otherImportedSupplyData = pd.read_csv(inputOtherImportedSupplyDataFile)
 localGroundwaterSupplyData = pd.read_csv(inputLocalGroundwaterSupplyDataFile)
 swpCVPSupplyDataDf = pd.read_csv(inputSWPCVPSupplyDataFile)
-hydroYearType = pd.read_csv(inputHydroYearTypeFile)
 supplyPriorityDf = pd.read_csv(inputSupplyPriorityFile)
-hydroRegion = pd.read_csv(inputHydroRegionFile)
-hydroRegionDf = hydroRegion[['Contractor', 'Hydro. Region']]   # df with contractor - hydro region mapping
+
+
+#### Set up variable dataframes
+
+futureYear = '2030'  # TODO Temporary assumption, will be input from streamlit
+
+### Set up time series of hydrological year type based on Sacramento and SJ CDEC data, and reclassify to UWMP data classifications of Above Normal or Better, Single Dry, or Multi-Dry
+hydroRegionDf = hydroRegion[['Contractor', 'Hydro. Region']]
+historicHydrologyYears = hydroYearType['Year'].values  # 1922 to 2003 or 2015 depending on whether it is Calsim II or 3 input for SWP CVP deliveries
+sacYearType = hydroYearType['Sacramento Valley'].values
+sjYearType = hydroYearType['San Joaquin Valley'].values
+reclassSacYearType = reclassifyYearType(sacYearType) # Reclassify CDEC's classifications to the UWMP demand classifications of Normal or Better, Single-Dry and Multi-Dry Years
+reclassSjYearType = reclassifyYearType(sjYearType)
+reclassYearType = pd.DataFrame({
+    'sacYearType': reclassSacYearType,
+    'sjYearType': reclassSjYearType,
+    'Year': historicHydrologyYears,
+    }
+)
+
+
+# Initialize variables with blank dictionaries
+totalDemands = {'Year': historicHydrologyYears}
+contractorsList = list(hydroRegionDf['Contractor'].values) ####TODO: contractors will need to be dynamically read in from streamlit instead of read in from hydro region dataframe
+
+# Set up contractor total demand time series based on hydrologic year type.
+
+for contractor in contractorsList:
+    contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
+    if contractorRegion == 'San Joaquin':
+        conYearType = reclassSjYearType
+    else:
+        conYearType = reclassSacYearType
+    totalDemandsInput = demandsData[demandsData['Contractor'] == contractor]
+    totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', futureYear]]
+    contractorDemands = []
+    
+    mapYearType = {
+        'NB': 'Normal or Better Demands (acre-feet/year)',
+        'SD': 'Single Dry-Year Demands (acre-feet/year)',
+        'MD': 'Multiple Dry-Year Demands (acre-feet/year)',
+    }
+    for i in range(len(historicHydrologyYears)): 
+        contractorDemands.append(
+            totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[conYearType[i]]][futureYear].values[0]
+        )
+    totalDemands[contractor] = contractorDemands
+
+totalDemands = pd.DataFrame(totalDemands)
+
+
+
 
 #Summing supply values from different csv files to create a dataframe
 totalInputSupplyData2025 = recyclingSupplyData['2025'].values + potableReuseSupplyData['2025'].values + desalinationSupplyData['2025'].values + contractualTransfersSupplyData['2025'].values + localSurfaceSupplyData['2025'].values + otherImportedSupplyData['2025'].values + localGroundwaterSupplyData['2025'].values
@@ -137,24 +131,10 @@ supplyDataDf = pd.DataFrame({
     }
 )
 
-inputSuppliesDataFile = supplyDataDf.to_csv('totalSupplyData.csv')
+
 suppliesData = pd.read_csv('totalSupplyData.csv')
 
-## Coding the logic
-futureYear = '2030'  # Current assumption
-historicHydrologyYears = hydroYearType['Year'].values  # 1922 to 2015
-sacYearType = hydroYearType['Sacramento Valley'].values
-sjYearType = hydroYearType['San Joaquin Valley'].values
-reclassSacYearType = reclassifyYearType(sacYearType)
-reclassSjYearType = reclassifyYearType(sjYearType)
-reclassYearType = pd.DataFrame({
-    'sacYearType': reclassSacYearType,
-    'sjYearType': reclassSjYearType,
-    'Year': historicHydrologyYears,
-    }
-)
 
-contractors = list(hydroRegionDf['Contractor'].values)
 supplyYearsForTotalSupplies = {'Year': historicHydrologyYears}
 supplyYearsForRecycleSupplies = {'Year': historicHydrologyYears}
 supplyYearsForPotableReuseSupplies = {'Year': historicHydrologyYears}
@@ -163,13 +143,8 @@ supplyYearsForContractualTransfersSupplies = {'Year': historicHydrologyYears}
 supplyYearsForLocalSurfaceSupplies = {'Year': historicHydrologyYears}
 supplyYearsForOtherImportedSupplies = {'Year': historicHydrologyYears}
 supplyYearsForGroundwaterSupplies = {'Year': historicHydrologyYears}
-contractor = contractors[-1]
-for contractor in contractors:
-    contractorRegion = returnHydroRegion(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
-    if contractorRegion == 'San Joaquin':
-        conYearType = reclassSjYearType
-    else:
-        conYearType = reclassSacYearType
+
+for contractor in contractorsList:
     contractorDf = suppliesData[suppliesData['Contractor'] == contractor] 
     contractorDf = contractorDf[['Supply', 'Contractor', futureYear]]
     recyclingDataDf = recyclingSupplyData[recyclingSupplyData['Contractor'] == contractor] 
@@ -195,11 +170,7 @@ for contractor in contractors:
     otherImportedSupplies = []
     groundwaterSupplies = []
     
-    mapYearType = {
-        'NB': 'Normal or Better Year (acre-feet/year)',
-        'SD': 'Single Dry-Year (acre-feet/year)',
-        'MD': 'Multiple Dry-Year (acre-feet/year)',
-    }
+
     for i in range(len(historicHydrologyYears)):
         contractorSupplies.append(        
             contractorDf[contractorDf['Supply'] == mapYearType[conYearType[i]]][futureYear].values[0]
@@ -276,11 +247,3 @@ suppliesDataframesCompiledDfTransposedStackedReset.columns = ['Contractor', 'Yea
 
 finalSuppliesDf = suppliesDataframesCompiledDfTransposedStackedReset.reset_index([0]).join(supplyPriorityDf['Supply Type']).join(supplyPriorityDf['Supply Priority'])
 del finalSuppliesDf['index']
-
-demandsAfterBaseConservationDfIndexSet = demandsAfterBaseConservationDf.set_index('Year')
-demandsAfterBaseConservationDfTransposed = demandsAfterBaseConservationDfIndexSet.T
-demandsAfterBaseConservationDfTransposedStacked = demandsAfterBaseConservationDfTransposed.stack()
-demandsAfterBaseConservationDfTransposedStacked = demandsAfterBaseConservationDfTransposedStacked.to_frame()
-demandsAfterBaseConservationDfTransposedStackedReset = demandsAfterBaseConservationDfTransposedStacked.reset_index()
-demandsAfterBaseConservationDfTransposedStackedReset.columns = ['Contractor', 'Year', 'Supply Volume']
-finalDemandsAfterBaseConservationDf = demandsAfterBaseConservationDfTransposedStackedReset
