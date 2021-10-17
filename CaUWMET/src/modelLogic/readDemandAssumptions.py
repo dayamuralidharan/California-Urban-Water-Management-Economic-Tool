@@ -8,7 +8,7 @@ from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, re
 dirname = os.path.dirname(__file__)
 
 # DEMAND Inputs
-totalDemandsInputData = "../inputData/totalDemandsData.csv"
+totalDemandsInputData = "../inputData/demandsInput_totalDemands.csv"
 baseConservationInputData = "../inputData/baseLongTermConservationData.csv"
 inputDemandsFile = os.path.join(dirname, totalDemandsInputData)
 inputBaseConservationFile = os.path.join(dirname, baseConservationInputData)

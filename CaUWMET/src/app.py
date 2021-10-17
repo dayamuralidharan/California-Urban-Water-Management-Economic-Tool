@@ -45,7 +45,7 @@ st.sidebar.write("")
 st.sidebar.button('Run Model')
 
 #### Fetch input data
-inputDataTotalDemands = fetch_data("inputData/totalDemandsData.csv")
+inputDataTotalDemands = fetch_data("inputData/demandsInput_totalDemands.csv")
 inputDataDemandByUseType = fetch_data("inputData/useBySectorData.csv")
 inputDataIntExtDemandsByUseType = fetch_data("inputData/intAndExtUseBySectorData.csv")
 inputDataBaseLongTermConservation = fetch_data("inputData/baseLongTermConservationData.csv")

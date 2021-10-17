@@ -9,7 +9,7 @@ from editableTable import editableTable
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
         st.session_state.totalDemandScenarioRadioButtonIndex = 0
-        st.session_state.totalDemandsdf = fetch_data("inputData/totalDemandsData.csv")
+        st.session_state.totalDemandsdf = fetch_data("inputData/inputDemands_totalDemands.csv")
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
@@ -72,6 +72,9 @@ def app():
         After making your selection for all four variables, 
         review the data in the plots below.""")
 
+        #---------------------------------------------------------------#
+        # RADIO BUTTONS TO SELECT DATASETS
+        #---------------------------------------------------------------# 
 
         # Radio buttons to select data source for each variable
         demandsDatasetOptions = ['UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below']
@@ -89,6 +92,9 @@ def app():
         intExtUseBySectorDatasetChoice = st.radio("""4. Select the Base Long-Term Conservation Dataset from the options below. 
         If the last option is selected, update the data in the Base Long Term Conservation table in the last collapsible section below.""", options = baseLongTermConservationDatasetOptions, index = st.session_state.baseLongTermConservationRadioButtonIndex, key = "baseLongTermConservationChoice", on_change = setBaseLongTermConservationInputData)
 
+        #---------------------------------------------------------------#
+        # SUMMARY POSTER FOR TOTAL DEMANDS
+        #---------------------------------------------------------------#  
 
         st.header("Demand Assumptions Overview")
 
@@ -102,14 +108,12 @@ def app():
         Users can select to use Normal or Better Year demands adjusted by an ETAW adjustment factor derived from CalSIMETAW, rather than using the Urban Water Management Plan's Single and Multiple Dry-Year Demands. 
         More information can be found in the model documentation <add hyperlink to Total Demand Scenarios section of model documentation.>""")
         
-        #---------------------------------------------------------------#
-        # CREATE SUMMARY POSTER FOR TOTAL DEMANDS
-        #---------------------------------------------------------------#       
+     
         color_map_df = load_data("inputData/color_map_df_demands.csv")
 
 
         # Reformat total demands dataframe for plots
-        demandsPlotInputData = st.session_state.totalDemandsdf.drop(labels = 'Notes', axis = 1)
+        demandsPlotInputData = st.session_state.inputDataTotalDemands[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
         #print(demandsPlotInputData)
         demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
         demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
@@ -125,29 +129,19 @@ def app():
 
         sorted_contractors = demandsPlotInputData.groupby('Year')['Contractor'].sum()\
             .sort_values(ascending=True).index
+        
+        st.write(sorted_contractors)
 
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("#### **Select Future Planning Year:**")
-            select_contractor = []
-            select_contractor.append(st.selectbox('', sorted_contractors, key='1', help="Select future planning year to display in plots below."))
-            
-        
-        with col2:
             st.markdown("#### **Select Year Type:**")
             select_demands = []
-
-            #Filter df based on selection
-            contractor_df = demandsPlotInputData[demandsPlotInputData['Year'].isin(select_contractor)]
-
-            sorted_demands = contractor_df.groupby('Type')['Contractor'].count()\
+            sorted_demands = demandsPlotInputData.groupby('Type')['Contractor'].count()\
                 .sort_values(ascending=True).index
 
             select_demands.append(st.selectbox('', sorted_demands, key='2', help="Select hydrologic year type to display in plots below."))
-            demands_df = contractor_df[contractor_df['Type'].isin(select_demands)]
+            demands_df = demandsPlotInputData[demandsPlotInputData['Type'].isin(select_demands)]
         
-        col1, col2 = st.columns(2)
-
         #Setting up color palette dict
         color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
         fig = summary_poster(demands_df, color_dict, "Demands by Study Region", "Demands by Contractor", "Demands (acre-feet/year)")
