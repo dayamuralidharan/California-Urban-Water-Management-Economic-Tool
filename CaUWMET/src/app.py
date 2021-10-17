@@ -72,8 +72,8 @@ if 'totalDemandsdf' not in st.session_state:
 
 if 'inputDataDemandByUseType' not in st.session_state:
     st.session_state['inputDataDemandByUseType'] = inputDataDemandByUseType
-if 'useBySectordf' not in st.session_state:
-    st.session_state['useBySectordf'] = inputDataDemandByUseType
+if 'useByTypedf' not in st.session_state:
+    st.session_state['useByTypedf'] = inputDataDemandByUseType
 
 if 'inputDataIntExtDemandsByUseType' not in st.session_state:
     st.session_state['inputDataIntExtDemandsByUseType'] = inputDataIntExtDemandsByUseType
