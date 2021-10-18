@@ -27,6 +27,7 @@ def setIntExtUseByTypeInputData():
 
 def setBaseLongTermConservationInputData():
     if st.session_state.baseLongTermConservationChoice == 'UWMP reported values':
+        st.session_state.intExtUseByTypePlotInputdf = fetch_data("inputData/demandsInput_demandsInput_baseLongTermConservationData.csv")
         st.session_state.baseLongTermConservationRadioButtonIndex = 0
     else:
         st.session_state.baseLongTermConservationRadioButtonIndex = 1

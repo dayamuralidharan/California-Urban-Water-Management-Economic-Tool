@@ -50,9 +50,12 @@ inputDataDemandByUseType = fetch_data("inputData/demandsInput_useByTypeData.csv"
 inputDataIntExtDemandsByUseType = fetch_data("inputData/demandsInput_intAndExtUseByTypeData.csv")
 inputDataBaseLongTermConservation = fetch_data("inputData/demandsInput_baseLongTermConservationData.csv")
 
-#### Initialize session state variables on Demand Assumptions page. Input matrices are read into two separate variables to keep one dataframe with all future planning year columns, 
-# and a second that is filtered for only the selected future planning year.
 
+#---------------------------------------------------------------#
+# INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+
+# Initialize radio button indices with default values
 if 'totalDemandScenarioRadioButtonIndex' not in st.session_state:
     st.session_state['totalDemandScenarioRadioButtonIndex'] = 0
 
@@ -64,6 +67,9 @@ if 'intExtUseByTypeRadioButtonIndex' not in st.session_state:
 
 if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
     st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
+
+#### Input matrices are read into two separate variables to keep one dataframe with all future planning year columns, 
+# and a second that is filtered for only the selected future planning year.
 
 if 'inputDataTotalDemands' not in st.session_state:
     st.session_state['inputDataTotalDemands'] = inputDataTotalDemands

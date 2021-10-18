@@ -4,12 +4,16 @@ import pandas as pd
 
 def displaySummaryPlots(): 
     st.header("Demand Assumptions Overview")
+    
+    #---------------------------------------------------------------#
+    # SUMMARY POSTER FOR TOTAL DEMAND SCENARIOS
+    #---------------------------------------------------------------#
 
     st.subheader("Total Demand Scenarios")
     st.write(demandsExplainationText)
 
     # Set up total demand variables for summary poster plots
-    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    demandsPlotInputData = st.session_state.inputDataTotalDemands[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     demandVars = ['Normal or Better Demands (acre-feet/year)', 'Single Dry-Year Demands (acre-feet/year)','Multiple Dry-Year Demands (acre-feet/year)']
