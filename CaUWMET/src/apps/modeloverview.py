@@ -2,7 +2,6 @@ import streamlit as st
 import json
 #import geopandas as gpd
 #import geoviews as gv
-import pyproj
 import plotly.graph_objs as go
 import traceback
 

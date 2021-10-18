@@ -1,7 +1,7 @@
 import streamlit as st
 import traceback
 from load_css import local_css
-from appsUtilities import opt_echo
+from globalUtilities import opt_echo
 
 def app():
 

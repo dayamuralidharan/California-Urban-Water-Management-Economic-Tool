@@ -1,6 +1,5 @@
 import streamlit as st
-import traceback
-from appsUtilities import opt_echo
+from globalUtilities import opt_echo
 
 def app():
     
@@ -8,12 +7,10 @@ def app():
         st.title('Testing page')
 
         st.write(st.session_state.totalDemandsChoice)
-        st.write(st.session_state.useBySectorChoice)
-        st.write(st.session_state.intExtUseBySectorChoice)
         st.write(st.session_state.baseLongTermConservationChoice)
         st.dataframe(st.session_state.totalDemandsdf)
-        st.dataframe(st.session_state.useBySectordf)
-        st.dataframe(st.session_state.intExtUseBySectordf)
+        st.dataframe(st.session_state.useByTypedf)
+        st.dataframe(st.session_state.intExtUseByTypedf)
         st.dataframe(st.session_state.baseLongTermConservationdf)
 
 

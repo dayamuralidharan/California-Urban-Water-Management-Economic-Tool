@@ -2,7 +2,7 @@ import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
 from apps import home, demands, modeloverview, hydrologyassumptions, editcontractors, systemoperations, results, faq, returnTest, watermanagement
-from appsUtilities import fetch_data
+from globalUtilities import fetch_data
 
 
 app = MultiApp()
@@ -46,9 +46,9 @@ st.sidebar.button('Run Model')
 
 #### Fetch input data
 inputDataTotalDemands = fetch_data("inputData/demandsInput_totalDemands.csv")
-inputDataDemandByUseType = fetch_data("inputData/useBySectorData.csv")
-inputDataIntExtDemandsByUseType = fetch_data("inputData/intAndExtUseBySectorData.csv")
-inputDataBaseLongTermConservation = fetch_data("inputData/baseLongTermConservationData.csv")
+inputDataDemandByUseType = fetch_data("inputData/demandsInput_useByTypeData.csv")
+inputDataIntExtDemandsByUseType = fetch_data("inputData/demandsInput_intAndExtUseByTypeData.csv")
+inputDataBaseLongTermConservation = fetch_data("inputData/demandsInput_baseLongTermConservationData.csv")
 
 #### Initialize session state variables on Demand Assumptions page. Input matrices are read into two separate variables to keep one dataframe with all future planning year columns, 
 # and a second that is filtered for only the selected future planning year.
@@ -56,11 +56,11 @@ inputDataBaseLongTermConservation = fetch_data("inputData/baseLongTermConservati
 if 'totalDemandScenarioRadioButtonIndex' not in st.session_state:
     st.session_state['totalDemandScenarioRadioButtonIndex'] = 0
 
-if 'useBySectorRadioButtonIndex' not in st.session_state:
-    st.session_state['useBySectorRadioButtonIndex'] = 0
+if 'useByTypeRadioButtonIndex' not in st.session_state:
+    st.session_state['useByTypeRadioButtonIndex'] = 0
 
-if 'intExtUseBySectorRadioButtonIndex' not in st.session_state:
-    st.session_state['intExtUseBySectorRadioButtonIndex'] = 0
+if 'intExtUseByTypeRadioButtonIndex' not in st.session_state:
+    st.session_state['intExtUseByTypeRadioButtonIndex'] = 0
 
 if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
     st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
@@ -77,8 +77,8 @@ if 'useByTypedf' not in st.session_state:
 
 if 'inputDataIntExtDemandsByUseType' not in st.session_state:
     st.session_state['inputDataIntExtDemandsByUseType'] = inputDataIntExtDemandsByUseType
-if 'intExtUseBySectordf' not in st.session_state:
-    st.session_state['intExtUseBySectordf'] = inputDataIntExtDemandsByUseType
+if 'intExtUseByTypedf' not in st.session_state:
+    st.session_state['intExtUseByTypedf'] = inputDataIntExtDemandsByUseType
 
 if 'inputDataBaseLongTermConservation' not in st.session_state:
     st.session_state['inputDataBaseLongTermConservation'] = inputDataBaseLongTermConservation
