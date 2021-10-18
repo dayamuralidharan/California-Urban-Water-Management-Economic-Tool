@@ -68,25 +68,15 @@ if 'intExtUseByTypeRadioButtonIndex' not in st.session_state:
 if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
     st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
 
-#### Input matrices are read into two separate variables to keep one dataframe with all future planning year columns, 
-# and a second that is filtered for only the selected future planning year.
-
-if 'inputDataTotalDemands' not in st.session_state:
-    st.session_state['inputDataTotalDemands'] = inputDataTotalDemands
+#### Initialize input datasets with default values 
 if 'totalDemandsdf' not in st.session_state:
     st.session_state['totalDemandsdf'] = inputDataTotalDemands
 
-if 'inputDataDemandByUseType' not in st.session_state:
-    st.session_state['inputDataDemandByUseType'] = inputDataDemandByUseType
 if 'useByTypedf' not in st.session_state:
     st.session_state['useByTypedf'] = inputDataDemandByUseType
 
-if 'inputDataIntExtDemandsByUseType' not in st.session_state:
-    st.session_state['inputDataIntExtDemandsByUseType'] = inputDataIntExtDemandsByUseType
 if 'intExtUseByTypedf' not in st.session_state:
     st.session_state['intExtUseByTypedf'] = inputDataIntExtDemandsByUseType
 
-if 'inputDataBaseLongTermConservation' not in st.session_state:
-    st.session_state['inputDataBaseLongTermConservation'] = inputDataBaseLongTermConservation
 if 'baseLongTermConservationdf' not in st.session_state:
     st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation

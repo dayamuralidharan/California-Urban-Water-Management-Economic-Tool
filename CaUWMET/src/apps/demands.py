@@ -63,16 +63,16 @@ def app():
         
         #### TABLE 1 TOTAL DEMAND SCENARIOS
         if st.session_state.totalDemandScenarioRadioButtonIndex == 2:
-            editableTable(st.session_state.inputDataTotalDemands, st.session_state.futurePlanningYear, setTotalDemandsDataToUserInput, "Total Demand Scenarios", "Water Demand (acre-feet/year)")
+            editableTable(st.session_state.totalDemandsdf, st.session_state.futurePlanningYear, setTotalDemandsDataToUserInput, "Total Demand Scenarios", "Water Demand (acre-feet/year)")
         
         ####  TABLE 2 DEMANDS BY USE TYPE
         if st.session_state.useByTypeRadioButtonIndex == 1:
-            editableTable(st.session_state.inputDataDemandByUseType, st.session_state.futurePlanningYear, setDemandsByUseTypeDataToUserInput, "Demands by Use Type", "Demand by Use Type (acre-feet/year)")
+            editableTable(st.session_state.useByTypedf, st.session_state.futurePlanningYear, setDemandsByUseTypeDataToUserInput, "Demands by Use Type", "Demand by Use Type (acre-feet/year)")
 
         ####  TABLE 3 INTERIOR AND EXTERIOR BY USE TYPE 
         if st.session_state.intExtUseByTypeRadioButtonIndex == 1:
-            editableTable(st.session_state.inputDataIntExtDemandsByUseType, st.session_state.futurePlanningYear, setIntExtByUseTypeDataToUserInput, "Interior and Exterior Demands by Use Type", "Interior and Exterior Demands by Use Type (% of Demand by Use Type)")
+            editableTable(st.session_state.intExtUseByTypedf, st.session_state.futurePlanningYear, setIntExtByUseTypeDataToUserInput, "Interior and Exterior Demands by Use Type", "Interior and Exterior Demands by Use Type (% of Demand by Use Type)")
 
         ####  TABLE 4 BASE LONG-TERM CONSERVATION 
         if st.session_state.baseLongTermConservationRadioButtonIndex == 1:
-            editableTable(st.session_state.inputDataBaseLongTermConservation, st.session_state.futurePlanningYear, setBaseLongtermConservationDataToUserInput, "Base Long-term Conservation", "Base Long-term Conservation (acre-feet/year)")
+            editableTable(st.session_state.baseLongTermConservationdf, st.session_state.futurePlanningYear, setBaseLongtermConservationDataToUserInput, "Base Long-term Conservation", "Base Long-term Conservation (acre-feet/year)")
