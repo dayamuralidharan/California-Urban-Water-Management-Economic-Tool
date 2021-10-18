@@ -2,7 +2,7 @@ import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
 from apps import home, demands, modeloverview, hydrologyassumptions, editcontractors, systemoperations, results, faq, returnTest, watermanagement
-from appsUtilities import fetch_data
+from globalUtilities import fetch_data
 
 
 app = MultiApp()
@@ -45,42 +45,38 @@ st.sidebar.write("")
 st.sidebar.button('Run Model')
 
 #### Fetch input data
-inputDataTotalDemands = fetch_data("inputData/totalDemandsData.csv")
-inputDataDemandByUseType = fetch_data("inputData/useBySectorData.csv")
-inputDataIntExtDemandsByUseType = fetch_data("inputData/intAndExtUseBySectorData.csv")
-inputDataBaseLongTermConservation = fetch_data("inputData/baseLongTermConservationData.csv")
+inputDataTotalDemands = fetch_data("inputData/demandsInput_totalDemands.csv")
+inputDataDemandByUseType = fetch_data("inputData/demandsInput_useByTypeData.csv")
+inputDataIntExtDemandsByUseType = fetch_data("inputData/demandsInput_intAndExtUseByTypeData.csv")
+inputDataBaseLongTermConservation = fetch_data("inputData/demandsInput_baseLongTermConservationData.csv")
 
-#### Initialize session state variables on Demand Assumptions page. Input matrices are read into two separate variables to keep one dataframe with all future planning year columns, 
-# and a second that is filtered for only the selected future planning year.
 
+#---------------------------------------------------------------#
+# INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+
+# Initialize radio button indices with default values
 if 'totalDemandScenarioRadioButtonIndex' not in st.session_state:
     st.session_state['totalDemandScenarioRadioButtonIndex'] = 0
 
-if 'useBySectorRadioButtonIndex' not in st.session_state:
-    st.session_state['useBySectorRadioButtonIndex'] = 0
+if 'useByTypeRadioButtonIndex' not in st.session_state:
+    st.session_state['useByTypeRadioButtonIndex'] = 0
 
-if 'intExtUseBySectorRadioButtonIndex' not in st.session_state:
-    st.session_state['intExtUseBySectorRadioButtonIndex'] = 0
+if 'intExtUseByTypeRadioButtonIndex' not in st.session_state:
+    st.session_state['intExtUseByTypeRadioButtonIndex'] = 0
 
 if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
     st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
 
-if 'inputDataTotalDemands' not in st.session_state:
-    st.session_state['inputDataTotalDemands'] = inputDataTotalDemands
+#### Initialize input datasets with default values 
 if 'totalDemandsdf' not in st.session_state:
     st.session_state['totalDemandsdf'] = inputDataTotalDemands
 
-if 'inputDataDemandByUseType' not in st.session_state:
-    st.session_state['inputDataDemandByUseType'] = inputDataDemandByUseType
-if 'useBySectordf' not in st.session_state:
-    st.session_state['useBySectordf'] = inputDataDemandByUseType
+if 'useByTypedf' not in st.session_state:
+    st.session_state['useByTypedf'] = inputDataDemandByUseType
 
-if 'inputDataIntExtDemandsByUseType' not in st.session_state:
-    st.session_state['inputDataIntExtDemandsByUseType'] = inputDataIntExtDemandsByUseType
-if 'intExtUseBySectordf' not in st.session_state:
-    st.session_state['intExtUseBySectordf'] = inputDataIntExtDemandsByUseType
+if 'intExtUseByTypedf' not in st.session_state:
+    st.session_state['intExtUseByTypedf'] = inputDataIntExtDemandsByUseType
 
-if 'inputDataBaseLongTermConservation' not in st.session_state:
-    st.session_state['inputDataBaseLongTermConservation'] = inputDataBaseLongTermConservation
 if 'baseLongTermConservationdf' not in st.session_state:
     st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation

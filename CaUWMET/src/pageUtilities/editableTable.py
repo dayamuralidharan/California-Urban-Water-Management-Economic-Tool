@@ -7,8 +7,8 @@ def editableTable(dataframeInput, futurePlanningYearInput, setDataframeFunction,
     with st.expander(dataFrameTitle):
 
         #Infer basic colDefs from dataframe types
-        dataframe = dataframeInput[['Variable','Study Region', 'Contractor', str(futurePlanningYearInput), 'Notes']]
-        gb = GridOptionsBuilder.from_dataframe(dataframe)
+        dataframe = dataframeInput
+        gb = GridOptionsBuilder.from_dataframe(dataframe[['Variable','Study Region', 'Contractor', str(futurePlanningYearInput), 'Notes']])
 
         #customize gridOptions
         gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=True, maintainColumnOrder = True)
