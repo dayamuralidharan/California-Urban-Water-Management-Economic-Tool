@@ -9,7 +9,7 @@ dirname = os.path.dirname(__file__)
 
 # DEMAND Inputs
 totalDemandsInputData = "../inputData/demandsInput_totalDemands.csv"
-baseConservationInputData = "../inputData/baseLongTermConservationData.csv"
+baseConservationInputData = "../inputData/demandsInput_baseLongTermConservationData.csv"
 inputDemandsFile = os.path.join(dirname, totalDemandsInputData)
 inputBaseConservationFile = os.path.join(dirname, baseConservationInputData)
 
