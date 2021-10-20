@@ -37,13 +37,15 @@ def app():
         st.header("Steps to use this page")
 
 
-        st.write("""There are four categories of variables that need to be set on this page including Total Demands, Total Water Use by Type,
-        Interior and Exterior use by sector, and Base Long-term Conservation. A description of each of variable is provided in the Demand Assumptions Overview section below.
-        """)
+        st.write("There are four categories of variables that need to be set on this page including:") 
+        st.write("1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multi-Dry hydrologic year types.")
+        st.write("2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.")
+        st.write("3) Interior and Exterior Use by Type for each category listed above, and")
+        st.write("4) Base Long-term Conservation")
+        st.write("A detailed description of each of variable is provided in the Demand Assumptions Overview section below.")
         st. write("")
-        st.write("""Select which datasets to use for each variable from the options below.
-        After making your selection for all four variables, 
-        review the data in the plots below.""")
+        st.write("First, select which datasets to use for each variable from the options below. Each dataset has the option to use default data or input data through a table. If input through the table option is selected, please note the table is in a ""collapsable"" section at the very bottom of this page.")
+        st.write("After making your selection for all variables, review the data in the plots below.")
 
         #---------------------------------------------------------------#
         # RADIO BUTTONS TO SELECT DATASETS
