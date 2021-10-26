@@ -5,7 +5,7 @@ from globalUtilities import fetch_data
 def setTotalDemandsInputData():
     if st.session_state.totalDemandsChoice == 'UWMP reported values':
         st.session_state.totalDemandScenarioRadioButtonIndex = 0
-        st.session_state.totalDemandsdf = fetch_data("inputData/inputDemands_totalDemands.csv")
+        st.session_state.totalDemandsdf = fetch_data("inputData/demandsInput_totalDemands.csv")
     elif st.session_state.totalDemandsChoice == 'ETAW adjusted demands':
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
