@@ -50,7 +50,7 @@ groundwaterSupplyData.set_index('Contractor', inplace = True)
 
 
 # Create dataframe of Supplies in order of Priority
-supplyPriorities = ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5', 'Priority 6', 'Priority 7', 'Priority 8']
+supplyPriorities = ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5', 'Priority 6', 'Priority 7']
 suppliesByPriority = pd.DataFrame(index = [contractorsList], columns = [supplyPriorities]) 
 
 def setSupplyByPriority(priority):
@@ -78,6 +78,5 @@ setSupplyByPriority('Priority 4')
 setSupplyByPriority('Priority 5')
 setSupplyByPriority('Priority 6')
 setSupplyByPriority('Priority 7')
-setSupplyByPriority('Priority 8')
 
 print(suppliesByPriority)
