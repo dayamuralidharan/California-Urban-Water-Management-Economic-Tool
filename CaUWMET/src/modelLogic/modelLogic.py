@@ -3,6 +3,7 @@ import pandas as pd
 from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from readDemandAssumptions import totalDemands, baseConservation 
 from readSupplyAssumptions import suppliesByPriority, swpCVPSupplyData
+from modelUtilities import meetDemandsBySupplyPriority
 
 #TODO: Add water management options to suppliesByPriority data
 
@@ -31,7 +32,6 @@ for contractor in contractorsList:
     contractorExcessSupply = []
     contractorDemandsToBeMetByCarryover = []
 
-    contractorInitialSurfaceCarryoverStorage = []
     
     for i in range(len(historicHydrologyYears)):
         # Calculate demands after long-term base conservation
@@ -51,70 +51,33 @@ for contractor in contractorsList:
 
         contractorDemandsAfterSupplyPriority1 = contractorDemandsAfterBaseConservation - contractorSupplyPriority1
 
-        if contractorDemandsAfterSupplyPriority1 > 0:
-            contractorDemandsAfterSupplyPriority2 = contractorDemandsAfterSupplyPriority1 - contractorSupplyPriority2
-            
-            if contractorDemandsAfterSupplyPriority2 > 0:
-                contractorDemandsAfterSupplyPriority3 = contractorDemandsAfterSupplyPriority2 - contractorSupplyPriority3
-            
-                if contractorDemandsAfterSupplyPriority3 > 0:
-                    contractorDemandsAfterSupplyPriority4 = contractorDemandsAfterSupplyPriority3 - contractorSupplyPriority4
-                
-                    if contractorDemandsAfterSupplyPriority4 > 0:
-                        contractorDemandsAfterSupplyPriority5 = contractorDemandsAfterSupplyPriority4 - contractorSupplyPriority5
+        meetDemandsBySupplyPriorityOutput = meetDemandsBySupplyPriority(contractorDemandsAfterSupplyPriority1, contractorSupplyPriority2, contractorSupplyPriority3, contractorSupplyPriority4, contractorSupplyPriority5, contractorSupplyPriority6, contractorSupplyPriority7, contractorSWPCVPSupply)
 
-                        if contractorDemandsAfterSupplyPriority5 > 0:
-                            contractorDemandsAfterSupplyPriority6 = contractorDemandsAfterSupplyPriority5 - contractorSupplyPriority6
-
-                            if contractorDemandsAfterSupplyPriority6 > 0:
-                                contractorDemandsToBeMetBySWPCVP = contractorDemandsAfterSupplyPriority6 - contractorSupplyPriority7
-                                
-                                if contractorDemandsToBeMetBySWPCVP > 0:
-                                    contractorDemandsToBeMetByCarryover = contractorDemandsToBeMetBySWPCVP - contractorSWPCVPSupply
-                                else:
-                                    contractorExcessSupply = -1*contractorDemandsToBeMetBySWPCVP 
-                                    contractorDemandsToBeMetByCarryover = 0
-                            else:
-                                contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                                contractorDemandsToBeMetBySWPCVP = 0
-                                contractorDemandsToBeMetByCarryover = 0
-                        else:
-                            contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                            contractorDemandsToBeMetBySWPCVP = 0
-                            contractorDemandsToBeMetByCarryover = 0
-                    else:
-                        contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                        contractorDemandsToBeMetBySWPCVP = 0
-                        contractorDemandsToBeMetByCarryover = 0
-                else:
-                    contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                    contractorDemandsToBeMetBySWPCVP = 0
-                    contractorDemandsToBeMetByCarryover = 0
-            else:
-                contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                contractorDemandsToBeMetBySWPCVP = 0
-                contractorDemandsToBeMetByCarryover = 0
-        else:
-            contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority1 + contractorSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-            contractorDemandsToBeMetBySWPCVP = 0
+        contractorExcessSupply = meetDemandsBySupplyPriorityOutput[0]
+        contractorDemandsToBeMetByCarryover = meetDemandsBySupplyPriorityOutput[1]
 
         
         
-        # Put excess supplies into carryover storage
+        ## If there are excess supplies, put into carryover storage
         #if contractorExcessSupplies > 0 and excess supply switch = 1:
             # Input into SW Storage = min(excess supply, available capacity (max capacity - storage from prev timestep), surface put capacity)
             # Input into groundwater storage = min(excess supply - what was put into surface storage, available capacity (max capacity - storage from prev timestep), groundwater put capacity)
         
-        # Supply remaining demand by available carryover supply
-        # Start with surface carryover, then if there is still remaining demand use groundwater carryover.
-        #if contractorDemandsToBeMetByCarryover > 0 and excess supply swith = 1:
+        ## If there is remaining demand to be met by carryover storage, supply remaining demand with available carryover supply
+        ## Start with surface carryover, then if there is still remaining demand use groundwater carryover.
+        # if contractorDemandsToBeMetByCarryover > 0 and excess supply swith = 1:
+
+        ## If there is still remaining demand after carryover storage has been allocated, return the remaining demand as a variable called contractorDemandToBeMetByContingentOptions
 
         
 
     demandsAfterBaseConservation[contractor] = contractorDemandsAfterBaseConservation
     demandsToBeMetBySWPCVP[contractor] = contractorDemandsToBeMetBySWPCVP
     demandsToBeMetByCarryoverStorage[contractor] = contractorDemandsToBeMetByCarryover
+    
 
 
 
 demandsAfterBaseConservation = pd.DataFrame(demandsAfterBaseConservation)
+demandsToBeMetBySWPCVP = pd.DataFrame(demandsToBeMetBySWPCVP)
+demandsToBeMetByCarryoverStorage = pd.DataFrame(demandsToBeMetByCarryoverStorage)
