@@ -18,7 +18,7 @@ D403B_PIN",
 15,City of Huron,Central Valley - San Joaquin Valley,Tulare Lake,Retail,CVP,D844_PMI*0.15,
 16,City of Lindsay,Central Valley - San Joaquin Valley,Tulare Lake,Retail,CVP,2.5*(D910_C1/60),
 17,City of Orange Cove,Central Valley - San Joaquin Valley,Tulare Lake,Retail,CVP,1.4*(D910_C1/60),
-18,City of Tracy,Central Valley - San Joaquin Valley,San Joaquin River,Retail,CVP,0.2*[South of Delta % PMI Delivery],
+18,City of Tracy,Central Valley - San Joaquin Valley,San Joaquin River,Retail,CVP,0.33 * D700,
 19,Kern County Water Agency,Central Valley - San Joaquin Valley,Tulare Lake,Retail,SWP,D851A_PMI,
 20,Other Friant-Kern M&I Contractors,Central Valley - San Joaquin Valley,Tulare Lake,Wholesale,CVP,2.926*(D910_C1/60),"Includes Arvin-Edison Water Storage District, Delano-Earlimart Irrigation District, and Lindsay-Strathmore Irrigation District"
 21,Stockton-East Water District,Central Valley - San Joaquin Valley,San Joaquin River,Wholesale,CVP,D520_SEWD_PMI,
@@ -43,10 +43,10 @@ D,C)]",
 35,Metropolitan Water District of Southern California,Southern California,South Coast,Wholesale,SWP,"D895_PMI + D895_PMI+ D895_PIN+ 
 D899_PCO + D899_PCO + D899_PIN + 
 D27_PMI +D27_PIN + D27_PCO 
-+D885_PMI + D885_PCO + D885_PIN",
++D885_PMI + D885_PCO + D885_PIN + D851B_PMI",
 36,Mojave Water Agency,Southern California,South Lahontan and Colorado River,Wholesale,SWP,D881_PMI + D881_PCO,
-37,Palmdale Water District & Littlerock Creek Irrigation District,Southern California,South Lahontan,Retail,SWP,D878_PMI + D878_PCO,
-38,San Bernardino Valley Municipal Water District,Southern California,South Coast,Retail,SWP,D886_PMI + D886_PCO,
-39,San Gabriel Valley Municipal Water District,Southern California,South Coast,Wholesale,SWP,D887_PMI + D887_PCO,SWP water is solely for regional groundwater recharge.
-40,San Gorgonio Pass Water Agency,Southern California,South Coast and Colorado River,Wholesale,SWP,D888_PMI + D888_PCO,
-41,Ventura County Watershed Protection District,Southern California,"South Coast, Central Coast and Tulare Lake",Wholesale,SWP,D28 + D29,
+37,Palmdale Water District & Littlerock Creek Irrigation District,Southern California,South Lahontan,Retail,SWP,D878_PMI + D878_PCO + D878_PIN + D879_PMI + D879_PCO,
+38,San Bernardino Valley Municipal Water District,Southern California,South Coast,Retail,SWP,D886_PMI + D886_PCO + D886_PIN,
+39,San Gabriel Valley Municipal Water District,Southern California,South Coast,Wholesale,SWP,D887_PMI + D887_PCO + D887_PIN,SWP water is solely for regional groundwater recharge.
+40,San Gorgonio Pass Water Agency,Southern California,South Coast and Colorado River,Wholesale,SWP,D888_PMI + D888_PCO + D888_PIN,
+41,Ventura County Watershed Protection District,Southern California,"South Coast, Central Coast and Tulare Lake",Wholesale,SWP,D28_PMI + D28_PCO + D29_PMI + D29_PCO + D29_PIN,
