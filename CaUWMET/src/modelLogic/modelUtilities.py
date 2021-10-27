@@ -42,12 +42,55 @@ def reclassifyYearType(yearType):
             rType.append('NB')
     return rType
 
+#TODO: Shorten function by iterating over supplies by priority dataframe columns
+def meetDemandsBySupplyPriority(contractorDemandsAfterSupplyPriority1, contractorSupplyPriority2, contractorSupplyPriority3, contractorSupplyPriority4, contractorSupplyPriority5, contractorSupplyPriority6, contractorSupplyPriority7, contractorSWPCVPSupply):
+    contractorExcessSupply = 0
+    contractorDemandsToBeMetByCarryover = 0
+    if contractorDemandsAfterSupplyPriority1 > 0:
+        contractorDemandsAfterSupplyPriority2 = contractorDemandsAfterSupplyPriority1 - contractorSupplyPriority2
+        
+        if contractorDemandsAfterSupplyPriority2 > 0:
+            contractorDemandsAfterSupplyPriority3 = contractorDemandsAfterSupplyPriority2 - contractorSupplyPriority3
+        
+            if contractorDemandsAfterSupplyPriority3 > 0:
+                contractorDemandsAfterSupplyPriority4 = contractorDemandsAfterSupplyPriority3 - contractorSupplyPriority4
+            
+                if contractorDemandsAfterSupplyPriority4 > 0:
+                    contractorDemandsAfterSupplyPriority5 = contractorDemandsAfterSupplyPriority4 - contractorSupplyPriority5
 
-def subtractSuppliesByPriority(suppliesDf, demandsDf, supplyPriorityNumber):
-    suppliesPriorityNDf = suppliesDf[suppliesDf['Supply Priority'] == supplyPriorityNumber].copy()
-    finalSuppliesPriorityNDf = suppliesPriorityNDf.reset_index()
-    del finalSuppliesPriorityNDf['index']
-    finaldemandsAfterPriorityNSuppliesDf = finalSuppliesPriorityNDf.copy()
-    cols = finalSuppliesPriorityNDf.columns.difference(['Index', 'Contractor', 'Year', 'Supply Type', 'Supply Priority'])                        
-    finaldemandsAfterPriorityNSuppliesDf[cols] = demandsDf[cols] - finalSuppliesPriorityNDf[cols]
-    return finaldemandsAfterPriorityNSuppliesDf
+                    if contractorDemandsAfterSupplyPriority5 > 0:
+                        contractorDemandsAfterSupplyPriority6 = contractorDemandsAfterSupplyPriority5 - contractorSupplyPriority6
+
+                        if contractorDemandsAfterSupplyPriority6 > 0:
+                            contractorDemandsToBeMetBySWPCVP = contractorDemandsAfterSupplyPriority6 - contractorSupplyPriority7
+                            
+                            if contractorDemandsToBeMetBySWPCVP > 0:
+                                contractorDemandsToBeMetByCarryover = contractorDemandsToBeMetBySWPCVP - contractorSWPCVPSupply
+                            else:
+                                contractorExcessSupply = -1*contractorDemandsToBeMetBySWPCVP 
+                                contractorDemandsToBeMetByCarryover = 0
+                        else:
+                            contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
+                            contractorDemandsToBeMetBySWPCVP = 0
+                            contractorDemandsToBeMetByCarryover = 0
+                    else:
+                        contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
+                        contractorDemandsToBeMetBySWPCVP = 0
+                        contractorDemandsToBeMetByCarryover = 0
+                else:
+                    contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
+                    contractorDemandsToBeMetBySWPCVP = 0
+                    contractorDemandsToBeMetByCarryover = 0
+            else:
+                contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
+                contractorDemandsToBeMetBySWPCVP = 0
+                contractorDemandsToBeMetByCarryover = 0
+        else:
+            contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
+            contractorDemandsToBeMetBySWPCVP = 0
+            contractorDemandsToBeMetByCarryover = 0
+    else:
+        contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority1 + contractorSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
+        contractorDemandsToBeMetBySWPCVP = 0
+    
+    return [contractorExcessSupply, contractorDemandsToBeMetByCarryover]
