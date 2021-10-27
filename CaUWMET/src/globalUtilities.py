@@ -6,7 +6,6 @@ import traceback
 from load_css import local_css
 from demandsHelper import load_data, summary_poster
 from contextlib import contextmanager
-from streamlit.hashing import _CodeHasher
 import pandas as pd
 
 #TODO streamlit also has a download button that may be better than the download link below.

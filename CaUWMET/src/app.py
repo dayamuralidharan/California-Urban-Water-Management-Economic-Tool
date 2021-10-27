@@ -1,7 +1,7 @@
 import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
-from apps import home, demands, modeloverview, hydrologyassumptions, editcontractors, systemoperations, results, faq, returnTest, watermanagement
+from apps import home, demands, modeloverview, hydrologyassumptions, systemoperations, results, faq, returnTest, watermanagement
 from globalUtilities import fetch_data
 
 
@@ -20,7 +20,7 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Contractor Assumptions": editcontractors,
+    #"Contractor Assumptions": editcontractors,
     "Hydrology Assumptions": hydrologyassumptions,
     "Demand Assumptions": demands,
     #"Supply Assumptions": supplies,
