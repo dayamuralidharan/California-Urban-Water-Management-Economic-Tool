@@ -2,12 +2,14 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
+import numpy as np
+from colors import colors
 
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
     return df
 
-def summary_poster(contractor_df, color_dict):
+def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisTitle):
     #MAKE SUBPLOTS
     fig = make_subplots(
         rows=1, cols=2, 
@@ -53,7 +55,7 @@ def summary_poster(contractor_df, color_dict):
                                 y = y, orientation = 'h',
                                 name = label_name,
                                 # hovertemplate='<b>Year: %{x}</b><br>#Songs: %{y}',
-                                marker_color = pd.Series([label_name]*len(y)).map(color_dict),
+                                marker_color = colors,
                                 legendgroup = 'grp2',
                                 showlegend=True),
                                 row = 1, col = 2)
@@ -63,33 +65,6 @@ def summary_poster(contractor_df, color_dict):
                         row = 1, col = 2)
     fig.update_yaxes(side = 'right', linecolor = 'grey', mirror = True, dtick = -5,
                      row = 1, col = 2)
-
-    # #SCATTER
-    # fig.add_trace(go.Scatter(
-    #             x=contractor_df['Contractor'],
-    #             y=contractor_df['Rank'],
-    #             mode = 'markers',
-    #             marker_color = contractor_df['Demands'].map(color_dict),
-    #             customdata = contractor_df.loc[:,['Year','Rank']],
-    #             # hovertemplate='<b>Year: %{customdata[0]}</b><br>Rank: %{customdata[1]} <br>Title: %{customdata[2]}',
-    #             legendgroup = 'grp1',
-    #             showlegend=False
-    #             ),
-    #             row = 2, col = 1
-    #             )
-    # fig.update_traces(marker = dict(symbol = 'circle', size = 7
-    #                                 #,line = dict(color = 'grey', width = 0.5)
-    #                                 ),
-    #                   name = "",
-    #                   row = 2, col =1)
-    # fig.update_yaxes(autorange = 'reversed',title = 'Rank',showgrid=True, 
-    #                 mirror = True, zeroline = False, linecolor = 'grey', 
-    #                 title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1, 
-    #                 row = 2, col = 1)
-    # fig.update_xaxes(title="",showgrid=True, mirror = True,
-    #                 linecolor = 'grey', 
-    #                 gridcolor = 'grey', gridwidth = 0.1,
-    #                 row = 2, col =1)
 
     fig.update_layout( # customize font and margins
                         barmode = 'stack',
@@ -109,3 +84,45 @@ def summary_poster(contractor_df, color_dict):
                     )
     
     return fig
+
+def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey, piePlotTitle, barPlotTitle, barPlotXAxisLabel, colors):
+    color_map_df = load_data("inputData/color_map_df_demands.csv")
+    plotInputData['k_labels'] = np.select(varsForLabel, k_labelValues)
+    
+    plotInputData['colors'] = np.select(varsForLabel, colors) 
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("#### **Select Variable to Display in Plot Below:**")
+        
+        vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
+
+        selectVariable = []
+        selectVariable.append(st.selectbox('', vars, key= selectBoxKey, help="Select variable to display in plots below."))
+        
+        plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
+
+    # Setting up color palette dict
+    color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
+    fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
+    st.write(fig)
+
+localSurfaceWaterExplanationText = ("""...""")
+
+groundwaterExplanationText = ("""...""")
+
+desalinationExplanationText = ("""...""")
+
+recyclingExplanationText = ("""...""")
+
+potableReuseExplanationText = ("""...""")
+
+contractualTransfersExplanationText = ("""...""")
+
+otherImportedSuppliesExplanationText = ("""...""")
+
+swpCVPExplanationText = ("""...""")
+
+costBySupplyTypeExplanationText = ("""...""")
+
+supplyPriorityTypeExplanationText = ("""...""")

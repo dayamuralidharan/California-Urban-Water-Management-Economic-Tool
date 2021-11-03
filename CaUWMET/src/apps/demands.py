@@ -4,6 +4,7 @@ from globalUtilities import opt_echo
 from pageUtilities.editableTable import editableTable
 from pageUtilities.selectData_Demands import setDemandDatasetsFromRadioButtons
 from pageUtilities.summaryPlots_Demands import displaySummaryPlots
+from load_css import local_css
 
 #TODO Plot in collapsible section should average, not sum (Nira)
 #TODO Kensey and Nira to review the color_map_df in demandsHelper file. I don't really understand the labeling. Also, why are colors input here but also declared in line ~129?
@@ -37,12 +38,12 @@ def app():
         st.header("Steps to use this page")
 
 
-        st.write("There are four categories of variables that need to be set on this page including:") 
-        st.write("1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multi-Dry hydrologic year types.")
-        st.write("2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.")
-        st.write("3) Interior and Exterior Use by Type for each category listed above, and")
-        st.write("4) Base Long-term Conservation")
-        st.write("A detailed description of each of variable is provided in the Demand Assumptions Overview section below.")
+        st.write("<span class='font'>There are four categories of variables that need to be set on this page including:</span>", unsafe_allow_html=True) 
+        st.write("<span class='font'>1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multi-Dry hydrologic year types.</span>", unsafe_allow_html=True)
+        st.write("<span class='font'>2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.</span>", unsafe_allow_html=True)
+        st.write("<span class='font'>3) Interior and Exterior Use by Type for each category listed above, and</span>", unsafe_allow_html=True)
+        st.write("<span class='font'>4) Base Long-term Conservation</span>", unsafe_allow_html=True)
+        st.write("<span class='font'>A detailed description of each of variable is provided in the Demand Assumptions Overview section below.</span>", unsafe_allow_html=True)
         st. write("")
         st.write("First, select which datasets to use for each variable from the options below. Each dataset has the option to use default data or input data through a table. If input through the table option is selected, please note the table is in a ""collapsable"" section at the very bottom of this page.")
         st.write("After making your selection for all variables, review the data in the plots below.")
