@@ -3,6 +3,7 @@ import pandas as pd
 from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from readDemandAssumptions import totalDemands, baseConservation 
 from readSupplyAssumptions import suppliesByPriority, swpCVPSupplyData
+from readSystemOperationsAssumptions import carryoverStorageData, excessWaterSwitchData
 from modelUtilities import meetDemandsBySupplyPriority
 
 #TODO: Add water management options to suppliesByPriority data
@@ -32,7 +33,6 @@ for contractor in contractorsList:
     contractorExcessSupply = []
     contractorDemandsToBeMetByCarryover = []
 
-    
     for i in range(len(historicHydrologyYears)):
         # Calculate demands after long-term base conservation
         contractorBaseLongTermConservation = baseConservation[baseConservation['Contractor'] == contractor][futureYear].values[0]
@@ -56,21 +56,51 @@ for contractor in contractorsList:
         contractorExcessSupply = meetDemandsBySupplyPriorityOutput[0]
         contractorDemandsToBeMetByCarryover = meetDemandsBySupplyPriorityOutput[1]
 
-        
-        
-        ## If there are excess supplies, put into carryover storage
-        #if contractorExcessSupplies > 0 and excess supply switch = 1:
-            # Input into SW Storage = min(excess supply, available capacity (max capacity - storage from prev timestep), surface put capacity)
-            # Input into groundwater storage = min(excess supply - what was put into surface storage, available capacity (max capacity - storage from prev timestep), groundwater put capacity)
-        
-        ## If there is remaining demand to be met by carryover storage, supply remaining demand with available carryover supply
-        ## Start with surface carryover, then if there is still remaining demand use groundwater carryover.
-        # if contractorDemandsToBeMetByCarryover > 0 and excess supply swith = 1:
+        contractorExcessSupplySwitch = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
 
-        ## If there is still remaining demand after carryover storage has been allocated, return the remaining demand as a variable called contractorDemandToBeMetByContingentOptions
+        if contractorExcessSupplySwitch == 1:
+            contractorCarryoverStorageDf = carryoverStorageData.loc[[contractor]]
+            if i == 0:
+                contractorSurfaceCarryoverStorage = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Surface initial storage (acre-feet)'][futureYear].values[0]
+                contractorGroundwaterCarryoverStorage = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater initial storage (acre-feet)'][futureYear].values[0]
+            ## If there are excess supplies, put into carryover storage
+            if contractorExcessSupply > 0:
+                contractorSurfaceMaximumCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Surface max storage capacity (acre-feet)'][futureYear].values[0]
+                contractorSurfaceMaximumPutCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Surface max put capacity (acre-feet)'][futureYear].values[0]
+                availableSurfaceCapacity = contractorSurfaceMaximumCapacity - contractorSurfaceCarryoverStorage
+                inputSWStorage = min(contractorExcessSupply, min(availableSurfaceCapacity, contractorSurfaceMaximumPutCapacity))
+                contractorExcessSupply = contractorExcessSupply - inputSWStorage
+                contractorSurfaceCarryoverStorage = contractorSurfaceCarryoverStorage + inputSWStorage
+                if contractorExcessSupply > 0:
+                    contractorGroundwaterMaximumCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater max storage capacity (acre-feet)'][futureYear].values[0]
+                    contractorGroundwaterMaximumPutCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater max put capacity (acre-feet)'][futureYear].values[0]
+                    availableGroundwaterCapacity = contractorGroundwaterMaximumCapacity - contractorGroundwaterCarryoverStorage
+                    inputGWStorage = min(contractorExcessSupply, min(availableGroundwaterCapacity, contractorGroundwaterMaximumPutCapacity))
+                    contractorExcessSupply = contractorExcessSupply - inputGWStorage
+                    contractorGroundwaterCarryoverStorage = contractorGroundwaterCarryoverStorage + inputGWStorage
+            #if contractorExcessSupplies > 0 and excess supply switch = 1:
+                # Input into SW Storage = min(excess supply, available capacity (max capacity - storage from prev timestep), surface put capacity)
+                # Input into groundwater storage = min(excess supply - what was put into surface storage, available capacity (max capacity - storage from prev timestep), groundwater put capacity)
+
+            if contractorDemandsToBeMetByCarryover > 0:
+                if contractorSurfaceCarryoverStorage > 0:
+                    contractorSurfaceMaximumTakeCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Surface max take capacity (acre-feet)'][futureYear].values[0]
+                    contractorSurfaceTakeLoss = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Surface take loss (% of take)'][futureYear].values[0]
+                    outputSWStorage = min((1 + contractorSurfaceTakeLoss) * contractorDemandsToBeMetByCarryover, min(contractorSurfaceCarryoverStorage, contractorSurfaceMaximumTakeCapacity))
+                    contractorDemandsToBeMetByCarryover = contractorDemandsToBeMetByCarryover - ((1 - contractorSurfaceTakeLoss) * outputSWStorage)
+                    contractorSurfaceCarryoverStorage = contractorSurfaceCarryoverStorage - outputSWStorage
+                    if contractorDemandsToBeMetByCarryover > 0:
+                        contractorGroundwaterMaximumTakeCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater max take capacity (acre-feet)'][futureYear].values[0]
+                        contractorGroundwaterTakeLoss = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater take loss (% of take)'][futureYear].values[0]
+                        outputGWStorage = min((1 + contractorGroundwaterTakeLoss) * contractorDemandsToBeMetByCarryover, min(contractorGroundwaterCarryoverStorage, contractorGroundwaterMaximumTakeCapacity))
+                        contractorDemandToBeMetByContingentOptions = contractorDemandsToBeMetByCarryover - ((1 - contractorGroundwaterTakeLoss) * outputGWStorage)
+                        contractorGroundwaterCarryoverStorage = contractorGroundwaterCarryoverStorage - outputSWStorage
+            ## If there is remaining demand to be met by carryover storage, supply remaining demand with available carryover supply
+            ## Start with surface carryover, then if there is still remaining demand use groundwater carryover.
+            # if contractorDemandsToBeMetByCarryover > 0 and excess supply swith = 1:
+            ## If there is still remaining demand after carryover storage has been allocated, return the remaining demand as a variable called contractorDemandToBeMetByContingentOptions
 
         
-
     demandsAfterBaseConservation[contractor] = contractorDemandsAfterBaseConservation
     demandsToBeMetBySWPCVP[contractor] = contractorDemandsToBeMetBySWPCVP
     demandsToBeMetByCarryoverStorage[contractor] = contractorDemandsToBeMetByCarryover
