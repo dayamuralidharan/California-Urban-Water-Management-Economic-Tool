@@ -49,7 +49,7 @@ for contractor in contractorsList:
         contractorSupplyPriority7 = suppliesByPriority['Priority 7'].loc[[contractor]].values[0]
         contractorSWPCVPSupply = swpCVPSupplyData[contractor][i]
 
-        contractorDemandsAfterSupplyPriority1 = contractorDemandsAfterBaseConservation - contractorSupplyPriority1
+        contractorDemandsAfterSupplyPriority1 = contractorDemandsAfterBaseConservation - contractorSupplyPriority1[0]
 
         meetDemandsBySupplyPriorityOutput = meetDemandsBySupplyPriority(contractorDemandsAfterSupplyPriority1, contractorSupplyPriority2, contractorSupplyPriority3, contractorSupplyPriority4, contractorSupplyPriority5, contractorSupplyPriority6, contractorSupplyPriority7, contractorSWPCVPSupply)
 
