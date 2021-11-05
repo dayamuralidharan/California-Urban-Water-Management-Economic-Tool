@@ -3,7 +3,6 @@ import pandas as pd
 from readGlobalAssumptions import contractorsList, futureYear
 from modelUtilities import lookupCorrespondingValue
 
-# Change Other Imported and Contractual Transfers in Supply Piority inputs to Other and Exchanges
 #TODO: Set up supplies that vary by hydrological year type
 
 # Input directories and filenames
