@@ -43,11 +43,23 @@ def reclassifyYearType(yearType):
     return rType
 
 #TODO: Shorten function by iterating over supplies by priority dataframe columns
-def meetDemandsBySupplyPriority(contractorDemandsAfterSupplyPriority1, contractorSupplyPriority2, contractorSupplyPriority3, contractorSupplyPriority4, contractorSupplyPriority5, contractorSupplyPriority6, contractorSupplyPriority7, contractorSWPCVPSupply):
+def meetDemandsBySupplyPriority(
+    i, 
+    contractorDemandsAfterSupplyPriority1,
+    contractorSupplyPriority2, 
+    contractorSupplyPriority3, 
+    contractorSupplyPriority4, 
+    contractorSupplyPriority5, 
+    contractorSupplyPriority6, 
+    contractorSupplyPriority7, 
+    contractorSWPCVPSupply):
+
+    contractorDemandsToBeMetBySWPCVP = 0
     contractorExcessSupply = 0
     contractorDemandsToBeMetByCarryover = 0
-    if contractorDemandsAfterSupplyPriority1 > 0:
-        contractorDemandsAfterSupplyPriority2 = contractorDemandsAfterSupplyPriority1 - contractorSupplyPriority2
+
+    if contractorDemandsAfterSupplyPriority1[i] > 0:
+        contractorDemandsAfterSupplyPriority2 = contractorDemandsAfterSupplyPriority1[i] - contractorSupplyPriority2
         
         if contractorDemandsAfterSupplyPriority2 > 0:
             contractorDemandsAfterSupplyPriority3 = contractorDemandsAfterSupplyPriority2 - contractorSupplyPriority3
@@ -67,8 +79,8 @@ def meetDemandsBySupplyPriority(contractorDemandsAfterSupplyPriority1, contracto
                             if contractorDemandsToBeMetBySWPCVP > 0:
                                 contractorDemandsToBeMetByCarryover = contractorDemandsToBeMetBySWPCVP - contractorSWPCVPSupply
                             else:
-                                contractorExcessSupply = -1*contractorDemandsToBeMetBySWPCVP 
-                                contractorDemandsToBeMetByCarryover = 0
+                                contractorExcessSupply = -1*contractorDemandsToBeMetBySWPCVP
+                                contractorDemandsToBeMetByCarryover= 0
                         else:
                             contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
                             contractorDemandsToBeMetBySWPCVP = 0
@@ -93,4 +105,4 @@ def meetDemandsBySupplyPriority(contractorDemandsAfterSupplyPriority1, contracto
         contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority1 + contractorSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
         contractorDemandsToBeMetBySWPCVP = 0
     
-    return [contractorExcessSupply, contractorDemandsToBeMetByCarryover]
+    return [contractorDemandsToBeMetBySWPCVP, contractorExcessSupply, contractorDemandsToBeMetByCarryover]

@@ -34,10 +34,10 @@ def setOtherImportedSuppliesDataToUserInput(gridResponseData):
     st.session_state.otherImportedSuppliesdf = gridResponseData
 
 def setSWPCVPDataToUserInput(gridResponseData): 
-    st.session_state.swpCVPSuppliesdf = gridResponseDataset
+    st.session_state.swpCVPSuppliesdf = gridResponseData
 
 def setCostBySupplyTypeDataToUserInput(gridResponseData): 
-    st.session_state.costBySupplyTypedf = gridResponseDataset
+    st.session_state.costBySupplyTypedf = gridResponseData
 
 def setSupplyPriorityDataToUserInput(gridResponseData): 
     st.session_state.supplyPrioritydf = gridResponseData
@@ -79,42 +79,10 @@ def app():
         # COLLAPSIBLE SECTIONS WTIH EDITABLE TABLES
         #---------------------------------------------------------------#
        
-        ####  TABLE 1 LOCAL SURFACE WATER
+        ####  TABLE 1 LOCAL SUPPLIES
         if st.session_state.localSurfaceWaterRadioButtonIndex == 1:
             editableTable(st.session_state.localSurfaceWaterdf, st.session_state.futurePlanningYear, setLocalSurfaceWaterDataToUserInput, "Local Surface Water", "Local surface water supply volume (acre-feet/year)")
 
-        ####  TABLE 2 GROUNDWATER
-        if st.session_state.groundwaterRadioButtonIndex == 1:
-            editableTable(st.session_state.groundwaterdf, st.session_state.futurePlanningYear, setGroundwaterDataToUserInput, "Groundwater", "Groundwater supply volume (acre-feet/year)")
-
-        ####  TABLE 3 DESALINATION
-        if st.session_state.desalinationRadioButtonIndex == 1:
-            editableTable(st.session_state.desalinationdf, st.session_state.futurePlanningYear, setDesalinationDataToUserInput, "Desalination", "Desalination supply volume (acre-feet/year)")
-
-        #### TABLE 4 RECYCLING
-        if st.session_state.recyclingRadioButtonIndex == 1:
-            editableTable(st.session_state.recyclingdf, st.session_state.futurePlanningYear, setRecyclingDataToUserInput, "Recycling", "Recycling supply volume (acre-feet/year)")
-        
-        ####  TABLE 5 POTABLE REUSE
-        if st.session_state.potableReuseRadioButtonIndex == 1:
-            editableTable(st.session_state.potableReusedf, st.session_state.futurePlanningYear, setPotableReuseDataToUserInput, "Potable Reuse", "Potable Reuse supply volume (acre-feet/year)")
-
-        ####  TABLE 6 CONTRACTUAL TRANSFERS
-        if st.session_state.contractualTransfersRadioButtonIndex == 1:
-            editableTable(st.session_state.contractualTransfersdf, st.session_state.futurePlanningYear, setContractualTransfersDataToUserInput, "Long-term Contractual Transfers and Exchanges", "Long-term Contractual Transfers and Exchanges supply volume (acre-feet/year)")
-
-        ####  TABLE 7 OTHER IMPORTED SUPPLIES
-        if st.session_state.otherImportedSuppliesRadioButtonIndex == 1:
-            editableTable(st.session_state.otherImportedSuppliesdf, st.session_state.futurePlanningYear, setOtherImportedSuppliesDataToUserInput, "Other Imported Supply", "Other imported supply volume (acre-feet/year)")
-
-        ####  TABLE 8 SWP CVP SUPPLIES
-        if st.session_state.swpCVPRadioButtonIndex == 1:
-            editableTable(st.session_state.swpCVPSuppliesdf, st.session_state.futurePlanningYear, setSWPCVPDataToUserInput, "SWP and CVP Supplies", "SWP and CVP Supplies (acre-feet/year)")
-
         #### TABLE 9 COST BY SUPPLY TYPE
-        if st.session_state.costBySupplyTypeRadioButtonIndex == 1:
-            editableTable(st.session_state.costBySupplyTypedf, st.session_state.futurePlanningYear, setCostBySupplyTypeDataToUserInput, "Cost by Supply Type", "Cost by Supply Type ($/acre-feet-year)")
 
         ####  TABLE 10 SWP CVP SUPPLIES
-        if st.session_state.supplyPriorityRadioButtonIndex == 1:
-            editableTable(st.session_state.supplyPrioritydf, st.session_state.futurePlanningYear, setSupplyPriorityDataToUserInput, "Supply Priority", "Supply Priority")
