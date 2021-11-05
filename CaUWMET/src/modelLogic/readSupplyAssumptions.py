@@ -79,4 +79,4 @@ setSupplyByPriority('Priority 5')
 setSupplyByPriority('Priority 6')
 setSupplyByPriority('Priority 7')
 
-print(suppliesByPriority)
+#print(suppliesByPriority)
