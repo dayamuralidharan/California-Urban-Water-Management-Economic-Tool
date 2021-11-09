@@ -15,10 +15,8 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
         rows=1, cols=2, 
         column_widths=[0.35, 0.65],
         specs=[[{"type": "pie"}, {"type": "bar"}]],
-            # [ {"type":"scatter", "colspan": 2}, None]],
-            subplot_titles=('Supplies by Study Region', 
-                            'Supplies by Year'), 
-                            # 'Demand data by Year'),
+            subplot_titles=(piePlotTitle, 
+                            barPlotTitle), 
             vertical_spacing=0.1, horizontal_spacing= 0.04)
 
     for i in fig['layout']['annotations']:
@@ -59,7 +57,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                                 legendgroup = 'grp2',
                                 showlegend=True),
                                 row = 1, col = 2)
-    fig.update_xaxes(title_text = 'Supplies (acre-feet/year)',linecolor = 'grey', mirror = True, 
+    fig.update_xaxes(title_text = barPlotXAxisTitle,linecolor = 'grey', mirror = True, 
                         title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1,
                         zeroline = False, 
                         row = 1, col = 2)
@@ -107,21 +105,23 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
     fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
     st.write(fig)
 
-localSurfaceWaterExplanationText = ("""...""")
+localSuppliesExplanationText = ("""Local supply data includes all existing and planned sources of water available for 
+                                each supplier excluding supplies sourced from the State Water and Central Valley Projects (SWP and CVP). 
+                                SWP and CVP supplies are input separately via the second variable on this page. Local supplies are input for
+                                anticipated availability under a normal or better water year, single dry, and multiple dry year conditions. Local supplies
+                                are input separately by type to account for the varying costs associated with each supply type. 
+                                Default data was developed utilizing information reported in each supplier's 2020 Urban Water Management Plan.
+                                Local supplies reported on this page should only include verified supplies. Any local supplies that are still 
+                                undergoing feasibility assessments should be input in the Water Management Options Assumptions page.""")
 
-groundwaterExplanationText = ("""...""")
-
-desalinationExplanationText = ("""...""")
-
-recyclingExplanationText = ("""...""")
-
-potableReuseExplanationText = ("""...""")
-
-contractualTransfersExplanationText = ("""...""")
-
-otherImportedSuppliesExplanationText = ("""...""")
-
-swpCVPExplanationText = ("""...""")
+swpCVPExplanationText = ("""State Water Project (SWP) and Central Valley Project (CVP) sourced supplies are input separately from the local supplies to account for
+                         the operational costs associated with each. Default data for these supplies were developed from CA DWR and U.S. Bureau of Reclamation's Calsim II 
+                         and Calsim 3 water resources planning models. These
+                         models. These models simulate operations of the SWP and CVP and much of the water resources infrastructure in the Central 
+                         Valley of California and the Sacramento-San Joaquin Delta regions. The default Calsim II dataset was developed from the U.S. Bureau's 2020 Benchmark study
+                         which simulated delivery capabilities under 1922 - 2003 historic hydrologic conditions. The default Calsim 3 dataset was developed from DWR's <TBD> study
+                         which simulated delivery capabilities under 1922 - 2015 historic hydrologic conditions. More details on these Calsim models and associated studies can be found
+                         in Section X of the model documentation.""")
 
 costBySupplyTypeExplanationText = ("""...""")
 

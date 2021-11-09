@@ -1,209 +1,100 @@
-from suppliesHelper import displayPieAndBarPlots, localSurfaceWaterExplanationText, groundwaterExplanationText, desalinationExplanationText, recyclingExplanationText, potableReuseExplanationText, contractualTransfersExplanationText, otherImportedSuppliesExplanationText, swpCVPExplanationText, costBySupplyTypeExplanationText, supplyPriorityTypeExplanationText
+from suppliesHelper import displayPieAndBarPlots, localSuppliesExplanationText,  swpCVPExplanationText, costBySupplyTypeExplanationText, supplyPriorityTypeExplanationText
 import streamlit as st
-import pandas as pd 
+import pandas as pd
 
 def displaySummaryPlots(): 
     st.header("Supply Assumptions Overview")
     
     #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR LOCAL SURFACE WATER
+    # SUMMARY POSTER FOR LOCAL SUPPLIES
     #---------------------------------------------------------------#
 
-    st.subheader("Local Surface Water Scenarios")
-    st.write(localSurfaceWaterExplanationText)
+    st.subheader("Local Supply Scenarios")
+    st.write(localSuppliesExplanationText)
 
     # Set up total demand variables for summary poster plots
-    localSurfaceWaterPlotInputData = st.session_state.localSurfaceWaterdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    localSurfaceWaterPlotInputData = pd.melt(localSurfaceWaterPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    localSurfaceWaterPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    localSurfaceWaterVars = ['Surface']
+    localSuppliesPlotInputData = st.session_state.localSuppliesdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    localSuppliesPlotInputData = pd.melt(localSuppliesPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+    localSuppliesPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
+    localSuppliesVars = ['Surface for Normal or Better Years (acre-feet/year)',
+                         'Surface for Single Dry Years (acre-feet/year)',
+                         'Surface for Multiple Dry Years (acre-feet/year)',
+                         'Groundwater for Normal or Better Years (acre-feet/year)',
+                         'Groundwater for Single Dry Years (acre-feet/year)',
+                         'Groundwater for Multiple Dry Years (acre-feet/year)',
+                         'Recycled for Normal or Better Years (acre-feet/year)',
+                         'Recycled for Single Dry Years (acre-feet/year)',
+                         'Recycled for Multiple Dry Years (acre-feet/year)',
+                         'Potable Reuse for Normal or Better Years (acre-feet/year)',
+                         'Potable Reuse for Single Dry Years (acre-feet/year)',
+                         'Potable Reuse for Multiple Dry Years (acre-feet/year)',
+                         'Desalination for Normal or Better Years (acre-feet/year)',
+                         'Desalination for Single Dry Years (acre-feet/year)',
+                         'Desalination for Multiple Dry Years (acre-feet/year)',
+                         'Transfers and Exchanges for Normal or Better Years (acre-feet/year)',
+                         'Transfers and Exchanges for Single Dry Years (acre-feet/year)',
+                         'Transfers and Exchanges for Multiple Dry Years (acre-feet/year)',
+                         'Other Supply Types for Normal or Better Years (acre-feet/year)',
+                         'Other Supply Types for Single Dry Years (acre-feet/year)',
+                         'Other Supply Types for Multiple Dry Years (acre-feet/year)',
+                         ]
 
-    localSurfaceWaterVarsForLabel = [
-        localSurfaceWaterPlotInputData['Type'] == localSurfaceWaterVars[0],
+    localSuppliesVarsForLabel = [
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[0],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[1],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[2],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[3],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[4],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[5],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[6],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[7],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[8],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[9],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[10],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[11],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[12],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[13],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[14],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[15],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[16],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[17],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[18],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[19],
+        localSuppliesPlotInputData['Type'] == localSuppliesVars[20],
         ]
-    localSurfaceWaterNumberOfVars = [0]
-    localSurfaceWaterBoxKey = "Supplies Selectbox"
-    localSurfaceWaterPiePlotLabel = "Supplies by Study Region"
-    localSurfaceWaterBarPlotLabel = "Supplies by Contractor"
-    localSurfaceWaterBarPlotXAxisLabel = "Supplies (acre-feet/year)"
-    localSurfaceWaterColors = ['#F63366']
+    localSuppliesNumberOfVars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    localSuppliesBoxKey = "Supplies Selectbox"
+    localSuppliesPiePlotLabel = "Supplies by Study Region"
+    localSuppliesBarPlotLabel = "Supplies by Contractor"
+    localSuppliesBarPlotXAxisLabel = "Supplies (acre-feet/year)"
+    localSuppliesColors = ['#F63366', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#22466B', '#22466B']
 
-    displayPieAndBarPlots(localSurfaceWaterVars, localSurfaceWaterVarsForLabel, localSurfaceWaterNumberOfVars, localSurfaceWaterPlotInputData, localSurfaceWaterBoxKey, localSurfaceWaterPiePlotLabel, localSurfaceWaterBarPlotLabel, localSurfaceWaterBarPlotXAxisLabel, localSurfaceWaterColors)
+    displayPieAndBarPlots(localSuppliesVars, localSuppliesVarsForLabel, localSuppliesNumberOfVars, localSuppliesPlotInputData, localSuppliesBoxKey, localSuppliesPiePlotLabel, localSuppliesBarPlotLabel, localSuppliesBarPlotXAxisLabel, localSuppliesColors)
     
     #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR GROUNDWATER
+    # SUMMARY POSTER FOR SWP CVP SUPPLIES
     #---------------------------------------------------------------#
 
-    st.subheader("Groundwater Scenarios")
-    st.write(groundwaterExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    groundwaterPlotInputData = st.session_state.groundwaterdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    groundwaterPlotInputData = pd.melt(groundwaterPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    groundwaterPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    groundwaterVars = ['Groundwater']
-
-    groundwaterVarsForLabel = [
-        groundwaterPlotInputData['Type'] == groundwaterVars[0],
-        ]
-    groundwaterNumberOfVars = [0]
-    groundwaterBoxKey = "Groundwater Supplies Selectbox"
-    groundwaterPiePlotLabel = "Groundwater Supplies by Study Region"
-    groundwaterBarPlotLabel = "Groundwater Supplies by Contractor"
-    groundwaterBarPlotXAxisLabel = "Groundwater (acre-feet/year)"
-    groundwaterColors = ['#F63366']
-
-    displayPieAndBarPlots(groundwaterVars, groundwaterVarsForLabel, groundwaterNumberOfVars, groundwaterPlotInputData, groundwaterBoxKey, groundwaterPiePlotLabel, groundwaterBarPlotLabel, groundwaterBarPlotXAxisLabel, groundwaterColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR DESALINATION
-    #---------------------------------------------------------------#
-
-    st.subheader("Desalination Scenarios")
-    st.write(desalinationExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    desalinationPlotInputData = st.session_state.desalinationdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    desalinationPlotInputData = pd.melt(desalinationPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    desalinationPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    desalinationVars = ['Desalination']
-
-    desalinationVarsForLabel = [
-        desalinationPlotInputData['Type'] == desalinationVars[0],
-        ]
-    desalinationNumberOfVars = [0]
-    desalinationBoxKey = "Desalination Supplies Selectbox"
-    desalinationPiePlotLabel = "Desalination Supplies by Study Region"
-    desalinationBarPlotLabel = "Desalination Supplies by Contractor"
-    desalinationBarPlotXAxisLabel = "Desalination (acre-feet/year)"
-    desalinationColors = ['#F63366']
-
-    displayPieAndBarPlots(desalinationVars, desalinationVarsForLabel, desalinationNumberOfVars, desalinationPlotInputData, desalinationBoxKey, desalinationPiePlotLabel, desalinationBarPlotLabel, desalinationBarPlotXAxisLabel, desalinationColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR RECYCLING
-    #---------------------------------------------------------------#
-
-    st.subheader("Recycling Scenarios")
-    st.write(recyclingExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    recyclingPlotInputData = st.session_state.recyclingdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    recyclingPlotInputData = pd.melt(recyclingPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    recyclingPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    recyclingVars = ['Recycle']
-
-    recyclingVarsForLabel = [
-        recyclingPlotInputData['Type'] == recyclingVars[0],
-        ]
-    recyclingNumberOfVars = [0]
-    recyclingBoxKey = "Recycling Supplies Selectbox"
-    recyclingPiePlotLabel = "Recycling Supplies by Study Region"
-    recyclingBarPlotLabel = "Recycling Supplies by Contractor"
-    recyclingBarPlotXAxisLabel = "Recycling (acre-feet/year)"
-    recyclingColors = ['#F63366']
-
-    displayPieAndBarPlots(recyclingVars, recyclingVarsForLabel, recyclingNumberOfVars, recyclingPlotInputData, recyclingBoxKey, recyclingPiePlotLabel, recyclingBarPlotLabel, recyclingBarPlotXAxisLabel, recyclingColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR POTABLE REUSE
-    #---------------------------------------------------------------#
-
-    st.subheader("Potable Reuse Scenarios")
-    st.write(potableReuseExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    potableReusePlotInputData = st.session_state.potableReusedf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    potableReusePlotInputData = pd.melt(potableReusePlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    potableReusePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    potableReuseVars = ['Potable Reuse']
-
-    potableReuseVarsForLabel = [
-        potableReusePlotInputData['Type'] == potableReuseVars[0],
-        ]
-    potableReuseNumberOfVars = [0]
-    potableReuseBoxKey = "Potable Reuse Supplies Selectbox"
-    potableReusePiePlotLabel = "Potable Reuse Supplies by Study Region"
-    potableReuseBarPlotLabel = "Potable Reuse Supplies by Contractor"
-    potableReuseBarPlotXAxisLabel = "Potable Reuse (acre-feet/year)"
-    potableReuseColors = ['#F63366']
-
-    displayPieAndBarPlots(potableReuseVars, potableReuseVarsForLabel, potableReuseNumberOfVars, potableReusePlotInputData, potableReuseBoxKey, potableReusePiePlotLabel, potableReuseBarPlotLabel, potableReuseBarPlotXAxisLabel, potableReuseColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR CONTRACTUAL TRANSFERS
-    #---------------------------------------------------------------#
-
-    st.subheader("Contractual Transfers Scenarios")
-    st.write(contractualTransfersExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    contractualTransfersPlotInputData = st.session_state.contractualTransfersdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    contractualTransfersPlotInputData = pd.melt(contractualTransfersPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    contractualTransfersPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    contractualTransfersVars = ['Contractual Transfers']
-
-    contractualTransfersVarsForLabel = [
-        contractualTransfersPlotInputData['Type'] == contractualTransfersVars[0],
-        ]
-    contractualTransfersNumberOfVars = [0]
-    contractualTransfersBoxKey = "Contractual Transfer Supplies Selectbox"
-    contractualTransfersPiePlotLabel = "Contractual Transfer Supplies by Study Region"
-    contractualTransfersBarPlotLabel = "Contractual Transfer Supplies by Contractor"
-    contractualTransfersBarPlotXAxisLabel = "Contractual Transfers(acre-feet/year)"
-    contractualTransfersColors = ['#F63366']
-
-    displayPieAndBarPlots(contractualTransfersVars, contractualTransfersVarsForLabel, contractualTransfersNumberOfVars, contractualTransfersPlotInputData, contractualTransfersBoxKey, contractualTransfersPiePlotLabel, contractualTransfersBarPlotLabel, contractualTransfersBarPlotXAxisLabel, contractualTransfersColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR OTHER IMPORTED SUPPLIES
-    #---------------------------------------------------------------#
-
-    st.subheader("Other Imported Supplies Scenarios")
-    st.write(otherImportedSuppliesExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    otherImportedSuppliesPlotInputData = st.session_state.otherImportedSuppliesdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    otherImportedSuppliesPlotInputData = pd.melt(otherImportedSuppliesPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    otherImportedSuppliesPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    otherImportedSuppliesVars = ['Other Imported']
-
-    otherImportedSuppliesVarsForLabel = [
-        otherImportedSuppliesPlotInputData['Type'] == otherImportedSuppliesVars[0],
-        ]
-    otherImportedSuppliesNumberOfVars = [0]
-    otherImportedSuppliesBoxKey = "Other Imported Supplies Selectbox"
-    otherImportedSuppliesPiePlotLabel = "Other Imported Supplies by Study Region"
-    otherImportedSuppliesBarPlotLabel = "Other Imported Supplies by Contractor"
-    otherImportedSuppliesBarPlotXAxisLabel = "Other Imported Supplies (acre-feet/year)"
-    otherImportedSuppliesColors = ['#F63366']
-
-    displayPieAndBarPlots(otherImportedSuppliesVars, otherImportedSuppliesVarsForLabel, otherImportedSuppliesNumberOfVars, otherImportedSuppliesPlotInputData, otherImportedSuppliesBoxKey, otherImportedSuppliesPiePlotLabel, otherImportedSuppliesBarPlotLabel, otherImportedSuppliesBarPlotXAxisLabel, otherImportedSuppliesColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR SW CVP SUPPLIES
-    #---------------------------------------------------------------#
-
-    st.subheader("SWP CVP Supplies Scenarios")
+    st.subheader("SWP and CVP Supply Scenarios")
     st.write(swpCVPExplanationText)
 
     # Set up total demand variables for summary poster plots
-    swpCVPPlotInputData = st.session_state.swpCVPSuppliesdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    swpCVPPlotInputData = pd.melt(swpCVPPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    swpCVPPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    swpCVPVars = ['SWP CVP']
+    # swpCVPPlotInputData = st.session_state.swpCVPSuppliesdf[['Variable', contractorsList]]
+    # swpCVPPlotInputData = pd.melt(swpCVPPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+    # swpCVPPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
+    # swpCVPVars = ['SWP CVP']
 
-    swpCVPVarsForLabel = [
-        swpCVPPlotInputData['Type'] == swpCVPVars[0],
-        ]
-    swpCVPNumberOfVars = [0]
-    swpCVPBoxKey = "SWP CVP Supplies Selectbox"
-    swpCVPPiePlotLabel = "SWP CVP Supplies by Study Region"
-    swpCVPBarPlotLabel = "SWP CVP Supplies by Contractor"
-    swpCVPBarPlotXAxisLabel = "SWP CVP Supplies (acre-feet/year)"
-    swpCVPColors = ['#F63366']
+    # swpCVPVarsForLabel = [
+    #     swpCVPPlotInputData['Type'] == swpCVPVars[0],
+    #     ]
+    # swpCVPNumberOfVars = [0]
+    # swpCVPBoxKey = "SWP CVP Supplies Selectbox"
+    # swpCVPPiePlotLabel = "SWP CVP Supplies by Study Region"
+    # swpCVPBarPlotLabel = "SWP CVP Supplies by Contractor"
+    # swpCVPBarPlotXAxisLabel = "SWP CVP Supplies (acre-feet/year)"
+    # swpCVPColors = ['#F63366']
 
-    displayPieAndBarPlots(swpCVPVars, swpCVPVarsForLabel, swpCVPNumberOfVars, swpCVPPlotInputData, swpCVPBoxKey, swpCVPPiePlotLabel, swpCVPBarPlotLabel, swpCVPBarPlotXAxisLabel, swpCVPColors)
+    # displayPieAndBarPlots(swpCVPVars, swpCVPVarsForLabel, swpCVPNumberOfVars, swpCVPPlotInputData, swpCVPBoxKey, swpCVPPiePlotLabel, swpCVPBarPlotLabel, swpCVPBarPlotXAxisLabel, swpCVPColors)
     
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR COST BY SUPPLY TYPE
@@ -213,29 +104,29 @@ def displaySummaryPlots():
     st.write(costBySupplyTypeExplanationText)
 
     # Set up total demand variables for summary poster plots
-    costBySupplyTypePlotInputData = st.session_state.costBySupplyTypedf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    costBySupplyTypePlotInputData = pd.melt(costBySupplyTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    costBySupplyTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    costBySupplyTypeVars = ['Cost by Supply Type']
+    # costBySupplyTypePlotInputData = st.session_state.costBySupplyTypedf[['Year', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    # costBySupplyTypePlotInputData = pd.melt(costBySupplyTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
+    # costBySupplyTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
+    # costBySupplyTypeVars = ['Cost by Supply Type']
 
-    costBySupplyTypeVarsForLabel = [
-        costBySupplyTypePlotInputData['Type'] == costBySupplyTypeVars[0],
-        ]
-    costBySupplyTypeNumberOfVars = [0]
-    costBySupplyTypeBoxKey = "Cost by Supply Type Selectbox"
-    costBySupplyTypePiePlotLabel = "Cost by Supply Type by Study Region"
-    costBySupplyTypeBarPlotLabel = "Cost by Supply Type by Contractor"
-    costBySupplyTypeBarPlotXAxisLabel = "Cost by Supply Type ($/acre-feet-year)"
-    costBySupplyTypeColors = ['#F63366']
+    # costBySupplyTypeVarsForLabel = [
+    #     costBySupplyTypePlotInputData['Type'] == costBySupplyTypeVars[0],
+    #     ]
+    # costBySupplyTypeNumberOfVars = [0]
+    # costBySupplyTypeBoxKey = "Cost by Supply Type Selectbox"
+    # costBySupplyTypePiePlotLabel = "Cost by Supply Type by Study Region"
+    # costBySupplyTypeBarPlotLabel = "Cost by Supply Type by Contractor"
+    # costBySupplyTypeBarPlotXAxisLabel = "Cost by Supply Type ($/acre-feet-year)"
+    # costBySupplyTypeColors = ['#F63366']
 
-    displayPieAndBarPlots(costBySupplyTypeVars, costBySupplyTypeVarsForLabel, costBySupplyTypeNumberOfVars, costBySupplyTypePlotInputData, costBySupplyTypeBoxKey, costBySupplyTypePiePlotLabel, costBySupplyTypeBarPlotLabel, costBySupplyTypeBarPlotXAxisLabel, costBySupplyTypeColors)
+    # displayPieAndBarPlots(costBySupplyTypeVars, costBySupplyTypeVarsForLabel, costBySupplyTypeNumberOfVars, costBySupplyTypePlotInputData, costBySupplyTypeBoxKey, costBySupplyTypePiePlotLabel, costBySupplyTypeBarPlotLabel, costBySupplyTypeBarPlotXAxisLabel, costBySupplyTypeColors)
     
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR SUPPLY PRIORITY
     #---------------------------------------------------------------#
 
-    # st.subheader("Supply Priority Scenarios")
-    # st.write(supplyPriorityExplanationText)
+    st.subheader("Supply Priority Scenarios")
+    st.write(supplyPriorityTypeExplanationText)
 
     # # Set up total demand variables for summary poster plots
     # supplyPriorityPlotInputData = st.session_state.supplyPrioritydf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]

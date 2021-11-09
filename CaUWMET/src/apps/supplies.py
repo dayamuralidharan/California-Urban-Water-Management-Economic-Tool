@@ -12,34 +12,16 @@ from pageUtilities.summaryPlots_Supplies import displaySummaryPlots
 #TODO Make bar plots color code by region too (Nira)
 
 # Functions used to set variables equal to user-defined values in the editable tables if user-defined data is selected over default, also known as "grids"
-def setLocalSurfaceWaterDataToUserInput(gridResponseData): 
+def setLocalSuppliesDataToEditableTableInput(gridResponseData): 
     st.session_state.localSurfaceWaterdf = gridResponseData
 
-def setGroundwaterDataToUserInput(gridResponseData): 
-    st.session_state.groundwaterdf = gridResponseData
-
-def setDesalinationDataToUserInput(gridResponseData): 
-    st.session_state.desalinationdf = gridResponseData
-
-def setRecyclingDataToUserInput(gridResponseData): 
-    st.session_state.recyclingdf = gridResponseData
-
-def setPotableReuseDataToUserInput(gridResponseData): 
-    st.session_state.potableReusedf = gridResponseData
-
-def setContractualTransfersDataToUserInput(gridResponseData): 
-    st.session_state.contractualTransfersdf = gridResponseData
-
-def setOtherImportedSuppliesDataToUserInput(gridResponseData): 
-    st.session_state.otherImportedSuppliesdf = gridResponseData
-
-def setSWPCVPDataToUserInput(gridResponseData): 
+def setSWPCVPDataToEditableTableInput(gridResponseData): 
     st.session_state.swpCVPSuppliesdf = gridResponseData
 
-def setCostBySupplyTypeDataToUserInput(gridResponseData): 
+def setCostBySupplyTypeDataToEditableTableInput(gridResponseData): 
     st.session_state.costBySupplyTypedf = gridResponseData
 
-def setSupplyPriorityDataToUserInput(gridResponseData): 
+def setSupplyPriorityDataToEditableTableInput(gridResponseData): 
     st.session_state.supplyPrioritydf = gridResponseData
 
 def app():
@@ -80,9 +62,18 @@ def app():
         #---------------------------------------------------------------#
        
         ####  TABLE 1 LOCAL SUPPLIES
-        if st.session_state.localSurfaceWaterRadioButtonIndex == 1:
-            editableTable(st.session_state.localSurfaceWaterdf, st.session_state.futurePlanningYear, setLocalSurfaceWaterDataToUserInput, "Local Surface Water", "Local surface water supply volume (acre-feet/year)")
+        if st.session_state.localSuppliesRadioButtonIndex == 1:
+            editableTable(st.session_state.localSuppliesdf, st.session_state.futurePlanningYear, setLocalSuppliesDataToEditableTableInput, "Local Supplies", "Local water supply volume (acre-feet/year)")
 
-        #### TABLE 9 COST BY SUPPLY TYPE
 
-        ####  TABLE 10 SWP CVP SUPPLIES
+        #### TABLE 2 SWP CVP SUPPLIES
+        if st.session_state.swpCVPRadioButtonIndex == 2:
+            editableTable(st.session_state.swpCVPSuppliesdf, st.session_state.futurePlanningYear, setSWPCVPDataToEditableTableInput, "SWP and CVP Supplies", "SWP and CVP supply volume (acre-feet/year)")
+
+        ####  TABLE 3 COST BY SUPPLY TYPE
+        if st.session_state.costBySupplyTypeRadioButtonIndex == 1:
+            editableTable(st.session_state.costBySupplyTypedf, st.session_state.futurePlanningYear, setCostBySupplyTypeInputData, "Cost by Supply Type", "Cost by Supply Type ($/acre-foot)")
+            
+        ####  TABLE 4 COST BY SUPPLY TYPE
+        if st.session_state.supplyPriorityRadioButtonIndex == 1:
+            editableTable(st.session_state.supplyPrioritydf, st.session_state.futurePlanningYear, setSupplyPriorityInputData, "Priority of Use by Supply Type", "Priority of Use by Supply Type")
