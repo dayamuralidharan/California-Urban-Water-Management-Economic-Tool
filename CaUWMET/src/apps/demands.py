@@ -39,7 +39,7 @@ def app():
 
 
         st.write("<span class='font'>There are four categories of variables that need to be set on this page including:</span>", unsafe_allow_html=True) 
-        st.write("<span class='font'>1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multi-Dry hydrologic year types.</span>", unsafe_allow_html=True)
+        st.write("<span class='font'>1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types.</span>", unsafe_allow_html=True)
         st.write("<span class='font'>2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.</span>", unsafe_allow_html=True)
         st.write("<span class='font'>3) Interior and Exterior Use by Type for each category listed above, and</span>", unsafe_allow_html=True)
         st.write("<span class='font'>4) Base Long-term Conservation</span>", unsafe_allow_html=True)

@@ -10,6 +10,7 @@ def setTotalDemandsInputData():
         st.session_state.totalDemandScenarioRadioButtonIndex = 1
     else:
         st.session_state.totalDemandScenarioRadioButtonIndex = 2
+        # Dataframe for editable table set in the demands.py file instead of here.
 
 def setUseByTypeInputData():
     if st.session_state.useByTypeChoice == 'UWMP reported values':
@@ -17,6 +18,7 @@ def setUseByTypeInputData():
         st.session_state.useByTypeRadioButtonIndex = 0
     else:
         st.session_state.useByTypeRadioButtonIndex = 1
+        # Dataframe for editable table set in the demands.py file instead of here.
 
 def setIntExtUseByTypeInputData():
     if st.session_state.intExtUseByTypeChoice == 'UWMP reported values':
@@ -24,13 +26,15 @@ def setIntExtUseByTypeInputData():
         st.session_state.intExtuseByTypeRadioButtonIndex = 0
     else:
         st.session_state.intExtUseByTypeRadioButtonIndex = 1
+        # Dataframe for editable table set in the demands.py file instead of here.
 
 def setBaseLongTermConservationInputData():
     if st.session_state.baseLongTermConservationChoice == 'UWMP reported values':
-        st.session_state.intExtUseByTypePlotInputdf = fetch_data("inputData/demandsInput_demandsInput_baseLongTermConservationData.csv")
+        st.session_state.intExtUseByTypePlotInputdf = fetch_data("inputData/demandsInput_baseLongTermConservationData.csv")
         st.session_state.baseLongTermConservationRadioButtonIndex = 0
     else:
         st.session_state.baseLongTermConservationRadioButtonIndex = 1
+        # Dataframe for editable table set in the demands.py file instead of here.
 
 def setDemandDatasetsFromRadioButtons():
     demandsDatasetOptions = ['UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below']
