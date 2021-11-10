@@ -27,7 +27,7 @@ PAGES = {
     "System Operation Assumptions": systemoperations,
     "Water Management Assumptions": watermanagement,
     "Results": results,
-    "FAQ and Support": faq,
+    "Documentation and References": faq,
     "Return Test": returnTest,
 }
 

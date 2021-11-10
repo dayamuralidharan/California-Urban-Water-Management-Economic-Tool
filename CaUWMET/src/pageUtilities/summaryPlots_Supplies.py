@@ -100,7 +100,7 @@ def displaySummaryPlots():
     # SUMMARY POSTER FOR COST BY SUPPLY TYPE
     #---------------------------------------------------------------#
 
-    st.subheader("Cost by Supply Type Scenarios")
+    st.subheader("Cost by Supply Type")
     st.write(costBySupplyTypeExplanationText)
 
     # Set up total demand variables for summary poster plots
@@ -125,7 +125,7 @@ def displaySummaryPlots():
     # SUMMARY POSTER FOR SUPPLY PRIORITY
     #---------------------------------------------------------------#
 
-    st.subheader("Supply Priority Scenarios")
+    st.subheader("Supply Priorities")
     st.write(supplyPriorityTypeExplanationText)
 
     # # Set up total demand variables for summary poster plots

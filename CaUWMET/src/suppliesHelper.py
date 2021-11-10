@@ -112,12 +112,13 @@ localSuppliesExplanationText = ("""Local supply data includes all existing and p
                                 are input separately by type to account for the varying costs associated with each supply type. 
                                 Default data was developed utilizing information reported in each supplier's 2020 Urban Water Management Plan.
                                 Local supplies reported on this page should only include verified supplies. Any local supplies that are still 
-                                undergoing feasibility assessments should be input in the Water Management Options Assumptions page.""")
+                                conceptual should be input in the Water Management Options Assumptions page.""")
 
 swpCVPExplanationText = ("""State Water Project (SWP) and Central Valley Project (CVP) sourced supplies are input separately from the local supplies to account for
-                         the operational costs associated with each. Default data for these supplies were developed from CA DWR and U.S. Bureau of Reclamation's Calsim II 
-                         and Calsim 3 water resources planning models. These
-                         models. These models simulate operations of the SWP and CVP and much of the water resources infrastructure in the Central 
+                         variation that occurs from year to year as it is influenced by annual weather and hydrology, as well as demand by other users, operational and regulatory factors. 
+                         The SWP water input through this variable includes long-term water supply contracts including Table A amounts, transfer and exchange of Table A water, carryover water, Turb-Back Pools A and B water, Multiyar Water Pool Program water, 
+                         and Article 21 water. Default data for these supplies were developed from CA DWR and U.S. Bureau of Reclamation's Calsim II 
+                         and Calsim 3 water resources planning models. These models simulate operations of the SWP and CVP and much of the water resources infrastructure in the Central 
                          Valley of California and the Sacramento-San Joaquin Delta regions. The default Calsim II dataset was developed from the U.S. Bureau's 2020 Benchmark study
                          which simulated delivery capabilities under 1922 - 2003 historic hydrologic conditions. The default Calsim 3 dataset was developed from DWR's <TBD> study
                          which simulated delivery capabilities under 1922 - 2015 historic hydrologic conditions. More details on these Calsim models and associated studies can be found
