@@ -20,7 +20,6 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    #"Contractor Assumptions": editcontractors,
     "Hydrology Assumptions": hydrologyassumptions,
     "Demand Assumptions": demands,
     "Supply Assumptions": supplies,
@@ -55,6 +54,11 @@ inputDataSWPCVP = fetch_data("inputData/supplyInput_SWPCVPCalsimII2020BenchmarkS
 inputDataCostBySupplyType = fetch_data("inputData/supplyInput_costsBySupplyType.csv")
 inputDataSupplyPriority = fetch_data("inputData/supplyInput_supplyPriorities.csv")
 
+inputDataExcessWaterSwitch = fetch_data("inputData/systemOperationsInput_ExcessWaterSwitch.csv")
+inputDataCarryoverStorage = fetch_data("inputData/systemOperationsInput_CarryoverStorage.csv")
+inputDataCarryoverStorageCost = fetch_data("inputData/systemOperationsInput_CarryoverStorageCost.csv")
+inputDataTransfers = fetch_data("inputData/systemOperationsInput_Transfers.csv")
+inputDataTransfersCost = fetch_data("inputData/systemOperationsInput_TransfersCost.csv")
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
@@ -114,3 +118,39 @@ if 'costBySupplyTypedf' not in st.session_state:
 
 if 'supplyPrioritydf' not in st.session_state:
     st.session_state['supplyPrioritydf'] = inputDataSupplyPriority
+
+#---------------------------------------------------------------#
+# INITIALIZE SYSTEM OPERATIONS ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+
+# Initialize radio button indices with default values
+if 'excessWaterSwitchRadioButtonIndex' not in st.session_state:
+    st.session_state['excessWaterSwitchRadioButtonIndex'] = 0
+
+if 'carryoverStorageRadioButtonIndex' not in st.session_state:
+    st.session_state['carryoverStorageRadioButtonIndex'] = 0
+
+if 'carryoverStorageCostRadioButtonIndex' not in st.session_state:
+    st.session_state['carryoverStorageCostRadioButtonIndex'] = 0
+
+if 'transfersRadioButtonIndex' not in st.session_state:
+    st.session_state['transfersRadioButtonIndex'] = 0
+
+if 'transfersCostRadioButtonIndex' not in st.session_state:
+    st.session_state['transfersCostRadioButtonIndex'] = 0
+
+#### Initialize input datasets with default values 
+if 'excessWaterSwitchdf' not in st.session_state:
+    st.session_state['excessWaterSwitchdf'] = inputDataExcessWaterSwitch
+
+if 'carryoverStoragedf' not in st.session_state:
+    st.session_state['carryoverStoragedf'] = inputDataCarryoverStorage
+
+if 'carryoverStorageCostdf' not in st.session_state:
+    st.session_state['carryoverStorageCostdf'] = inputDataCarryoverStorageCost
+
+if 'transfersdf' not in st.session_state:
+    st.session_state['transfersdf'] = inputDataTransfers
+    
+if 'transfersCostdf' not in st.session_state:
+    st.session_state['transfersCostdf'] = inputDataTransfersCost
