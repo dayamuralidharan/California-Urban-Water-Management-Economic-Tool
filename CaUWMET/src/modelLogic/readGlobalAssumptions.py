@@ -26,4 +26,4 @@ sjYearType = hydroYearType['San Joaquin Valley'].values
 reclassSacYearType = reclassifyYearType(sacYearType) # Reclassify CDEC's classifications to the UWMP demand classifications of Normal or Better, Single-Dry and Multi-Dry Years
 reclassSjYearType = reclassifyYearType(sjYearType)
 
-contractorsList = list(hydroRegionDf['Contractor'].values) ####TODO: contractors will need to be dynamically read in from streamlit instead of read in from hydro region dataframe
+contractorsList = list(hydroRegionDf['Contractor'].values) 
