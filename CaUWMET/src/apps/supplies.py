@@ -2,6 +2,7 @@ import streamlit as st
 from load_css import local_css
 from globalUtilities import opt_echo
 from pageUtilities.editableTable import editableTable
+from pageUtilities.editableTableForTimeSeriesByContractor import editableTableForTimeSeriesByContractor
 from pageUtilities.selectData_Supplies import setSupplyDatasetsFromRadioButtons
 from pageUtilities.summaryPlots_Supplies import displaySummaryPlots
 
@@ -13,7 +14,7 @@ from pageUtilities.summaryPlots_Supplies import displaySummaryPlots
 
 # Functions used to set variables equal to user-defined values in the editable tables if user-defined data is selected over default, also known as "grids"
 def setLocalSuppliesDataToEditableTableInput(gridResponseData): 
-    st.session_state.localSurfaceWaterdf = gridResponseData
+    st.session_state.localSuppliesWaterdf = gridResponseData
 
 def setSWPCVPDataToEditableTableInput(gridResponseData): 
     st.session_state.swpCVPSuppliesdf = gridResponseData
@@ -42,7 +43,7 @@ def app():
         st.write("<span class='font'>4)	Order of priority to deliver each supply</span>", unsafe_allow_html=True)
         st.write("<span class='font'>A detailed description of each variable is provided in the Supply Assumptions Overview section below.</span>", unsafe_allow_html=True)
         st. write("")
-        st.write("First, select which datasets to use for each variable from the options below. Each dataset has the option to use default data or input data through a table. If input through the table option is selected, please note the table is in a ""collapsable"" section at the very bottom of this page.")
+        st.write("First, select which datasets to use for each variable from the options below. Each dataset has the option to use default data or input data through a table. If input through the table option is selected, please note the table is in a ""collapsible"" section at the very bottom of this page.")
         st.write("After making your selection for all variables, review the data in the plots below.")
 
         #---------------------------------------------------------------#
@@ -68,12 +69,12 @@ def app():
 
         #### TABLE 2 SWP CVP SUPPLIES
         if st.session_state.swpCVPRadioButtonIndex == 2:
-            editableTable(st.session_state.swpCVPSuppliesdf, st.session_state.futurePlanningYear, setSWPCVPDataToEditableTableInput, "SWP and CVP Supplies", "SWP and CVP supply volume (acre-feet/year)")
+            editableTableForTimeSeriesByContractor(st.session_state.swpCVPSuppliesdf, setSWPCVPDataToEditableTableInput, "SWP and CVP Supplies")
 
         ####  TABLE 3 COST BY SUPPLY TYPE
         if st.session_state.costBySupplyTypeRadioButtonIndex == 1:
-            editableTable(st.session_state.costBySupplyTypedf, st.session_state.futurePlanningYear, setCostBySupplyTypeInputData, "Cost by Supply Type", "Cost by Supply Type ($/acre-foot)")
+            editableTable(st.session_state.costBySupplyTypedf, st.session_state.futurePlanningYear, setCostBySupplyTypeDataToEditableTableInput, "Cost by Supply Type", "Cost by Supply Type ($/acre-foot)")
             
         ####  TABLE 4 COST BY SUPPLY TYPE
         if st.session_state.supplyPriorityRadioButtonIndex == 1:
-            editableTable(st.session_state.supplyPrioritydf, st.session_state.futurePlanningYear, setSupplyPriorityInputData, "Priority of Use by Supply Type", "Priority of Use by Supply Type")
+            editableTable(st.session_state.supplyPrioritydf, st.session_state.futurePlanningYear, setSupplyPriorityDataToEditableTableInput, "Priority of Use by Supply Type", "Priority of Use by Supply Type")
