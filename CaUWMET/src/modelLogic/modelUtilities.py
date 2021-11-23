@@ -12,7 +12,6 @@ def lookupCorrespondingValue(df, item, colA, colB):
     """
     return df[df[colA] == item][colB].values[0]
 
-
 def reclassifyYearType(yearType):
     """
     :param yearType: list or array of strings (W, AN, N, BN, D, C)
@@ -25,18 +24,9 @@ def reclassifyYearType(yearType):
     rType = []
     for i in range(length):
         if yearType[i] in dryYears:
-            if i == 1:
-                if yearType[i+1] in dryYears:
-                    rType.append('MD')
-                    continue
-            elif 1 < i < length-1:
-                if yearType[i+1] in dryYears or yearType[i-1] in dryYears:
-                    rType.append('MD')
-                    continue
-            else:
-                if yearType[i-1] in dryYears:
-                    rType.append('MD')
-                    continue
+            if (i != 0) and (yearType[i-1] in dryYears):
+                rType.append('MD')
+                continue
             rType.append('SD')
         else:
             rType.append('NB')

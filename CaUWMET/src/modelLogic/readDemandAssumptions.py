@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from modelUtilities import lookupCorrespondingValue
-from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, reclassSjYearType, reclassSacYearType, historicHydrologyYears
+from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, reclassYearType, historicHydrologyYears
 
 
 # Input directories and filenames
@@ -22,10 +22,7 @@ totalDemands = {'Year': historicHydrologyYears}
 # Set up total demand time series based on hydrologic year type.
 for contractor in contractorsList:
     contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
-    if contractorRegion == 'San Joaquin':
-        conYearType = reclassSjYearType
-    else:
-        conYearType = reclassSacYearType
+    conYearType = reclassYearType[contractor]
     totalDemandsInput = demandsData[demandsData['Contractor'] == contractor]
     totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', futureYear]]
     contractorDemands = []
