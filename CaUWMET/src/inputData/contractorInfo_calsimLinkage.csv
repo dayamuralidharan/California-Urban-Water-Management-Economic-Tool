@@ -1,0 +1,43 @@
+,Contractor,Calsim II M&I Delivery Arc
+0,City of Folsom,D8B_NP + D8B_PMI
+1,City of Redding,D104_PSC*0.13779 + D104_PMI*0.5
+2,City of Roseville,D8G_NP + D8G_PMI
+3,City of West Sacramento,D165_PSC
+4,Yuba City,D204_PMI
+5,El Dorado Irrigation District,D8F_NP + D8F_PMI
+6,Napa County Flood Control & Water Conservation District,D403B_PMI + D403B_PCO + D403B_PIN
+7,Placer County Water Agency,D8H_PMI+D300_NP
+8,Sacramento County Water Agency,D168C+D167B
+9,San Juan Water District,D8D_NP + D8E_NP + D8E_PMI
+10,Shasta Contractors,D104_PMI*0.5 + D104_PMI*0.35
+11,Solano County Water Agency,D403C_PMI + D403C_PCO
+12,City of Avenal,D403C_PMI + D403C_PCO
+13,City of Coalinga,D844_PMI*0.35
+14,City of Fresno,D844_PMI*0.5
+15,City of Huron,D844_PMI*0.15
+16,City of Lindsay,2.5*(D910_C1/60)
+17,City of Orange Cove,1.4*(D910_C1/60)
+18,City of Tracy,0.33 * D700
+19,Kern County Water Agency,D851A_PMI
+20,Other Friant-Kern M&I Contractors,2.926*(D910_C1/60)
+21,Stockton-East Water District,D520_SEWD_PMI
+22,"Alameda County Flood Control and Water Conservation District, Zone 7",D810_PCO + D810_PMI + D813_PCO + D813_PMI + D810_PIN
+23,Alameda County Water District,D814_PCO + D814_PMI + D814_PIN
+24,Contra Costa Water District,D420
+25,East Bay Municipal Utilities District,D168B
+26,"San Benito County Water District, Zone 6", 0.065*D711_PMI+0.518*D710_PAG
+27,Santa Clara Valley Water District,D710_PAG * 0.442 + D711_PMI * 0.935 + D815_PCO + D815_PMI +D815_PIN
+28,San Luis Obispo County Flood Control & Water Conservation District,"[MIN(D869_PMI + D869_PCO,8.447)]"
+29,Santa Barbara County Flood Control & Water Conservation District,"[((D870_PMI + D870_PCO) + ((D870_PMI + D870_PCO)—8.4)) * (0.852 if WY is W,AN,BN, 0.522 if WY is D,C)]"
+30,Antelope Valley-East Kern Water Agency, D877_PMI + D877_PCO + D877_PIN
+31,Santa Clarita Water Division,D896_PMI + D896_PCO
+32,Coachella Valley Water District,D883_PMI + D883_PCO + D883_PIN
+33,Crestline-Lake Arrowhead Water Agency,D25_PMI + D25_PCO
+34,Desert Water Agency,D884_PMI + D884_PCO + D884_PIN
+35,Metropolitan Water District of Southern California,D895_PMI + D895_PMI+ D895_PIN+ D899_PCO + D899_PCO + D899_PIN + D27_PMI +D27_PIN + D27_PCO +D885_PMI + D885_PCO + D885_PIN
+36,Mojave Water Agency,D881_PMI + D881_PCO
+37,Palmdale Water District & Littlerock Creek Irrigation District,D878_PMI + D878_PCO
+38,San Bernardino Valley Municipal Water District,D886_PMI + D886_PCO
+39,San Gabriel Valley Municipal Water District,D887_PMI + D887_PCO
+40,San Gorgonio Pass Water Agency,D888_PMI + D888_PCO
+41,Ventura County Watershed Protection District,D28 + D29

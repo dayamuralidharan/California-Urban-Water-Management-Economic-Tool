@@ -5,8 +5,7 @@
 3,City of West Sacramento,Central Valley - Sacramento Valley,Sacramento,Retail,CVP,D165_PSC,
 4,Yuba City,Central Valley - Sacramento Valley,Sacramento,Retail,SWP,D204_PMI,
 5,El Dorado Irrigation District,Central Valley - Sacramento Valley,Sacramento,Retail,CVP,D8F_NP + D8F_PMI,Water user does not have conveyance.
-6,Napa County Flood Control & Water Conservation District,Central Valley - Sacramento Valley,Sacramento,Wholesale,SWP,"D403B_PMI + D403B_PCO + 
-D403B_PIN",
+6,Napa County Flood Control & Water Conservation District,Central Valley - Sacramento Valley,Sacramento,Wholesale,SWP,D403B_PMI + D403B_PCO + D403B_PIN,
 7,Placer County Water Agency,Central Valley - Sacramento Valley,Sacramento,Wholesale,CVP,D8H_PMI+D300_NP,
 8,Sacramento County Water Agency,Central Valley - Sacramento Valley,Sacramento,Retail,CVP,D168C+D167B,
 9,San Juan Water District,Central Valley - Sacramento Valley,Sacramento,Wholesale,CVP,D8D_NP + D8E_NP + D8E_PMI,
@@ -22,28 +21,20 @@ D403B_PIN",
 19,Kern County Water Agency,Central Valley - San Joaquin Valley,San Joaquin,Retail,SWP,D851A_PMI,
 20,Other Friant-Kern M&I Contractors,Central Valley - San Joaquin Valley,San Joaquin,Wholesale,CVP,2.926*(D910_C1/60),"Includes Arvin-Edison Water Storage District, Delano-Earlimart Irrigation District, and Lindsay-Strathmore Irrigation District"
 21,Stockton-East Water District,Central Valley - San Joaquin Valley,San Joaquin,Wholesale,CVP,D520_SEWD_PMI,
-22,"Alameda County Flood Control and Water Conservation District, Zone 7",San Francisco Bay Area,Sacramento,Wholesale,SWP,"D810_PCO + D810_PMI + D813_PCO + 
-D813_PMI + D810_PIN",
+22,"Alameda County Flood Control and Water Conservation District, Zone 7",San Francisco Bay Area,Sacramento,Wholesale,SWP,D810_PCO + D810_PMI + D813_PCO + D813_PMI + D810_PIN,
 23,Alameda County Water District,San Francisco Bay Area,Sacramento,Retail,SWP,D814_PCO + D814_PMI + D814_PIN,
 24,Contra Costa Water District,San Francisco Bay Area,Sacramento,Retail and Wholesale,CVP,D420,
 25,East Bay Municipal Utilities District,San Francisco Bay Area,Sacramento,Retail and Wholesale,CVP,D168B,
 26,"San Benito County Water District, Zone 6",San Francisco Bay Area,Sacramento,Wholesale,CVP, 0.065*D711_PMI+0.518*D710_PAG,
-27,Santa Clara Valley Water District,San Francisco Bay Area,Sacramento,Wholesale,SWP and CVP,"D710_PAG * 0.442 + D711_PMI * 0.935 
-+ D815_PCO + D815_PMI +D815_PIN",
+27,Santa Clara Valley Water District,San Francisco Bay Area,Sacramento,Wholesale,SWP and CVP,D710_PAG * 0.442 + D711_PMI * 0.935 + D815_PCO + D815_PMI +D815_PIN,
 28,San Luis Obispo County Flood Control & Water Conservation District,Central Coast,San Joaquin,Wholesale,SWP,"[MIN(D869_PMI + D869_PCO,8.447)]",
-29,Santa Barbara County Flood Control & Water Conservation District,Central Coast,San Joaquin,Retail,SWP,"[((D870_PMI + D870_PCO) + 
-((D870_PMI + D870_PCO)—8.4)) * 
-(0.852 if WY is W,AN,BN, 0.522 if WY is 
-D,C)]",
+29,Santa Barbara County Flood Control & Water Conservation District,Central Coast,San Joaquin,Retail,SWP,"[((D870_PMI + D870_PCO) + ((D870_PMI + D870_PCO)—8.4)) * (0.852 if WY is W,AN,BN, 0.522 if WY is D,C)]",
 30,Antelope Valley-East Kern Water Agency,Southern California,San Joaquin,Wholesale,SWP, D877_PMI + D877_PCO + D877_PIN,
 31,Santa Clarita Water Division,Southern California,San Joaquin,,SWP,D896_PMI + D896_PCO + D896_PIN,
 32,Coachella Valley Water District,Southern California,San Joaquin,Retail,SWP,D883_PMI + D883_PCO + D883_PIN,
 33,Crestline-Lake Arrowhead Water Agency,Southern California,San Joaquin,Retail,SWP,D25_PMI + D25_PCO,
 34,Desert Water Agency,Southern California,San Joaquin,Retail,SWP,D884_PMI + D884_PCO + D884_PIN,
-35,Metropolitan Water District of Southern California,Southern California,San Joaquin,Wholesale,SWP,"D895_PMI + D895_PMI+ D895_PIN+ 
-D899_PCO + D899_PCO + D899_PIN + 
-D27_PMI +D27_PIN + D27_PCO 
-+D885_PMI + D885_PCO + D885_PIN",
+35,Metropolitan Water District of Southern California,Southern California,San Joaquin,Wholesale,SWP,D895_PMI + D895_PMI+ D895_PIN+ D899_PCO + D899_PCO + D899_PIN + D27_PMI +D27_PIN + D27_PCO +D885_PMI + D885_PCO + D885_PIN,
 36,Mojave Water Agency,Southern California,San Joaquin,Wholesale,SWP,D881_PMI + D881_PCO,
 37,Palmdale Water District & Littlerock Creek Irrigation District,Southern California,San Joaquin,Retail,SWP,D878_PMI + D878_PCO,
 38,San Bernardino Valley Municipal Water District,Southern California,San Joaquin,Retail,SWP,D886_PMI + D886_PCO,
