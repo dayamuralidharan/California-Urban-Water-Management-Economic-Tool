@@ -15,6 +15,8 @@ import numpy as np
 import pyhecdss
 import pandas as pd
 
+#TODO add GUI for users to input DSS file names and locations
+
 
 # Function that checks if the last digit of a non-empty string is a digit or an alphabet. (Helper Function)
 def isDigitOrAlpha(string):
@@ -36,15 +38,15 @@ def splitOperators(expression):
 
 # Inputs
 dirname = os.path.dirname(os.path.dirname(__file__))
-nodeMappingFileName = "inputData/contractorInformation.csv"
+nodeMappingFileName = "../inputData/contractorInfo_calsimLinkage.csv"
 nodeMappingFile = os.path.join(dirname, nodeMappingFileName)
 nodeMappingDf = pd.read_csv(nodeMappingFile, encoding="ISO-8859-1")
-formula = nodeMappingDf['calsimIIDeliveryArcs'].values
-inputDSS = "inputData/calsim_hist_011221_output.dss"
+formula = nodeMappingDf['Calsim II M&I Delivery Arc'].values
+inputDSS = "../inputData/calsim_hist_011221_output.dss" # TODO change to Reclamation_2020_Benchmark_CALSIM_HIST_011221
 inputDSSFile = os.path.join(dirname, inputDSS)  # Entire path to the input file (including the extension)
 start_date = "31Oct1921 00:00:00"   # Start time
 end_date = "30Sep2003 00:00:00"     # End time
-outputFileName = "inputData/swpCVPSupplyData.csv"
+outputFileName = "swpCVPSupplyData.csv"
 outputFile = os.path.join(dirname, outputFileName)
 
 # Read dss file catalog
