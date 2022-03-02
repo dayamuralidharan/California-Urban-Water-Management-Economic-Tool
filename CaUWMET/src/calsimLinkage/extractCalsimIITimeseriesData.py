@@ -42,11 +42,12 @@ nodeMappingFileName = "../inputData/contractorInfo_calsimLinkage.csv"
 nodeMappingFile = os.path.join(dirname, nodeMappingFileName)
 nodeMappingDf = pd.read_csv(nodeMappingFile, encoding="ISO-8859-1")
 formula = nodeMappingDf['Calsim II M&I Delivery Arc'].values
-inputDSS = "../inputData/calsim_hist_011221_output.dss" # TODO change to Reclamation_2020_Benchmark_CALSIM_HIST_011221
+inputDSSFileName = "2020D09EDV_dp_calsimII_hist_011221.dss"
+inputDSS = "../inputData/" + inputDSSFileName
 inputDSSFile = os.path.join(dirname, inputDSS)  # Entire path to the input file (including the extension)
 start_date = "31Oct1921 00:00:00"   # Start time
 end_date = "30Sep2003 00:00:00"     # End time
-outputFileName = "swpCVPSupplyData.csv"
+outputFileName = "swpCVPSupplyData" + inputDSSFileName + ".csv"
 outputFile = os.path.join(dirname, outputFileName)
 
 # Read dss file catalog
