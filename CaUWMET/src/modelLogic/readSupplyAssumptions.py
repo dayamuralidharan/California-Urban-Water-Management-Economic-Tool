@@ -1,9 +1,11 @@
 import os
 import pandas as pd
-from readGlobalAssumptions import contractorsList, futureYear
 from modelUtilities import lookupCorrespondingValue
+from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, hydrologicYearType, historicHydrologyYears
 
-#TODO: Set up supplies that vary by hydrological year type
+#TODO: Connect to streamlit dashboard, will either be table by year type or time series
+#TODO: Set up reading in supply data to read in time series if radio button below is set to 0
+localSupplyScenarioRadioButtonIndex = 0
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
@@ -11,56 +13,68 @@ dirname = os.path.dirname(__file__)
 # SUPPLIES Inputs
 localSuppliesDataInput = "../inputData/supplyInput_localSupplies.csv"
 swpCVPSupplyDataInput = "../inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv"
-supplyPriorityInput = '../inputData/supplyInput_SupplyPriorities.csv'
-inputLocalSuppliesDataFile = os.path.join(dirname, localSuppliesDataInput)
-inputSWPCVPSupplyDataFile = os.path.join(dirname, swpCVPSupplyDataInput)
-inputSupplyPrioritiesFile = os.path.join(dirname, supplyPriorityInput)
+inputLocalSuppliesFile = os.path.join(dirname, localSuppliesDataInput)
+inputSWPCVPSupplyFile = os.path.join(dirname, swpCVPSupplyDataInput)
 
 
 # Read in data from CSV
-localSuppliesData = pd.read_csv(inputLocalSuppliesDataFile)
-swpCVPSupplyData = pd.read_csv(inputSWPCVPSupplyDataFile)
-supplyPrioritiesData = pd.read_csv(inputSupplyPrioritiesFile)
+localSuppliesByType = pd.read_csv(inputLocalSuppliesFile)
+swpCVPSupply = pd.read_csv(inputSWPCVPSupplyFile)
 
-localSuppliesData.set_index('Contractor', inplace = True)
+localSuppliesByType.set_index('Contractor', inplace = True)
 
-surfaceSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Surface (acre-feet/year)']
-groundwaterSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Groundwater (acre-feet/year)']
-recycleSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Recycle (acre-feet/year)']
-potableReuseSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Potable Reuse (acre-feet/year)']
-desalinationSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Desalination (acre-feet/year)']
-exchangesSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Exchanges (acre-feet/year)']
-otherSupplyData = localSuppliesData[localSuppliesData['Variable'] == 'Other (acre-feet/year)']
+# Set up local supply dataframe for Normal Year Types
+surfaceSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Surface for Normal or Better Years (acre-feet/year)']
+groundwaterSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Groundwater for Normal or Better Years (acre-feet/year)']
+recycleSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Recycled for Normal or Better Years (acre-feet/year)']
+potableReuseSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Potable Reuse for Normal or Better Years (acre-feet/year)']
+desalinationSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Desalination for Normal or Better Years (acre-feet/year)']
+exchangesSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Transfers and Exchanges for Normal or Better Years (acre-feet/year)']
+otherSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Other Supply Types for Normal or Better Years (acre-feet/year)']
 
+totalLocalSupplyNormalYear = surfaceSupplyNormalYear + groundwaterSupplyNormalYear + recycleSupplyNormalYear + potableReuseSupplyNormalYear +desalinationSupplyNormalYear + exchangesSupplyNormalYear + otherSupplyNormalYear
+totalLocalSupplyNormalYear.drop('Variable', axis=1, inplace=True)
 
-# Create dataframe of Supplies in order of Priority
-supplyPriorities = ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5', 'Priority 6', 'Priority 7']
-suppliesByPriority = pd.DataFrame(index = [contractorsList], columns = [supplyPriorities]) 
+# Set up local supply dataframe for Single Dry Year Types
+surfaceSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Surface for Single Dry Years (acre-feet/year)']
+groundwaterSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Groundwater for Single Dry Years (acre-feet/year)']
+recycleSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Recycled for Single Dry Years (acre-feet/year)']
+potableReuseSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Potable Reuse for Single Dry Years (acre-feet/year)']
+desalinationSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Desalination for Single Dry Years (acre-feet/year)']
+exchangesSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Transfers and Exchanges for Single Dry Years (acre-feet/year)']
+otherSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Other Supply Types for Single Dry Years (acre-feet/year)']
 
-def setSupplyByPriority(priority):
-    for contractor in contractorsList:
-        contractorSupplyTypeByPriority = lookupCorrespondingValue(supplyPrioritiesData, contractor, colA='Contractor', colB=priority)
-        if contractorSupplyTypeByPriority == 'Recycle':
-            suppliesByPriority.loc[[contractor], [priority]] = recycleSupplyData[futureYear].loc[[contractor]].values[0]
-        if contractorSupplyTypeByPriority == 'Potable Reuse':
-            suppliesByPriority.loc[[contractor], [priority]] = potableReuseSupplyData[futureYear].loc[[contractor]].values[0]
-        if contractorSupplyTypeByPriority == 'Desalination':
-            suppliesByPriority.loc[[contractor], [priority]]  = desalinationSupplyData[futureYear].loc[[contractor]].values[0]
-        if contractorSupplyTypeByPriority == 'Exchanges':
-            suppliesByPriority.loc[[contractor], [priority]]  = exchangesSupplyData[futureYear].loc[[contractor]].values[0]
-        if contractorSupplyTypeByPriority == 'Surface':
-            suppliesByPriority.loc[[contractor], [priority]]  = surfaceSupplyData[futureYear].loc[[contractor]].values[0]
-        if contractorSupplyTypeByPriority == 'Other':
-            suppliesByPriority.loc[[contractor], [priority]]  = otherSupplyData[futureYear].loc[[contractor]].values[0]
-        if contractorSupplyTypeByPriority == 'Groundwater':
-            suppliesByPriority.loc[[contractor], [priority]]  = groundwaterSupplyData[futureYear].loc[[contractor]].values[0]
+totalLocalSupplySingleDryYear = surfaceSupplySingleDryYear + groundwaterSupplySingleDryYear + recycleSupplySingleDryYear + potableReuseSupplySingleDryYear +desalinationSupplySingleDryYear + exchangesSupplySingleDryYear + otherSupplySingleDryYear
+totalLocalSupplySingleDryYear.drop('Variable', axis=1, inplace=True)
 
-setSupplyByPriority('Priority 1')
-setSupplyByPriority('Priority 2')
-setSupplyByPriority('Priority 3')
-setSupplyByPriority('Priority 4')
-setSupplyByPriority('Priority 5')
-setSupplyByPriority('Priority 6')
-setSupplyByPriority('Priority 7')
+# Set up local supply dataframe for Multi-Dry Year Types
+surfaceSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Surface for Multiple Dry Years (acre-feet/year)']
+groundwaterSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Groundwater for Multiple Dry Years (acre-feet/year)']
+recycleSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Recycled for Multiple Dry Years (acre-feet/year)']
+potableReuseSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Potable Reuse for Multiple Dry Years (acre-feet/year)']
+desalinationSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Desalination for Multiple Dry Years (acre-feet/year)']
+exchangesSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Transfers and Exchanges for Multiple Dry Years (acre-feet/year)']
+otherSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Other Supply Types for Multiple Dry Years (acre-feet/year)']
 
-print(suppliesByPriority)
+totalLocalSupplyMultiDryYear = surfaceSupplyMultiDryYear + groundwaterSupplyMultiDryYear + recycleSupplyMultiDryYear + potableReuseSupplyMultiDryYear +desalinationSupplyMultiDryYear + exchangesSupplyMultiDryYear + otherSupplyMultiDryYear
+totalLocalSupplyMultiDryYear.drop('Variable', axis=1, inplace=True)
+
+# Create Total Local Supply time series based on local contractor hydrologic year type
+totalLocalSupply = {'Year': historicHydrologyYears}
+
+for contractor in contractorsList:
+    contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
+    contractorYearType = hydrologicYearType[contractor]
+    contractorLocalSupply = []
+
+    if localSupplyScenarioRadioButtonIndex == 0:
+        for i in range(len(historicHydrologyYears)):
+            if contractorYearType[i] == "NB": #Normal or Better
+                contractorLocalSupply.append(totalLocalSupplyNormalYear.loc[contractor][futureYear])
+            elif contractorYearType[i] == "SD": #Single Dry
+                    contractorLocalSupply.append(totalLocalSupplySingleDryYear.loc[contractor][futureYear])
+            elif contractorYearType[i] == "MD": #Multi-Dry
+                    contractorLocalSupply.append(totalLocalSupplyMultiDryYear.loc[contractor][futureYear])
+    totalLocalSupply[contractor] = contractorLocalSupply
+
+totalLocalSupply = pd.DataFrame(totalLocalSupply)
