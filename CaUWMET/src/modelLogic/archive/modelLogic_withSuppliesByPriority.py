@@ -1,47 +1,65 @@
 import pandas as pd
 from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from readDemandAssumptions import totalDemands, plannedLongTermConservation 
-from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
+from readSupplyAssumptions import swpCVPSupply
 from readSystemOperationsAssumptions import carryoverStorageData, excessWaterSwitchData
+from modelUtilities import meetDemandsBySupplyPriority
 
-#TODO: Add water management options to local supplies
+#TODO: Add water management options to suppliesByPriority data
 
-# Set up time series dataframes for each variable. These dataframes include time series for all contractors.
-appliedDemands = {'Year': historicHydrologyYears}
-demandsToBeMetBySWPCVP = {'Year': historicHydrologyYears}
-demandsToBeMetByCarryoverSupply = {'Year': historicHydrologyYears}
-demandsToBeMetByBankedGWSupply = {'Year': historicHydrologyYears}
+# Set up time series dataframes for each variable represented as a black box in model logic schematic
+demandsAfterBaseConservation = {'Year': historicHydrologyYears}
+contractorDemandsToBeMetBySWPCVP = {'Year': historicHydrologyYears}
+demandsToBeMetByCarryoverStorage = {'Year': historicHydrologyYears}
+demandsToBeMetByContingentOptions = {'Year': historicHydrologyYears}
 excessSupply = {'Year': historicHydrologyYears}
 
-# Loop through model calculations for each contractor. All variables in this loop start with "contractor" to indicate it is only used in this loop.
+
 for contractor in contractorsList:
     # Set up variables that will be used for calcs by contractor
+    contractorDemandsAfterBaseConservation = []
     contractorTotalDemand = totalDemands[contractor]
-    contractorAppliedDemand = []
-    contractordemandsToBeMetBySWPCVP = []
-    contractorDemandsToBeMetByCarryover = []
-    contractorDemandsToBeMetByBankedGW = []
-    
-    contractorExcessSupplySwitch = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
+    contractorDemandsToBeMetBySWPCVP = []
+    contractorDemandsToBeMetBySWPCVP = []
+
     contractorExcessSupply = []
+    contractorDemandsToBeMetByCarryover = []
+
+    contractorExcessSupplySwitch = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
+
 
     for i in range(len(historicHydrologyYears)):
-        # Calculate Applied Demand after subtraction of Planned Long-term Conservation
-        contractorPlannedLongTermConservation = plannedLongTermConservation[plannedLongTermConservation['Contractor'] == contractor][futureYear].values[0]
-        contractorAppliedDemand.append(contractorTotalDemand[i] - contractorPlannedLongTermConservation)
+        # Calculate demands after long-term base conservation
+        contractorBaseLongTermConservation = plannedLongTermConservation[plannedLongTermConservation['Contractor'] == contractor][futureYear].values[0]
+        contractorDemandsAfterBaseConservation.append(contractorTotalDemand[i] - contractorBaseLongTermConservation)
 
-        # Calculate Demand to be Met by SWP/CVP supplies after subtraction of local supplies
-        contractordemandsToBeMetBySWPCVP.append(max(0, contractorAppliedDemand[i] - totalLocalSupply[contractor][i]))
-        
-        # Calculate Demand to be Met by Stored supplies after subtraction of SWP/CVP supplies, or calculate Excess Supply.
+        # Subtract local supplies from demands after base long-term conservation in order of priority
+        # Also track for excess supplies
+        # contractorSupplyPriority1 = suppliesByPriority['Priority 1'].loc[[contractor]].values[0]
+        # contractorSupplyPriority2 = suppliesByPriority['Priority 2'].loc[[contractor]].values[0]
+        # contractorSupplyPriority3 = suppliesByPriority['Priority 3'].loc[[contractor]].values[0]
+        # contractorSupplyPriority4 = suppliesByPriority['Priority 4'].loc[[contractor]].values[0]
+        # contractorSupplyPriority5 = suppliesByPriority['Priority 5'].loc[[contractor]].values[0]
+        # contractorSupplyPriority6 = suppliesByPriority['Priority 6'].loc[[contractor]].values[0]
+        # contractorSupplyPriority7 = suppliesByPriority['Priority 7'].loc[[contractor]].values[0]
         contractorSWPCVPSupply = swpCVPSupply[contractor][i]
-        if contractordemandsToBeMetBySWPCVP[i] - contractorSWPCVPSupply > 0:
-            contractorDemandsToBeMetByCarryover.append(contractordemandsToBeMetBySWPCVP[i] - contractorSWPCVPSupply)
-            contractorExcessSupply.append(0)
-        else:
-            contractorExcessSupply.append(-1* (contractordemandsToBeMetBySWPCVP[i] - contractorSWPCVPSupply))
-            contractorDemandsToBeMetByCarryover.append(0)
 
+        contractorDemandsToBeMetBySWPCVP = contractorDemandsAfterBaseConservation #- contractorSupplyPriority1
+        
+        # meetDemandsBySupplyPriorityOutput = meetDemandsBySupplyPriority(
+        # i,
+        # contractorDemandsToBeMetBySWPCVP,
+        # # contractorSupplyPriority2, 
+        # # contractorSupplyPriority3, 
+        # # contractorSupplyPriority4, 
+        # # contractorSupplyPriority5, 
+        # # contractorSupplyPriority6, 
+        # # contractorSupplyPriority7, 
+        # contractorSWPCVPSupply)
+
+        # #contractorDemandsToBeMetBySWPCVP.append(meetDemandsBySupplyPriorityOutput[0])
+        # contractorExcessSupply.append(meetDemandsBySupplyPriorityOutput[1])
+        # contractorDemandsToBeMetByCarryover.append(meetDemandsBySupplyPriorityOutput[2])
 
 
         # if contractorExcessSupplySwitch == 1:
@@ -87,18 +105,18 @@ for contractor in contractorsList:
         #     ## If there is still remaining demand after carryover storage has been allocated, return the remaining demand as a variable called contractorDemandToBeMetByContingentOptions
 
         
-    appliedDemands[contractor] = contractorAppliedDemand
-    demandsToBeMetBySWPCVP[contractor] = contractordemandsToBeMetBySWPCVP
-#     demandsToBeMetByStoredSupply[contractor] = contractorDemandsToBeMetByCarryover
-#     excessSupply[contractor] = contractorExcessSupply
+    demandsAfterBaseConservation[contractor] = contractorDemandsAfterBaseConservation
+    contractorDemandsToBeMetBySWPCVP[contractor] = contractorDemandsToBeMetBySWPCVP
+    demandsToBeMetByCarryoverStorage[contractor] = contractorDemandsToBeMetByCarryover
+    excessSupply[contractor] = contractorExcessSupply
     
 
 
 
-appliedDemands = pd.DataFrame(appliedDemands)
-demandsToBeMetBySWPCVP = pd.DataFrame(demandsToBeMetBySWPCVP)
-# demandsToBeMetByStoredSupply = pd.DataFrame(demandsToBeMetByStoredSupply)
+demandsAfterBaseConservation = pd.DataFrame(demandsAfterBaseConservation)
+contractorDemandsToBeMetBySWPCVP = pd.DataFrame(contractorDemandsToBeMetBySWPCVP)
+demandsToBeMetByCarryoverStorage = pd.DataFrame(demandsToBeMetByCarryoverStorage)
 
-# print(appliedDemands)
-# print(demandsToBeMetBySWPCVP)
-# print(demandsToBeMetByStoredSupply)
+print(demandsAfterBaseConservation)
+print(contractorDemandsToBeMetBySWPCVP)
+print(demandsToBeMetByCarryoverStorage)

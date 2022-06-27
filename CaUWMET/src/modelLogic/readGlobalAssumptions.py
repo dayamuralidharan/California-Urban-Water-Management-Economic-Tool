@@ -6,7 +6,7 @@ from modelUtilities import reclassifyYearType
 dirname = os.path.dirname(__file__)
 
 hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
-hydroRegionInput = "../inputData/contractorInformation.csv"
+hydroRegionInput = "../inputData/contractorInput_contractorInfo.csv"
 inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
 inputHydroRegionFile = os.path.join(dirname, hydroRegionInput)
 
@@ -24,5 +24,5 @@ historicHydrologyYears = hydroYearType['Year'].values  # 1922 to 2003 or 2015 de
 reclassYearType = {}
 for contractor in contractorsList:
     contractorYearType = hydroYearType[contractor].values
-    reclassYearType[contractor] = reclassifyYearType(contractorYearType) # Reclassify CDEC's classifications to the UWMP demand classifications of Normal or Better, Single-Dry and Multi-Dry Years
-
+    reclassYearType[contractor] = reclassifyYearType(contractorYearType) # Reclassify hydrologic year type classifications to the categories used in the UWMP Normal or Better, Single-Dry and Multi-Dry Years
+hydrologicYearType = pd.DataFrame(reclassYearType)
