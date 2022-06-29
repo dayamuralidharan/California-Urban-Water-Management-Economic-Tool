@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from modelUtilities import lookupCorrespondingValue
-from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, hydrologicYearType, historicHydrologyYears
+from readGlobalAssumptions import contractorsList, futureYear, contractorDf, hydrologicYearType, historicHydrologyYears
 
 #TODO: Connect to streamlit dashboard, will either be table by year type or time series
 #TODO: Set up reading in supply data to read in time series if radio button below is set to 0
@@ -63,7 +63,7 @@ totalLocalSupplyMultiDryYear.drop('Variable', axis=1, inplace=True)
 totalLocalSupply = {'Year': historicHydrologyYears}
 
 for contractor in contractorsList:
-    contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
+    contractorRegion = lookupCorrespondingValue(contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
     contractorYearType = hydrologicYearType[contractor]
     contractorLocalSupply = []
 
