@@ -1,21 +1,21 @@
 import os
 import pandas as pd
 from modelUtilities import lookupCorrespondingValue
-from readGlobalAssumptions import contractorsList, futureYear, hydroRegionDf, reclassYearType, historicHydrologyYears
+from readGlobalAssumptions import contractorsList, futureYear, contractorDf, reclassYearType, historicHydrologyYears
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
 
 # DEMAND Inputs
 totalDemandsInputData = "../inputData/demandsInput_totalDemands.csv"
-baseConservationInputData = "../inputData/demandsInput_baseLongTermConservationData.csv"
+plannedConservationInputData = "../inputData/demandsInput_baseLongTermConservationData.csv"
 ETAWAdjustmentsInputData = "../inputData/demandsInput_ETAWAdjustments.csv"
 inputDemandsFile = os.path.join(dirname, totalDemandsInputData)
-inputBaseConservationFile = os.path.join(dirname, baseConservationInputData)
+inputPlannedConservationFile = os.path.join(dirname, plannedConservationInputData)
 inputETAWAdjustmentsFile = os.path.join(dirname, ETAWAdjustmentsInputData)
 
 demandsData = pd.read_csv(inputDemandsFile)
-plannedLongTermConservation = pd.read_csv(inputBaseConservationFile)
+plannedLongTermConservation = pd.read_csv(inputPlannedConservationFile)
 ETAWAdjustments = pd.read_csv(inputETAWAdjustmentsFile).set_index('Year')
 
 # Initialize variable as a time series
@@ -24,7 +24,7 @@ totalDemandScenarioRadioButtonIndex = 1    #TODO - connect to dashboard
 
 # Set up total demand time series based on hydrologic year type.
 for contractor in contractorsList:
-    contractorRegion = lookupCorrespondingValue(hydroRegionDf, contractor, colA='Contractor', colB='Hydro. Region')
+    contractorRegion = lookupCorrespondingValue(contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
     contractorYearType = reclassYearType[contractor]
     totalDemandsInput = demandsData[demandsData['Contractor'] == contractor]
     totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', futureYear]]
