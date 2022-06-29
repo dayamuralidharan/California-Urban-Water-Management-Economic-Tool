@@ -8,14 +8,14 @@ dirname = os.path.dirname(__file__)
 
 # DEMAND Inputs
 totalDemandsInputData = "../inputData/demandsInput_totalDemands.csv"
-baseConservationInputData = "../inputData/demandsInput_baseLongTermConservationData.csv"
+plannedConservationInputData = "../inputData/demandsInput_baseLongTermConservationData.csv"
 ETAWAdjustmentsInputData = "../inputData/demandsInput_ETAWAdjustments.csv"
 inputDemandsFile = os.path.join(dirname, totalDemandsInputData)
-inputBaseConservationFile = os.path.join(dirname, baseConservationInputData)
+inputPlannedConservationFile = os.path.join(dirname, plannedConservationInputData)
 inputETAWAdjustmentsFile = os.path.join(dirname, ETAWAdjustmentsInputData)
 
 demandsData = pd.read_csv(inputDemandsFile)
-plannedLongTermConservation = pd.read_csv(inputBaseConservationFile)
+plannedLongTermConservation = pd.read_csv(inputPlannedConservationFile)
 ETAWAdjustments = pd.read_csv(inputETAWAdjustmentsFile).set_index('Year')
 
 # Initialize variable as a time series

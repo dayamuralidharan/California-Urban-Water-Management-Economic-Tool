@@ -2,7 +2,7 @@ import pandas as pd
 from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from readDemandAssumptions import totalDemands, plannedLongTermConservation 
 from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
-from readSystemOperationsAssumptions import carryoverStorageData, excessWaterSwitchData
+from readSystemOperationsAssumptions import storageData, excessWaterSwitchData, storageHedgingStrategyData
 
 #TODO: Add water management options to local supplies
 
