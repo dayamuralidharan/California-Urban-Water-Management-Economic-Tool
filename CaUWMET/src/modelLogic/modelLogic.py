@@ -105,16 +105,35 @@ for contractor in contractorsList:
                         contractorDemandsToBeMetByCarryover[i],
                         contractorSurfaceMaximumTakeCapacity
                     )
-                    contractorDemandsToBeMetByCarryover[i] = contractorDemandsToBeMetByCarryover[i] - takeSurface
+                    contractorDemandsToBeMetByBankedGW[i] = contractorDemandsToBeMetByCarryover[i] - takeSurface
                     # outputSWStorage = min((1 + contractorSurfaceTakeLoss) * contractorDemandsToBeMetByCarryover[i], min(volumeSurfaceCarryover, contractorSurfaceMaximumTakeCapacity))
                     # contractorDemandsToBeMetByCarryover[i] = contractorDemandsToBeMetByCarryover[i] - ((1 - contractorSurfaceTakeLoss) * outputSWStorage)
                     volumeSurfaceCarryover = volumeSurfaceCarryover - takeSurface
-            if contractorDemandsToBeMetByCarryover[i] > 0:
-                contractorGroundwaterMaximumTakeCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater max take capacity (acre-feet)'][futureYear].values[0]
-                contractorGroundwaterTakeLoss = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater take loss (% of take)'][futureYear].values[0]
-                outputGWStorage = min((1 + contractorGroundwaterTakeLoss) * contractorDemandsToBeMetByCarryover[i], min(volumeGroundwaterBank, contractorGroundwaterMaximumTakeCapacity))
-                contractorDemandToBeMetByContingentOptions = contractorDemandsToBeMetByCarryover[i] - ((1 - contractorGroundwaterTakeLoss) * outputGWStorage)
-                volumeGroundwaterBank = volumeGroundwaterBank - outputSWStorage
+            if volumeGroundwaterBank > 0:
+                if storageHedgingStrategySwitch == "Groundwater Bank Only":
+                    contractorDemandsToBeMetByBankedGW[i] = contractorDemandsToBeMetByCarryover[i]
+                    hedgingPoint = (contractorStorageHedgingStrategyDf[contractorStorageHedgingStrategyDf['Variable'] == 'Hedging Point (%)']['Value'].values[0] / 100.)  # Converting % into fraction
+                    hedgeCallStorageFactor = contractorStorageHedgingStrategyDf[contractorStorageHedgingStrategyDf['Variable'] == 'Hedge Call/Storage Factor']['Value'].values[0]
+                    hedgingStorageCapacityFactor = contractorStorageHedgingStrategyDf[contractorStorageHedgingStrategyDf['Variable'] == 'Hedging Storage/Capacity Factor']['Value'].values[0]
+                if contractorDemandsToBeMetByBankedGW[i] > 0:
+                    contractorGroundwaterMaximumCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater max storage capacity (acre-feet)'][futureYear].values[0]
+                    pctCapacity_GroundwaterBank = (volumeGroundwaterBank / contractorGroundwaterMaximumCapacity)
+                    pctStorageCalled_GroundwaterBank = (contractorDemandsToBeMetByBankedGW[i] / volumeGroundwaterBank)
+                    contractorGroundwaterMaximumTakeCapacity = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater max take capacity (acre-feet)'][futureYear].values[0]
+                    if pctCapacity_GroundwaterBank <= hedgingPoint and storageHedgingStrategySwitch in ["Groundwater Bank Only", "Surface and Groundwater Storage"]:
+                        takeGroundwater = min(
+                            (1 - hedgeCallStorageFactor * pctStorageCalled_GroundwaterBank * (pctCapacity_GroundwaterBank ** -hedgingStorageCapacityFactor)) * volumeGroundwaterBank,
+                            contractorDemandsToBeMetByBankedGW[i],
+                            contractorGroundwaterMaximumTakeCapacity
+                        )
+                    else:
+                        takeGroundwater = min(contractorDemandsToBeMetByBankedGW[i], contractorGroundwaterMaximumTakeCapacity)
+                    volumeGroundwaterBank = volumeGroundwaterBank - takeGroundwater
+
+                    # contractorGroundwaterTakeLoss = contractorCarryoverStorageDf[contractorCarryoverStorageDf['Variable'] == 'Groundwater take loss (% of take)'][futureYear].values[0]
+                    # outputGWStorage = min((1 + contractorGroundwaterTakeLoss) * contractorDemandsToBeMetByCarryover[i], min(volumeGroundwaterBank, contractorGroundwaterMaximumTakeCapacity))
+                    contractorDemandToBeMetByContingentOptions = contractorDemandsToBeMetByBankedGW[i] - takeGroundwater
+
         #     ## If there is remaining demand to be met by carryover storage, supply remaining demand with available carryover supply
         #     ## Start with surface carryover, then if there is still remaining demand use groundwater carryover.
         #     # if contractorDemandsToBeMetByCarryover > 0 and excess supply swith = 1:
