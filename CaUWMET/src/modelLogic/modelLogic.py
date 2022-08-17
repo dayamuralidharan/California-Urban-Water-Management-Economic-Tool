@@ -222,21 +222,22 @@ writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
 workbook = writer.book
 
 appliedDemands.to_excel(writer, sheet_name = 'appliedDemands')
+demandsToBeMetBySWPCVP.to_excel(writer, sheet_name = 'demandsToBeMetBySWPCVP')
+# demandsToBeMetByCarryover = pd.DataFrame(demandsToBeMetByCarryover
+# excessSupply = pd.DataFrame(excessSupply
+
+# volumeSurfaceCarryover = pd.DataFrame(volumeSurfaceCarryover
+# volumeGroundwaterBank = pd.DataFrame(volumeGroundwaterBank
+# availableCapacitySurface = pd.DataFrame(availableCapacitySurface
+# availableGroundwaterCapacity = pd.DataFrame(availableGroundwaterCapacity
+# putGroundwater= pd.DataFrame(putGroundwater
+# putSurface = pd.DataFrame(putSurface
+# takeSurface= pd.DataFrame(takeSurface
+# takeGroundwater = pd.DataFrame(takeGroundwater
+
+# pctCapacitySurfaceCarryover = pd.DataFrame(pctCapacitySurfaceCarryover
+# pctStorageCalledSurfaceCarryover = pd.DataFrame(pctStorageCalledSurfaceCarryover
+# pctCapacityGroundwaterBank= pd.DataFrame(pctCapacityGroundwaterBank
+# pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank
+
 writer.save()
-# demandsToBeMetBySWPCVP = pd.DataFrame(demandsToBeMetBySWPCVP)
-# demandsToBeMetByCarryover = pd.DataFrame(demandsToBeMetByCarryover)
-# excessSupply = pd.DataFrame(excessSupply)
-
-# volumeSurfaceCarryover = pd.DataFrame(volumeSurfaceCarryover)
-# volumeGroundwaterBank = pd.DataFrame(volumeGroundwaterBank)
-# availableCapacitySurface = pd.DataFrame(availableCapacitySurface)
-# availableGroundwaterCapacity = pd.DataFrame(availableGroundwaterCapacity)
-# putGroundwater= pd.DataFrame(putGroundwater)
-# putSurface = pd.DataFrame(putSurface)
-# takeSurface= pd.DataFrame(takeSurface)
-# takeGroundwater = pd.DataFrame(takeGroundwater)
-
-# pctCapacitySurfaceCarryover = pd.DataFrame(pctCapacitySurfaceCarryover)
-# pctStorageCalledSurfaceCarryover = pd.DataFrame(pctStorageCalledSurfaceCarryover)
-# pctCapacityGroundwaterBank= pd.DataFrame(pctCapacityGroundwaterBank)
-# pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank)
