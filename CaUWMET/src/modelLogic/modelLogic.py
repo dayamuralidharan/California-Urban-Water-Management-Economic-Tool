@@ -2,7 +2,7 @@ import pandas as pd
 from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from readDemandAssumptions import totalDemands, plannedLongTermConservation
 from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
-from readSystemOperationsAssumptions import storageData, excessWaterSwitchData, storageHedgingStrategyData
+from readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
 from storageUtilities import putOrTakeFromStorage
 
 
@@ -39,7 +39,7 @@ for contractor in contractorsList:
     demandsToBeMetBySWPCVP_Contractor = []
     
     demandsToBeMetByCarryover_Contractor = []
-    demandsToBeMetByBankedGW_Contractor = []
+    # demandsToBeMetByBankedGW_Contractor = []
 
     excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
     excessSupply_Contractor = []
@@ -47,6 +47,8 @@ for contractor in contractorsList:
     volumeSurfaceCarryover_Contractor = []
     volumeGroundwaterBank_Contractor = []
     storageInputDf_Contractor = storageData.loc[[contractor]]
+    
+    demandToBeMetByContingentOptions_Contractor = []
 
     for i in range(len(historicHydrologyYears)):
         # Calculate Applied Demand after subtraction of Planned Long-term Conservation
@@ -66,14 +68,41 @@ for contractor in contractorsList:
             demandsToBeMetByCarryover_Contractor.append(0)
 
         # Initialize storage volumes each time step
-        if i == 0:
+        if i == 0: #Initial storage volumes
             volumeSurfaceCarryover_Contractor.append(storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface initial storage (acre-feet)'][futureYear].values[0])
             volumeGroundwaterBank_Contractor.append(storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater initial storage (acre-feet)'][futureYear].values[0])
-        else:
+        else: # Initialize with previous time step's volumes which are updated in the putOrTakeFromStorage function
             volumeSurfaceCarryover_Contractor.append(volumeSurfaceCarryover_Contractor[i-1])
             volumeGroundwaterBank_Contractor.append(volumeGroundwaterBank_Contractor[i-1])
-    
-        putOrTakeFromStorage(i, contractor, futureYear, excessSupply_Contractor, demandsToBeMetByCarryover_Contractor, demandsToBeMetByBankedGW_Contractor, volumeSurfaceCarryover_Contractor, volumeGroundwaterBank_Contractor)
+        
+        excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
+        storageInputDf_Contractor = storageData.loc[[contractor]]
+        groundwaterMaximumCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater max storage capacity (acre-feet)'][futureYear].values[0]
+        groundwaterMaximumPutCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater max put capacity (acre-feet)'][futureYear].values[0]
+        groundwaterMaximumTakeCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater max take capacity (acre-feet)'][futureYear].values[0]
+        rechargeEffectiveness_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Recharge Effectiveness (%)'][futureYear].values[0] / 100 # Converted from % into fraction
+        
+        surfaceMaximumCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max storage capacity (acre-feet)'][futureYear].values[0]
+        surfaceMaximumPutCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max put capacity (acre-feet)'][futureYear].values[0]
+        surfaceMaximumTakeCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max take capacity (acre-feet)'][futureYear].values[0]
+        surfaceStorageAnnualLoss_Contractor = (storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface loss (AFY)'][futureYear].values[0])
+        
+        storageHedgingStrategyDf_Contractor = storageHedgingStrategyData.loc[[contractor]]
+        storageHedgingStrategySwitch_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Storage Hedging Strategy Switch']['Value'].values[0]
+        hedgingPoint_Contractor = int(storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Hedging Point (%)']['Value'].values[0])
+        hedgingPoint_Contractor = hedgingPoint_Contractor / 100  # Converting % into fraction
+        hedgeCallStorageFactor_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Hedge Call/Storage Factor']['Value'].values[0]
+        hedgingStorageCapacityFactor_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Hedging Storage/Capacity Factor']['Value'].values[0]
+        
+        putOrTakeFromStorage(i, contractor, futureYear, 
+                             storageInputDf_Contractor, 
+                             excessSupply_Contractor, excessSupplySwitch_Contractor, 
+                             demandsToBeMetByCarryover_Contractor, 
+                             volumeSurfaceCarryover_Contractor, volumeGroundwaterBank_Contractor,
+                             groundwaterMaximumCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor, groundwaterMaximumTakeCapacity_Contractor, rechargeEffectiveness_Contractor,
+                             surfaceMaximumCapacity_Contractor, surfaceMaximumPutCapacity_Contractor, surfaceMaximumTakeCapacity_Contractor, surfaceStorageAnnualLoss_Contractor,
+                             storageHedgingStrategySwitch_Contractor, hedgingPoint_Contractor, hedgeCallStorageFactor_Contractor, hedgingStorageCapacityFactor_Contractor,
+                             demandToBeMetByContingentOptions_Contractor)
         
         ## contractorExcessSupplySwitch options:
         """
