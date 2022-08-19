@@ -1,7 +1,7 @@
 import unittest
-from src.modelLogic.excessUnitTest import putExcessSupplyIntoStorage
+from src.modelLogic.storageUtilities import putExcessSupplyIntoStorage
 
-# Adding "unittest.testcase" in the argument allows the class WaterUserTest to inherit the unit test library's functionalities.
+# Test puts of excess supplies into storage
 class StoragePutTests(unittest.TestCase):
     def setUp(self):
         self.i = 0
