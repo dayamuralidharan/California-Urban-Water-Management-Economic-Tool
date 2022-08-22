@@ -64,32 +64,10 @@ def putExcessSupplyIntoStorage(i, excessSupplySwitch_Contractor, excessSupply_Co
         putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), 0)
 
     return {'putSurface_Contractor': putSurface_Contractor, 'putGroundwater_Contractor': putGroundwater_Contractor}
-
-
-def putOrTakeFromStorage(i, 
-                         excessSupply_Contractor,
-                         excessSupplySwitch_Contractor, 
-                         demandsToBeMetByCarryover_Contractor, 
-                         volumeSurfaceCarryover_Contractor, 
-                         volumeGroundwaterBank_Contractor,
-                         groundwaterMaximumCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor, groundwaterMaximumTakeCapacity_Contractor, rechargeEffectiveness_Contractor,
-                         surfaceMaximumCapacity_Contractor, surfaceMaximumPutCapacity_Contractor, surfaceMaximumTakeCapacity_Contractor, surfaceStorageAnnualLoss_Contractor,
-                         storageHedgingStrategySwitch_Contractor, hedgingPoint_Contractor, hedgeCallStorageFactor_Contractor, hedgingStorageCapacityFactor_Contractor,
-                         demandToBeMetByContingentOptions_Contractor):
     
     
-    
-    
-    
-    ## If there are excess supplies, put into groundwater bank first, then surface carryover storage
-    if excessSupply_Contractor[i] > 0:
-        putExcessSupplyIntoStorage(i, 
-                                   excessSupplySwitch_Contractor, excessSupply_Contractor, # excess supply management assumptions
-                                   availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor, rechargeEffectiveness_Contractor, # groundwater bank assumptions
-                                   availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor) # surface carryover assumptions
-
-    ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater
-
+def takeSupplyFromSurfaceCarryoverStorage (i, excessSupplySwitch_Contractor, demandsToBeMetByCarryover_Contractor, 
+                           volumeSurfaceCarryover_Contractor, )
 
     ## Calculate Take from Surface Carryover. Apply Hedging Strategy if switched on.
     if demandsToBeMetByCarryover_Contractor[i] > 0:

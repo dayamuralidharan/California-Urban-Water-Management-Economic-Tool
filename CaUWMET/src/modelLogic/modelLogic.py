@@ -11,7 +11,7 @@ from storageUtilities import getContractorStorageAssumptions, putExcessSupplyInt
 # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
 appliedDemands = {'Year': historicHydrologyYears}
 demandsToBeMetBySWPCVP = {'Year': historicHydrologyYears}
-demandsToBeMetByCarryover = {'Year': historicHydrologyYears}
+demandsToBeMetByStorage = {'Year': historicHydrologyYears}
 demandsToBeMetByBankedGW = {'Year': historicHydrologyYears}
 excessSupply = {'Year': historicHydrologyYears}
 
@@ -91,12 +91,14 @@ for contractor in contractorsList:
         putGroundwater_Contractor.append(putsIntoStorage_Contractor['putGroundwater_Contractor'])
         putSurface_Contractor.append(putsIntoStorage_Contractor['putSurface_Contractor'])
         
+    ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater
+        
         
 
 # Append dataframes with updated contractor data as calculated in model logic above.
     appliedDemands[contractor] = appliedDemand_Contractor
     demandsToBeMetBySWPCVP[contractor] = demandsToBeMetBySWPCVP_Contractor
-    #demandsToBeMetByCarryover[contractor] = demandsToBeMetByStorage_Contractor
+    demandsToBeMetByStorage[contractor] = demandsToBeMetByStorage_Contractor
     #demandsToBeMetByBankedGW[contractor] = demandsToBeMetByBankedGW_Contractor
     excessSupply[contractor] = excessSupply_Contractor
     
@@ -118,7 +120,7 @@ for contractor in contractorsList:
 
 appliedDemands = pd.DataFrame(appliedDemands)
 demandsToBeMetBySWPCVP = pd.DataFrame(demandsToBeMetBySWPCVP)
-demandsToBeMetByCarryover = pd.DataFrame(demandsToBeMetByCarryover)
+demandsToBeMetByStorage = pd.DataFrame(demandsToBeMetByStorage)
 excessSupply = pd.DataFrame(excessSupply)
 
 volumeSurfaceCarryover = pd.DataFrame(volumeSurfaceCarryover)
