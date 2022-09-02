@@ -3,7 +3,7 @@ from readGlobalAssumptions import contractorsList, historicHydrologyYears, futur
 from readDemandAssumptions import totalDemands, plannedLongTermConservation
 from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
 from readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
-from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage
+from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 
 
 #TODO: Add water management options to local supplies
@@ -48,12 +48,17 @@ for contractor in contractorsList:
     volumeGroundwaterBank_Contractor = []
     putSurface_Contractor = []
     putGroundwater_Contractor = []
+    takeSurface_Contractor = []
+    takeGroundwater_Contractor = []
     
     storageInputAssumptions_Contractor = getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData)
     
     
 
     for i in range(len(historicHydrologyYears)):
+        
+        
+        #### Deliver local and project supplies to meet demands:
         # Calculate Applied Demand after subtraction of Planned Long-term Conservation
         plannedLongTermConservation_Contractor = plannedLongTermConservation[plannedLongTermConservation['Contractor'] == contractor][futureYear].values[0]
         appliedDemand_Contractor.append(totalDemand_Contractor[i] - plannedLongTermConservation_Contractor)
@@ -70,6 +75,10 @@ for contractor in contractorsList:
             excessSupply_Contractor.append((SWPCVPSupply_Contractor - demandsToBeMetBySWPCVP_Contractor[i]))
             demandsToBeMetByStorage_Contractor.append(0)
 
+
+
+
+        #### Put excess into or take from storage to meet demands:
         # Initialize storage volumes each time step
         if i == 0: #Initial storage volumes
             volumeSurfaceCarryover_Contractor.append(storageInputAssumptions_Contractor['initialSurfaceStorageVolume_Contractor'])
@@ -82,18 +91,32 @@ for contractor in contractorsList:
         availableCapacitySurface_Contractor = storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'] - volumeSurfaceCarryover_Contractor[max(0,i-1)]
         availableGroundwaterCapacity_Contractor = storageInputAssumptions_Contractor['groundwaterMaximumCapacity_Contractor'] - volumeGroundwaterBank_Contractor[max(0,i-1)]
         
-        # If there is excess supply, put into storage
+        # If there is excess supply, calculate put into storage
         putsIntoStorage_Contractor = putExcessSupplyIntoStorage(i, 
-                                excessSupplySwitch_Contractor, excessSupply_Contractor, # excess supply management assumptions
+                                excessSupplySwitch_Contractor, excessSupply_Contractor,
                                 availableGroundwaterCapacity_Contractor, storageInputAssumptions_Contractor['groundwaterMaximumPutCapacity_Contractor'], storageInputAssumptions_Contractor['rechargeEffectiveness_Contractor'], # groundwater bank assumptions
                                 availableCapacitySurface_Contractor, storageInputAssumptions_Contractor['surfaceMaximumPutCapacity_Contractor']) # surface carryover assumptions
     
         putGroundwater_Contractor.append(putsIntoStorage_Contractor['putGroundwater_Contractor'])
         putSurface_Contractor.append(putsIntoStorage_Contractor['putSurface_Contractor'])
         
+        volumeGroundwaterBank_Contractor[i] = volumeGroundwaterBank_Contractor[i] + putGroundwater_Contractor[i]
+        volumeSurfaceCarryover_Contractor[i] = volumeSurfaceCarryover_Contractor[i] + putSurface_Contractor[i]
+        
     ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater
+        takesFromStorage_Contractor = takeFromStorage(i, demandsToBeMetByStorage_Contractor, 
+                           volumeSurfaceCarryover_Contractor, storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['surfaceMaximumTakeCapacity_Contractor'],
+                           storageInputAssumptions_Contractor['storageHedgingStrategySwitch_Contractor'], storageInputAssumptions_Contractor['hedgingPoint_Contractor'], storageInputAssumptions_Contractor['hedgeCallStorageFactor_Contractor'], storageInputAssumptions_Contractor['hedgingStorageCapacityFactor_Contractor'])
         
-        
+        takeSurface_Contractor.append(takesFromStorage_Contractor['takeSurface_Contractor'])
+
+
+
+
+
+
+
+
 
 # Append dataframes with updated contractor data as calculated in model logic above.
     appliedDemands[contractor] = appliedDemand_Contractor
@@ -108,8 +131,8 @@ for contractor in contractorsList:
     # availableGroundwaterCapacity[contractor] = availableGroundwaterCapacity_Contractor
     putGroundwater[contractor] = putGroundwater_Contractor
     putSurface[contractor] = putSurface_Contractor
-    # takeSurface[contractor] = takeSurface_Contractor
-    # takeGroundwater[contractor] = takeGroundwater_Contractor
+    takeSurface[contractor] = takeSurface_Contractor
+    #takeGroundwater[contractor] = takeGroundwater_Contractor
     # pctCapacitySurfaceCarryover[contractor] = pctCapacitySurfaceCarryover_Contractor
     # pctStorageCalledSurfaceCarryover[contractor] = pctStorageCalledSurfaceCarryover_Contractor
     # pctCapacityGroundwaterBank[contractor] = pctCapacityGroundwaterBank_Contractor

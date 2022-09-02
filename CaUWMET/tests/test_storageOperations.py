@@ -1,5 +1,5 @@
 import unittest
-from src.modelLogic.storageUtilities import putExcessSupplyIntoStorage, takeSupplyFromSurfaceCarryoverStorage
+from src.modelLogic.storageUtilities import putExcessSupplyIntoStorage, takeFromStorage
 
 # Test puts of excess supplies into storage
 class StoragePutTests(unittest.TestCase):
@@ -35,34 +35,35 @@ class StoragePutTests(unittest.TestCase):
         
         
 # Test puts of excess supplies into storage
-class SurfaceCarryoverStorageTakeTests(unittest.TestCase):
+class StorageTakeTests(unittest.TestCase):
     def setUp(self):
         self.i = 0
-        self.demandsToBeMetByCarryover_Contractor = [10]
-        self.volumeSurfaceCarryover_Contractor = [15]
-        self.surfaceMaximumCapacity_Contractor = 20
-        self.surfaceMaximumTakeCapacity_Contractor = 5
+        self.demandsToBeMetByStorage_Contractor = [400000]
+        self.volumeSurfaceCarryover_Contractor = [500000]
+        self.surfaceMaximumCapacity_Contractor = 1000000
+        self.surfaceMaximumTakeCapacity_Contractor = 600000
+        #self.storageHedgingStrategySwitch_Contractor
         self.hedgingPoint_Contractor = 60
         self.hedgeCallStorageFactor_Contractor = 0.25
         self.hedgingStorageCapacityFactor_Contractor = 0.25
 
     def testStorageHedgingSwitchIsSetToCarryoverAndGroundwaterBank(self):
-        self.verifyGroundWaterAndSurfaceTakesForSwitch(4.5, 5, "Surface and Groundwater Storage")
+        self.verifyGroundWaterAndSurfaceTakesForSwitch(440540, "Surface  and Groundwater Storage")
 
-    def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
-        self.verifyGroundWaterAndSurfaceTakesForSwitch(4.5, 0, "Put into Groundwater Bank")
+    #def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
+        #self.verifyGroundWaterAndSurfaceTakesForSwitch(4.5, 0, "Groundwater Bank Only")
         
     def testStorageHedgingSwitchIsSetToSurfaceCarryover(self):
-        self.verifyGroundWaterAndSurfaceTakesForSwitch(0, 5, "Put into Carryover Storage")
+        self.verifyGroundWaterAndSurfaceTakesForSwitch(440540, "Surface Carryover Only")
         
-    def testStorageHedgingSwitchIsSetToNone(self):
-        self.verifyGroundWaterAndSurfaceTakesForSwitch(0, 0, "Turnback Pool")
+    def testStorageHedgingSwitchIsSetToOff(self):
+        self.verifyGroundWaterAndSurfaceTakesForSwitch(400000, "Off")
         
-    def verifyGroundWaterAndSurfaceTakesForSwitch(self, groundwater, surface, switch):
+    def verifyGroundWaterAndSurfaceTakesForSwitch(self, surface, switch): #groundwater,
         storageHedgingStrategySwitch_Contractor = switch
-        takeStorage = takeSupplyFromSurfaceCarryoverStorage(self.i, storageHedgingStrategySwitch_Contractor, self.demandsToBeMetByCarryover_Contractor, 
+        takeStorage = takeFromStorage(self.i, storageHedgingStrategySwitch_Contractor, self.demandsToBeMetByStorage_Contractor, 
                                                             self.volumeSurfaceCarryover_Contractor, self.surfaceMaximumCapacity_Contractor, 
                                                             self.surfaceMaximumTakeCapacity_Contractor, self.hedgingPoint_Contractor, 
                                                             self.hedgeCallStorageFactor_Contractor, self.hedgingStorageCapacityFactor_Contractor)
-        self.assertEqual(takeStorage['takeGroundwater_Contractor'], groundwater)
+        #self.assertEqual(takeStorage['takeGroundwater_Contractor'], groundwater)
         self.assertEqual(takeStorage['takeSurface_Contractor'], surface)

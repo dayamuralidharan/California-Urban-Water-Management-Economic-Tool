@@ -36,6 +36,7 @@ def getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchDat
                 'surfaceMaximumTakeCapacity_Contractor': surfaceMaximumTakeCapacity_Contractor,
                 'surfaceStorageAnnualLoss_Contractor': surfaceStorageAnnualLoss_Contractor,
                 'storageHedgingStrategySwitch_Contractor': storageHedgingStrategySwitch_Contractor,
+                'hedgingPoint_Contractor': hedgingPoint_Contractor,
                 'hedgeCallStorageFactor_Contractor': hedgeCallStorageFactor_Contractor,
                 'hedgingStorageCapacityFactor_Contractor': hedgingStorageCapacityFactor_Contractor}
         
@@ -63,35 +64,39 @@ def putExcessSupplyIntoStorage(i, excessSupplySwitch_Contractor, excessSupply_Co
     elif excessSupplySwitch_Contractor == "Put into Carryover Storage":
         putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), 0)
 
+    
+    
     return {'putSurface_Contractor': putSurface_Contractor, 'putGroundwater_Contractor': putGroundwater_Contractor}
     
     
-def takeSupplyFromSurfaceCarryoverStorage (i, demandsToBeMetByCarryover_Contractor, 
+def takeFromStorage (i, demandsToBeMetByStorage_Contractor, 
                            volumeSurfaceCarryover_Contractor, surfaceMaximumCapacity_Contractor, surfaceMaximumTakeCapacity_Contractor,
                            storageHedgingStrategySwitch_Contractor, hedgingPoint_Contractor, hedgeCallStorageFactor_Contractor, hedgingStorageCapacityFactor_Contractor):
 
     ## Calculate Take from Surface Carryover. Apply Hedging Strategy if switched on.
-    if demandsToBeMetByCarryover_Contractor[i] > 0 and volumeSurfaceCarryover_Contractor[[max(0,i-1)]] > 0:
+    if demandsToBeMetByStorage_Contractor[i] > 0 and volumeSurfaceCarryover_Contractor[i] > 0:
         # Apply Hedging strategy if switched on 
         if storageHedgingStrategySwitch_Contractor in ["Surface Carryover Only", "Surface and Groundwater Storage"]:
             # Set surface carryover storage hedging strategy variables
-            pctCapacitySurfaceCarryover_Contractor = (volumeSurfaceCarryover_Contractor[max(0,i-1)] / surfaceMaximumCapacity_Contractor)
-            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByCarryover_Contractor[i] / volumeSurfaceCarryover_Contractor[max(0,i-1)]) 
+            pctCapacitySurfaceCarryover_Contractor = (volumeSurfaceCarryover_Contractor[i] / surfaceMaximumCapacity_Contractor)
+            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByStorage_Contractor[i] / volumeSurfaceCarryover_Contractor[max(0,i-1)]) 
             
             # Apply hedging strategy if % of Capacity is below the Hedging Point
             if pctCapacitySurfaceCarryover_Contractor <= hedgingPoint_Contractor:
                 takeSurface_Contractor = min(
                     (1 - hedgeCallStorageFactor_Contractor * pctStorageCalledSurfaceCarryover_Contractor * (pctCapacitySurfaceCarryover_Contractor ** - hedgingStorageCapacityFactor_Contractor)) * volumeSurfaceCarryover_Contractor,
                     volumeSurfaceCarryover_Contractor[i],
-                    demandsToBeMetByCarryover_Contractor[i],
+                    demandsToBeMetByStorage_Contractor[i],
                     surfaceMaximumTakeCapacity_Contractor
                 )
         else:
-            takeSurface_Contractor = min(volumeSurfaceCarryover_Contractor[max(0,i-1)], demandsToBeMetByCarryover_Contractor[i], surfaceMaximumTakeCapacity_Contractor)
+            takeSurface_Contractor = min(volumeSurfaceCarryover_Contractor[max(0,i-1)], demandsToBeMetByStorage_Contractor[i], surfaceMaximumTakeCapacity_Contractor)
     else:
         takeSurface_Contractor = 0
-    demandsToBeMetByBankedGW_Contractor = demandsToBeMetByCarryover_Contractor[i] - takeSurface_Contractor
-    return {'takeSurface_Contractor': takeSurface_Contractor, 'demandsToBeMetByBankedGW_Contractor': demandsToBeMetByBankedGW_Contractor}
+    
+    demandsToBeMetByBankedGW_Contractor = demandsToBeMetByStorage_Contractor[i] - takeSurface_Contractor
+    
+    return {'takeSurface_Contractor': takeSurface_Contractor}
     
     
     # if demandsToBeMetByBankedGW_Contractor > 0:
