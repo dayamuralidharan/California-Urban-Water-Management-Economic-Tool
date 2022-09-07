@@ -43,26 +43,26 @@ def getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchDat
 
 
 def putExcessSupplyIntoStorage(i, excessSupplySwitch_Contractor, excessSupply_Contractor, availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor, rechargeEffectiveness_Contractor, availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor):
-    putGroundwater_Contractor = 0
-    putSurface_Contractor = 0
+    putGroundwater_Contractor = int('0')
+    putSurface_Contractor = int('0')
     
     if excessSupplySwitch_Contractor == "Put into Carryover and Groundwater Bank": 
-        putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), 0)
+        putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), int('0'))
         rechargeLoss_Contractor = putGroundwater_Contractor - putGroundwater_Contractor * rechargeEffectiveness_Contractor
         putGroundwater_Contractor = putGroundwater_Contractor - rechargeLoss_Contractor
         
         excessSupply_Contractor[i] = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
         
-        putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), 0)
+        putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))
 
     elif excessSupplySwitch_Contractor == "Put into Groundwater Bank":
-        putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), 0)
+        putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), int('0'))
         rechargeLoss_Contractor = putGroundwater_Contractor - putGroundwater_Contractor * rechargeEffectiveness_Contractor
         putGroundwater_Contractor = putGroundwater_Contractor - rechargeLoss_Contractor
         excessSupply_Contractor[i] = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
         
     elif excessSupplySwitch_Contractor == "Put into Carryover Storage":
-        putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), 0)
+        putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))
 
     
     
@@ -74,12 +74,12 @@ def takeFromStorage (i, demandsToBeMetByStorage_Contractor,
                            storageHedgingStrategySwitch_Contractor, hedgingPoint_Contractor, hedgeCallStorageFactor_Contractor, hedgingStorageCapacityFactor_Contractor):
 
     ## Calculate Take from Surface Carryover. Apply Hedging Strategy if switched on.
-    if demandsToBeMetByStorage_Contractor[i] > 0 and volumeSurfaceCarryover_Contractor[i] > 0:
+    if demandsToBeMetByStorage_Contractor[i] > int('0') and volumeSurfaceCarryover_Contractor[i] > int('0'):
         # Apply Hedging strategy if switched on 
         if storageHedgingStrategySwitch_Contractor in ["Surface Carryover Only", "Surface and Groundwater Storage"]:
             # Set surface carryover storage hedging strategy variables
             pctCapacitySurfaceCarryover_Contractor = (volumeSurfaceCarryover_Contractor[i] / surfaceMaximumCapacity_Contractor)
-            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByStorage_Contractor[i] / volumeSurfaceCarryover_Contractor[max(0,i-1)]) 
+            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByStorage_Contractor[i] / volumeSurfaceCarryover_Contractor[i]) 
             
             # Apply hedging strategy if % of Capacity is below the Hedging Point
             if pctCapacitySurfaceCarryover_Contractor <= hedgingPoint_Contractor:
@@ -90,9 +90,9 @@ def takeFromStorage (i, demandsToBeMetByStorage_Contractor,
                     surfaceMaximumTakeCapacity_Contractor
                 )
         else:
-            takeSurface_Contractor = min(volumeSurfaceCarryover_Contractor[max(0,i-1)], demandsToBeMetByStorage_Contractor[i], surfaceMaximumTakeCapacity_Contractor)
+            takeSurface_Contractor = min(volumeSurfaceCarryover_Contractor[i], demandsToBeMetByStorage_Contractor[i], surfaceMaximumTakeCapacity_Contractor)
     else:
-        takeSurface_Contractor = 0
+        takeSurface_Contractor = int('0')
     
     demandsToBeMetByBankedGW_Contractor = demandsToBeMetByStorage_Contractor[i] - takeSurface_Contractor
     

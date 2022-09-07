@@ -50,14 +50,14 @@ class StorageTakeTests(unittest.TestCase):
     def testStorageHedgingSwitchIsSetToCarryoverAndGroundwaterBank(self):
         self.verifyGroundWaterAndSurfaceTakesForSwitch(440540, "Surface  and Groundwater Storage")
 
-    #def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
-        #self.verifyGroundWaterAndSurfaceTakesForSwitch(4.5, 0, "Groundwater Bank Only")
+#     #def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
+#         #self.verifyGroundWaterAndSurfaceTakesForSwitch(4.5, 0, "Groundwater Bank Only")
         
-    def testStorageHedgingSwitchIsSetToSurfaceCarryover(self):
-        self.verifyGroundWaterAndSurfaceTakesForSwitch(440540, "Surface Carryover Only")
+#     def testStorageHedgingSwitchIsSetToSurfaceCarryover(self):
+#         self.verifyGroundWaterAndSurfaceTakesForSwitch(440540, "Surface Carryover Only")
         
-    def testStorageHedgingSwitchIsSetToOff(self):
-        self.verifyGroundWaterAndSurfaceTakesForSwitch(400000, "Off")
+#     def testStorageHedgingSwitchIsSetToOff(self):
+#         self.verifyGroundWaterAndSurfaceTakesForSwitch(400000, "Off")
         
     def verifyGroundWaterAndSurfaceTakesForSwitch(self, surface, switch): #groundwater,
         storageHedgingStrategySwitch_Contractor = switch
