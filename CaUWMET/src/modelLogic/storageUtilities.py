@@ -98,28 +98,28 @@ def takeFromStorage (i, demandsToBeMetByStorage_Contractor,
     demandsToBeMetByBankedGW_Contractor = demandsToBeMetByStorage_Contractor[i] - takeSurface_Contractor
     
     ## Calculate Take from Groundwater Bank. Apply Hedging Strategy if switched on.
-    if demandsToBeMetByBankedGW_Contractor[i] > int('0') and volumeGroundwaterBank_Contractor[i] > int('0'):
+    if demandsToBeMetByBankedGW_Contractor > int('0') and volumeGroundwaterBank_Contractor[i] > int('0'):
         # Apply Hedging strategy if switched on 
-        if storageHedgingStrategySwitch_Contractor in ["Surface Carryover Only", "Surface and Groundwater Storage"]:
+        if storageHedgingStrategySwitch_Contractor in ["Groundwater Bank Only", "Surface and Groundwater Storage"]:
             # Set surface carryover storage hedging strategy variables
-            pctCapacitySurfaceCarryover_Contractor = (volumeGroundwaterBank_Contractor[i] / groundwaterMaximumCapacity_Contractor)
-            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByBankedGW_Contractor[i] / groundwaterMaximumCapacity_Contractor) 
+            pctCapacityGroundwaterBank_Contractor = (volumeGroundwaterBank_Contractor[i] / groundwaterMaximumCapacity_Contractor)
+            pctStorageCalledGroundwaterBank_Contractor = (demandsToBeMetByBankedGW_Contractor / groundwaterMaximumCapacity_Contractor) 
             
             # Apply hedging strategy if % of Capacity is below the Hedging Point
-            if pctCapacitySurfaceCarryover_Contractor <= hedgingPoint_Contractor:
+            if pctCapacityGroundwaterBank_Contractor <= hedgingPoint_Contractor:
                 takeGroundwater_Contractor = min(
-                    (1 - float(hedgeCallStorageFactor_Contractor) * float(pctStorageCalledSurfaceCarryover_Contractor) * (float(pctCapacitySurfaceCarryover_Contractor) ** - float(hedgingStorageCapacityFactor_Contractor))) * float(volumeGroundwaterBank_Contractor[i]),
+                    (1 - float(hedgeCallStorageFactor_Contractor) * float(pctStorageCalledGroundwaterBank_Contractor) * (float(pctCapacityGroundwaterBank_Contractor) ** - float(hedgingStorageCapacityFactor_Contractor))) * float(volumeGroundwaterBank_Contractor[i]),
                     volumeGroundwaterBank_Contractor[i],
-                    demandsToBeMetByBankedGW_Contractor[i],
+                    demandsToBeMetByBankedGW_Contractor,
                     groundwaterMaximumTakeCapacity_Contractor
                 )
         
         else:
-            takeGroundwater_Contractor = min(volumeGroundwaterBank_Contractor[i], demandsToBeMetByBankedGW_Contractor[i], groundwaterMaximumTakeCapacity_Contractor)
+            takeGroundwater_Contractor = min(volumeGroundwaterBank_Contractor[i], demandsToBeMetByBankedGW_Contractor, groundwaterMaximumTakeCapacity_Contractor)
     else:
         takeGroundwater_Contractor = int('0')
     
-    demandsToBeMetByContingentOptions_Contractor = demandsToBeMetByBankedGW_Contractor[i] - takeGroundwater_Contractor
+    demandsToBeMetByContingentOptions_Contractor = demandsToBeMetByBankedGW_Contractor - takeGroundwater_Contractor
     
     return {'takeSurface_Contractor': takeSurface_Contractor, 
             'takeGroundwater_Contractor': takeGroundwater_Contractor, 
