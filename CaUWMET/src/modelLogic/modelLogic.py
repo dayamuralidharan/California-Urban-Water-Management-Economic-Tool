@@ -53,6 +53,7 @@ for contractor in contractorsList:
     
     storageInputAssumptions_Contractor = getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData)
     
+    demandsToBeMetByContingentOptions_Contractor = []
     
 
     for i in range(len(historicHydrologyYears)):
@@ -111,6 +112,7 @@ for contractor in contractorsList:
         
         takeSurface_Contractor.append(takesFromStorage_Contractor['takeSurface_Contractor'])
         takeGroundwater_Contractor.append(takesFromStorage_Contractor['takeGroundwater_Contractor'])
+        demandsToBeMetByContingentOptions_Contractor.append(takesFromStorage_Contractor['demandsToBeMetByContingentOptions_Contractor'])
 
 
 
