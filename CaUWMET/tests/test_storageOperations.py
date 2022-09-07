@@ -49,11 +49,11 @@ class StorageTakeTests(unittest.TestCase):
     def testStorageHedgingSwitchIsSetToCarryoverAndGroundwaterBank(self):
         self.verifyGroundWaterAndSurfaceTakesForSwitch(425675, "Surface and Groundwater Storage")
 
-#     #def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
-#         #self.verifyGroundWaterAndSurfaceTakesForSwitch(4.5, 0, "Groundwater Bank Only")
+     def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
+         self.verifyGroundWaterAndSurfaceTakesForSwitch(425675, "Groundwater Bank Only")
         
 #     def testStorageHedgingSwitchIsSetToSurfaceCarryover(self):
-#         self.verifyGroundWaterAndSurfaceTakesForSwitch(440540, "Surface Carryover Only")
+#         self.verifyGroundWaterAndSurfaceTakesForSwitch(425675, "Surface Carryover Only")
         
 #     def testStorageHedgingSwitchIsSetToOff(self):
 #         self.verifyGroundWaterAndSurfaceTakesForSwitch(400000, "Off")
@@ -65,10 +65,4 @@ class StorageTakeTests(unittest.TestCase):
                                                             storageHedgingStrategySwitch_Contractor, self.hedgingPoint_Contractor, 
                                                             self.hedgeCallStorageFactor_Contractor, self.hedgingStorageCapacityFactor_Contractor)
         #self.assertEqual(takeStorage['takeGroundwater_Contractor'], groundwater)
-        print(takeStorage['hedgedTake'])
-        print(takeStorage['pctCapacitySurfaceCarryover_Contractor'])
-        print(takeStorage['pctStorageCalledSurfaceCarryover_Contractor'])
-        print(takeStorage['a'])
-        print(takeStorage['b'])
-        print(takeStorage['c'])
         self.assertEqual(round(takeStorage['takeSurface_Contractor'], 0), surface)

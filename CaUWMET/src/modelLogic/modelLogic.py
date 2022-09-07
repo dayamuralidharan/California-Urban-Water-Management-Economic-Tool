@@ -103,12 +103,14 @@ for contractor in contractorsList:
         volumeGroundwaterBank_Contractor[i] = volumeGroundwaterBank_Contractor[i] + putGroundwater_Contractor[i]
         volumeSurfaceCarryover_Contractor[i] = volumeSurfaceCarryover_Contractor[i] + putSurface_Contractor[i]
         
-    ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater
+    ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater storage
         takesFromStorage_Contractor = takeFromStorage(i, demandsToBeMetByStorage_Contractor, 
                            volumeSurfaceCarryover_Contractor, storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['surfaceMaximumTakeCapacity_Contractor'],
+                           volumeGroundwaterBank_Contractor, storageInputAssumptions_Contractor['groundwaterMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['groundwaterMaximumTakeCapacity_Contractor'],
                            storageInputAssumptions_Contractor['storageHedgingStrategySwitch_Contractor'], storageInputAssumptions_Contractor['hedgingPoint_Contractor'], storageInputAssumptions_Contractor['hedgeCallStorageFactor_Contractor'], storageInputAssumptions_Contractor['hedgingStorageCapacityFactor_Contractor'])
         
         takeSurface_Contractor.append(takesFromStorage_Contractor['takeSurface_Contractor'])
+        takeGroundwater_Contractor.append(takesFromStorage_Contractor['takeGroundwater_Contractor'])
 
 
 
