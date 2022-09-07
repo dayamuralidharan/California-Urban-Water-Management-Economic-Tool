@@ -72,23 +72,23 @@ def putExcessSupplyIntoStorage(i, excessSupplySwitch_Contractor, excessSupply_Co
 def takeFromStorage (i, demandsToBeMetByStorage_Contractor, 
                            volumeSurfaceCarryover_Contractor, surfaceMaximumCapacity_Contractor, surfaceMaximumTakeCapacity_Contractor,
                            storageHedgingStrategySwitch_Contractor, hedgingPoint_Contractor, hedgeCallStorageFactor_Contractor, hedgingStorageCapacityFactor_Contractor):
-
     ## Calculate Take from Surface Carryover. Apply Hedging Strategy if switched on.
     if demandsToBeMetByStorage_Contractor[i] > int('0') and volumeSurfaceCarryover_Contractor[i] > int('0'):
         # Apply Hedging strategy if switched on 
         if storageHedgingStrategySwitch_Contractor in ["Surface Carryover Only", "Surface and Groundwater Storage"]:
             # Set surface carryover storage hedging strategy variables
             pctCapacitySurfaceCarryover_Contractor = (volumeSurfaceCarryover_Contractor[i] / surfaceMaximumCapacity_Contractor)
-            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByStorage_Contractor[i] / volumeSurfaceCarryover_Contractor[i]) 
+            pctStorageCalledSurfaceCarryover_Contractor = (demandsToBeMetByStorage_Contractor[i] / surfaceMaximumCapacity_Contractor) 
             
             # Apply hedging strategy if % of Capacity is below the Hedging Point
             if pctCapacitySurfaceCarryover_Contractor <= hedgingPoint_Contractor:
                 takeSurface_Contractor = min(
-                    (1 - hedgeCallStorageFactor_Contractor * pctStorageCalledSurfaceCarryover_Contractor * (pctCapacitySurfaceCarryover_Contractor ** - hedgingStorageCapacityFactor_Contractor)) * volumeSurfaceCarryover_Contractor,
+                    (1 - float(hedgeCallStorageFactor_Contractor) * float(pctStorageCalledSurfaceCarryover_Contractor) * (float(pctCapacitySurfaceCarryover_Contractor) ** - float(hedgingStorageCapacityFactor_Contractor))) * float(volumeSurfaceCarryover_Contractor[i]),
                     volumeSurfaceCarryover_Contractor[i],
                     demandsToBeMetByStorage_Contractor[i],
                     surfaceMaximumTakeCapacity_Contractor
                 )
+        
         else:
             takeSurface_Contractor = min(volumeSurfaceCarryover_Contractor[i], demandsToBeMetByStorage_Contractor[i], surfaceMaximumTakeCapacity_Contractor)
     else:
