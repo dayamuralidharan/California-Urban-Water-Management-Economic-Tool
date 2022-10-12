@@ -31,6 +31,9 @@ pctStorageCalledSurfaceCarryover = {'Year': historicHydrologyYears}
 pctCapacityGroundwaterBank = {'Year': historicHydrologyYears}
 pctStorageCalledGroundwaterBank = {'Year': historicHydrologyYears}
 
+# Contingent WMOs dataframes
+demandsToBeMetByContingentOptions = {'Year': historicHydrologyYears}
+
 # Loop through model calculations for each contractor. All variables in this loop start with "contractor" to indicate it is only used in this loop.
 for contractor in contractorsList:
     # Set up variables that will be used for calcs by contractor
@@ -43,7 +46,7 @@ for contractor in contractorsList:
     excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
     excessSupply_Contractor = []
     
-    storageInputDf_Contractor = storageData.loc[[contractor]]
+    #storageInputDf_Contractor = storageData.loc[[contractor]]
     volumeSurfaceCarryover_Contractor = []
     volumeGroundwaterBank_Contractor = []
     putSurface_Contractor = []
@@ -115,6 +118,8 @@ for contractor in contractorsList:
         demandsToBeMetByContingentOptions_Contractor.append(takesFromStorage_Contractor['demandsToBeMetByContingentOptions_Contractor'])
 
 
+    ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation assumptions:
+
 
 
 
@@ -126,21 +131,22 @@ for contractor in contractorsList:
     appliedDemands[contractor] = appliedDemand_Contractor
     demandsToBeMetBySWPCVP[contractor] = demandsToBeMetBySWPCVP_Contractor
     demandsToBeMetByStorage[contractor] = demandsToBeMetByStorage_Contractor
-    #demandsToBeMetByBankedGW[contractor] = demandsToBeMetByBankedGW_Contractor
     excessSupply[contractor] = excessSupply_Contractor
     
-    # volumeSurfaceCarryover[contractor] = volumeSurfaceCarryover_Contractor
-    #volumeGroundwaterBank[contractor] = volumeGroundwaterBank_Contractor
-    # availableCapacitySurface[contractor] = availableCapacitySurface_Contractor
-    # availableGroundwaterCapacity[contractor] = availableGroundwaterCapacity_Contractor
+    volumeSurfaceCarryover[contractor] = volumeSurfaceCarryover_Contractor
+    volumeGroundwaterBank[contractor] = volumeGroundwaterBank_Contractor
+    availableCapacitySurface[contractor] = availableCapacitySurface_Contractor
+    availableGroundwaterCapacity[contractor] = availableGroundwaterCapacity_Contractor
     putGroundwater[contractor] = putGroundwater_Contractor
     putSurface[contractor] = putSurface_Contractor
     takeSurface[contractor] = takeSurface_Contractor
-    #takeGroundwater[contractor] = takeGroundwater_Contractor
+    takeGroundwater[contractor] = takeGroundwater_Contractor
     # pctCapacitySurfaceCarryover[contractor] = pctCapacitySurfaceCarryover_Contractor
     # pctStorageCalledSurfaceCarryover[contractor] = pctStorageCalledSurfaceCarryover_Contractor
     # pctCapacityGroundwaterBank[contractor] = pctCapacityGroundwaterBank_Contractor
     # pctStorageCalledGroundwaterBank[contractor] = pctStorageCalledGroundwaterBank_Contractor
+    
+    demandsToBeMetByContingentOptions[contractor] = demandsToBeMetByContingentOptions_Contractor
 
 
 
@@ -159,33 +165,29 @@ putSurface = pd.DataFrame(putSurface)
 takeSurface= pd.DataFrame(takeSurface)
 takeGroundwater = pd.DataFrame(takeGroundwater)
 
-pctCapacitySurfaceCarryover = pd.DataFrame(pctCapacitySurfaceCarryover)
-pctStorageCalledSurfaceCarryover = pd.DataFrame(pctStorageCalledSurfaceCarryover)
-pctCapacityGroundwaterBank= pd.DataFrame(pctCapacityGroundwaterBank)
-pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank)
+# pctCapacitySurfaceCarryover = pd.DataFrame(pctCapacitySurfaceCarryover)
+# pctStorageCalledSurfaceCarryover = pd.DataFrame(pctStorageCalledSurfaceCarryover)
+# pctCapacityGroundwaterBank= pd.DataFrame(pctCapacityGroundwaterBank)
+# pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank)
+
+demandsToBeMetByContingentOptions = pd.DataFrame(demandsToBeMetByContingentOptions)
 
 writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
 workbook = writer.book
 
 appliedDemands.to_excel(writer, sheet_name = 'appliedDemands')
 demandsToBeMetBySWPCVP.to_excel(writer, sheet_name = 'demandsToBeMetBySWPCVP')
+demandsToBeMetByStorage.to_excel(writer, sheet_name = 'demandsToBeMetByStorage')
+volumeSurfaceCarryover.to_excel(writer, sheet_name = 'volumeSurfaceCarryover')
+volumeGroundwaterBank.to_excel(writer, sheet_name = 'volumeGroundwaterBank')
+availableCapacitySurface.to_excel(writer, sheet_name = 'availableCapacitySurface')
+availableGroundwaterCapacity.to_excel(writer, sheet_name = 'availableGroundwaterCapacity')
+putGroundwater.to_excel(writer, sheet_name = 'putGroundwater')
+putSurface.to_excel(writer, sheet_name = 'putSurface')
+takeGroundwater.to_excel(writer, sheet_name = 'takeGroundwater')
+takeSurface.to_excel(writer, sheet_name = 'takeSurface')
 
+demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentOptions')
 
-# demandsToBeMetByCarryover = pd.DataFrame(demandsToBeMetByCarryover
-# excessSupply = pd.DataFrame(excessSupply
-
-# volumeSurfaceCarryover = pd.DataFrame(volumeSurfaceCarryover
-# volumeGroundwaterBank = pd.DataFrame(volumeGroundwaterBank
-# availableCapacitySurface = pd.DataFrame(availableCapacitySurface
-# availableGroundwaterCapacity = pd.DataFrame(availableGroundwaterCapacity
-# putGroundwater= pd.DataFrame(putGroundwater
-# putSurface = pd.DataFrame(putSurface
-# takeSurface= pd.DataFrame(takeSurface
-# takeGroundwater = pd.DataFrame(takeGroundwater
-
-# pctCapacitySurfaceCarryover = pd.DataFrame(pctCapacitySurfaceCarryover
-# pctStorageCalledSurfaceCarryover = pd.DataFrame(pctStorageCalledSurfaceCarryover
-# pctCapacityGroundwaterBank= pd.DataFrame(pctCapacityGroundwaterBank
-# pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank
 
 writer.save()
