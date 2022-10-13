@@ -9,7 +9,8 @@ contingentConservationInputData = "../inputData/contingentWMOsInput_Conservation
 
 inputContingentConservationFile = os.path.join(dirname, contingentConservationInputData)
 
-contingentConservationData = pd.read_csv(inputContingentConservationFile)
+# contingentConservationData = pd.read_csv(inputContingentConservationFile)
+contingentConservationData = pd.read_csv(contingentConservationInputData)
 
-contingentConservationUseReduction = contingentConservationData[contingentConservationData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)'
-contingentConservationStorageTrigger = contingentConservationData[contingentConservationData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)'
+contingentConservationUseReduction = contingentConservationData[contingentConservationData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
+contingentConservationStorageTrigger = contingentConservationData[contingentConservationData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)']

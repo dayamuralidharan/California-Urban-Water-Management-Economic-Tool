@@ -56,9 +56,8 @@ for contractor in contractorsList:
     storageInputAssumptions_Contractor = getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData)
     
     demandsToBeMetByContingentOptions_Contractor = []
-    contingentConservationUseReduction = []
-    contingentConservationStorageTrigger = []
-    demandsToBeMetByWaterMarketTransfers = []
+    contingentConservationUseReductionVolume_Contractor = []
+    demandsToBeMetByWaterMarketTransfers_Contractor = []
     
 
     for i in range(len(historicHydrologyYears)):
@@ -121,8 +120,11 @@ for contractor in contractorsList:
 
 
     ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation assumptions:
-        contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
-        contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
+        contingentConservationUseReduction_Contractor = contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
+        contingentConservationStorageTrigger_Contractor = contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
+        
+        #print(contingentConservationUseReduction_Contractor)
+        #print(contingentConservationStorageTrigger_Contractor)
         
         #demandsToBeMetByWaterMarketTransfers
 
