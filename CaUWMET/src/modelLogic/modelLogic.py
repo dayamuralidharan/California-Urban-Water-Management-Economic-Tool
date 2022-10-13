@@ -3,10 +3,9 @@ from readGlobalAssumptions import contractorsList, historicHydrologyYears, futur
 from readDemandAssumptions import totalDemands, plannedLongTermConservation
 from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
 from readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
+from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger
 from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 
-
-#TODO: Add water management options to local supplies
 
 # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
 appliedDemands = {'Year': historicHydrologyYears}
@@ -33,6 +32,7 @@ pctStorageCalledGroundwaterBank = {'Year': historicHydrologyYears}
 
 # Contingent WMOs dataframes
 demandsToBeMetByContingentOptions = {'Year': historicHydrologyYears}
+contingentConservationReduction = {'Year': historicHydrologyYears}
 
 # Loop through model calculations for each contractor. All variables in this loop start with "contractor" to indicate it is only used in this loop.
 for contractor in contractorsList:
@@ -46,7 +46,6 @@ for contractor in contractorsList:
     excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
     excessSupply_Contractor = []
     
-    #storageInputDf_Contractor = storageData.loc[[contractor]]
     volumeSurfaceCarryover_Contractor = []
     volumeGroundwaterBank_Contractor = []
     putSurface_Contractor = []
@@ -57,6 +56,9 @@ for contractor in contractorsList:
     storageInputAssumptions_Contractor = getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData)
     
     demandsToBeMetByContingentOptions_Contractor = []
+    contingentConservationUseReduction = []
+    contingentConservationStorageTrigger = []
+    demandsToBeMetByWaterMarketTransfers = []
     
 
     for i in range(len(historicHydrologyYears)):
@@ -119,6 +121,10 @@ for contractor in contractorsList:
 
 
     ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation assumptions:
+        contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
+        contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
+        
+        #demandsToBeMetByWaterMarketTransfers
 
 
 
@@ -187,7 +193,7 @@ putSurface.to_excel(writer, sheet_name = 'putSurface')
 takeGroundwater.to_excel(writer, sheet_name = 'takeGroundwater')
 takeSurface.to_excel(writer, sheet_name = 'takeSurface')
 
-demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentOptions')
+#demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentWMOs')
 
 
 writer.save()
