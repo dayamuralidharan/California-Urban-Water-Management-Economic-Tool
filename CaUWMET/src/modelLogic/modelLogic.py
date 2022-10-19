@@ -123,8 +123,8 @@ for contractor in contractorsList:
         contingentConservationUseReduction_Contractor = contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
         contingentConservationStorageTrigger_Contractor = contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
         
-        #print(contingentConservationUseReduction_Contractor)
-        #print(contingentConservationStorageTrigger_Contractor)
+        print(contingentConservationUseReduction_Contractor)
+        print(contingentConservationStorageTrigger_Contractor)
         
         #demandsToBeMetByWaterMarketTransfers
 
