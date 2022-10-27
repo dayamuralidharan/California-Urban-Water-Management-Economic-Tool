@@ -42,6 +42,7 @@ for contractor in contractorsList:
     demandsToBeMetBySWPCVP_Contractor = []
     demandsToBeMetByStorage_Contractor = []
     demandToBeMetByContingentOptions_Contractor = []
+    demandToBeMetByWaterMarketTransfers_Contractor = []
 
     excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
     excessSupply_Contractor = []
@@ -123,11 +124,12 @@ for contractor in contractorsList:
         contingentConservationUseReduction_Contractor = contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
         contingentConservationStorageTrigger_Contractor = contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
         
-        print(contingentConservationUseReduction_Contractor)
-        print(contingentConservationStorageTrigger_Contractor)
-        
-        #demandsToBeMetByWaterMarketTransfers
-
+        if demandsToBeMetByContingentOptions_Contractor[i] > 0:
+            contingentConservationUseReductionVolume_Contractor = min(0, contingentConservationUseReduction_Contractor * appliedDemand_Contractor[i])
+            demandsToBeMetByWaterMarketTransfers_Contractor.append(demandsToBeMetByContingentOptions_Contractor[i] - contingentConservationUseReductionVolume_Contractor)
+            
+        else:
+            demandsToBeMetByWaterMarketTransfers_Contractor.append(0)
 
 
 
