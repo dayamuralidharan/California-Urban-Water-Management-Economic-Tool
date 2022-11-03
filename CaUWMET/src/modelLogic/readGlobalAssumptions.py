@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from modelUtilities import reclassifyYearType
 
+
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
 
@@ -25,4 +26,4 @@ reclassYearType = {}
 for contractor in contractorsList:
     contractorYearType = hydroYearType[contractor].values
     reclassYearType[contractor] = reclassifyYearType(contractorYearType) # Reclassify hydrologic year type classifications to the categories used in the UWMP Normal or Better, Single-Dry and Multi-Dry Years
-hydrologicYearType = pd.DataFrame(reclassYearType)
+UWMPhydrologicYearType = pd.DataFrame(reclassYearType)

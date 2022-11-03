@@ -130,6 +130,9 @@ for contractor in contractorsList:
             
         else:
             demandsToBeMetByWaterMarketTransfers_Contractor.append(0)
+            
+    ## Deliver Water Market Transfer supplies if shortage is above user-indicated threshold
+    
 
 
 
