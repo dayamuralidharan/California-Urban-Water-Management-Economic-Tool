@@ -3,7 +3,7 @@ from readGlobalAssumptions import contractorsList, historicHydrologyYears, futur
 from readDemandAssumptions import totalDemands, plannedLongTermConservation
 from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
 from readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
-from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger
+from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, transferLimit, waterMarketTransferCost
 from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 
 
