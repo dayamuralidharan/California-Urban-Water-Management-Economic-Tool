@@ -3,7 +3,7 @@ from readGlobalAssumptions import contractorsList, historicHydrologyYears, futur
 from readDemandAssumptions import totalDemands, plannedLongTermConservation
 from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
 from readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
-from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, transferLimit, waterMarketTransferCost
+from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 
 
@@ -120,14 +120,17 @@ for contractor in contractorsList:
         demandsToBeMetByContingentOptions_Contractor.append(takesFromStorage_Contractor['demandsToBeMetByContingentOptions_Contractor'])
 
 
-    ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation assumptions:
+    ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation and water market transfers assumptions:
         contingentConservationUseReduction_Contractor = contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
         contingentConservationStorageTrigger_Contractor = contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
+        
+        shortageThresholdForWaterMarketTransfers_Contractor = shortageThresholdForWaterMarketTransfers[shortageThresholdForWaterMarketTransfers['Contractor'] == contractor][futureYear].values[0]
         
         if demandsToBeMetByContingentOptions_Contractor[i] > 0:
             contingentConservationUseReductionVolume_Contractor = min(0, contingentConservationUseReduction_Contractor * appliedDemand_Contractor[i])
             demandsToBeMetByWaterMarketTransfers_Contractor.append(demandsToBeMetByContingentOptions_Contractor[i] - contingentConservationUseReductionVolume_Contractor)
             
+            if demandsToBeMetByContingentOptions_Contractor[i] / appliedDemand_Contractor[i] > shortageThresholdForWaterMarketTransfers
         else:
             demandsToBeMetByWaterMarketTransfers_Contractor.append(0)
             

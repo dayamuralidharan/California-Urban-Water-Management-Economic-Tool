@@ -26,9 +26,11 @@ contingentConservationStorageTrigger = contingentConservationData[contingentCons
 # Definition of Water Market Transfers Variables
 shortageThresholdForWaterMarketTransfers = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
 waterMarketLossFactor = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Water Market Transfer Loss Factor (%)']
+
 transferLimit_NormalOrBetterYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Transfer Limit for Normal or Better Years (AFY)']
 transferLimit_DryYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Transfer Limit for Dry Years (AFY)']
 transferLimit_ConsecutiveDryYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above)']
+
 waterMarketTransferCost_WetYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
 waterMarketTransferCost_AboveNormalYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
 waterMarketTransferCost_BelowNormalYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
