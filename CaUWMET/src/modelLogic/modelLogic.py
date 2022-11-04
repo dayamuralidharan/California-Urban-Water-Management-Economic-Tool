@@ -6,6 +6,7 @@ from readSystemOperationsAssumptions import storageData,  storageHedgingStrategy
 from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 
+#TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 
 # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
 appliedDemands = {'Year': historicHydrologyYears}
@@ -33,6 +34,8 @@ pctStorageCalledGroundwaterBank = {'Year': historicHydrologyYears}
 # Contingent WMOs dataframes
 demandsToBeMetByContingentOptions = {'Year': historicHydrologyYears}
 contingentConservationReduction = {'Year': historicHydrologyYears}
+waterMarketTransferDeliveries = {'Year': historicHydrologyYears}
+totalShortage = {'Year': historicHydrologyYears}
 
 # Loop through model calculations for each contractor. All variables in this loop start with "contractor" to indicate it is only used in this loop.
 for contractor in contractorsList:
@@ -59,6 +62,8 @@ for contractor in contractorsList:
     demandsToBeMetByContingentOptions_Contractor = []
     contingentConservationUseReductionVolume_Contractor = []
     demandsToBeMetByWaterMarketTransfers_Contractor = []
+    waterMarketTransferDeliveries_Contractor = []
+    totalShortage_Contractor = []
     
 
     for i in range(len(historicHydrologyYears)):
@@ -67,7 +72,7 @@ for contractor in contractorsList:
         #### Deliver local and project supplies to meet demands:
         # Calculate Applied Demand after subtraction of Planned Long-term Conservation
         plannedLongTermConservation_Contractor = plannedLongTermConservation[plannedLongTermConservation['Contractor'] == contractor][futureYear].values[0]
-        appliedDemand_Contractor.append(totalDemand_Contractor[i] - plannedLongTermConservation_Contractor)
+        appliedDemand_Contractor.append(max(0, totalDemand_Contractor[i] - plannedLongTermConservation_Contractor))
 
         # Calculate Demand to be Met by SWP/CVP supplies after subtraction of local supplies
         demandsToBeMetBySWPCVP_Contractor.append(max(0, appliedDemand_Contractor[i] - totalLocalSupply[contractor][i]))
@@ -124,17 +129,24 @@ for contractor in contractorsList:
         contingentConservationUseReduction_Contractor = contingentConservationUseReduction[contingentConservationUseReduction['Contractor'] == contractor][futureYear].values[0]
         contingentConservationStorageTrigger_Contractor = contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == contractor][futureYear].values[0]
         
-        shortageThresholdForWaterMarketTransfers_Contractor = shortageThresholdForWaterMarketTransfers[shortageThresholdForWaterMarketTransfers['Contractor'] == contractor][futureYear].values[0]
+        shortageThresholdForWaterMarketTransfers_Contractor = shortageThresholdForWaterMarketTransfers.loc[contractor][futureYear] / 100
         
-        if demandsToBeMetByContingentOptions_Contractor[i] > 0:
+        if demandsToBeMetByContingentOptions_Contractor[i] > 0.0:
             contingentConservationUseReductionVolume_Contractor = min(0, contingentConservationUseReduction_Contractor * appliedDemand_Contractor[i])
             demandsToBeMetByWaterMarketTransfers_Contractor.append(demandsToBeMetByContingentOptions_Contractor[i] - contingentConservationUseReductionVolume_Contractor)
             
-            if demandsToBeMetByContingentOptions_Contractor[i] / appliedDemand_Contractor[i] > shortageThresholdForWaterMarketTransfers
-        else:
-            demandsToBeMetByWaterMarketTransfers_Contractor.append(0)
+            shortagePortionOfTotalAppliedDemand = demandsToBeMetByContingentOptions_Contractor[i] / appliedDemand_Contractor[i]
             
-    ## Deliver Water Market Transfer supplies if shortage is above user-indicated threshold
+            ## Deliver Water Market Transfer supplies if shortage is above user-indicated threshold
+            if  shortagePortionOfTotalAppliedDemand > shortageThresholdForWaterMarketTransfers_Contractor:
+                totalShortage_Contractor.append(max(0, demandsToBeMetByWaterMarketTransfers_Contractor[i] - transferLimit[contractor][i]))
+                waterMarketTransferDeliveries_Contractor.append(demandsToBeMetByWaterMarketTransfers_Contractor[i] - totalShortage_Contractor[i])
+        else:
+            contingentConservationUseReductionVolume_Contractor.append(0)
+            waterMarketTransferDeliveries_Contractor.append(0)
+            totalShortage_Contractor.append(0)
+            
+    
     
 
 
@@ -163,6 +175,9 @@ for contractor in contractorsList:
     # pctStorageCalledGroundwaterBank[contractor] = pctStorageCalledGroundwaterBank_Contractor
     
     demandsToBeMetByContingentOptions[contractor] = demandsToBeMetByContingentOptions_Contractor
+    contingentConservationReduction[contractor] = contingentConservationUseReductionVolume_Contractor
+    waterMarketTransferDeliveries[contractor] = waterMarketTransferDeliveries_Contractor
+    totalShortage[contractor] = totalShortage_Contractor
 
 
 
@@ -187,6 +202,9 @@ takeGroundwater = pd.DataFrame(takeGroundwater)
 # pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank)
 
 demandsToBeMetByContingentOptions = pd.DataFrame(demandsToBeMetByContingentOptions)
+contingentConservationReduction = pd.DataFrame(contingentConservationReduction)
+waterMarketTransferDeliveries = pd.DataFrame(waterMarketTransferDeliveries)
+totalShortage = pd.DataFrame(totalShortage)
 
 writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
 workbook = writer.book

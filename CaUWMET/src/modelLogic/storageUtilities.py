@@ -1,5 +1,4 @@
 import pandas as pd
-#from readSystemOperationsAssumptions import storageHedgingStrategyData
 
 def getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData):
         excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
