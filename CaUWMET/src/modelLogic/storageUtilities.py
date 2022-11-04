@@ -23,7 +23,7 @@ def getContractorStorageAssumptions(contractor, futureYear, excessWaterSwitchDat
         hedgingPoint_Contractor = hedgingPoint_Contractor / 100  # Converting % into fraction
         hedgeCallStorageFactor_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Hedge Call/Storage Factor']['Value'].values[0]
         hedgingStorageCapacityFactor_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Hedging Storage/Capacity Factor']['Value'].values[0]
-        return {'excessSupplySwitch_Contractor':excessSupplySwitch_Contractor, 
+        return {'excessSupplySwitch_Contractor': excessSupplySwitch_Contractor, 
                 'initialSurfaceStorageVolume_Contractor': initialSurfaceStorageVolume_Contractor,
                 'initialGroundwaterStorageVolume_Contractor': initialGroundwaterStorageVolume_Contractor,
                 'groundwaterMaximumCapacity_Contractor': groundwaterMaximumCapacity_Contractor,
