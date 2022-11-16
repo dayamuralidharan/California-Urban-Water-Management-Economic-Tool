@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Module",
+            "type": "python",
+            "request": "launch",
+            "module": "unittest",
+            "justMyCode": true,
+            "pythonArgs": ["-m"],
+            "cwd":"${workspaceFolder}/tests"
+        },
+        {
             "name": "Launch Streamlit App",
             "type": "python",
             "request": "attach",

@@ -1,3 +1,4 @@
-from modelLogic import executeModelLogic
+from modelLogic import ModelLogic
 
-executeModelLogic()
+modelLogic = ModelLogic()
+modelLogic.execute()

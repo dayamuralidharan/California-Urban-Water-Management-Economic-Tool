@@ -1,9 +1,9 @@
-import pandas as pd
-
-def getContractorContingentWMOsAssumptions(contractor, futureYear, contingencyConservationData, waterMarketTransfersData, rationingAndEconomicLossData):
-        excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
-        storageInputDf_Contractor = storageData.loc[[contractor]]
+class ContingentWmosUtilities:
         
-        initialSurfaceStorageVolume_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface initial storage (acre-feet)'][futureYear].values[0]
-
-        return {'excessSupplySwitch_Contractor':excessSupplySwitch_Contractor}
+    def implementContingencyConservation(self, demandsToBeMetByWaterMarketTransfers_Contractor, demandsToBeMetByContingentOptions_Contractor, i, contingentConservationUseReductionVolume_Contractor):
+        # Set variables
+        self.demandsToBeMetByWaterMarketTransfers_Contractor = demandsToBeMetByWaterMarketTransfers_Contractor
+        self.demandsToBeMetByContingentOptions_Contractor = demandsToBeMetByContingentOptions_Contractor
+        self.i = i
+        self.contingentConservationUseReductionVolume_Contractor = contingentConservationUseReductionVolume_Contractor
+        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor)
