@@ -1,5 +1,4 @@
 import pandas as pd
-from src.modelLogic.contingentWMOsUtilities import ContingentWmosUtilities
 from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from src.modelLogic.readDemandAssumptions import totalDemands, plannedLongTermConservation
 from src.modelLogic.readSupplyAssumptions import totalLocalSupply, swpCVPSupply
@@ -9,12 +8,13 @@ from src.modelLogic.storageUtilities import getContractorStorageAssumptions, put
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 #TODO change availableCapacitySurface_Contractor to a list/dataframe instead of scalar
+#TODO Make code faster
+
 class ModelLogic:
     def __init__(self):
-        self.contingentWMOsUtilities = ContingentWmosUtilities()
         self.writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
         # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
-        self.appliedDemands = {'Year': historicHydrologyYears}
+        self.appliedDemands = {'Year': historicHydrologyYears} #Setting these variables in the constructor method creates an instance of them in this class so we don't need to keep passing them as arguments to functions, the functions 
         self.demandsToBeMetBySWPCVP = {'Year': historicHydrologyYears}
         self.demandsToBeMetByStorage = {'Year': historicHydrologyYears}
         self.demandsToBeMetByBankedGW = {'Year': historicHydrologyYears}
@@ -45,6 +45,7 @@ class ModelLogic:
 
     def execute(self):
         # Loop through model calculations for each contractor. All variables in this loop start with "contractor" to indicate it is only used in this loop.
+        
         for self.contractor in contractorsList:
             # Set up variables that will be used for calcs by contractor
             totalDemand_Contractor = totalDemands[self.contractor]
@@ -266,6 +267,5 @@ class ModelLogic:
         
     def implementContingencyConservation(self):
         self.contingentConservationUseReductionVolume_Contractor = max(0, self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i])
-        self.contingentWMOsUtilities.implementContingencyConservation(self.demandsToBeMetByWaterMarketTransfers_Contractor, 
-                                                                      self.demandsToBeMetByContingentOptions_Contractor, 
-                                                                      self.i, self.contingentConservationUseReductionVolume_Contractor)
+        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor)
+

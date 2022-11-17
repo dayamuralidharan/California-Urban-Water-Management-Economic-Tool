@@ -6,4 +6,3 @@ class ContingentWmosUtilities:
         self.demandsToBeMetByContingentOptions_Contractor = demandsToBeMetByContingentOptions_Contractor
         self.i = i
         self.contingentConservationUseReductionVolume_Contractor = contingentConservationUseReductionVolume_Contractor
-        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor)
