@@ -1,4 +1,4 @@
-from src.modelLogic.modelUtilities import lookupCorrespondingValue
+from modelUtilities import lookupCorrespondingValue
 
 def setSupplyByPriority(priority, supplyPriorityDataframe, recycledSupplyData, potableReuseSupplyData, desalinationSupplyData, contractualTransfersSupplyData, surfaceSupplyData, otherImportedSupplyData, groundwaterSupplyData, futureYear, contractorsList):
     for contractor in contractorsList:

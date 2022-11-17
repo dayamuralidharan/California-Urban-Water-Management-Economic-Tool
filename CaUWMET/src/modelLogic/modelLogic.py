@@ -1,10 +1,10 @@
 import pandas as pd
-from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
-from src.modelLogic.readDemandAssumptions import totalDemands, plannedLongTermConservation
-from src.modelLogic.readSupplyAssumptions import totalLocalSupply, swpCVPSupply
-from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
-from src.modelLogic.readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
-from src.modelLogic.storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
+from readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
+from readDemandAssumptions import totalDemands, plannedLongTermConservation
+from readSupplyAssumptions import totalLocalSupply, swpCVPSupply
+from readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
+from readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
+from storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 #TODO change availableCapacitySurface_Contractor to a list/dataframe instead of scalar
@@ -57,14 +57,14 @@ class ModelLogic:
 
             excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
             excessSupply_Contractor = []
-            groundwaterPumpingReduction_Contractor = []
+            self.groundwaterPumpingReduction_Contractor = []
             
-            volumeSurfaceCarryover_Contractor = []
-            volumeGroundwaterBank_Contractor = []
-            putSurface_Contractor = []
-            putGroundwater_Contractor = []
-            takeSurface_Contractor = []
-            takeGroundwater_Contractor = []
+            self.volumeSurfaceCarryover_Contractor = []
+            self.volumeGroundwaterBank_Contractor = []
+            self.putSurface_Contractor = []
+            self.putGroundwater_Contractor = []
+            self.takeSurface_Contractor = []
+            self.takeGroundwater_Contractor = []
             
             storageInputAssumptions_Contractor = getContractorStorageAssumptions(self.contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData)
             
@@ -100,58 +100,45 @@ class ModelLogic:
                 #### Put excess into or take from storage to meet demands:
                 if (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[0]) or (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[1]) or (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[2]):
                     if self.i == 0: #Initialize storage volumes
-                        volumeSurfaceCarryover_Contractor.append(storageInputAssumptions_Contractor['initialSurfaceStorageVolume_Contractor'])
-                        volumeGroundwaterBank_Contractor.append(storageInputAssumptions_Contractor['initialGroundwaterStorageVolume_Contractor'])
+                        self.volumeSurfaceCarryover_Contractor.append(storageInputAssumptions_Contractor['initialSurfaceStorageVolume_Contractor'])
+                        self.volumeGroundwaterBank_Contractor.append(storageInputAssumptions_Contractor['initialGroundwaterStorageVolume_Contractor'])
                     else: # Initialize with previous time step's volumes which are updated in the putOrTakeFromStorage function
-                        volumeSurfaceCarryover_Contractor.append(volumeSurfaceCarryover_Contractor[self.i-1])
-                        volumeGroundwaterBank_Contractor.append(volumeGroundwaterBank_Contractor[self.i-1])
+                        self.volumeSurfaceCarryover_Contractor.append(self.volumeSurfaceCarryover_Contractor[self.i-1])
+                        self.volumeGroundwaterBank_Contractor.append(self.volumeGroundwaterBank_Contractor[self.i-1])
                     
                     # Check available capacity in storage systems
-                    availableCapacitySurface_Contractor = storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'] - volumeSurfaceCarryover_Contractor[max(0,self.i-1)]
-                    availableGroundwaterCapacity_Contractor = storageInputAssumptions_Contractor['groundwaterMaximumCapacity_Contractor'] - volumeGroundwaterBank_Contractor[max(0,self.i-1)]
+                    self.availableCapacitySurface_Contractor = storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'] - self.volumeSurfaceCarryover_Contractor[max(0,self.i-1)]
+                    self.availableGroundwaterCapacity_Contractor = storageInputAssumptions_Contractor['groundwaterMaximumCapacity_Contractor'] - self.volumeGroundwaterBank_Contractor[max(0,self.i-1)]
                     
                     # If there is excess supply, calculate put into storage
                     putsIntoStorage_Contractor = putExcessSupplyIntoStorage(self.i, 
                                             excessSupplySwitch_Contractor, excessSupply_Contractor,
-                                            availableGroundwaterCapacity_Contractor, storageInputAssumptions_Contractor['groundwaterMaximumPutCapacity_Contractor'], storageInputAssumptions_Contractor['rechargeEffectiveness_Contractor'], # groundwater bank assumptions
-                                            availableCapacitySurface_Contractor, storageInputAssumptions_Contractor['surfaceMaximumPutCapacity_Contractor']) # surface carryover assumptions
+                                            self.availableGroundwaterCapacity_Contractor, storageInputAssumptions_Contractor['groundwaterMaximumPutCapacity_Contractor'], storageInputAssumptions_Contractor['rechargeEffectiveness_Contractor'], # groundwater bank assumptions
+                                            self.availableCapacitySurface_Contractor, storageInputAssumptions_Contractor['surfaceMaximumPutCapacity_Contractor']) # surface carryover assumptions
                 
-                    putGroundwater_Contractor.append(putsIntoStorage_Contractor['putGroundwater_Contractor'])
-                    putSurface_Contractor.append(putsIntoStorage_Contractor['putSurface_Contractor'])
+                    self.putGroundwater_Contractor.append(putsIntoStorage_Contractor['putGroundwater_Contractor'])
+                    self.putSurface_Contractor.append(putsIntoStorage_Contractor['putSurface_Contractor'])
                     
-                    volumeGroundwaterBank_Contractor[self.i] = volumeGroundwaterBank_Contractor[self.i] + putGroundwater_Contractor[self.i]
-                    volumeSurfaceCarryover_Contractor[self.i] = volumeSurfaceCarryover_Contractor[self.i] + putSurface_Contractor[self.i]
+                    self.volumeGroundwaterBank_Contractor[self.i] = self.volumeGroundwaterBank_Contractor[self.i] + self.putGroundwater_Contractor[self.i]
+                    self.volumeSurfaceCarryover_Contractor[self.i] = self.volumeSurfaceCarryover_Contractor[self.i] + self.putSurface_Contractor[self.i]
                     
                 ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater storage
                     takesFromStorage_Contractor = takeFromStorage(self.i, demandsToBeMetByStorage_Contractor, 
-                                    volumeSurfaceCarryover_Contractor, storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['surfaceMaximumTakeCapacity_Contractor'],
-                                    volumeGroundwaterBank_Contractor, storageInputAssumptions_Contractor['groundwaterMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['groundwaterMaximumTakeCapacity_Contractor'],
+                                    self.volumeSurfaceCarryover_Contractor, storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['surfaceMaximumTakeCapacity_Contractor'],
+                                    self.volumeGroundwaterBank_Contractor, storageInputAssumptions_Contractor['groundwaterMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['groundwaterMaximumTakeCapacity_Contractor'],
                                     storageInputAssumptions_Contractor['storageHedgingStrategySwitch_Contractor'], storageInputAssumptions_Contractor['hedgingPoint_Contractor'], storageInputAssumptions_Contractor['hedgeCallStorageFactor_Contractor'], storageInputAssumptions_Contractor['hedgingStorageCapacityFactor_Contractor'])
                     
-                    takeSurface_Contractor.append(takesFromStorage_Contractor['takeSurface_Contractor'])
-                    takeGroundwater_Contractor.append(takesFromStorage_Contractor['takeGroundwater_Contractor'])
+                    self.takeSurface_Contractor.append(takesFromStorage_Contractor['takeSurface_Contractor'])
+                    self.takeGroundwater_Contractor.append(takesFromStorage_Contractor['takeGroundwater_Contractor'])
                     self.demandsToBeMetByContingentOptions_Contractor.append(takesFromStorage_Contractor['demandsToBeMetByContingentOptions_Contractor'])
+                
                 elif storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == "Reduce Groundwater Pumping":
-                    groundwaterPumpingReduction_Contractor.append(excessSupply_Contractor[self.i])
-                    volumeSurfaceCarryover_Contractor.append(0) ############### Clean up this duplication of code with the block below
-                    volumeGroundwaterBank_Contractor.append(0)
-                    availableCapacitySurface_Contractor = 0
-                    availableGroundwaterCapacity_Contractor = 0
-                    putSurface_Contractor.append(0)
-                    putGroundwater_Contractor.append(0)
-                    takeSurface_Contractor.append(0)
-                    takeGroundwater_Contractor.append(0)
+                    self.groundwaterPumpingReduction_Contractor.append(excessSupply_Contractor[self.i])
+                    self.doNotImplementStorageOperations()
                     self.demandsToBeMetByContingentOptions_Contractor.append(0)
+                
                 else:
-                    groundwaterPumpingReduction_Contractor.append(0)
-                    volumeSurfaceCarryover_Contractor.append(0)
-                    volumeGroundwaterBank_Contractor.append(0)
-                    availableCapacitySurface_Contractor = 0
-                    availableGroundwaterCapacity_Contractor = 0
-                    putSurface_Contractor.append(0)
-                    putGroundwater_Contractor.append(0)
-                    takeSurface_Contractor.append(0)
-                    takeGroundwater_Contractor.append(0)
+                    self.doNotImplementStorageOperations()
                     self.demandsToBeMetByContingentOptions_Contractor.append(0)
 
             ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation and water market transfers assumptions:
@@ -159,7 +146,7 @@ class ModelLogic:
                 contingentConservationStorageTrigger_Contractor = contingentConservationStorageTrigger[contingentConservationStorageTrigger['Contractor'] == self.contractor][futureYear].values[0]
                 self.shortageThresholdForWaterMarketTransfers_Contractor = shortageThresholdForWaterMarketTransfers.loc[self.contractor][futureYear] / 100
                 
-                if self.demandsToBeMetByContingentOptions_Contractor[self.i] > 0.0:
+                if self.demandsToBeMetByContingentOptions_Contractor[self.i] > 0.0 or (self.volumeSurfaceCarryover_Contractor[self.i] + self.volumeGroundwaterBank_Contractor[self.i]) < contingentConservationStorageTrigger_Contractor:
                     self.implementContingencyWMOs()
                 else:
                     self.doNotImplementContingencyWMOs()
@@ -184,14 +171,14 @@ class ModelLogic:
             self.demandsToBeMetByStorage[self.contractor] = demandsToBeMetByStorage_Contractor
             self.excessSupply[self.contractor] = excessSupply_Contractor
             
-            self.volumeSurfaceCarryover[self.contractor] = volumeSurfaceCarryover_Contractor
-            self.volumeGroundwaterBank[self.contractor] = volumeGroundwaterBank_Contractor
-            self.availableCapacitySurface[self.contractor] = availableCapacitySurface_Contractor
-            self.availableGroundwaterCapacity[self.contractor] = availableGroundwaterCapacity_Contractor
-            self.putGroundwater[self.contractor] = putGroundwater_Contractor
-            self.putSurface[self.contractor] = putSurface_Contractor
-            self.takeSurface[self.contractor] = takeSurface_Contractor
-            self.takeGroundwater[self.contractor] = takeGroundwater_Contractor
+            self.volumeSurfaceCarryover[self.contractor] = self.volumeSurfaceCarryover_Contractor
+            self.volumeGroundwaterBank[self.contractor] = self.volumeGroundwaterBank_Contractor
+            self.availableCapacitySurface[self.contractor] = self.availableCapacitySurface_Contractor
+            self.availableGroundwaterCapacity[self.contractor] = self.availableGroundwaterCapacity_Contractor
+            self.putGroundwater[self.contractor] = self.putGroundwater_Contractor
+            self.putSurface[self.contractor] = self.putSurface_Contractor
+            self.takeSurface[self.contractor] = self.takeSurface_Contractor
+            self.takeGroundwater[self.contractor] = self.takeGroundwater_Contractor
             # pctCapacitySurfaceCarryover[contractor] = pctCapacitySurfaceCarryover_Contractor
             # pctStorageCalledSurfaceCarryover[contractor] = pctStorageCalledSurfaceCarryover_Contractor
             # pctCapacityGroundwaterBank[contractor] = pctCapacityGroundwaterBank_Contractor
@@ -254,18 +241,28 @@ class ModelLogic:
         ## Deliver Water Market Transfer supplies if shortage is above user-indicated threshold
         self.shortagePortionOfTotalAppliedDemand = self.demandsToBeMetByContingentOptions_Contractor[self.i] / self.appliedDemand_Contractor[self.i]
         if  self.shortagePortionOfTotalAppliedDemand > self.shortageThresholdForWaterMarketTransfers_Contractor:
-            self.deliverWaterMarketTransfers(self.contractor, self.i, self.totalShortage_Contractor, self.demandsToBeMetByWaterMarketTransfers_Contractor, self.waterMarketTransferDeliveries_Contractor)
+            self.deliverWaterMarketTransfers()
             
     def doNotImplementContingencyWMOs(self):
         self.contingentConservationUseReductionVolume_Contractor.append(0)
         self.waterMarketTransferDeliveries_Contractor.append(0)
         self.totalShortage_Contractor.append(0)
         
-    def deliverWaterMarketTransfers(self, contractor, i, totalShortage, demandsToBeMetByWaterMarketTransfers, waterMarketTransferDeliveries):
-        totalShortage.append(max(0, demandsToBeMetByWaterMarketTransfers[i] - transferLimit[contractor][i]))
-        waterMarketTransferDeliveries.append(demandsToBeMetByWaterMarketTransfers[i] - totalShortage[i])
+    def deliverWaterMarketTransfers(self):
+        self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - transferLimit[self.contractor][self.i]))
+        self.waterMarketTransferDeliveries_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.totalShortage_Contractor[self.i])
         
     def implementContingencyConservation(self):
         self.contingentConservationUseReductionVolume_Contractor = max(0, self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i])
         self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor)
 
+    def doNotImplementStorageOperations(self):
+        self.groundwaterPumpingReduction_Contractor.append(0)
+        self.volumeSurfaceCarryover_Contractor.append(0)
+        self.volumeGroundwaterBank_Contractor.append(0)
+        self.availableCapacitySurface_Contractor = 0
+        self.availableGroundwaterCapacity_Contractor = 0
+        self.putSurface_Contractor.append(0)
+        self.putGroundwater_Contractor.append(0)
+        self.takeSurface_Contractor.append(0)
+        self.takeGroundwater_Contractor.append(0)
