@@ -1,13 +1,13 @@
 import os
 import pandas as pd
-from readGlobalAssumptions import contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear
+from modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
 
 # Input Assumptions
-contingentConservationInputData = "../inputData/contingentWMOsInput_Conservation.csv"
-waterMarketTransfersInputData = "../inputData/contingentWMOsInput_WaterMarketTransfers.csv"
+contingentConservationInputData = "src/inputData/contingentWMOsInput_Conservation.csv"
+waterMarketTransfersInputData = "src/inputData/contingentWMOsInput_WaterMarketTransfers.csv"
 
 #inputContingentConservationFile = os.path.join(dirname, contingentConservationInputData)
 

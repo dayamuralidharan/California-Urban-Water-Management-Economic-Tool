@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from modelUtilities import reclassifyYearType
+from modelLogic.modelUtilities import reclassifyYearType
 
 
 # Input directories and filenames

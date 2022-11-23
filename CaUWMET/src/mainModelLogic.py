@@ -1,4 +1,4 @@
-from modelLogic import ModelLogic
+from modelLogic.modelLogic import ModelLogic
 
 
 
