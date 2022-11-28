@@ -1,4 +1,4 @@
-from modelLogic.modelLogic import ModelLogic
+from src.modelLogic.modelLogic import ModelLogic
 
 
 

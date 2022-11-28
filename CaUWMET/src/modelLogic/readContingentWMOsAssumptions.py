@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear
+from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
