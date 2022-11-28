@@ -1,7 +1,7 @@
 import os
 import pandas as pd
-from modelUtilities import lookupCorrespondingValue
-from readGlobalAssumptions import contractorsList, futureYear, contractorDf, reclassYearType, historicHydrologyYears
+from src.modelLogic.modelUtilities import lookupCorrespondingValue
+from src.modelLogic.readGlobalAssumptions import contractorsList, futureYear, contractorDf, reclassYearType, historicHydrologyYears
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
