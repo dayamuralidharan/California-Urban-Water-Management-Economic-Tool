@@ -2,8 +2,6 @@
 import os
 import pandas as pd
 
-#TODO: Set up supplies that vary by hydrological year type
-
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
 

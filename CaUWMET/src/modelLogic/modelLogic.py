@@ -5,6 +5,7 @@ from src.modelLogic.readSupplyAssumptions import totalLocalSupply, swpCVPSupply
 from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
 from src.modelLogic.readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from src.modelLogic.storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
+from src.modelLogic.readLongTermWMOsAssumptions import longtermWMOSurfaceVolume, longtermWMOGroundwaterVolume, longtermWMODesalinationVolume, longtermWMORecycledVolume, longtermWMOPotableReuseVolume, longtermWMOTransfersExchangesVolume, longtermWMOConservationVolume, longtermWMOSupplyIncrementalVolume
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 #TODO change availableCapacitySurface_Contractor to a list/dataframe instead of scalar
