@@ -51,10 +51,11 @@ class ModelLogic:
             # Set up variables that will be used for calcs by contractor
             totalDemand_Contractor = totalDemands[self.contractor]
             self.appliedDemand_Contractor = []
+
+            self.longtermWMOSurfaceVolume_Contractor = longtermWMOSurfaceVolume.loc[self.contractor][futureYear]
+            
             demandsToBeMetBySWPCVP_Contractor = []
             demandsToBeMetByStorage_Contractor = []
-            demandToBeMetByContingentOptions_Contractor = []
-            demandToBeMetByWaterMarketTransfers_Contractor = []
 
             excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
             excessSupply_Contractor = []
