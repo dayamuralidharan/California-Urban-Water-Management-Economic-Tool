@@ -2,7 +2,7 @@ import pandas as pd
 from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from src.modelLogic.readDemandAssumptions import totalDemands, plannedLongTermConservation
 from src.modelLogic.readSupplyAssumptions import totalLocalSupply, swpCVPSupply
-from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData
+from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData, storageCostData
 from src.modelLogic.readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from src.modelLogic.storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 from src.modelLogic.readLongTermWMOsAssumptions import longtermWMOSurfaceVolume, longtermWMOGroundwaterVolume, longtermWMODesalinationVolume, longtermWMORecycledVolume, longtermWMOPotableReuseVolume, longtermWMOTransfersExchangesVolume, longtermWMOConservationVolume, longtermWMOSupplyIncrementalVolume
@@ -31,6 +31,8 @@ class ModelLogic:
         self.putSurface = {'Year': historicHydrologyYears}
         self.takeSurface = {'Year': historicHydrologyYears}
         self.takeGroundwater = {'Year': historicHydrologyYears}
+        self.putGroundwaterBankCost = {'Year': historicHydrologyYears}
+        self.takeGroundwaterBankCost = {'Year': historicHydrologyYears}
 
         # Hedging strategy dataframes
         self.pctCapacitySurfaceCarryover = {'Year': historicHydrologyYears}
@@ -67,6 +69,8 @@ class ModelLogic:
             self.putGroundwater_Contractor = []
             self.takeSurface_Contractor = []
             self.takeGroundwater_Contractor = []
+            self.groundwaterBankPutCost_Contractor = []
+            self.groundwaterBankTakeCost_Contractor = []
             
             storageInputAssumptions_Contractor = getContractorStorageAssumptions(self.contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData)
             
@@ -75,6 +79,9 @@ class ModelLogic:
             self.demandsToBeMetByWaterMarketTransfers_Contractor = []
             self.waterMarketTransferDeliveries_Contractor = []
             self.totalShortage_Contractor = []
+            
+            
+            
             
 
             for self.i in range(len(historicHydrologyYears)):
@@ -153,7 +160,14 @@ class ModelLogic:
                 else:
                     self.doNotImplementContingencyWMOs()
                     
-            ## Calculate Costs
+            ## Calculate Storage Operations Costs
+            self.groundwaterBankPutUnitCost_Contractor = storageCostData.loc[self.contractor]['Variable'] == "Groundwater put cost ($/acre-feet)"
+            self.groundwaterBankPutCost_Contractor.append(self.putGroundwater_Contractor[self.i] * self.groundwaterBankPutUnitCost_Contractor)
+            
+            self.groundwaterBankTakeUnitCost_Contractor = storageCostData.loc[self.contractor]['Variable'] == "Groundwater take cost ($/acre-feet)"
+            self.groundwaterBankTakeCost_Contractor.append(self.takeGroundwater_Contractor[self.i] * self.groundwaterBankTakeUnitCost_Contractor)
+            
+            
             #swpCVPDeliveryCost_Contractor
             #groundwaterBankCost_Contractor
             
