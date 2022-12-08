@@ -9,4 +9,5 @@
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "python.analysis.typeCheckingMode": "off",
 }
