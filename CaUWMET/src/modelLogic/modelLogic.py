@@ -2,7 +2,7 @@ import pandas as pd
 from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from src.modelLogic.readDemandAssumptions import totalDemands, plannedLongTermConservation
 from src.modelLogic.readSupplyAssumptions import totalLocalSupply, swpCVPSupply
-from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData, storageCostData
+from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData, groundwaterBankPutUnitCost, groundwaterBankTakeUnitCost
 from src.modelLogic.readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from src.modelLogic.storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 from src.modelLogic.readLongTermWMOsAssumptions import longtermWMOSurfaceVolume, longtermWMOGroundwaterVolume, longtermWMODesalinationVolume, longtermWMORecycledVolume, longtermWMOPotableReuseVolume, longtermWMOTransfersExchangesVolume, longtermWMOConservationVolume, longtermWMOSupplyIncrementalVolume
@@ -161,13 +161,15 @@ class ModelLogic:
                     self.doNotImplementContingencyWMOs()
                     
             ## Calculate Storage Operations Costs
-            self.groundwaterBankPutUnitCost_Contractor = storageCostData.loc[self.contractor]['Variable'] == "Groundwater put cost ($/acre-feet)"
-            self.groundwaterBankPutCost_Contractor.append(self.putGroundwater_Contractor[self.i] * self.groundwaterBankPutUnitCost_Contractor)
+                
+                self.groundwaterBankPutUnitCost_Contractor = groundwaterBankPutUnitCost.loc[self.contractor][futureYear]
+                self.groundwaterBankPutCost_Contractor.append(self.putGroundwater_Contractor[self.i] * self.groundwaterBankPutUnitCost_Contractor)
             
-            self.groundwaterBankTakeUnitCost_Contractor = storageCostData.loc[self.contractor]['Variable'] == "Groundwater take cost ($/acre-feet)"
-            self.groundwaterBankTakeCost_Contractor.append(self.takeGroundwater_Contractor[self.i] * self.groundwaterBankTakeUnitCost_Contractor)
+                self.groundwaterBankTakeUnitCost_Contractor = groundwaterBankTakeUnitCost.loc[self.contractor][futureYear]
+                self.groundwaterBankTakeCost_Contractor.append(self.takeGroundwater_Contractor[self.i] * self.groundwaterBankTakeUnitCost_Contractor)
             
-            
+
+        
             #swpCVPDeliveryCost_Contractor
             #groundwaterBankCost_Contractor
             
@@ -204,15 +206,18 @@ class ModelLogic:
             self.contingentConservationReduction[self.contractor] = self.contingentConservationUseReductionVolume_Contractor
             self.waterMarketTransferDeliveries[self.contractor] = self.waterMarketTransferDeliveries_Contractor
             self.totalShortage[self.contractor] = self.totalShortage_Contractor
-
+            
+            # Cost variables
+            self.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
+            self.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
 
 
 
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
         self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
-        self.demandsToBeMetByStorage = pd.DataFrame(self.demandsToBeMetByStorage)
+        
         self.excessSupply = pd.DataFrame(self.excessSupply)
-
+        self.demandsToBeMetByStorage = pd.DataFrame(self.demandsToBeMetByStorage)
         self.volumeSurfaceCarryover = pd.DataFrame(self.volumeSurfaceCarryover)
         self.volumeGroundwaterBank = pd.DataFrame(self.volumeGroundwaterBank)
         self.availableCapacitySurface = pd.DataFrame(self.availableCapacitySurface)
@@ -221,18 +226,15 @@ class ModelLogic:
         self.putSurface = pd.DataFrame(self.putSurface)
         self.takeSurface= pd.DataFrame(self.takeSurface)
         self.takeGroundwater = pd.DataFrame(self.takeGroundwater)
-
-        # pctCapacitySurfaceCarryover = pd.DataFrame(pctCapacitySurfaceCarryover)
-        # pctStorageCalledSurfaceCarryover = pd.DataFrame(pctStorageCalledSurfaceCarryover)
-        # pctCapacityGroundwaterBank= pd.DataFrame(pctCapacityGroundwaterBank)
-        # pctStorageCalledGroundwaterBank = pd.DataFrame(pctStorageCalledGroundwaterBank)
+        self.putGroundwaterBankCost = pd.DataFrame(self.putGroundwaterBankCost)
+        self.takeGroundwaterBankCost = pd.DataFrame(self.takeGroundwaterBankCost)
 
         self.demandsToBeMetByContingentOptions = pd.DataFrame(self.demandsToBeMetByContingentOptions)
         self.contingentConservationReduction = pd.DataFrame(self.contingentConservationReduction)
         self.waterMarketTransferDeliveries = pd.DataFrame(self.waterMarketTransferDeliveries)
         self.totalShortage = pd.DataFrame(self.totalShortage)
 
-        workbook = self.writer.book
+        
 
         self.appliedDemands.to_excel(self.writer, sheet_name = 'appliedDemands')
         self.demandsToBeMetBySWPCVP.to_excel(self.writer, sheet_name = 'demandsToBeMetBySWPCVP')
@@ -246,9 +248,8 @@ class ModelLogic:
         self.takeGroundwater.to_excel(self.writer, sheet_name = 'takeGroundwater')
         self.takeSurface.to_excel(self.writer, sheet_name = 'takeSurface')
 
+        workbook = self.writer.book
         #demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentWMOs')
-
-
         self.writer.save()
         
     def implementContingencyWMOs(self):
