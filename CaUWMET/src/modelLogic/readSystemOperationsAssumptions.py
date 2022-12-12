@@ -1,6 +1,8 @@
 
 import os
 import pandas as pd
+from src.modelLogic.modelUtilities import lookupCorrespondingValue
+from src.modelLogic.readGlobalAssumptions import contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears
 
 # Input directories and filenames
 dirname = os.path.dirname(__file__)
@@ -30,11 +32,31 @@ deliveryCostData.set_index('Contractor', inplace=True)
 
 groundwaterBankPutUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater bank put cost"]
 groundwaterBankTakeUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater bank take cost"]
-groundwaterPumpingCostSingleDryOrBetterYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping Cost (Base Supply, Single Dry or Better Year Types)"]
-groundwaterPumpingCostMultiDryYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping Cost (Base Supply, Multi-Dry Year Types)"]
-swpCVPDeliveryCost = deliveryCostData.loc[deliveryCostData['Variable'] == "SWP and/or CVP Delivery Cost"]
-waterTreatmentCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Cost of M&I potable water treatment"]
-distributionCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Cost of M&I Distribution"]
-wastewaterTreatmentCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Wastewater Treatment Cost"]
+groundwaterPumpingUnitCostSingleDryOrBetterYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping Cost (Base Supply, Single Dry or Better Year Types)"]
+groundwaterPumpingUnitCostMultiDryYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping Cost (Base Supply, Multi-Dry Year Types)"]
+swpCVPDeliveryUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "SWP and/or CVP Delivery Cost"]
+waterTreatmentUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Cost of M&I potable water treatment"]
+distributionUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Cost of M&I Distribution"]
+wastewaterTreatmentUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Wastewater Treatment Cost"]
 wastewaterTreatmentFraction = deliveryCostData.loc[deliveryCostData['Variable'] == "Fraction of wastewater centrally treated (%)"]
 energyEscalationCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Energy Escalation Cost (cents/kWh)"]
+
+# Set up groundwater pumping cost time series based on hydrologic year type.
+#TODO: This can probably be abstracted to a function, duplicated in other "read..." files
+groundwaterPumpingUnitCost = {'Year': historicHydrologyYears}
+
+for contractor in contractorsList:
+    contractorRegion = lookupCorrespondingValue(contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
+    contractorYearType = UWMPhydrologicYearType[contractor]
+    contractorGroundwaterPumpingUnitCost = []
+
+    for i in range(len(historicHydrologyYears)):
+        if contractorYearType[i] == "NB": #Normal or Better
+            contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][futureYear])
+        elif contractorYearType[i] == "SD": #Single Dry
+                contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][futureYear])
+        elif contractorYearType[i] == "MD": #Multi-Dry
+                contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostMultiDryYears.loc[contractor][futureYear])
+    groundwaterPumpingUnitCost[contractor] = contractorGroundwaterPumpingUnitCost
+
+groundwaterPumpingUnitCost = pd.DataFrame(groundwaterPumpingUnitCost)

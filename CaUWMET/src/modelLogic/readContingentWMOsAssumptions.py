@@ -16,14 +16,17 @@ waterMarketTransfersInputData = "src/inputData/contingentWMOsInput_WaterMarketTr
 contingentConservationData = pd.read_csv(contingentConservationInputData)
 waterMarketTransfersData = pd.read_csv(waterMarketTransfersInputData)
 
-#contingentConservationData.set_index('Contractor', inplace = True)
-waterMarketTransfersData.set_index('Contractor', inplace = True)
-
 # Definition of Contingent Conservation Variables
 contingentConservationUseReduction = contingentConservationData[contingentConservationData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
 contingentConservationStorageTrigger = contingentConservationData[contingentConservationData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)']
+contingentConservationUnitCost = contingentConservationData[contingentConservationData['Variable'] == 'Contingency Conservation Publicity Campaign Cost ($/capita)']
+urbanPopulation = contingentConservationData[contingentConservationData['Variable'] == 'Urban Population (thousands)']
+
+contingentConservationUnitCost.set_index('Contractor', inplace = True)
+urbanPopulation.set_index('Contractor', inplace = True)
 
 # Definition of Water Market Transfers Variables
+waterMarketTransfersData.set_index('Contractor', inplace = True)
 shortageThresholdForWaterMarketTransfers = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
 waterMarketLossFactor = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Water Market Transfer Loss Factor (%)']
 
