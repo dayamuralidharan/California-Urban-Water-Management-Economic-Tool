@@ -6,39 +6,42 @@ from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrol
 dirname = os.path.dirname(__file__)
 
 # Input Assumptions
-contingentConservationInputData = "src/inputData/contingentWMOsInput_Conservation.csv"
-waterMarketTransfersInputData = "src/inputData/contingentWMOsInput_WaterMarketTransfers.csv"
-
-#inputContingentConservationFile = os.path.join(dirname, contingentConservationInputData)
-
+contingentConservationInputFile = "src/inputData/contingentWMOsInput_conservation.csv"
+waterMarketTransfersInputFile = "src/inputData/contingentWMOsInput_WaterMarketTransfers.csv"
+rationingProgramInputFile = "src/inputData/contingentWMOsInput_rationingProgram.csv"
+cutRatioInputFile = "src/inputData/contingentWMOsInput_cutRatios.csv"
+elasticityOfDemandInputFile = "src/inputData/contingentWMOsInput_elasticityofDemand.csv"
 
 # contingentConservationData = pd.read_csv(inputContingentConservationFile)
-contingentConservationData = pd.read_csv(contingentConservationInputData)
-waterMarketTransfersData = pd.read_csv(waterMarketTransfersInputData)
+contingentConservationInputData = pd.read_csv(contingentConservationInputFile)
+waterMarketTransfersInputData = pd.read_csv(waterMarketTransfersInputFile)
+rationingProgramInputData = pd.read_csv(rationingProgramInputFile)
+cutRatioInputData = pd.read_csv(cutRatioInputFile)
+elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
 
 # Definition of Contingent Conservation Variables
-contingentConservationUseReduction = contingentConservationData[contingentConservationData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
-contingentConservationStorageTrigger = contingentConservationData[contingentConservationData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)']
-contingentConservationUnitCost = contingentConservationData[contingentConservationData['Variable'] == 'Contingency Conservation Publicity Campaign Cost ($/capita)']
-urbanPopulation = contingentConservationData[contingentConservationData['Variable'] == 'Urban Population (thousands)']
+contingentConservationUseReduction = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
+contingentConservationStorageTrigger = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)']
+contingentConservationUnitCost = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Contingency Conservation Publicity Campaign Cost ($/capita)']
+urbanPopulation = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Urban Population (thousands)']
 
 contingentConservationUnitCost.set_index('Contractor', inplace = True)
 urbanPopulation.set_index('Contractor', inplace = True)
 
 # Definition of Water Market Transfers Variables
-waterMarketTransfersData.set_index('Contractor', inplace = True)
-shortageThresholdForWaterMarketTransfers = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
-waterMarketLossFactor = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Water Market Transfer Loss Factor (%)']
+waterMarketTransfersInputData.set_index('Contractor', inplace = True)
+shortageThresholdForWaterMarketTransfers = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
+waterMarketLossFactor = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Water Market Transfer Loss Factor (%)']
 
-transferLimit_NormalOrBetterYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Transfer Limit for Normal or Better Years (AFY)']
-transferLimit_DryYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Transfer Limit for Dry Years (AFY)']
-transferLimit_ConsecutiveDryYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above)']
+transferLimit_NormalOrBetterYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Normal or Better Years (AFY)']
+transferLimit_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Dry Years (AFY)']
+transferLimit_ConsecutiveDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above)']
 
-waterMarketTransferCost_WetYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-waterMarketTransferCost_AboveNormalYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-waterMarketTransferCost_BelowNormalYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-waterMarketTransferCost_DryYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-waterMarketTransferCost_CriticallyDryYears = waterMarketTransfersData[waterMarketTransfersData['Variable'] == 'Critically Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
+waterMarketTransferCost_WetYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
+waterMarketTransferCost_AboveNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
+waterMarketTransferCost_BelowNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
+waterMarketTransferCost_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
+waterMarketTransferCost_CriticallyDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Critically Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
 
 
 transferLimit_NormalOrBetterYears.drop('Variable', axis=1, inplace=True)
@@ -85,3 +88,37 @@ for contractor in contractorsList:
 
 transferLimit = pd.DataFrame(transferLimit)    
 waterMarketTransferCost = pd.DataFrame(waterMarketTransferCost)
+
+
+# Definition of Rationing Program and Loss Function variables
+storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"]
+costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"]
+consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"]
+demandHardeningAdjustmentFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Adjustment Factor (%)"]
+retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"]
+
+cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']
+cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']
+cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']
+cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']
+cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']
+
+elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']
+lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']
+upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']
+
+storageVolumeTriggerForRationingProgram.set_index('Contractor', inplace = True)
+costForRationingProgram.set_index('Contractor', inplace = True)
+consecutiveYearLossAdjustment.set_index('Contractor', inplace = True)
+demandHardeningAdjustmentFactor.set_index('Contractor', inplace = True)
+retailPrice.set_index('Contractor', inplace = True)
+
+cutRatio_singleFamily.set_index('Contractor', inplace = True)
+cutRatio_multiFamily.set_index('Contractor', inplace = True)
+cutRatio_industrial.set_index('Contractor', inplace = True)
+cutRatio_commercial.set_index('Contractor', inplace = True)
+cutRatio_landscape.set_index('Contractor', inplace = True)
+
+elasticityOfDemand.set_index('Contractor', inplace = True)
+lowerLossBoundary.set_index('Contractor', inplace = True)
+upperLossBoundary.set_index('Contractor', inplace = True)
