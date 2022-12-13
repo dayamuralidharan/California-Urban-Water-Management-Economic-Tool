@@ -247,12 +247,16 @@ class ModelLogic:
                 self.reliabilityManagementCost_Contractor.append(self.groundwaterBankPutCost_Contractor[self.i]
                                                                  + self.groundwaterBankTakeCost_Contractor[self.i]
                                                                  + self.swpCVPDeliveryCost_Contractor[self.i]
+                                                                 
                                                                  + self.waterMarketTransferCost_Contractor[self.i]
                                                                  + self.contingentConservationCost_Contractor[self.i]
+                                                                 
                                                                  + self.waterTreatmentCost_Contractor[self.i]
                                                                  + self.distributionCost_Contractor[self.i]
                                                                  + self.wastewaterTreatmentCost_Contractor[self.i]
+                                                                 
                                                                  + self.rationingProgramCost_Contractor[self.i]
+                                                                 
                                                                  + self.surfaceLongTermWMOCost_Contractor[self.i]
                                                                  + self.groundwaterLongTermWMOCost_Contractor[self.i]
                                                                  + self.desalinationLongTermWMOCost_Contractor[self.i]
