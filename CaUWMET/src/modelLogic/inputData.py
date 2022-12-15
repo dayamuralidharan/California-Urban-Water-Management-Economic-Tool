@@ -16,3 +16,17 @@ class InputData:
     
     def getContingentConservationUnitCost(self):
         return contingentConservationUnitCost
+    
+    def getUrbanPopulation(self):
+        return urbanPopulation
+    
+    def getShortageThresholdForWaterMarketTransfers(self):
+        return shortageThresholdForWaterMarketTransfers
+    
+    def getTransferLimit(self):
+        return transferLimit 
+    
+    def getWaterMarketTransferCost(self):
+        return waterMarketTransferCost
+    
+    

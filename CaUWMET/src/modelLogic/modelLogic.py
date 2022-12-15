@@ -3,7 +3,6 @@ from src.modelLogic.inputData import InputData
 from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from src.modelLogic.readDemandAssumptions import totalDemands, plannedLongTermConservation
 from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData, groundwaterBankPutUnitCost, groundwaterBankTakeUnitCost, swpCVPDeliveryUnitCost, groundwaterPumpingUnitCost, waterTreatmentUnitCost, distributionUnitCost, wastewaterTreatmentUnitCost, wastewaterTreatmentFraction
-from src.modelLogic.readContingentWMOsAssumptions import urbanPopulation, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from src.modelLogic.storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 from src.modelLogic.readLongTermWMOsAssumptions import longtermWMOSurfaceVolume, longtermWMOSurfaceUnitCost, longtermWMOGroundwaterUnitCost, longtermWMODesalinationUnitCost, longtermWMORecycledUnitCost, longtermWMOPotableReuseUnitCost, longtermWMOTransfersExchangesUnitCost, longtermWMOOtherSupplyUnitCost, longtermWMOConservationUnitCost
 
@@ -19,6 +18,10 @@ class ModelLogic:
         self.contingentConservationUseReduction = inputData.getContingentConservationUseReduction()
         self.contingentConservationStorageTrigger = inputData.getContingentConservationStorageTrigger()
         self.contingentConservationUnitCost = inputData.getContingentConservationUnitCost()
+        self.urbanPopulation = inputData.getUrbanPopulation()
+        self.shortageThresholdForWaterMarketTransfers = inputData.getShortageThresholdForWaterMarketTransfers()
+        self.transferLimit = inputData.getTransferLimit()
+        self.waterMarketTransferCost = inputData.getWaterMarketTransferCost()
         
         self.writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
         # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
@@ -179,7 +182,7 @@ class ModelLogic:
             ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation and water market transfers assumptions:
                 self.contingentConservationUseReduction_Contractor = self.contingentConservationUseReduction[self.contingentConservationUseReduction['Contractor'] == self.contractor][futureYear].values[0]
                 contingentConservationStorageTrigger_Contractor = self.contingentConservationStorageTrigger[self.contingentConservationStorageTrigger['Contractor'] == self.contractor][futureYear].values[0]
-                self.shortageThresholdForWaterMarketTransfers_Contractor = shortageThresholdForWaterMarketTransfers.loc[self.contractor][futureYear] / 100
+                self.shortageThresholdForWaterMarketTransfers_Contractor = self.shortageThresholdForWaterMarketTransfers.loc[self.contractor][futureYear] / 100
                 
                 if self.demandsToBeMetByContingentOptions_Contractor[self.i] > 0.0 or (self.volumeSurfaceCarryover_Contractor[self.i] + self.volumeGroundwaterBank_Contractor[self.i]) < contingentConservationStorageTrigger_Contractor:
                     self.implementContingencyWMOs()
@@ -204,9 +207,9 @@ class ModelLogic:
                 self.wastewaterTreatmentUnitCost_Contractor = wastewaterTreatmentUnitCost.loc[self.contractor][futureYear]
                 self.wastewaterTreatmentFraction_Contractor = wastewaterTreatmentFraction.loc[self.contractor][futureYear] / 100
                 
-                self.waterMarketTransferUnitCost_Contractor = waterMarketTransferCost[self.contractor][self.i]
+                self.waterMarketTransferUnitCost_Contractor = self.waterMarketTransferCost[self.contractor][self.i]
                 self.contingentConservationUnitCost_Contractor = self.contingentConservationUnitCost.loc[self.contractor][futureYear]
-                self.urbanPopulation_Contractor = urbanPopulation.loc[self.contractor][futureYear] * 1000
+                self.urbanPopulation_Contractor = self.urbanPopulation.loc[self.contractor][futureYear] * 1000
                 
                 longtermWMOSurfaceUnitCost_Contractor = longtermWMOSurfaceUnitCost.loc[self.contractor][futureYear]
                 longtermWMOGroundwaterUnitCost_Contractor = longtermWMOGroundwaterUnitCost.loc[self.contractor][futureYear]
@@ -362,7 +365,7 @@ class ModelLogic:
         self.totalShortage_Contractor.append(0)
         
     def deliverWaterMarketTransfers(self):
-        self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - transferLimit[self.contractor][self.i]))
+        self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.transferLimit[self.contractor][self.i]))
         self.waterMarketTransferDeliveries_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.totalShortage_Contractor[self.i])
         
     def implementContingencyConservation(self):
