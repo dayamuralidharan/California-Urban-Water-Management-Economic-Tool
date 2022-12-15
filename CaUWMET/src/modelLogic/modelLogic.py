@@ -3,7 +3,7 @@ from src.modelLogic.inputData import InputData
 from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear
 from src.modelLogic.readDemandAssumptions import totalDemands, plannedLongTermConservation
 from src.modelLogic.readSystemOperationsAssumptions import storageData,  storageHedgingStrategyData, excessWaterSwitchData, groundwaterBankPutUnitCost, groundwaterBankTakeUnitCost, swpCVPDeliveryUnitCost, groundwaterPumpingUnitCost, waterTreatmentUnitCost, distributionUnitCost, wastewaterTreatmentUnitCost, wastewaterTreatmentFraction
-from src.modelLogic.readContingentWMOsAssumptions import contingentConservationUnitCost, urbanPopulation, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
+from src.modelLogic.readContingentWMOsAssumptions import urbanPopulation, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
 from src.modelLogic.storageUtilities import getContractorStorageAssumptions, putExcessSupplyIntoStorage, takeFromStorage
 from src.modelLogic.readLongTermWMOsAssumptions import longtermWMOSurfaceVolume, longtermWMOSurfaceUnitCost, longtermWMOGroundwaterUnitCost, longtermWMODesalinationUnitCost, longtermWMORecycledUnitCost, longtermWMOPotableReuseUnitCost, longtermWMOTransfersExchangesUnitCost, longtermWMOOtherSupplyUnitCost, longtermWMOConservationUnitCost
 
@@ -18,6 +18,8 @@ class ModelLogic:
         self.swpCVPSupply = inputData.getSwpCvpSupply()
         self.contingentConservationUseReduction = inputData.getContingentConservationUseReduction()
         self.contingentConservationStorageTrigger = inputData.getContingentConservationStorageTrigger()
+        self.contingentConservationUnitCost = inputData.getContingentConservationUnitCost()
+        
         self.writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
         # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
         self.appliedDemands = {'Year': historicHydrologyYears} #Setting these variables in the constructor method creates an instance of them in this class so we don't need to keep passing them as arguments to functions, the functions 
@@ -203,7 +205,7 @@ class ModelLogic:
                 self.wastewaterTreatmentFraction_Contractor = wastewaterTreatmentFraction.loc[self.contractor][futureYear] / 100
                 
                 self.waterMarketTransferUnitCost_Contractor = waterMarketTransferCost[self.contractor][self.i]
-                self.contingentConservationUnitCost_Contractor = contingentConservationUnitCost.loc[self.contractor][futureYear]
+                self.contingentConservationUnitCost_Contractor = self.contingentConservationUnitCost.loc[self.contractor][futureYear]
                 self.urbanPopulation_Contractor = urbanPopulation.loc[self.contractor][futureYear] * 1000
                 
                 longtermWMOSurfaceUnitCost_Contractor = longtermWMOSurfaceUnitCost.loc[self.contractor][futureYear]

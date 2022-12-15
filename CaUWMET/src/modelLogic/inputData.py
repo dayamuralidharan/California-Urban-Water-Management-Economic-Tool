@@ -13,3 +13,6 @@ class InputData:
     
     def getContingentConservationStorageTrigger(self):
         return contingentConservationStorageTrigger
+    
+    def getContingentConservationUnitCost(self):
+        return contingentConservationUnitCost
