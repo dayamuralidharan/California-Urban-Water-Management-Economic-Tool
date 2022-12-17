@@ -1,6 +1,7 @@
 import unittest
 from src.modelLogic.inputData import InputData
 from src.modelLogic.modelLogic import ModelLogic
+from src.modelLogic.storageUtilities import StorageUtilities
 
 # Test puts of excess supplies into storage
 class ContingentConservationImplementationTests(unittest.TestCase): #this class is inheriting functionality of the unittest.TestCase class
@@ -16,7 +17,8 @@ class ContingentConservationImplementationTests(unittest.TestCase): #this class 
         
     def testModelLogic(self):
         inputData = InputData()
-        modelLogic = ModelLogic(inputData)
+        storageUtilities = StorageUtilities()
+        modelLogic = ModelLogic(inputData, storageUtilities)
         modelLogic.execute()
         self.assertEqual(modelLogic.appliedDemands['San Gabriel Valley Municipal Water District'][0], 14191.36)
         
