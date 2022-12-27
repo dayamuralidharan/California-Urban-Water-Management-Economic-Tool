@@ -1,15 +1,17 @@
 from src.modelLogic.readDemandAssumptions import DemandAssumptions
 from src.modelLogic.readSupplyAssumptions import SupplyAssumptions
 from src.modelLogic.readSystemOperationsAssumptions import SystemOperationsAssumptions
-from src.modelLogic.readContingentWMOsAssumptions import contingentConservationUseReduction, contingentConservationStorageTrigger, contingentConservationUnitCost, urbanPopulation, shortageThresholdForWaterMarketTransfers, transferLimit, waterMarketTransferCost
-from src.modelLogic.readLongTermWMOsAssumptions import longtermWMOSurfaceVolume, longtermWMOSurfaceUnitCost, longtermWMOGroundwaterUnitCost, longtermWMODesalinationUnitCost, longtermWMORecycledUnitCost, longtermWMOPotableReuseUnitCost, longtermWMOTransfersExchangesUnitCost, longtermWMOOtherSupplyUnitCost, longtermWMOConservationUnitCost
-from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear, contractorDf, reclassYearType, UWMPhydrologicYearType
+from src.modelLogic.readContingentWMOsAssumptions import ContingentWMOsAssumptions
+from src.modelLogic.readLongTermWMOsAssumptions import LongTermWMOsAssumptions
+from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear, contractorDf, reclassYearType, UWMPhydrologicYearType, hydroYearType
 
 class InputData:
     def __init__(self):
         self.demandAssumptions = DemandAssumptions(contractorsList, futureYear, contractorDf, reclassYearType, historicHydrologyYears)
         self.supplyAssumptions = SupplyAssumptions(contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears)
         self.systemOperationsAssumptions = SystemOperationsAssumptions(contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears)
+        self.contingentWMOsAssumptions = ContingentWMOsAssumptions(contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear)
+        self.longtermWMOsAssumptions = LongTermWMOsAssumptions()
         
     # Get Global Assumptions
     def getContractorsList(self):
@@ -20,6 +22,9 @@ class InputData:
     
     def getFutureYear(self):
         return futureYear
+    
+    def getHydroYearType(self):
+        return hydroYearType
     
     # Get Demand Input Assumptions
     def getTotalDemands(self):
@@ -71,50 +76,50 @@ class InputData:
     
     # Get Contingent WMOs Input Assumptions
     def getContingentConservationUseReduction(self):
-        return contingentConservationUseReduction
+        return self.contingentWMOsAssumptions.contingentConservationUseReduction
     
     def getContingentConservationStorageTrigger(self):
-        return contingentConservationStorageTrigger
+        return self.contingentWMOsAssumptions.contingentConservationStorageTrigger
     
     def getContingentConservationUnitCost(self):
-        return contingentConservationUnitCost
+        return self.contingentWMOsAssumptions.contingentConservationUnitCost
     
     def getUrbanPopulation(self):
-        return urbanPopulation
+        return self.contingentWMOsAssumptions.urbanPopulation
     
     def getShortageThresholdForWaterMarketTransfers(self):
-        return shortageThresholdForWaterMarketTransfers
+        return self.contingentWMOsAssumptions.shortageThresholdForWaterMarketTransfers
     
     def getTransferLimit(self):
-        return transferLimit 
+        return self.contingentWMOsAssumptions.transferLimit 
     
     def getWaterMarketTransferCost(self):
-        return waterMarketTransferCost
+        return self.contingentWMOsAssumptions.waterMarketTransferCost
     
     # Get Long-term WMOs Input Assumptions
     def getLongtermWMOSurfaceVolume(self):
-        return longtermWMOSurfaceVolume
+        return self.longtermWMOsAssumptions.longtermWMOSurfaceVolumeLimit
     
     def getLongtermWMOSurfaceUnitCost(self):
-        return longtermWMOSurfaceUnitCost
+        return self.longtermWMOsAssumptions.longtermWMOSurfaceUnitCost
     
     def getLongtermWMOGroundwaterUnitCost(self):
-        return longtermWMOGroundwaterUnitCost
+        return self.longtermWMOsAssumptions.longtermWMOGroundwaterUnitCost
     
     def getLongtermWMODesalinationUnitCost(self):
-        return longtermWMODesalinationUnitCost
+        return self.longtermWMOsAssumptions.longtermWMODesalinationUnitCost
     
     def getLongtermWMORecycledUnitCost(self):
-        return longtermWMORecycledUnitCost
+        return self.longtermWMOsAssumptions.longtermWMORecycledUnitCost
     
     def getLongtermWMOPotableReuseUnitCost(self):
-        return longtermWMOPotableReuseUnitCost
+        return self.longtermWMOsAssumptions.longtermWMOPotableReuseUnitCost
     
     def getLongtermWMOTransfersExchangesUnitCost(self):
-        return longtermWMOTransfersExchangesUnitCost
+        return self.longtermWMOsAssumptions.longtermWMOTransfersExchangesUnitCost
     
     def getLongtermWMOOtherSupplyUnitCost(self):
-        return longtermWMOOtherSupplyUnitCost
+        return self.longtermWMOsAssumptions.longtermWMOOtherSupplyUnitCost
     
     def getLongtermWMOConservationUnitCost(self):
-        return longtermWMOConservationUnitCost
+        return self.longtermWMOsAssumptions.longtermWMOConservationUnitCost
