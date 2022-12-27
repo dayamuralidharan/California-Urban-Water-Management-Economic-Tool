@@ -13,7 +13,7 @@ class InputData:
         self.contingentWMOsAssumptions = ContingentWMOsAssumptions(contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear)
         self.longtermWMOsAssumptions = LongTermWMOsAssumptions()
         
-    # Get Global Assumptions
+    #### Get Global Assumptions
     def getContractorsList(self):
         return contractorsList
     
@@ -26,21 +26,21 @@ class InputData:
     def getHydroYearType(self):
         return hydroYearType
     
-    # Get Demand Input Assumptions
+    #### Get Demand Input Assumptions
     def getTotalDemands(self):
         return self.demandAssumptions.totalDemands
     
     def getPlannedLongTermConservation(self):
         return self.demandAssumptions.plannedLongTermConservation
     
-    # Get Supply Input Assumptions
+    #### Get Supply Input Assumptions
     def getTotalLocalSupply(self):
         return self.supplyAssumptions.totalLocalSupply
     
     def getSwpCvpSupply(self):
         return self.supplyAssumptions.swpCVPSupply
     
-    # Get System Operations Input Assumptions
+    #### Get System Operations Input Assumptions
     def getExcessWaterSwitchData(self):
         return self.systemOperationsAssumptions.excessWaterSwitchData
     
@@ -74,7 +74,7 @@ class InputData:
     def getWastewaterTreatmentFraction(self):
         return self.systemOperationsAssumptions.wastewaterTreatmentFraction
     
-    # Get Contingent WMOs Input Assumptions
+    #### Get Contingent WMOs Input Assumptions
     def getContingentConservationUseReduction(self):
         return self.contingentWMOsAssumptions.contingentConservationUseReduction
     
@@ -96,7 +96,11 @@ class InputData:
     def getWaterMarketTransferCost(self):
         return self.contingentWMOsAssumptions.waterMarketTransferCost
     
-    # Get Long-term WMOs Input Assumptions
+    # Get Rationing Program Assumptions
+    def getDemandHardeningFactor(self):
+        return self.contingentWMOsAssumptions.demandHardeningFactor
+    
+    #### Get Long-term WMOs Input Assumptions
     def getLongtermWMOSurfaceVolume(self):
         return self.longtermWMOsAssumptions.longtermWMOSurfaceVolumeLimit
     

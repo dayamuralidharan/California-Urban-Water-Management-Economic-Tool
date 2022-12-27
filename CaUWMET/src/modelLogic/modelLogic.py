@@ -4,11 +4,13 @@ from src.modelLogic.storageUtilities import StorageUtilities
 
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
-#TODO change availableCapacitySurface_Contractor to a list/dataframe instead of scalar
 #TODO Make code faster
 
 class ModelLogic:
     def __init__(self, inputData: InputData, storageUtilities: StorageUtilities):
+        #TODO replace incremental volume with optimization algroithm variable
+        self.longtermWMOConservationIncrementalVolume_Contractor = 0
+        
         self.storageUtilities = storageUtilities
         
         # Get Global Assumptions
@@ -45,6 +47,8 @@ class ModelLogic:
         self.shortageThresholdForWaterMarketTransfers = inputData.getShortageThresholdForWaterMarketTransfers()
         self.transferLimit = inputData.getTransferLimit()
         self.waterMarketTransferCost = inputData.getWaterMarketTransferCost()
+        
+        self.demandHardeningFactor = inputData.getDemandHardeningFactor()
         
         # Get Long-term WMO Input Assumptions
         self.longtermWMOSurfaceVolume = inputData.getLongtermWMOSurfaceVolume()
@@ -95,7 +99,7 @@ class ModelLogic:
         
         for self.contractor in self.contractorsList:
             # Set up variables that will be used for calcs by contractor
-            totalDemand_Contractor = self.totalDemands[self.contractor]
+            self.totalDemand_Contractor = self.totalDemands[self.contractor]
             self.appliedDemand_Contractor = []
 
             self.longtermWMOSurfaceVolume_Contractor = self.longtermWMOSurfaceVolume.loc[self.contractor][self.futureYear]
@@ -152,8 +156,8 @@ class ModelLogic:
                 
                 #### Deliver local and project supplies to meet demands:
                 # Calculate Applied Demand after subtraction of Planned Long-term Conservation
-                plannedLongTermConservation_Contractor = self.plannedLongTermConservation[self.plannedLongTermConservation['Contractor'] == self.contractor][self.futureYear].values[0]
-                self.appliedDemand_Contractor.append(max(0, totalDemand_Contractor[self.i] - plannedLongTermConservation_Contractor))
+                self.plannedLongTermConservation_Contractor = self.plannedLongTermConservation[self.plannedLongTermConservation['Contractor'] == self.contractor][self.futureYear].values[0]
+                self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor))
 
                 # Calculate Demand to be Met by SWP/CVP supplies after subtraction of local supplies
                 demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.totalLocalSupply[self.contractor][self.i]))
@@ -229,8 +233,15 @@ class ModelLogic:
                                                               + self.takeGroundwater_Contractor[self.i]
                                                               + self.takeSurface_Contractor[self.i]
                                                               + self.waterMarketTransferDeliveries_Contractor[self.i])
+            
+            
+            
+            
+            
+            
+            
                  
-            ## Calculate Reliability Management Costs
+            #### Calculate Reliability Management Costs
                 
                 self.groundwaterBankPutUnitCost_Contractor = self.groundwaterBankPutUnitCost.loc[self.contractor][self.futureYear]
                 self.groundwaterBankTakeUnitCost_Contractor = self.groundwaterBankTakeUnitCost.loc[self.contractor][self.futureYear]
@@ -384,7 +395,8 @@ class ModelLogic:
         # workbook = self.writer.book
         # #demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentWMOs')
         # self.writer.save()
-        
+    
+    # TODO Move to contingent WMOs utilities file    
     def implementContingencyWMOs(self):
         self.implementContingencyConservation()
         
@@ -392,6 +404,10 @@ class ModelLogic:
         self.shortagePortionOfTotalAppliedDemand = self.demandsToBeMetByContingentOptions_Contractor[self.i] / self.appliedDemand_Contractor[self.i]
         if  self.shortagePortionOfTotalAppliedDemand > self.shortageThresholdForWaterMarketTransfers_Contractor:
             self.deliverWaterMarketTransfers()
+        else:
+            self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i])
+            
+        
             
     def doNotImplementContingencyWMOs(self):
         self.contingentConservationUseReductionVolume_Contractor.append(0)
@@ -399,13 +415,26 @@ class ModelLogic:
         self.totalShortage_Contractor.append(0)
         
     def deliverWaterMarketTransfers(self):
-        self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.transferLimit[self.contractor][self.i]))
-        self.waterMarketTransferDeliveries_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.totalShortage_Contractor[self.i])
+        # TODO implement loss factor
+        self.waterMarketTransferDeliveries_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.transferLimit[self.contractor][self.i]))
+        self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.waterMarketTransferDeliveries_Contractor[self.i]))
         
     def implementContingencyConservation(self):
         self.contingentConservationUseReductionVolume_Contractor.append(max(0, self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i]))
         self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor[self.i])
 
+    def calculateShortageByUseType(self):
+        # Calculate demand hardening adjustment factor and adjusted shortage
+        self.demandHardeningFactor_Contractor = self.demandHardeningFactor.loc[self.contractor][self.futureYear] / 100
+        self.baseConservationAsPercentOfDemand = self.plannedLongTermConservation_Contractor / self.totalDemand_Contractor[self.i]
+        self.longTermWMOConservationAsPercentOfDemand = self.longtermWMOConservationIncrementalVolume_Contractor / self.totalDemand_Contractor[self.i]
+        self.demandHardeningAdjustmentFactor_Contractor = 1 + ((((1 + self.baseConservationAsPercentOfDemand) * (1 + self.longTermWMOConservationAsPercentOfDemand)) -1) * self.demandHardeningFactor_Contractor)
+        self.adjustedShortage_Contractor = self.totalShortage_Contractor[self.i] * self.demandHardeningAdjustmentFactor_Contractor
+        
+    #     self.singleFamilyShortagePortion = self.adjustedShortage_Contractor/ (self.cutRatio_singleFamily[self.contractor] * self.singleFamilyUsePortion[self.contractor] + self.cutRatio_multiFamily[self.contractor] * self.multiFamilyUsePortion[self.contractor] + self.cutRatio_industrial[self.contractor] * self.industrialUsePortion[self.contractor] + self.cutRatio_commercial[self.contractor] * self.commAndGovUsePortion[self.contractor] + self.cutRatio_landscape[self.contractor] * self.landscapeUsePortion[self.contractor])
+        
+    
+    # TODO: Move to storage utilities file
     def doNotImplementStorageOperations(self):
         self.groundwaterPumpingReduction_Contractor.append(0)
         self.volumeSurfaceCarryover_Contractor.append(0)
@@ -416,3 +445,5 @@ class ModelLogic:
         self.putGroundwater_Contractor.append(0)
         self.takeSurface_Contractor.append(0)
         self.takeGroundwater_Contractor.append(0)
+        
+    

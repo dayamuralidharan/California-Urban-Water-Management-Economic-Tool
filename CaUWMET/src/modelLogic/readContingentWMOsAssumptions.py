@@ -1,12 +1,8 @@
-import os
 import pandas as pd
 
 class ContingentWMOsAssumptions:
     def __init__(self, contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear):
         # Input directories and filenames
-        dirname = os.path.dirname(__file__)
-
-        # Input Assumptions
         contingentConservationInputFile = "src/inputData/contingentWMOsInput_conservation.csv"
         waterMarketTransfersInputFile = "src/inputData/contingentWMOsInput_WaterMarketTransfers.csv"
         rationingProgramInputFile = "src/inputData/contingentWMOsInput_rationingProgram.csv"
@@ -96,7 +92,7 @@ class ContingentWMOsAssumptions:
         storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"]
         costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"]
         consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"]
-        demandHardeningAdjustmentFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Adjustment Factor (%)"]
+        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"]
         retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"]
 
         cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']
@@ -112,7 +108,7 @@ class ContingentWMOsAssumptions:
         storageVolumeTriggerForRationingProgram.set_index('Contractor', inplace = True)
         costForRationingProgram.set_index('Contractor', inplace = True)
         consecutiveYearLossAdjustment.set_index('Contractor', inplace = True)
-        demandHardeningAdjustmentFactor.set_index('Contractor', inplace = True)
+        self.demandHardeningFactor.set_index('Contractor', inplace = True)
         retailPrice.set_index('Contractor', inplace = True)
 
         cutRatio_singleFamily.set_index('Contractor', inplace = True)
