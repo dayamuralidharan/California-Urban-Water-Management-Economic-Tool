@@ -33,6 +33,21 @@ class InputData:
     def getPlannedLongTermConservation(self):
         return self.demandAssumptions.plannedLongTermConservation
     
+    def getUsePortion_singleFamily(self):
+        return self.demandAssumptions.singleFamilyUsePortion
+    
+    def getUsePortion_multiFamily(self):
+        return self.demandAssumptions.multiFamilyUsePortion
+    
+    def getUsePortion_industrial(self):
+        return self.demandAssumptions.industrialUsePortion
+    
+    def getUsePortion_commAndGov(self):
+        return self.demandAssumptions.commAndGovUsePortion
+    
+    def getUsePortion_landscape(self):
+        return self.demandAssumptions.landscapeUsePortion
+    
     #### Get Supply Input Assumptions
     def getTotalLocalSupply(self):
         return self.supplyAssumptions.totalLocalSupply
@@ -75,6 +90,7 @@ class InputData:
         return self.systemOperationsAssumptions.wastewaterTreatmentFraction
     
     #### Get Contingent WMOs Input Assumptions
+    # Contingency Conservation Assumptions
     def getContingentConservationUseReduction(self):
         return self.contingentWMOsAssumptions.contingentConservationUseReduction
     
@@ -87,6 +103,7 @@ class InputData:
     def getUrbanPopulation(self):
         return self.contingentWMOsAssumptions.urbanPopulation
     
+    # Water Market Transfers Assumptions
     def getShortageThresholdForWaterMarketTransfers(self):
         return self.contingentWMOsAssumptions.shortageThresholdForWaterMarketTransfers
     
@@ -99,6 +116,22 @@ class InputData:
     # Get Rationing Program Assumptions
     def getDemandHardeningFactor(self):
         return self.contingentWMOsAssumptions.demandHardeningFactor
+    
+    def getCutRatio_singleFamily(self):
+        return self.contingentWMOsAssumptions.cutRatio_singleFamily
+    
+    def getCutRatio_multiFamily(self):
+        return self.contingentWMOsAssumptions.cutRatio_multiFamily
+    
+    def getCutRatio_industrial(self):
+        return self.contingentWMOsAssumptions.cutRatio_industrial
+    
+    def getCutRatio_commercial(self):
+        return self.contingentWMOsAssumptions.cutRatio_commercial
+    
+    def getCutRatio_landscape(self):
+        return self.contingentWMOsAssumptions.cutRatio_landscape
+
     
     #### Get Long-term WMOs Input Assumptions
     def getLongtermWMOSurfaceVolume(self):
