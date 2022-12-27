@@ -429,7 +429,7 @@ class ModelLogic:
             self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i])
             
     def implementContingencyConservation(self):
-        self.contingentConservationUseReductionVolume_Contractor.append(max(0, self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i]))
+        self.contingentConservationUseReductionVolume_Contractor.append(self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i])
         self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor[self.i])
 
     def calculateShortageByUseType(self):
