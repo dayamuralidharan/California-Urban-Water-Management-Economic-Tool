@@ -89,34 +89,34 @@ class ContingentWMOsAssumptions:
 
 
         # Definition of Rationing Program and Loss Function variables
-        storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"]
-        costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"]
-        consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"]
+        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"]
+        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"]
+        self.consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"]
         self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"]
-        retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"]
+        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"]
 
-        cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']
-        cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']
-        cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']
-        cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']
-        cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']
+        self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']
+        self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']
+        self.cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']
+        self.cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']
+        self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']
 
-        elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']
-        lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']
-        upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']
+        self.elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']
+        self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']
+        self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']
 
-        storageVolumeTriggerForRationingProgram.set_index('Contractor', inplace = True)
-        costForRationingProgram.set_index('Contractor', inplace = True)
-        consecutiveYearLossAdjustment.set_index('Contractor', inplace = True)
+        self.storageVolumeTriggerForRationingProgram.set_index('Contractor', inplace = True)
+        self.costForRationingProgram.set_index('Contractor', inplace = True)
+        self.consecutiveYearLossAdjustment.set_index('Contractor', inplace = True)
         self.demandHardeningFactor.set_index('Contractor', inplace = True)
-        retailPrice.set_index('Contractor', inplace = True)
+        self.retailPrice.set_index('Contractor', inplace = True)
 
-        cutRatio_singleFamily.set_index('Contractor', inplace = True)
-        cutRatio_multiFamily.set_index('Contractor', inplace = True)
-        cutRatio_industrial.set_index('Contractor', inplace = True)
-        cutRatio_commercial.set_index('Contractor', inplace = True)
-        cutRatio_landscape.set_index('Contractor', inplace = True)
+        self.cutRatio_singleFamily.set_index('Contractor', inplace = True)
+        self.cutRatio_multiFamily.set_index('Contractor', inplace = True)
+        self.cutRatio_industrial.set_index('Contractor', inplace = True)
+        self.cutRatio_commercial.set_index('Contractor', inplace = True)
+        self.cutRatio_landscape.set_index('Contractor', inplace = True)
 
-        elasticityOfDemand.set_index('Contractor', inplace = True)
-        lowerLossBoundary.set_index('Contractor', inplace = True)
-        upperLossBoundary.set_index('Contractor', inplace = True)
+        self.elasticityOfDemand.set_index('Contractor', inplace = True)
+        self.lowerLossBoundary.set_index('Contractor', inplace = True)
+        self.upperLossBoundary.set_index('Contractor', inplace = True)
