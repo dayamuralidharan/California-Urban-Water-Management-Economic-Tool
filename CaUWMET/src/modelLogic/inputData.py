@@ -72,17 +72,8 @@ class InputData:
         self.longtermWMOTransfersExchangesUnitCost = self.longtermWMOsAssumptions.longtermWMOTransfersExchangesUnitCost
         self.longtermWMOOtherSupplyUnitCost = self.longtermWMOsAssumptions.longtermWMOOtherSupplyUnitCost
         self.longtermWMOConservationUnitCost = self.longtermWMOsAssumptions.longtermWMOConservationUnitCost
-    
-         
-    #### Get Global Assumptions
-    def getContractorsList(self):
-        return self.globalAssumptions.contractorsList
-    
-    def getHistoricHydrologyYears(self):
-        return self.globalAssumptions.historicHydrologyYears
-    
-    def getFutureYear(self):
-        return self.globalAssumptions.futureYear
-    
-    def getHydroYearType(self):
-        return self.globalAssumptions.hydroYearType
+        
+        #### Get Global Assumptions
+        self.contractorsList = self.globalAssumptions.contractorsList
+        self.historicHydrologyYears = self.globalAssumptions.historicHydrologyYears
+        self.futureYear = self.globalAssumptions.futureYear
