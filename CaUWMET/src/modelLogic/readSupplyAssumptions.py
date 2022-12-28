@@ -1,26 +1,21 @@
-import os
 import pandas as pd
 from src.modelLogic.modelUtilities import lookupCorrespondingValue
 
 class SupplyAssumptions:
-    def __init__(self, contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears):
+    def __init__(self, globalAssumptions, inputDataLocations):
         #TODO: Connect to streamlit dashboard, will either be table by year type or time series
         #TODO: Set up reading in supply data to read in time series if radio button below is set to 0
         localSupplyScenarioRadioButtonIndex = 0
 
         # Input directories and filenames
-        dirname = os.path.dirname(__file__)
 
         # SUPPLIES Inputs
-        localSuppliesDataInput = "../inputData/supplyInput_localSupplies.csv"
-        swpCVPSupplyDataInput = "../inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv"
-        inputLocalSuppliesFile = os.path.join(dirname, localSuppliesDataInput)
-        inputSWPCVPSupplyFile = os.path.join(dirname, swpCVPSupplyDataInput)
-
+        localSuppliesDataInput = inputDataLocations.localSuppliesDataInput
+        swpCVPSupplyDataInput = inputDataLocations.swpCVPSupplyDataInput
 
         # Read in data from CSV
-        localSuppliesByType = pd.read_csv(inputLocalSuppliesFile)
-        self.swpCVPSupply = pd.read_csv(inputSWPCVPSupplyFile)
+        localSuppliesByType = pd.read_csv(localSuppliesDataInput)
+        self.swpCVPSupply = pd.read_csv(swpCVPSupplyDataInput)
 
         localSuppliesByType.set_index('Contractor', inplace = True)
 
@@ -61,21 +56,21 @@ class SupplyAssumptions:
         totalLocalSupplyMultiDryYear.drop('Variable', axis=1, inplace=True)
 
         # Create Total Local Supply time series based on local contractor hydrologic year type
-        self.totalLocalSupply = {'Year': historicHydrologyYears}
+        self.totalLocalSupply = {'Year': globalAssumptions.historicHydrologyYears}
 
-        for contractor in contractorsList:
-            contractorRegion = lookupCorrespondingValue(contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
-            contractorYearType = UWMPhydrologicYearType[contractor]
+        for contractor in globalAssumptions.contractorsList:
+            contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
+            contractorYearType = globalAssumptions.UWMPhydrologicYearType[contractor]
             contractorLocalSupply = []
 
             if localSupplyScenarioRadioButtonIndex == 0:
-                for i in range(len(historicHydrologyYears)):
+                for i in range(len(globalAssumptions.historicHydrologyYears)):
                     if contractorYearType[i] == "NB": #Normal or Better
-                        contractorLocalSupply.append(totalLocalSupplyNormalYear.loc[contractor][futureYear])
+                        contractorLocalSupply.append(totalLocalSupplyNormalYear.loc[contractor][globalAssumptions.futureYear])
                     elif contractorYearType[i] == "SD": #Single Dry
-                            contractorLocalSupply.append(totalLocalSupplySingleDryYear.loc[contractor][futureYear])
+                            contractorLocalSupply.append(totalLocalSupplySingleDryYear.loc[contractor][globalAssumptions.futureYear])
                     elif contractorYearType[i] == "MD": #Multi-Dry
-                            contractorLocalSupply.append(totalLocalSupplyMultiDryYear.loc[contractor][futureYear])
+                            contractorLocalSupply.append(totalLocalSupplyMultiDryYear.loc[contractor][globalAssumptions.futureYear])
             self.totalLocalSupply[contractor] = contractorLocalSupply
 
         self.totalLocalSupply = pd.DataFrame(self.totalLocalSupply)

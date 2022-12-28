@@ -10,7 +10,7 @@ class InputData:
     def __init__(self, inputDataLocations):
         self.globalAssumptions = GlobalAssumptions()
         self.demandAssumptions = DemandAssumptions(self.globalAssumptions, inputDataLocations)
-        self.supplyAssumptions = SupplyAssumptions(contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears)
+        self.supplyAssumptions = SupplyAssumptions(self.globalAssumptions, inputDataLocations)
         self.systemOperationsAssumptions = SystemOperationsAssumptions(contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears)
         self.contingentWMOsAssumptions = ContingentWMOsAssumptions(contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear)
         self.longtermWMOsAssumptions = LongTermWMOsAssumptions()
