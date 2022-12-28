@@ -1,6 +1,29 @@
 class InputDataLocationsForTesting:
     def __init__(self):
-        self.inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
-        self.inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"
-        self.inputETAWAdjustmentsFile = "src/inputData/demandsInput_ETAWAdjustments.csv"
-        self.inputUseByTypeFile = "src/inputData/demandsInput_useByTypeData.csv"
+        self.futureYearInput = '2045'
+        self.hydroYearTypeInput = "tests/inputDataForTests/contractorInput_hydrologyAssumptions.csv"
+        self.contractorInformationInput = "tests/inputDataForTests/contractorInput_contractorInfo.csv"
+        
+        self.inputDemandsFile = "tests/inputDataForTests/demandsInput_totalDemands.csv"
+        self.inputPlannedConservationFile = "tests/inputDataForTests/demandsInput_baseLongTermConservationData.csv"
+        self.inputETAWAdjustmentsFile = "tests/inputDataForTests/demandsInput_ETAWAdjustments.csv"
+        self.inputUseByTypeFile = "tests/inputDataForTests/demandsInput_useByTypeData.csv"
+        
+        self.totalDemandScenarioRadioButtonIndex = 0
+        
+        self.localSuppliesDataInput = "tests/inputDataForTests/supplyInput_localSupplies.csv"
+        self.swpCVPSupplyDataInput = "tests/inputDataForTests/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv"
+        
+        self.storageDataInput = "tests/inputDataForTests/systemOperationsInput_Storage.csv"
+        self.excessWaterSwitchDataInput = "tests/inputDataForTests/systemOperationsInput_ExcessWaterSwitch.csv"
+        self.storageHedgingStrategyInput = "tests/inputDataForTests/systemOperationsInput_StorageHedgingStrategy.csv"
+        self.deliveryCostInput = "tests/inputDataForTests/systemOperationsInput_DeliveryCosts.csv"
+        
+        self.contingentConservationInputFile = "tests/inputDataForTests/contingentWMOsInput_conservation.csv"
+        self.waterMarketTransfersInputFile = "tests/inputDataForTests/contingentWMOsInput_WaterMarketTransfers.csv"
+        self.rationingProgramInputFile = "tests/inputDataForTests/contingentWMOsInput_rationingProgram.csv"
+        self.cutRatioInputFile = "tests/inputDataForTests/contingentWMOsInput_cutRatios.csv"
+        self.elasticityOfDemandInputFile = "tests/inputDataForTests/contingentWMOsInput_elasticityofDemand.csv"
+        
+        self.longtermWMOSupplyVolumeInputData = "tests/inputDataForTests/longtermWMOsInput_supplyVolume.csv"
+        self.longtermWMOSupplyUnitCostsInputData = "tests/inputDataForTests/longtermWMOsInput_supplyCosts.csv"

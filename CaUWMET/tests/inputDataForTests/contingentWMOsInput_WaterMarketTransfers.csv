@@ -1,0 +1,11 @@
+﻿Variable,Contractor,2045,Notes
+Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use),Metropolitan Water District of Southern California,5,
+Water Market Transfer Loss Factor (%),Metropolitan Water District of Southern California,18,Cross-delta conveyance loss (CWEST)
+Transfer Limit for Normal or Better Years (AFY),Metropolitan Water District of Southern California,1000,CWEST
+Transfer Limit for Dry Years (AFY),Metropolitan Water District of Southern California,1000,CWEST
+Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above),Metropolitan Water District of Southern California,100,LCPSIM
+Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF),Metropolitan Water District of Southern California,468.0935324,Delta Export
+Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF),Metropolitan Water District of Southern California,223.8708198,Sacramento Valley
+Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF),Metropolitan Water District of Southern California,715.7082271,Delta Export
+Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF),Metropolitan Water District of Southern California,319.9769799,Sacramento Valley
+Critically Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF),Metropolitan Water District of Southern California,1193.977706,Delta Export

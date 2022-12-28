@@ -1,13 +1,13 @@
 import pandas as pd
 
 class ContingentWMOsAssumptions:
-    def __init__(self, contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear):
+    def __init__(self, globalAssumptions, inputDataLocations):
         # Input directories and filenames
-        contingentConservationInputFile = "src/inputData/contingentWMOsInput_conservation.csv"
-        waterMarketTransfersInputFile = "src/inputData/contingentWMOsInput_WaterMarketTransfers.csv"
-        rationingProgramInputFile = "src/inputData/contingentWMOsInput_rationingProgram.csv"
-        cutRatioInputFile = "src/inputData/contingentWMOsInput_cutRatios.csv"
-        elasticityOfDemandInputFile = "src/inputData/contingentWMOsInput_elasticityofDemand.csv"
+        contingentConservationInputFile = inputDataLocations.contingentConservationInputFile
+        waterMarketTransfersInputFile = inputDataLocations.waterMarketTransfersInputFile
+        rationingProgramInputFile = inputDataLocations.rationingProgramInputFile
+        cutRatioInputFile = inputDataLocations.cutRatioInputFile
+        elasticityOfDemandInputFile = inputDataLocations.elasticityOfDemandInputFile
 
         # contingentConservationData = pd.read_csv(inputContingentConservationFile)
         contingentConservationInputData = pd.read_csv(contingentConservationInputFile)
@@ -52,34 +52,34 @@ class ContingentWMOsAssumptions:
         waterMarketTransferCost_CriticallyDryYears.drop('Variable', axis=1, inplace=True)
 
         # Set up time series of water market transfer limits and costs based on the hydrologic year type
-        waterMarketTransferCost = {'Year': historicHydrologyYears}
-        transferLimit = {'Year': historicHydrologyYears}
+        waterMarketTransferCost = {'Year': globalAssumptions.historicHydrologyYears}
+        transferLimit = {'Year': globalAssumptions.historicHydrologyYears}
 
-        for contractor in contractorsList:
-            contractorYearType = hydroYearType[contractor] # Wet, Above Normal, Below Normal, Dry, Critically Dry
-            contractorUWMPYearType = UWMPhydrologicYearType[contractor] # Normal or Better, Single Dry, Multi-Dry
+        for contractor in globalAssumptions.contractorsList:
+            contractorYearType = globalAssumptions.hydroYearType[contractor] # Wet, Above Normal, Below Normal, Dry, Critically Dry
+            contractorUWMPYearType = globalAssumptions.UWMPhydrologicYearType[contractor] # Normal or Better, Single Dry, Multi-Dry
             contractorTransferLimit = []
             contractorWaterMarketTransferCost = []
             
-            for i in range(len(historicHydrologyYears)):
+            for i in range(len(globalAssumptions.historicHydrologyYears)):
                 
                 if contractorYearType[i] == "W":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_WetYears.loc[contractor][futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_WetYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorYearType[i] == "AN":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_AboveNormalYears.loc[contractor][futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_AboveNormalYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorYearType[i] == "BN":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_BelowNormalYears.loc[contractor][futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_BelowNormalYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorYearType[i] == "D":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_DryYears.loc[contractor][futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_DryYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorYearType[i] == "C":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_CriticallyDryYears.loc[contractor][futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_CriticallyDryYears.loc[contractor][globalAssumptions.futureYear])
                     
                 if contractorUWMPYearType[i] == 'NB':
-                    contractorTransferLimit.append(transferLimit_NormalOrBetterYears.loc[contractor][futureYear])
+                    contractorTransferLimit.append(transferLimit_NormalOrBetterYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorUWMPYearType[i] == 'SD':
-                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][futureYear])  
+                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][globalAssumptions.futureYear])  
                 elif contractorUWMPYearType[i] == 'MD':
-                    contractorTransferLimit.append(transferLimit_ConsecutiveDryYears.loc[contractor][futureYear])
+                    contractorTransferLimit.append(transferLimit_ConsecutiveDryYears.loc[contractor][globalAssumptions.futureYear])
             
             transferLimit[contractor] = contractorTransferLimit
             waterMarketTransferCost[contractor] = contractorWaterMarketTransferCost
