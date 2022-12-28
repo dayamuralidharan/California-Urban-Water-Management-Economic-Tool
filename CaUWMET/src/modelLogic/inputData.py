@@ -7,7 +7,7 @@ from src.modelLogic.readGlobalAssumptions import GlobalAssumptions
 
 class InputData:
     def __init__(self, inputDataLocations):
-        self.globalAssumptions = GlobalAssumptions()
+        self.globalAssumptions = GlobalAssumptions(inputDataLocations)
         self.demandAssumptions = DemandAssumptions(self.globalAssumptions, inputDataLocations)
         self.supplyAssumptions = SupplyAssumptions(self.globalAssumptions, inputDataLocations)
         self.systemOperationsAssumptions = SystemOperationsAssumptions(self.globalAssumptions, inputDataLocations)

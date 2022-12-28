@@ -1,22 +1,15 @@
-import os
 import pandas as pd
 from src.modelLogic.modelUtilities import reclassifyYearType
 
 class GlobalAssumptions:
-    def __init__(self):
+    def __init__(self, inputDataLocations):
 
-        # Input directories and filenames
-        dirname = os.path.dirname(__file__)
-
-        hydroYearTypeInput = "../inputData/hydrologyAssumptions.csv"
-        contractorInformationInput = "../inputData/contractorInput_contractorInfo.csv"
-        inputHydroYearTypeFile = os.path.join(dirname, hydroYearTypeInput)
-        inputContractorInformation = os.path.join(dirname, contractorInformationInput)
-
+        hydroYearTypeInput = inputDataLocations.hydroYearTypeInput
+        contractorInformationInput = inputDataLocations.contractorInformationInput
 
         # Set up variables
-        self.hydroYearType = pd.read_csv(inputHydroYearTypeFile)
-        self.contractorInformation = pd.read_csv(inputContractorInformation)
+        self.hydroYearType = pd.read_csv(hydroYearTypeInput)
+        self.contractorInformation = pd.read_csv(contractorInformationInput)
 
         self.futureYear = '2025'  # TODO Temporary assumption, will be input from streamlit
 
