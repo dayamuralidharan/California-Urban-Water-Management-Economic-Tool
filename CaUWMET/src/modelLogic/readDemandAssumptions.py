@@ -16,7 +16,7 @@ class DemandAssumptions:
 
         # Initialize variable as a time series
         self.totalDemands = {'Year': globalAssumptions.historicHydrologyYears}
-        totalDemandScenarioRadioButtonIndex = 1    #TODO - connect to dashboard
+        totalDemandScenarioRadioButtonIndex = inputDataLocations.totalDemandScenarioRadioButtonIndex
 
         # Set up total demand time series based on hydrologic year type.
         for contractor in globalAssumptions.contractorsList:
@@ -38,7 +38,7 @@ class DemandAssumptions:
                         ETAWAdjustments[contractor][Year] *
                         totalDemandsInput[totalDemandsInput['Variable'] == mapYearType['NB']][globalAssumptions.futureYear].values[0]
                     )
-            elif totalDemandScenarioRadioButtonIndex == 0:
+            elif totalDemandScenarioRadioButtonIndex == 0: #Apply UWMP
                 for i in range(len(globalAssumptions.historicHydrologyYears)):
                     contractorDemands.append(
                         totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[contractorYearType[i]]][globalAssumptions.futureYear].values[0]

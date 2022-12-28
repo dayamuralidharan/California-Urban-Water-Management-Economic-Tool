@@ -1,7 +1,11 @@
 class InputDataLocations:
     def __init__(self):
-        self.hydroYearTypeInput = "src/inputData/hydrologyAssumptions.csv"
+        self.futureYearInput = '2025'
+        
+        self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
+        
+        self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - connect to dashboard
         
         self.inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
         self.inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"

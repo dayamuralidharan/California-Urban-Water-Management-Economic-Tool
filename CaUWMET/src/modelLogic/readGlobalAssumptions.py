@@ -11,7 +11,7 @@ class GlobalAssumptions:
         self.hydroYearType = pd.read_csv(hydroYearTypeInput)
         self.contractorInformation = pd.read_csv(contractorInformationInput)
 
-        self.futureYear = '2025'  # TODO Temporary assumption, will be input from streamlit
+        self.futureYear = inputDataLocations.futureYearInput # TODO Temporary assumption, will be input from streamlit
 
         # Set up time series of hydrological year type based on Sacramento and SJ CDEC data, and reclassify to UWMP data classifications of Above Normal or Better, Single Dry, or Multi-Dry
         self.contractorDf = self.contractorInformation[['Contractor', 'Hydro. Region']]
