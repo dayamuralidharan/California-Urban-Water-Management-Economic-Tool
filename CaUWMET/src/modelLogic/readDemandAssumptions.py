@@ -2,12 +2,12 @@ import pandas as pd
 from src.modelLogic.modelUtilities import lookupCorrespondingValue
 
 class DemandAssumptions:
-    def __init__(self, contractorsList, futureYear, contractorDf, reclassYearType, historicHydrologyYears):
+    def __init__(self, globalAssumptions, inputDataLocations):
         # Input directories and filenames
-        inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
-        inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"
-        inputETAWAdjustmentsFile = "src/inputData/demandsInput_ETAWAdjustments.csv"
-        inputUseByTypeFile = "src/inputData/demandsInput_useByTypeData.csv"
+        inputDemandsFile = inputDataLocations.inputDemandsFile
+        inputPlannedConservationFile = inputDataLocations.inputPlannedConservationFile
+        inputETAWAdjustmentsFile = inputDataLocations.inputETAWAdjustmentsFile
+        inputUseByTypeFile = inputDataLocations.inputUseByTypeFile
         
         demandsData = pd.read_csv(inputDemandsFile)
         self.plannedLongTermConservation = pd.read_csv(inputPlannedConservationFile)
@@ -15,16 +15,16 @@ class DemandAssumptions:
         useByTypeData = pd.read_csv(inputUseByTypeFile)
 
         # Initialize variable as a time series
-        self.totalDemands = {'Year': historicHydrologyYears}
+        self.totalDemands = {'Year': globalAssumptions.historicHydrologyYears}
         totalDemandScenarioRadioButtonIndex = 1    #TODO - connect to dashboard
 
         # Set up total demand time series based on hydrologic year type.
-        for contractor in contractorsList:
+        for contractor in globalAssumptions.contractorsList:
             #TODO remove lookup function, not needed.
-            contractorRegion = lookupCorrespondingValue(contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
-            contractorYearType = reclassYearType[contractor]
+            contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
+            contractorYearType = globalAssumptions.reclassYearType[contractor]
             totalDemandsInput = demandsData[demandsData['Contractor'] == contractor]
-            totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', futureYear]]
+            totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', globalAssumptions.futureYear]]
             contractorDemands = []
             
             mapYearType = {
@@ -33,15 +33,15 @@ class DemandAssumptions:
                 'MD': 'Multiple Dry-Year Demands (acre-feet/year)',
             }
             if totalDemandScenarioRadioButtonIndex == 1:   # Apply ETAW Adjustments to Normal or Better Demands
-                for i, Year in enumerate(historicHydrologyYears):
+                for i, Year in enumerate(globalAssumptions.historicHydrologyYears):
                     contractorDemands.append(
                         ETAWAdjustments[contractor][Year] *
-                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType['NB']][futureYear].values[0]
+                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType['NB']][globalAssumptions.futureYear].values[0]
                     )
             elif totalDemandScenarioRadioButtonIndex == 0:
-                for i in range(len(historicHydrologyYears)):
+                for i in range(len(globalAssumptions.historicHydrologyYears)):
                     contractorDemands.append(
-                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[contractorYearType[i]]][futureYear].values[0]
+                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[contractorYearType[i]]][globalAssumptions.futureYear].values[0]
                     )
             self.totalDemands[contractor] = contractorDemands
 
@@ -67,8 +67,8 @@ class DemandAssumptions:
         otherUse.set_index('Contractor', inplace = True)
         normalYearDemands.set_index('Contractor', inplace = True)
 
-        self.singleFamilyUsePortion = singleFamilyUse[futureYear] / normalYearDemands[futureYear]
-        self.multiFamilyUsePortion = multiFamilyUse[futureYear] / normalYearDemands[futureYear]
-        self.industrialUsePortion = industrialUse[futureYear] / normalYearDemands[futureYear]
-        self.commAndGovUsePortion = commAndGovUse[futureYear] / normalYearDemands[futureYear]
-        self.landscapeUsePortion = landscapeUse[futureYear] / normalYearDemands[futureYear]
+        self.singleFamilyUsePortion = singleFamilyUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
+        self.multiFamilyUsePortion = multiFamilyUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
+        self.industrialUsePortion = industrialUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
+        self.commAndGovUsePortion = commAndGovUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
+        self.landscapeUsePortion = landscapeUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
