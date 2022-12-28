@@ -7,8 +7,6 @@ class SupplyAssumptions:
         #TODO: Set up reading in supply data to read in time series if radio button below is set to 0
         localSupplyScenarioRadioButtonIndex = 0
 
-        # Input directories and filenames
-
         # SUPPLIES Inputs
         localSuppliesDataInput = inputDataLocations.localSuppliesDataInput
         swpCVPSupplyDataInput = inputDataLocations.swpCVPSupplyDataInput

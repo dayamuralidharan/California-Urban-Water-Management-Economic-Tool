@@ -1,16 +1,10 @@
-import os
 import pandas as pd
 
 class LongTermWMOsAssumptions:
-    def __init__(self):
-        # Input directories and filenames
-        dirname = os.path.dirname(__file__)
-
+    def __init__(self, inputDataLocations):
         # Input Assumptions
-        longtermWMOSupplyVolumeInputData = "src/inputData/longtermWMOsInput_supplyVolume.csv"
-        longtermWMOSupplyUnitCostsInputData = "src/inputData/longtermWMOsInput_supplyCosts.csv"
-        #longtermWMOSupplyIncrementInputData = "src/inputData/longtermWMOsInput_supplyIncrements.csv"
-
+        longtermWMOSupplyVolumeInputData = inputDataLocations.longtermWMOSupplyVolumeInputData
+        longtermWMOSupplyUnitCostsInputData = inputDataLocations.longtermWMOSupplyUnitCostsInputData
 
         longtermWMOSupplyVolumeData = pd.read_csv(longtermWMOSupplyVolumeInputData)
         longtermWMOSupplyUnitCostsData = pd.read_csv(longtermWMOSupplyUnitCostsInputData)

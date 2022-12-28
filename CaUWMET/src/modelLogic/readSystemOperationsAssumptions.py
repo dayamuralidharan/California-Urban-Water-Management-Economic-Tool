@@ -1,27 +1,19 @@
-import os
 import pandas as pd
 from src.modelLogic.modelUtilities import lookupCorrespondingValue
 
 class SystemOperationsAssumptions:
-    def __init__(self, contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears):
-        # Input directories and filenames
-        dirname = os.path.dirname(__file__)
+    def __init__(self, globalAssumptions, inputDataLocations):
 
         # Read in data from CSV and create Pandas Dataframes
-        storageDataInput = "../inputData/systemOperationsInput_Storage.csv"
-        excessWaterSwitchDataInput = "../inputData/systemOperationsInput_ExcessWaterSwitch.csv"
-        storageHedgingStrategyInput = "../inputData/systemOperationsInput_StorageHedgingStrategy.csv"
-        deliveryCostInput = "../inputData/systemOperationsInput_DeliveryCosts.csv"
+        storageDataInput = inputDataLocations.storageDataInput
+        excessWaterSwitchDataInput = inputDataLocations.excessWaterSwitchDataInput
+        storageHedgingStrategyInput = inputDataLocations.storageHedgingStrategyInput
+        deliveryCostInput = inputDataLocations.deliveryCostInput
 
-        inputStorageDataFile = os.path.join(dirname, storageDataInput)
-        inputExcessWaterSwitchDataFile = os.path.join(dirname, excessWaterSwitchDataInput)
-        inputStorageHedgingStrategyFile = os.path.join(dirname, storageHedgingStrategyInput)
-        inputDeliveryCostFile = os.path.join(dirname, deliveryCostInput)
-
-        self.storageData = pd.read_csv(inputStorageDataFile)
-        self.excessWaterSwitchData = pd.read_csv(inputExcessWaterSwitchDataFile)
-        self.storageHedgingStrategyData = pd.read_csv(inputStorageHedgingStrategyFile)
-        deliveryCostData = pd.read_csv(inputDeliveryCostFile)
+        self.storageData = pd.read_csv(storageDataInput)
+        self.excessWaterSwitchData = pd.read_csv(excessWaterSwitchDataInput)
+        self.storageHedgingStrategyData = pd.read_csv(storageHedgingStrategyInput)
+        deliveryCostData = pd.read_csv(deliveryCostInput)
 
         # Set 'Contractor' column as index
         self.storageData.set_index('Contractor', inplace=True)
@@ -43,20 +35,20 @@ class SystemOperationsAssumptions:
 
         # Set up groundwater pumping cost time series based on hydrologic year type.
         #TODO: This can probably be abstracted to a function, duplicated in other "read..." files
-        self.groundwaterPumpingUnitCost = {'Year': historicHydrologyYears}
+        self.groundwaterPumpingUnitCost = {'Year': globalAssumptions.historicHydrologyYears}
 
-        for contractor in contractorsList:
-            contractorRegion = lookupCorrespondingValue(contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
-            contractorYearType = UWMPhydrologicYearType[contractor]
+        for contractor in globalAssumptions.contractorsList:
+            contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
+            contractorYearType = globalAssumptions.UWMPhydrologicYearType[contractor]
             contractorGroundwaterPumpingUnitCost = []
 
-            for i in range(len(historicHydrologyYears)):
+            for i in range(len(globalAssumptions.historicHydrologyYears)):
                 if contractorYearType[i] == "NB": #Normal or Better
-                    contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][futureYear])
+                    contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorYearType[i] == "SD": #Single Dry
-                        contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][futureYear])
+                        contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][globalAssumptions.futureYear])
                 elif contractorYearType[i] == "MD": #Multi-Dry
-                        contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostMultiDryYears.loc[contractor][futureYear])
+                        contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostMultiDryYears.loc[contractor][globalAssumptions.futureYear])
             self.groundwaterPumpingUnitCost[contractor] = contractorGroundwaterPumpingUnitCost
 
         self.groundwaterPumpingUnitCost = pd.DataFrame(self.groundwaterPumpingUnitCost)

@@ -3,30 +3,29 @@ from src.modelLogic.readSupplyAssumptions import SupplyAssumptions
 from src.modelLogic.readSystemOperationsAssumptions import SystemOperationsAssumptions
 from src.modelLogic.readContingentWMOsAssumptions import ContingentWMOsAssumptions
 from src.modelLogic.readLongTermWMOsAssumptions import LongTermWMOsAssumptions
-from src.modelLogic.readGlobalAssumptions import contractorsList, historicHydrologyYears, futureYear, contractorDf, UWMPhydrologicYearType, hydroYearType
-from src.modelLogic.globalAssumptions import GlobalAssumptions
+from src.modelLogic.readGlobalAssumptions import GlobalAssumptions
 
 class InputData:
     def __init__(self, inputDataLocations):
         self.globalAssumptions = GlobalAssumptions()
         self.demandAssumptions = DemandAssumptions(self.globalAssumptions, inputDataLocations)
         self.supplyAssumptions = SupplyAssumptions(self.globalAssumptions, inputDataLocations)
-        self.systemOperationsAssumptions = SystemOperationsAssumptions(contractorsList, futureYear, contractorDf, UWMPhydrologicYearType, historicHydrologyYears)
-        self.contingentWMOsAssumptions = ContingentWMOsAssumptions(contractorsList, historicHydrologyYears, hydroYearType, UWMPhydrologicYearType, futureYear)
-        self.longtermWMOsAssumptions = LongTermWMOsAssumptions()
+        self.systemOperationsAssumptions = SystemOperationsAssumptions(self.globalAssumptions, inputDataLocations)
+        self.contingentWMOsAssumptions = ContingentWMOsAssumptions(self.globalAssumptions, inputDataLocations)
+        self.longtermWMOsAssumptions = LongTermWMOsAssumptions(inputDataLocations)
         
     #### Get Global Assumptions
     def getContractorsList(self):
-        return contractorsList
+        return self.globalAssumptions.contractorsList
     
     def getHistoricHydrologyYears(self):
-        return historicHydrologyYears
+        return self.globalAssumptions.historicHydrologyYears
     
     def getFutureYear(self):
-        return futureYear
+        return self.globalAssumptions.futureYear
     
     def getHydroYearType(self):
-        return hydroYearType
+        return self.globalAssumptions.hydroYearType
     
     #### Get Demand Input Assumptions
     def getTotalDemands(self):
