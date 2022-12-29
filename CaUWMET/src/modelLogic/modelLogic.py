@@ -386,15 +386,25 @@ class ModelLogic:
         self.demandHardeningAdjustmentFactor_Contractor = 1 + ((((1 + self.baseConservationAsPercentOfDemand) * (1 + self.longTermWMOConservationAsPercentOfDemand)) -1) * self.demandHardeningFactor_Contractor)
         self.adjustedShortage_Contractor = self.totalShortage_Contractor[self.i] * self.demandHardeningAdjustmentFactor_Contractor
         
-        # Calculate shortage by type
+        # Calculate shortage portion by type
         self.singleFamilyShortagePortion = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily.loc[self.contractor] * self.inputData.singleFamilyUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_multiFamily.loc[self.contractor] * self.inputData.multiFamilyUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_industrial.loc[self.contractor] * self.inputData.industrialUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_commercial.loc[self.contractor] * self.inputData.commAndGovUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_landscape.loc[self.contractor] * self.inputData.landscapeUsePortion.loc[self.contractor]
                                                                                 )
+        self.multiFamilyShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_multiFamily.loc[self.contractor]
+        self.industrialShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_industrial.loc[self.contractor]
+        self.commercialShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_commercial.loc[self.contractor]
+        self.landscapeShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_landscape.loc[self.contractor]
+        
+        # Calculate shortage by type
         #TODO convert to list/df instead of scalar
-        self.singleFamilyShortage = self.singleFamilyShortagePortion
+        self.singleFamilyShortage = self.singleFamilyShortagePortion * self.adjustedShortage_Contractor
+        self.multiamilyShortage = self.multiFamilyShortagePortion * self.adjustedShortage_Contractor
+        self.industrialShortage = self.industrialShortagePortion * self.adjustedShortage_Contractor
+        self.commercialShortage = self.commercialShortagePortion * self.adjustedShortage_Contractor
+        self.landscapeShortage = self.landscapeShortagePortion * self.adjustedShortage_Contractor
     
     
     # TODO: Move to storage utilities file
