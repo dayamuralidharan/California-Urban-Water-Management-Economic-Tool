@@ -108,11 +108,11 @@ class ModelLogic:
             for self.i in range(len(self.inputData.historicHydrologyYears)):
                 
                 
-                #### Deliver local and project supplies to meet demands:
-                # Calculate Applied Demand after subtraction of Planned Long-term Conservation
+                #### Calculate Applied Demand after subtraction of Planned Long-term Conservation
                 self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
                 self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor))
 
+                #### Deliver local and project supplies to meet demands:
                 # Calculate Demand to be Met by SWP/CVP supplies after subtraction of local supplies
                 demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
 
