@@ -354,6 +354,9 @@ class ModelLogic:
     def implementContingencyWMOs(self):
         self.implementContingencyConservation()
         self.deliverWaterMarketTransfers()
+        
+        # Implement Rationing Program and calculate Loss Function
+        self.calculateShortageByUseType()
             
             
     def doNotImplementContingencyWMOs(self):
@@ -383,8 +386,15 @@ class ModelLogic:
         self.demandHardeningAdjustmentFactor_Contractor = 1 + ((((1 + self.baseConservationAsPercentOfDemand) * (1 + self.longTermWMOConservationAsPercentOfDemand)) -1) * self.demandHardeningFactor_Contractor)
         self.adjustedShortage_Contractor = self.totalShortage_Contractor[self.i] * self.demandHardeningAdjustmentFactor_Contractor
         
-        self.singleFamilyShortagePortion = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily[self.contractor] * self.inputData.singleFamilyUsePortion[self.contractor] + self.inputData.cutRatio_multiFamily[self.contractor] * self.inputData.multiFamilyUsePortion[self.contractor] + self.inputData.cutRatio_industrial[self.contractor] * self.inputData.industrialUsePortion[self.contractor] + self.inputData.cutRatio_commercial[self.contractor] * self.inputData.commAndGovUsePortion[self.contractor] + self.inputData.cutRatio_landscape[self.contractor] * self.inputData.landscapeUsePortion[self.contractor])
-        
+        # Calculate shortage by type
+        self.singleFamilyShortagePortion = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily.loc[self.contractor] * self.inputData.singleFamilyUsePortion.loc[self.contractor] 
+                                                                              + self.inputData.cutRatio_multiFamily.loc[self.contractor] * self.inputData.multiFamilyUsePortion.loc[self.contractor] 
+                                                                              + self.inputData.cutRatio_industrial.loc[self.contractor] * self.inputData.industrialUsePortion.loc[self.contractor] 
+                                                                              + self.inputData.cutRatio_commercial.loc[self.contractor] * self.inputData.commAndGovUsePortion.loc[self.contractor] 
+                                                                              + self.inputData.cutRatio_landscape.loc[self.contractor] * self.inputData.landscapeUsePortion.loc[self.contractor]
+                                                                                )
+        #TODO convert to list/df instead of scalar
+        self.singleFamilyShortage = self.singleFamilyShortagePortion
     
     
     # TODO: Move to storage utilities file

@@ -15,6 +15,8 @@ class ContingentWMOsAssumptions:
         rationingProgramInputData = pd.read_csv(rationingProgramInputFile)
         cutRatioInputData = pd.read_csv(cutRatioInputFile)
         elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
+        
+        cutRatioInputData.set_index('Contractor', inplace = True)
 
         # Definition of Contingent Conservation Variables
         self.contingentConservationUseReduction = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
@@ -95,11 +97,11 @@ class ContingentWMOsAssumptions:
         self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"]
         self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"]
 
-        self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']
-        self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']
-        self.cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']
-        self.cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']
-        self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']
+        self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
+        self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
+        self.cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']['Cut Ratio']
+        self.cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']['Cut Ratio']
+        self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']['Cut Ratio']
 
         self.elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']
         self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']
@@ -110,12 +112,6 @@ class ContingentWMOsAssumptions:
         self.consecutiveYearLossAdjustment.set_index('Contractor', inplace = True)
         self.demandHardeningFactor.set_index('Contractor', inplace = True)
         self.retailPrice.set_index('Contractor', inplace = True)
-
-        self.cutRatio_singleFamily.set_index('Contractor', inplace = True)
-        self.cutRatio_multiFamily.set_index('Contractor', inplace = True)
-        self.cutRatio_industrial.set_index('Contractor', inplace = True)
-        self.cutRatio_commercial.set_index('Contractor', inplace = True)
-        self.cutRatio_landscape.set_index('Contractor', inplace = True)
 
         self.elasticityOfDemand.set_index('Contractor', inplace = True)
         self.lowerLossBoundary.set_index('Contractor', inplace = True)
