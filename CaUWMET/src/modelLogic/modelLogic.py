@@ -38,7 +38,7 @@ class ModelLogic:
         # Loop through hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
             self.loopThroughHydrologicReferencePeriod(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-        self.createOutputDictionaries()  
+        self.writeToOutputDictionaries()  
                 
     def loopThroughHydrologicReferencePeriod(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
         #### Deliver local and imported supplies, and implement base long-term conservation to meet demands:
@@ -59,7 +59,7 @@ class ModelLogic:
     #### Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
 
-    def createOutputDictionaries(self):
+    def writeToOutputDictionaries(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
         self.appliedDemands[self.contractor] = self.appliedDemand_Contractor
         self.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
@@ -135,7 +135,6 @@ class ModelLogic:
             self.doNotImplementContingencyWMOs()
     
     
-    # TODO Move to contingent WMOs utilities file    
     def implementContingencyWMOs(self):
         self.implementContingencyConservation()
         self.deliverWaterMarketTransfers()
@@ -250,7 +249,6 @@ class ModelLogic:
     
     
         
-    # TODO: Move to storage utilities file
     def doNotImplementStorageOperations(self):
         self.groundwaterPumpingReduction_Contractor.append(0)
         self.volumeSurfaceCarryover_Contractor.append(0)
