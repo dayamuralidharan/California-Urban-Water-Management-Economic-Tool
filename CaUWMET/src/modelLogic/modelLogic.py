@@ -18,38 +18,38 @@ class ModelLogic:
         # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
         self.initializeModelOutputVariables()
 
-    def execute(self):
+    def executeModelLogic(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         for self.contractor in self.inputData.contractorsList:
-            self.executeForContractor()
-        self.createOutputDataframes()
+            self.executeModelLogicForContractor()
+        self.saveToOutputDataframes()
         
-    def executeForContractor(self):
+    def executeModelLogicForContractor(self):
         #print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
         
         # Set up variables that will be used for calcs by contractor
+        self.initilizeVariablesForContractorLoop()
         #TODO move to initilizeVariablesForContractorLoop function
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
-        demandsToBeMetBySWPCVP_Contractor = []
         demandsToBeMetByStorage_Contractor = []
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
         
-        self.initilizeVariablesForContractorLoop()
+        
         
         # Loop through hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
-            self.loopThroughHydrologicReferencePeriod(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-        self.createOutputDictionaries(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor)  
+            self.loopThroughHydrologicReferencePeriod(demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
+        self.createOutputDictionaries(demandsToBeMetByStorage_Contractor)  
                 
-    def loopThroughHydrologicReferencePeriod(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
+    def loopThroughHydrologicReferencePeriod(self, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
         #### Deliver local and imported supplies, and implement base long-term conservation to meet demands:
-        self.deliverLocalSuppliesAndImplementPlannedConservation(demandsToBeMetBySWPCVP_Contractor)
+        self.deliverLocalSuppliesAndImplementPlannedConservation()
 
         # Deliver SWP/CVP supplies
-        self.deliverSwpCvpSupplies(demandsToBeMetBySWPCVP_Contractor)
+        self.deliverSwpCvpSupplies()
         
         # Check if there is remaining demand to be met by stored supplies, or calculate excess SWP/CVP supply
-        self.checkIfThereIsExcessSupplyOrRemainingDemand(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor)
+        self.checkIfThereIsExcessSupplyOrRemainingDemand(demandsToBeMetByStorage_Contractor)
 
         #### If excess supply switch includes storage operations, put excess into or take from storage to meet demands:
         self.putOrTakeFromStorage(storageInputAssumptions_Contractor, demandsToBeMetByStorage_Contractor, excessSupplySwitch_Contractor)
@@ -60,10 +60,10 @@ class ModelLogic:
     #### Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
 
-    def createOutputDictionaries(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor):
+    def createOutputDictionaries(self, demandsToBeMetByStorage_Contractor):
         # Append dataframes with updated contractor data as calculated in model logic above.
         self.appliedDemands[self.contractor] = self.appliedDemand_Contractor
-        self.demandsToBeMetBySWPCVP[self.contractor] = demandsToBeMetBySWPCVP_Contractor
+        self.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
         self.demandsToBeMetByStorage[self.contractor] = demandsToBeMetByStorage_Contractor
         self.excessSupply[self.contractor] = self.excessSupply_Contractor
         
@@ -89,7 +89,7 @@ class ModelLogic:
         self.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
         self.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
 
-    def createOutputDataframes(self):
+    def saveToOutputDataframes(self):
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
         self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
         
@@ -230,22 +230,22 @@ class ModelLogic:
     
     
     
-    def deliverLocalSuppliesAndImplementPlannedConservation(self, demandsToBeMetBySWPCVP_Contractor):
+    def deliverLocalSuppliesAndImplementPlannedConservation(self):
         self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor))
-        demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
+        self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
     
     
-    def deliverSwpCvpSupplies(self, demandsToBeMetBySWPCVP_Contractor):
+    def deliverSwpCvpSupplies(self):
         self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
-        self.remainingDemandAfterDeliveryOfSwpCVPSupplies = demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor
+        self.remainingDemandAfterDeliveryOfSwpCVPSupplies = self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor
         
-    def checkIfThereIsExcessSupplyOrRemainingDemand(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor):
+    def checkIfThereIsExcessSupplyOrRemainingDemand(self, demandsToBeMetByStorage_Contractor):
         if self.remainingDemandAfterDeliveryOfSwpCVPSupplies > 0:
             demandsToBeMetByStorage_Contractor.append(self.remainingDemandAfterDeliveryOfSwpCVPSupplies)
             self.excessSupply_Contractor.append(0)
         else:
-            self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - demandsToBeMetBySWPCVP_Contractor[self.i]))
+            self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - self.demandsToBeMetBySWPCVP_Contractor[self.i]))
             demandsToBeMetByStorage_Contractor.append(0)
     
     
@@ -405,6 +405,7 @@ class ModelLogic:
     def initilizeVariablesForContractorLoop(self):
         self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
         self.appliedDemand_Contractor = []
+        self.demandsToBeMetBySWPCVP_Contractor = []
 
         #TODO Update with optimization logic
         # Water balance variables

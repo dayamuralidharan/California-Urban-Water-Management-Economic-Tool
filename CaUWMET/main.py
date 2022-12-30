@@ -6,6 +6,6 @@ from src.modelLogic.inputDataLocations import InputDataLocations
 inputData = InputData(InputDataLocations())
 modelLogic = ModelLogic(inputData, StorageUtilities())
 
-modelLogic.execute()
+modelLogic.executeModelLogic()
 
 # To print variables, type modelLogic.NameOfVariable
