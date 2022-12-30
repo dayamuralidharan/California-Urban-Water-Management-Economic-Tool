@@ -64,7 +64,7 @@ class ModelLogic:
         #TODO Update with optimization logic
         self.longtermWMOSurfaceVolume_Contractor = self.inputData.longtermWMOSurfaceVolumeLimit.loc[self.contractor][self.inputData.futureYear]
         
-        demandsToBeMetBySWPCVP_Contractor = []
+        self.demandsToBeMetBySWPCVP_Contractor = []
         demandsToBeMetByStorage_Contractor = []
 
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
@@ -120,15 +120,15 @@ class ModelLogic:
 
             #### Deliver local and project supplies to meet demands:
             # Calculate Demand to be Met by SWP/CVP supplies after subtraction of local supplies
-            demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
+            self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
 
             # Calculate Demand to be Met by Stored supplies after delivery of SWP/CVP supplies, or calculate Excess SWP/CVP Supply.
             self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
-            if demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor > 0:
-                demandsToBeMetByStorage_Contractor.append(demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
+            if self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor > 0:
+                demandsToBeMetByStorage_Contractor.append(self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
                 self.excessSupply_Contractor.append(0)
             else:
-                self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - demandsToBeMetBySWPCVP_Contractor[self.i]))
+                self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - self.demandsToBeMetBySWPCVP_Contractor[self.i]))
                 demandsToBeMetByStorage_Contractor.append(0)
 
             excessSupplyToStorageSwitches = ["Put into Carryover and Groundwater Bank", "Put into Groundwater Bank", "Put into Carryover Storage"]
@@ -289,7 +289,7 @@ class ModelLogic:
 
     # Append dataframes with updated contractor data as calculated in model logic above.
         self.appliedDemands[self.contractor] = self.appliedDemand_Contractor
-        self.demandsToBeMetBySWPCVP[self.contractor] = demandsToBeMetBySWPCVP_Contractor
+        self.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
         self.demandsToBeMetByStorage[self.contractor] = demandsToBeMetByStorage_Contractor
         self.excessSupply[self.contractor] = self.excessSupply_Contractor
         
