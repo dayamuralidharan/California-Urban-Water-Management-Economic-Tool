@@ -5,7 +5,6 @@ from src.modelLogic.storageUtilities import StorageUtilities
 
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
-#TODO Make code faster
 
 class ModelLogic:
     def __init__(self, inputData: InputData, storageUtilities: StorageUtilities):
@@ -17,36 +16,7 @@ class ModelLogic:
         self.storageUtilities = storageUtilities
         
         # Initialize time series dataframes for each variable. These dataframes include time series for all contractors.
-        self.appliedDemands = {'Year': self.inputData.historicHydrologyYears} #Setting these variables in the constructor method creates an instance of them in this class so we don't need to keep passing them as arguments to functions, the functions 
-        self.demandsToBeMetBySWPCVP = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByBankedGW = {'Year': self.inputData.historicHydrologyYears}
-        self.excessSupply = {'Year': self.inputData.historicHydrologyYears}
-        self.groundwaterPumpingReduction = {'Year': self.inputData.historicHydrologyYears}
-
-        # Surface carryover and banked groundwater storage dataframes
-        self.volumeSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
-        self.volumeGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
-        self.availableCapacitySurface = {'Year': self.inputData.historicHydrologyYears}
-        self.availableGroundwaterCapacity = {'Year': self.inputData.historicHydrologyYears}
-        self.putGroundwater = {'Year': self.inputData.historicHydrologyYears}
-        self.putSurface = {'Year': self.inputData.historicHydrologyYears}
-        self.takeSurface = {'Year': self.inputData.historicHydrologyYears}
-        self.takeGroundwater = {'Year': self.inputData.historicHydrologyYears}
-        self.putGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
-        self.takeGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
-
-        # Hedging strategy dataframes
-        self.pctCapacitySurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
-        self.pctStorageCalledSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
-        self.pctCapacityGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
-        self.pctStorageCalledGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
-
-        # Contingent WMOs dataframes
-        self.demandsToBeMetByContingentOptions = {'Year': self.inputData.historicHydrologyYears}
-        self.contingentConservationReductionVolume = {'Year': self.inputData.historicHydrologyYears}
-        self.waterMarketTransferDeliveries = {'Year': self.inputData.historicHydrologyYears}
-        self.totalShortage = {'Year': self.inputData.historicHydrologyYears}
+        self.initializeModelOutputVariables()
 
     def execute(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
@@ -55,61 +25,16 @@ class ModelLogic:
         self.createOutputDataframes()
         
     def executeForContractor(self):
-        #TODO delete print line used for QAQC
-        print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
+        #print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
         
         # Set up variables that will be used for calcs by contractor
-        self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
-        self.appliedDemand_Contractor = []
-
-        #TODO Update with optimization logic
-        self.longtermWMOSurfaceVolume_Contractor = self.inputData.longtermWMOSurfaceVolumeLimit.loc[self.contractor][self.inputData.futureYear]
-        
+        #TODO move to initilizeVariablesForContractorLoop function
+        storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         demandsToBeMetBySWPCVP_Contractor = []
         demandsToBeMetByStorage_Contractor = []
-
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
-        self.excessSupply_Contractor = []
-        self.groundwaterPumpingReduction_Contractor = []
         
-        self.volumeSurfaceCarryover_Contractor = []
-        self.volumeGroundwaterBank_Contractor = []
-        self.putSurface_Contractor = []
-        self.putGroundwater_Contractor = []
-        self.takeSurface_Contractor = []
-        self.takeGroundwater_Contractor = []
-        storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
-        
-        self.demandsToBeMetByContingentOptions_Contractor = []
-        self.contingentConservationUseReductionVolume_Contractor = []
-        self.demandsToBeMetByWaterMarketTransfers_Contractor = []
-        self.waterMarketTransferDeliveries_Contractor = []
-        self.totalShortage_Contractor = []
-        
-        self.totalSuppliesDelivered_Contractor = []
-        
-        # Cost dataframes
-        self.groundwaterBankTakeCost_Contractor = []
-        self.groundwaterBankPutCost_Contractor = []
-        self.swpCVPDeliveryCost_Contractor = []
-        self.groundwaterPumpingSavings_Contractor = []
-        self.waterTreatmentCost_Contractor = []
-        self.distributionCost_Contractor = []
-        self.wastewaterTreatmentCost_Contractor = []
-        self.contingentConservationCost_Contractor = []
-        self.waterMarketTransferCost_Contractor = []
-        
-        self.surfaceLongTermWMOCost_Contractor = []
-        self.groundwaterLongTermWMOCost_Contractor = []
-        self.desalinationLongTermWMOCost_Contractor = []
-        self.recycledLongTermWMOCost_Contractor = []
-        self.potableReuseLongTermWMOCost_Contractor = []
-        self.transfersAndExchangesLongTermWMOCost_Contractor = []
-        self.otherSupplyLongTermWMOCost_Contractor = []
-        self.conservationLongTermWMOCost_Contractor = []
-        self.rationingProgramCost_Contractor = []
-        
-        self.reliabilityManagementCost_Contractor = []
+        self.initilizeVariablesForContractorLoop()
         
         # Loop through hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
@@ -130,107 +55,10 @@ class ModelLogic:
         self.putOrTakeFromStorage(storageInputAssumptions_Contractor, demandsToBeMetByStorage_Contractor, excessSupplySwitch_Contractor)
 
     ## If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
-        contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
-        self.shortageThresholdForWaterMarketTransfers_Contractor = self.inputData.shortageThresholdForWaterMarketTransfers.loc[self.contractor][self.inputData.futureYear] / 100
-        
-        if self.demandsToBeMetByContingentOptions_Contractor[self.i] > 0.0 or (self.volumeSurfaceCarryover_Contractor[self.i] + self.volumeGroundwaterBank_Contractor[self.i]) < contingentConservationStorageTrigger_Contractor:
-            self.implementContingencyWMOs()
-        else:
-            self.doNotImplementContingencyWMOs()
-            
-    ## Calculate total supplies delivered
-        self.totalSuppliesDelivered_Contractor.append(self.inputData.totalLocalSupply[self.contractor][self.i]
-                                                        + self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i]
-                                                        + self.takeGroundwater_Contractor[self.i]
-                                                        + self.takeSurface_Contractor[self.i]
-                                                        + self.waterMarketTransferDeliveries_Contractor[self.i])
+        self.implementContingencyWMOsIfNeeded()
     
-    
-    
-    
-    
-    
-    
-            
-    #### Calculate Reliability Management Costs
-        
-        self.groundwaterBankPutUnitCost_Contractor = self.inputData.groundwaterBankPutUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.groundwaterBankTakeUnitCost_Contractor = self.inputData.groundwaterBankTakeUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.swpCVPDeliveryUnitCost_Contractor = self.inputData.swpCVPDeliveryUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.groundwaterPumpingUnitCost_Contractor = self.inputData.groundwaterPumpingUnitCost[self.contractor][self.i]
-        self.waterTreatmentUnitCost_Contractor = self.inputData.waterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.distributionUnitCost_Contractor = self.inputData.distributionUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.wastewaterTreatmentUnitCost_Contractor = self.inputData.wastewaterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.wastewaterTreatmentFraction_Contractor = self.inputData.wastewaterTreatmentFraction.loc[self.contractor][self.inputData.futureYear] / 100
-        
-        self.waterMarketTransferUnitCost_Contractor = self.inputData.waterMarketTransferCost[self.contractor][self.i]
-        self.contingentConservationUnitCost_Contractor = self.inputData.contingentConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
-        
-        longtermWMOSurfaceUnitCost_Contractor = self.inputData.longtermWMOSurfaceUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMOGroundwaterUnitCost_Contractor = self.inputData.longtermWMOGroundwaterUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMODesalinationUnitCost_Contractor = self.inputData.longtermWMODesalinationUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMORecycledUnitCost_Contractor = self.inputData.longtermWMORecycledUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMOPotableReuseUnitCost_Contractor = self.inputData.longtermWMOPotableReuseUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMOTransfersExchangesUnitCost_Contractor = self.inputData.longtermWMOTransfersExchangesUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMOOtherSupplyUnitCost_Contractor = self.inputData.longtermWMOOtherSupplyUnitCost.loc[self.contractor][self.inputData.futureYear]
-        longtermWMOConservationUnitCost_Contractor = self.inputData.longtermWMOConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
-        
-        self.groundwaterBankPutCost_Contractor.append(self.putGroundwater_Contractor[self.i] * self.groundwaterBankPutUnitCost_Contractor)
-        self.groundwaterBankTakeCost_Contractor.append(self.takeGroundwater_Contractor[self.i] * self.groundwaterBankTakeUnitCost_Contractor)
-        self.swpCVPDeliveryCost_Contractor.append((self.SWPCVPSupply_Contractor- self.excessSupply_Contractor[self.i]) * self.swpCVPDeliveryUnitCost_Contractor)
-        self.waterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.waterTreatmentUnitCost_Contractor)
-        self.distributionCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.distributionUnitCost_Contractor)
-        self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.distributionUnitCost_Contractor)
-        
-        self.waterMarketTransferCost_Contractor.append(self.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketTransferUnitCost_Contractor)
-        
-        if self.contingentConservationUseReductionVolume_Contractor[self.i] > 0:
-            self.contingentConservationCost_Contractor.append(self.contingentConservationUnitCost_Contractor * self.urbanPopulation_Contractor)
-        else:
-            self.contingentConservationCost_Contractor.append(0)
-        
-        if storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == "Reduce Groundwater Pumping":
-            self.groundwaterPumpingSavings_Contractor.append(self.groundwaterPumpingUnitCost_Contractor* self.groundwaterPumpingReduction_Contractor[self.i])
-        else:
-            self.groundwaterPumpingSavings_Contractor.append(0)
-        
-        #TODO calculate rationing program cost    
-        self.rationingProgramCost_Contractor.append(0)
-        
-        #TODO: incorporate supply volume into these calcs - replace the 1's 
-        self.surfaceLongTermWMOCost_Contractor.append(1 * longtermWMOSurfaceUnitCost_Contractor)
-        self.groundwaterLongTermWMOCost_Contractor.append(1 * longtermWMOGroundwaterUnitCost_Contractor)
-        self.desalinationLongTermWMOCost_Contractor.append(1 * longtermWMODesalinationUnitCost_Contractor)
-        self.recycledLongTermWMOCost_Contractor.append(1 * longtermWMORecycledUnitCost_Contractor)
-        self.potableReuseLongTermWMOCost_Contractor.append(1 * longtermWMOPotableReuseUnitCost_Contractor)
-        self.transfersAndExchangesLongTermWMOCost_Contractor.append(1 * longtermWMOTransfersExchangesUnitCost_Contractor)
-        self.otherSupplyLongTermWMOCost_Contractor.append(1 * longtermWMOOtherSupplyUnitCost_Contractor)
-        self.conservationLongTermWMOCost_Contractor.append(1 * longtermWMOConservationUnitCost_Contractor)
-        
-        
-        self.reliabilityManagementCost_Contractor.append(self.groundwaterBankPutCost_Contractor[self.i]
-                                                            + self.groundwaterBankTakeCost_Contractor[self.i]
-                                                            + self.swpCVPDeliveryCost_Contractor[self.i]
-                                                            
-                                                            + self.waterMarketTransferCost_Contractor[self.i]
-                                                            + self.contingentConservationCost_Contractor[self.i]
-                                                            
-                                                            + self.waterTreatmentCost_Contractor[self.i]
-                                                            + self.distributionCost_Contractor[self.i]
-                                                            + self.wastewaterTreatmentCost_Contractor[self.i]
-                                                            
-                                                            + self.rationingProgramCost_Contractor[self.i]
-                                                            
-                                                            + self.surfaceLongTermWMOCost_Contractor[self.i]
-                                                            + self.groundwaterLongTermWMOCost_Contractor[self.i]
-                                                            + self.desalinationLongTermWMOCost_Contractor[self.i]
-                                                            + self.recycledLongTermWMOCost_Contractor[self.i]
-                                                            + self.potableReuseLongTermWMOCost_Contractor[self.i]
-                                                            + self.transfersAndExchangesLongTermWMOCost_Contractor[self.i]
-                                                            + self.otherSupplyLongTermWMOCost_Contractor[self.i]
-                                                            + self.conservationLongTermWMOCost_Contractor[self.i]
-                                                            )
+    #### Calculate Costs
+        self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
 
     def createOutputDictionaries(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor):
         # Append dataframes with updated contractor data as calculated in model logic above.
@@ -297,6 +125,16 @@ class ModelLogic:
         # workbook = self.writer.book
         # #demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentWMOs')
         # self.writer.save()
+    
+    def implementContingencyWMOsIfNeeded(self):
+        contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
+        self.shortageThresholdForWaterMarketTransfers_Contractor = self.inputData.shortageThresholdForWaterMarketTransfers.loc[self.contractor][self.inputData.futureYear] / 100
+        
+        if self.demandsToBeMetByContingentOptions_Contractor[self.i] > 0.0 or (self.volumeSurfaceCarryover_Contractor[self.i] + self.volumeGroundwaterBank_Contractor[self.i]) < contingentConservationStorageTrigger_Contractor:
+            self.implementContingencyWMOs()
+        else:
+            self.doNotImplementContingencyWMOs()
+    
     
     # TODO Move to contingent WMOs utilities file    
     def implementContingencyWMOs(self):
@@ -475,3 +313,172 @@ class ModelLogic:
         else:
             self.doNotImplementStorageOperations()
             self.demandsToBeMetByContingentOptions_Contractor.append(0)
+            
+            
+            
+            
+            
+    def calculateReliabilityManagementCosts(self, storageInputAssumptions_Contractor):
+        self.totalSuppliesDelivered_Contractor.append(self.inputData.totalLocalSupply[self.contractor][self.i]
+                                                        + self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i]
+                                                        + self.takeGroundwater_Contractor[self.i]
+                                                        + self.takeSurface_Contractor[self.i]
+                                                        + self.waterMarketTransferDeliveries_Contractor[self.i])
+        
+        self.groundwaterBankPutUnitCost_Contractor = self.inputData.groundwaterBankPutUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.groundwaterBankTakeUnitCost_Contractor = self.inputData.groundwaterBankTakeUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.swpCVPDeliveryUnitCost_Contractor = self.inputData.swpCVPDeliveryUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.groundwaterPumpingUnitCost_Contractor = self.inputData.groundwaterPumpingUnitCost[self.contractor][self.i]
+        self.waterTreatmentUnitCost_Contractor = self.inputData.waterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.distributionUnitCost_Contractor = self.inputData.distributionUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.wastewaterTreatmentUnitCost_Contractor = self.inputData.wastewaterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.wastewaterTreatmentFraction_Contractor = self.inputData.wastewaterTreatmentFraction.loc[self.contractor][self.inputData.futureYear] / 100
+        
+        self.waterMarketTransferUnitCost_Contractor = self.inputData.waterMarketTransferCost[self.contractor][self.i]
+        self.contingentConservationUnitCost_Contractor = self.inputData.contingentConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
+        
+        longtermWMOSurfaceUnitCost_Contractor = self.inputData.longtermWMOSurfaceUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOGroundwaterUnitCost_Contractor = self.inputData.longtermWMOGroundwaterUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMODesalinationUnitCost_Contractor = self.inputData.longtermWMODesalinationUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMORecycledUnitCost_Contractor = self.inputData.longtermWMORecycledUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOPotableReuseUnitCost_Contractor = self.inputData.longtermWMOPotableReuseUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOTransfersExchangesUnitCost_Contractor = self.inputData.longtermWMOTransfersExchangesUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOOtherSupplyUnitCost_Contractor = self.inputData.longtermWMOOtherSupplyUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOConservationUnitCost_Contractor = self.inputData.longtermWMOConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
+        
+        self.groundwaterBankPutCost_Contractor.append(self.putGroundwater_Contractor[self.i] * self.groundwaterBankPutUnitCost_Contractor)
+        self.groundwaterBankTakeCost_Contractor.append(self.takeGroundwater_Contractor[self.i] * self.groundwaterBankTakeUnitCost_Contractor)
+        self.swpCVPDeliveryCost_Contractor.append((self.SWPCVPSupply_Contractor- self.excessSupply_Contractor[self.i]) * self.swpCVPDeliveryUnitCost_Contractor)
+        self.waterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.waterTreatmentUnitCost_Contractor)
+        self.distributionCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.distributionUnitCost_Contractor)
+        self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.distributionUnitCost_Contractor)
+        
+        self.waterMarketTransferCost_Contractor.append(self.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketTransferUnitCost_Contractor)
+        
+        if self.contingentConservationUseReductionVolume_Contractor[self.i] > 0:
+            self.contingentConservationCost_Contractor.append(self.contingentConservationUnitCost_Contractor * self.urbanPopulation_Contractor)
+        else:
+            self.contingentConservationCost_Contractor.append(0)
+        
+        if storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == "Reduce Groundwater Pumping":
+            self.groundwaterPumpingSavings_Contractor.append(self.groundwaterPumpingUnitCost_Contractor* self.groundwaterPumpingReduction_Contractor[self.i])
+        else:
+            self.groundwaterPumpingSavings_Contractor.append(0)
+        
+        #TODO calculate rationing program cost    
+        self.rationingProgramCost_Contractor.append(0)
+        
+        #TODO: incorporate supply volume into these calcs - replace the 1's 
+        self.surfaceLongTermWMOCost_Contractor.append(1 * longtermWMOSurfaceUnitCost_Contractor)
+        self.groundwaterLongTermWMOCost_Contractor.append(1 * longtermWMOGroundwaterUnitCost_Contractor)
+        self.desalinationLongTermWMOCost_Contractor.append(1 * longtermWMODesalinationUnitCost_Contractor)
+        self.recycledLongTermWMOCost_Contractor.append(1 * longtermWMORecycledUnitCost_Contractor)
+        self.potableReuseLongTermWMOCost_Contractor.append(1 * longtermWMOPotableReuseUnitCost_Contractor)
+        self.transfersAndExchangesLongTermWMOCost_Contractor.append(1 * longtermWMOTransfersExchangesUnitCost_Contractor)
+        self.otherSupplyLongTermWMOCost_Contractor.append(1 * longtermWMOOtherSupplyUnitCost_Contractor)
+        self.conservationLongTermWMOCost_Contractor.append(1 * longtermWMOConservationUnitCost_Contractor)
+        
+        
+        self.reliabilityManagementCost_Contractor.append(self.groundwaterBankPutCost_Contractor[self.i]
+                                                            + self.groundwaterBankTakeCost_Contractor[self.i]
+                                                            + self.swpCVPDeliveryCost_Contractor[self.i]
+                                                            
+                                                            + self.waterMarketTransferCost_Contractor[self.i]
+                                                            + self.contingentConservationCost_Contractor[self.i]
+                                                            
+                                                            + self.waterTreatmentCost_Contractor[self.i]
+                                                            + self.distributionCost_Contractor[self.i]
+                                                            + self.wastewaterTreatmentCost_Contractor[self.i]
+                                                            
+                                                            + self.rationingProgramCost_Contractor[self.i]
+                                                            
+                                                            + self.surfaceLongTermWMOCost_Contractor[self.i]
+                                                            + self.groundwaterLongTermWMOCost_Contractor[self.i]
+                                                            + self.desalinationLongTermWMOCost_Contractor[self.i]
+                                                            + self.recycledLongTermWMOCost_Contractor[self.i]
+                                                            + self.potableReuseLongTermWMOCost_Contractor[self.i]
+                                                            + self.transfersAndExchangesLongTermWMOCost_Contractor[self.i]
+                                                            + self.otherSupplyLongTermWMOCost_Contractor[self.i]
+                                                            + self.conservationLongTermWMOCost_Contractor[self.i]
+                                                            )
+    def initilizeVariablesForContractorLoop(self):
+        self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
+        self.appliedDemand_Contractor = []
+
+        #TODO Update with optimization logic
+        # Water balance variables
+        self.longtermWMOSurfaceVolume_Contractor = self.inputData.longtermWMOSurfaceVolumeLimit.loc[self.contractor][self.inputData.futureYear]
+        
+        self.excessSupply_Contractor = []
+        self.groundwaterPumpingReduction_Contractor = []
+        
+        self.volumeSurfaceCarryover_Contractor = []
+        self.volumeGroundwaterBank_Contractor = []
+        self.putSurface_Contractor = []
+        self.putGroundwater_Contractor = []
+        self.takeSurface_Contractor = []
+        self.takeGroundwater_Contractor = []
+        
+        self.demandsToBeMetByContingentOptions_Contractor = []
+        self.contingentConservationUseReductionVolume_Contractor = []
+        self.demandsToBeMetByWaterMarketTransfers_Contractor = []
+        self.waterMarketTransferDeliveries_Contractor = []
+        self.totalShortage_Contractor = []
+        
+        self.totalSuppliesDelivered_Contractor = []
+        
+        # Cost variables
+        self.groundwaterBankTakeCost_Contractor = []
+        self.groundwaterBankPutCost_Contractor = []
+        self.swpCVPDeliveryCost_Contractor = []
+        self.groundwaterPumpingSavings_Contractor = []
+        self.waterTreatmentCost_Contractor = []
+        self.distributionCost_Contractor = []
+        self.wastewaterTreatmentCost_Contractor = []
+        self.contingentConservationCost_Contractor = []
+        self.waterMarketTransferCost_Contractor = []
+        
+        self.surfaceLongTermWMOCost_Contractor = []
+        self.groundwaterLongTermWMOCost_Contractor = []
+        self.desalinationLongTermWMOCost_Contractor = []
+        self.recycledLongTermWMOCost_Contractor = []
+        self.potableReuseLongTermWMOCost_Contractor = []
+        self.transfersAndExchangesLongTermWMOCost_Contractor = []
+        self.otherSupplyLongTermWMOCost_Contractor = []
+        self.conservationLongTermWMOCost_Contractor = []
+        self.rationingProgramCost_Contractor = []
+        
+        self.reliabilityManagementCost_Contractor = []
+        
+    def initializeModelOutputVariables(self):
+        self.appliedDemands = {'Year': self.inputData.historicHydrologyYears} 
+        self.demandsToBeMetBySWPCVP = {'Year': self.inputData.historicHydrologyYears}
+        self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
+        self.demandsToBeMetByBankedGW = {'Year': self.inputData.historicHydrologyYears}
+        self.excessSupply = {'Year': self.inputData.historicHydrologyYears}
+        self.groundwaterPumpingReduction = {'Year': self.inputData.historicHydrologyYears}
+
+        # Surface carryover and banked groundwater storage dataframes
+        self.volumeSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
+        self.volumeGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
+        self.availableCapacitySurface = {'Year': self.inputData.historicHydrologyYears}
+        self.availableGroundwaterCapacity = {'Year': self.inputData.historicHydrologyYears}
+        self.putGroundwater = {'Year': self.inputData.historicHydrologyYears}
+        self.putSurface = {'Year': self.inputData.historicHydrologyYears}
+        self.takeSurface = {'Year': self.inputData.historicHydrologyYears}
+        self.takeGroundwater = {'Year': self.inputData.historicHydrologyYears}
+        self.putGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
+        self.takeGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
+
+        # Hedging strategy dataframes
+        self.pctCapacitySurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
+        self.pctStorageCalledSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
+        self.pctCapacityGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
+        self.pctStorageCalledGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
+
+        # Contingent WMOs dataframes
+        self.demandsToBeMetByContingentOptions = {'Year': self.inputData.historicHydrologyYears}
+        self.contingentConservationReductionVolume = {'Year': self.inputData.historicHydrologyYears}
+        self.waterMarketTransferDeliveries = {'Year': self.inputData.historicHydrologyYears}
+        self.totalShortage = {'Year': self.inputData.historicHydrologyYears}
