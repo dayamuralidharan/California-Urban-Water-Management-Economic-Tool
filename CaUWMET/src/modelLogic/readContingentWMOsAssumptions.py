@@ -17,6 +17,8 @@ class ContingentWMOsAssumptions:
         elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
         
         cutRatioInputData.set_index('Contractor', inplace = True)
+        rationingProgramInputData.set_index('Contractor', inplace = True)
+        elasticityOfDemandInputData.set_index('Contractor', inplace = True)
 
         # Definition of Contingent Conservation Variables
         self.contingentConservationUseReduction = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
@@ -91,11 +93,11 @@ class ContingentWMOsAssumptions:
 
 
         # Definition of Rationing Program and Loss Function variables
-        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"]
-        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"]
-        self.consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"]
-        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"]
-        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"]
+        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][globalAssumptions.futureYear]
+        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][globalAssumptions.futureYear]
+        self.consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"][globalAssumptions.futureYear]
+        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"] #TODO get just for future year here
+        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"][globalAssumptions.futureYear]
 
         self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
         self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
@@ -103,16 +105,6 @@ class ContingentWMOsAssumptions:
         self.cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']['Cut Ratio']
         self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']['Cut Ratio']
 
-        self.elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']
-        self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']
-        self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']
-
-        self.storageVolumeTriggerForRationingProgram.set_index('Contractor', inplace = True)
-        self.costForRationingProgram.set_index('Contractor', inplace = True)
-        self.consecutiveYearLossAdjustment.set_index('Contractor', inplace = True)
-        self.demandHardeningFactor.set_index('Contractor', inplace = True)
-        self.retailPrice.set_index('Contractor', inplace = True)
-
-        self.elasticityOfDemand.set_index('Contractor', inplace = True)
-        self.lowerLossBoundary.set_index('Contractor', inplace = True)
-        self.upperLossBoundary.set_index('Contractor', inplace = True)
+        self.elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']['Value']
+        self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']['Value']
+        self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']['Value']

@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 
@@ -51,6 +52,9 @@ class ModelLogic:
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         
         for self.contractor in self.inputData.contractorsList:
+            #TODO delete print line used for QAQC
+            print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
+            
             # Set up variables that will be used for calcs by contractor
             self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
             self.appliedDemand_Contractor = []
@@ -357,6 +361,7 @@ class ModelLogic:
         
         # Implement Rationing Program and calculate Loss Function
         self.calculateShortageByUseType()
+        self.calculateEconomicLossByUseType()
             
             
     def doNotImplementContingencyWMOs(self):
@@ -380,32 +385,87 @@ class ModelLogic:
 
     def calculateShortageByUseType(self):
         # Calculate demand hardening adjustment factor and adjusted shortage
-        self.demandHardeningFactor_Contractor = self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear] / 100
+        self.demandHardeningFactor_Contractor = int(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]) / int(100)
         self.baseConservationAsPercentOfDemand = self.plannedLongTermConservation_Contractor / self.totalDemand_Contractor[self.i]
         self.longTermWMOConservationAsPercentOfDemand = self.longtermWMOConservationIncrementalVolume_Contractor / self.totalDemand_Contractor[self.i]
         self.demandHardeningAdjustmentFactor_Contractor = 1 + ((((1 + self.baseConservationAsPercentOfDemand) * (1 + self.longTermWMOConservationAsPercentOfDemand)) -1) * self.demandHardeningFactor_Contractor)
         self.adjustedShortage_Contractor = self.totalShortage_Contractor[self.i] * self.demandHardeningAdjustmentFactor_Contractor
         
         # Calculate shortage portion by type
-        self.singleFamilyShortagePortion = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily.loc[self.contractor] * self.inputData.singleFamilyUsePortion.loc[self.contractor] 
+        self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily.loc[self.contractor] * self.inputData.singleFamilyUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_multiFamily.loc[self.contractor] * self.inputData.multiFamilyUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_industrial.loc[self.contractor] * self.inputData.industrialUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_commercial.loc[self.contractor] * self.inputData.commAndGovUsePortion.loc[self.contractor] 
                                                                               + self.inputData.cutRatio_landscape.loc[self.contractor] * self.inputData.landscapeUsePortion.loc[self.contractor]
                                                                                 )
-        self.multiFamilyShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_multiFamily.loc[self.contractor]
-        self.industrialShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_industrial.loc[self.contractor]
-        self.commercialShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_commercial.loc[self.contractor]
-        self.landscapeShortagePortion = self.singleFamilyShortagePortion * self.inputData.cutRatio_landscape.loc[self.contractor]
+        self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_multiFamily.loc[self.contractor]
+        self.industrialShortagePortionOfIndustrialUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_industrial.loc[self.contractor]
+        self.commercialShortagePortionOfCommerciallUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_commercial.loc[self.contractor]
+        self.landscapeShortagePortionOfLandscapeUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_landscape.loc[self.contractor]
         
         # Calculate shortage by type
-        #TODO convert to list/df instead of scalar
-        self.singleFamilyShortage = self.singleFamilyShortagePortion * self.adjustedShortage_Contractor
-        self.multiamilyShortage = self.multiFamilyShortagePortion * self.adjustedShortage_Contractor
-        self.industrialShortage = self.industrialShortagePortion * self.adjustedShortage_Contractor
-        self.commercialShortage = self.commercialShortagePortion * self.adjustedShortage_Contractor
-        self.landscapeShortage = self.landscapeShortagePortion * self.adjustedShortage_Contractor
+        self.singleFamilyShortage_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.adjustedShortage_Contractor
+        self.multiamilyShortage_Contractor = self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor * self.adjustedShortage_Contractor
+        self.industrialShortage_Contractor = self.industrialShortagePortionOfIndustrialUse_Contractor * self.adjustedShortage_Contractor
+        self.commercialShortage_Contractor = self.commercialShortagePortionOfCommerciallUse_Contractor * self.adjustedShortage_Contractor
+        self.landscapeShortage_Contractor = self.landscapeShortagePortionOfLandscapeUse_Contractor * self.adjustedShortage_Contractor
+        #TODO add test to confirm total shortage of each use type = adjusted shortage
     
+    def calculateEconomicLossByUseType(self):
+        self.singleFamilyUse_Contractor = self.inputData.singleFamilyUsePortion * self.appliedDemand_Contractor[self.i]
+        self.multiFamilyUse_Contractor = self.inputData.multiFamilyUsePortion * self.appliedDemand_Contractor[self.i]
+        self.industrialUse_Contractor = self.inputData.industrialUsePortion * self.appliedDemand_Contractor[self.i]
+        self.commercialUse_Contractor = self.inputData.commAndGovUsePortion * self.appliedDemand_Contractor[self.i]
+        self.landscapeUse_Contractor = self.inputData.landscapeUsePortion * self.appliedDemand_Contractor[self.i]
+        
+        ##TODO elasticity should be by use type specifically
+        self.coefficient_SF = self.singleFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
+        self.coefficient_MF = self.multiFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
+        self.coefficient_IND = self.industrialUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
+        self.coefficient_COM = self.commercialUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
+        self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
+        
+        if self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor <= self.inputData.lowerLossBoundary.loc[self.contractor]:
+            self.singleFamilyEconomicLoss_Contractor = ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
+            - ((self.inputData.elasticityOfDemand.loc[self.contractor] 
+                * (self.singleFamilyUse_Contractor 
+                   * (1 - self.inputData.lowerLossBoundary.loc[self.contractor]) 
+                   * math.exp((math.log(self.singleFamilyUse_Contractor * (1 - self.inputData.lowerLossBoundary.loc[self.contractor]) 
+                                        / self.coefficient_SF) 
+                               / self.inputData.elasticityOfDemand.loc[self.contractor])) 
+                   / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))))
+        elif self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor >= self.inputData.upperLossBoundary.loc[self.contractor]:
+            ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor 
+              * math.exp((math.log(self.singleFamilyUse_Contractor  / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
+            - ((self.inputData.elasticityOfDemand.loc[self.contractor] * (self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contractor])) 
+                * math.exp((math.log((self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contractor]))) / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor]))/(self.inputData.elasticityOfDemand.loc[self.contractor] + 1)
+        else:
+            ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor]))/(self.inputData.elasticityOfDemand.loc[self.contractor] + 1)) - ((self.inputData.elasticityOfDemand.loc[self.contractor] * (self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)*math.exp((math.log((self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)/self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
+        #    (
+            # (
+                # elasticity_sf*base_use_sf*EXP(
+                    #                               (LN(base_use_sf/coeff_sf)
+                            #                       ) /elasticity_sf
+            #                                   )
+            #  ) / (elasticity_sf + 1)
+            # )
+        # -(
+            # (elasticity_sf*
+            #   (base_use_sf*
+            #       (1-lowerbound_SF)
+            #       *EXP(
+                        # (LN(
+                            # (base_use_sf*(1-lowerbound_SF)/coeff_sf)
+                            # ) /elasticity_sf
+                        #  )
+                        #) /(elasticity_sf + 1)
+                #)
+            #  )
+        #   ), 
+        # ELIIF(@shortage_SF>=upperbound_SF,
+        #   ((elasticity_sf*base_use_sf*EXP((LN(base_use_sf/coeff_sf))/elasticity_sf))/(elasticity_sf + 1))-((elasticity_sf*(base_use_sf*(1-upperbound_SF))*EXP((LN((base_use_sf*(1-upperbound_SF))/coeff_sf))/elasticity_sf))/(elasticity_sf + 1)), 
+        # Else:
+        #   ((elasticity_sf*base_use_sf*EXP((LN(base_use_sf/coeff_sf))/elasticity_sf))/(elasticity_sf + 1))-((elasticity_sf*(base_use_sf-@shortage_af_SF)*EXP((LN((base_use_sf-@shortage_af_SF)/coeff_sf))/elasticity_sf))/(elasticity_sf + 1))))
     
     # TODO: Move to storage utilities file
     def doNotImplementStorageOperations(self):
