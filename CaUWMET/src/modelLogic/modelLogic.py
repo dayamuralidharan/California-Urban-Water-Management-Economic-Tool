@@ -113,34 +113,23 @@ class ModelLogic:
         
         # Loop through hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
-            self.executeForHydrologicReferencePeriod(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
+            self.loopThroughHydrologicReferencePeriod(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
         self.createOutputDictionaries(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor)  
                 
-    def executeForHydrologicReferencePeriod(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
-        #### Calculate Applied Demand after subtraction of Planned Long-term Conservation
-        self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
-        self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor))
+    def loopThroughHydrologicReferencePeriod(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
+        #### Deliver local and imported supplies, and implement base long-term conservation to meet demands:
+        self.deliverLocalSuppliesAndImplementPlannedConservation(demandsToBeMetBySWPCVP_Contractor)
 
-        #### Deliver local and project supplies to meet demands:
-        # Calculate Demand to be Met by SWP/CVP supplies after subtraction of local supplies
-        demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
+        # Deliver SWP/CVP supplies
+        self.deliverSwpCvpSupplies(demandsToBeMetBySWPCVP_Contractor)
+        
+        # Check if there is remaining demand to be met by stored supplies, or calculate excess SWP/CVP supply
+        self.checkIfThereIsExcessSupplyOrRemainingDemand(demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor)
 
-        # Calculate Demand to be Met by Stored supplies after delivery of SWP/CVP supplies, or calculate Excess SWP/CVP Supply.
-        self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
-        if demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor > 0:
-            demandsToBeMetByStorage_Contractor.append(demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
-            self.excessSupply_Contractor.append(0)
-        else:
-            self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - demandsToBeMetBySWPCVP_Contractor[self.i]))
-            demandsToBeMetByStorage_Contractor.append(0)
+        #### If excess supply switch includes storage operations, put excess into or take from storage to meet demands:
+        self.putOrTakeFromStorage(storageInputAssumptions_Contractor, demandsToBeMetByStorage_Contractor, excessSupplySwitch_Contractor)
 
-        excessSupplyToStorageSwitches = ["Put into Carryover and Groundwater Bank", "Put into Groundwater Bank", "Put into Carryover Storage"]
-
-        #### Put excess into or take from storage to meet demands:
-        self.putOrTakeFromStorage(storageInputAssumptions_Contractor, excessSupplyToStorageSwitches, demandsToBeMetByStorage_Contractor, excessSupplySwitch_Contractor)
-
-    ## If there is remaining demand and storage is below user-defined threshold, implement contingency conservation and water market transfers assumptions:
-        self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
+    ## If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
         contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         self.shortageThresholdForWaterMarketTransfers_Contractor = self.inputData.shortageThresholdForWaterMarketTransfers.loc[self.contractor][self.inputData.futureYear] / 100
         
@@ -335,6 +324,8 @@ class ModelLogic:
             self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i])
             
     def implementContingencyConservation(self):
+        self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
+        
         self.contingentConservationUseReductionVolume_Contractor.append(self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i])
         self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor[self.i])
 
@@ -396,6 +387,31 @@ class ModelLogic:
                 * math.exp((math.log((self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contractor]))) / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor]))/(self.inputData.elasticityOfDemand.loc[self.contractor] + 1)
         else:
             ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor]))/(self.inputData.elasticityOfDemand.loc[self.contractor] + 1)) - ((self.inputData.elasticityOfDemand.loc[self.contractor] * (self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)*math.exp((math.log((self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)/self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
+    
+    
+    
+    
+    
+    def deliverLocalSuppliesAndImplementPlannedConservation(self, demandsToBeMetBySWPCVP_Contractor):
+        self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
+        self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor))
+        demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
+    
+    
+    def deliverSwpCvpSupplies(self, demandsToBeMetBySWPCVP_Contractor):
+        self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
+        self.remainingDemandAfterDeliveryOfSwpCVPSupplies = demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor
+        
+    def checkIfThereIsExcessSupplyOrRemainingDemand(self, demandsToBeMetBySWPCVP_Contractor, demandsToBeMetByStorage_Contractor):
+        if self.remainingDemandAfterDeliveryOfSwpCVPSupplies > 0:
+            demandsToBeMetByStorage_Contractor.append(self.remainingDemandAfterDeliveryOfSwpCVPSupplies)
+            self.excessSupply_Contractor.append(0)
+        else:
+            self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - demandsToBeMetBySWPCVP_Contractor[self.i]))
+            demandsToBeMetByStorage_Contractor.append(0)
+    
+    
+    
         
     # TODO: Move to storage utilities file
     def doNotImplementStorageOperations(self):
@@ -444,7 +460,10 @@ class ModelLogic:
         self.demandsToBeMetByContingentOptions_Contractor.append(takesFromStorage_Contractor['demandsToBeMetByContingentOptions_Contractor'])
         
         
-    def putOrTakeFromStorage(self, storageInputAssumptions_Contractor, excessSupplyToStorageSwitches, demandsToBeMetByStorage_Contractor, excessSupplySwitch_Contractor):
+    def putOrTakeFromStorage(self, storageInputAssumptions_Contractor, demandsToBeMetByStorage_Contractor, excessSupplySwitch_Contractor):
+        excessSupplyToStorageSwitches = ["Put into Carryover and Groundwater Bank", "Put into Groundwater Bank", "Put into Carryover Storage"]
+        
+        
         if (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[0]) or (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[1]) or (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[2]):
             self.implementStorageOperations(excessSupplySwitch_Contractor, demandsToBeMetByStorage_Contractor, storageInputAssumptions_Contractor)
         
