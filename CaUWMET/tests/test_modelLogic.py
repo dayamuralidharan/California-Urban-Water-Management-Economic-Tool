@@ -19,10 +19,10 @@ class ContingentConservationImplementationTests(unittest.TestCase): #this class 
         #self.assertEqual(self.modelLogic.inputData.totalDemands['Metropolitan Water District of Southern California'][0], 1000000)
         
         # Test remaining demands are as expected after each supply source is delivered/demand reduction is implemented
-        self.assertEqual(self.modelLogic.appliedDemands['Metropolitan Water District of Southern California'][0], 999995)
-        self.assertEqual(self.modelLogic.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964995)
-        self.assertEqual(self.modelLogic.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0], 959995)
-        self.assertEqual(self.modelLogic.demandsToBeMetByContingentOptions['Metropolitan Water District of Southern California'][0], 348495)
+        self.assertEqual(self.modelLogic.outputHandler.appliedDemands['Metropolitan Water District of Southern California'][0], 999995)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964995)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0], 959995)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByContingentOptions['Metropolitan Water District of Southern California'][0], 348495)
         
         
         

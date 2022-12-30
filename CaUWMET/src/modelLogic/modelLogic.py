@@ -2,7 +2,7 @@ import pandas as pd
 import math
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
-
+from src.modelLogic.outputHandler import OutputHandler
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 
@@ -16,13 +16,13 @@ class ModelLogic:
         self.storageUtilities = storageUtilities
         
         # Initialize output time series dataframes to include columns as contractors and rows as historical hydrologic reference years.
-        self.initializeModelOutputVariables()
+        self.outputHandler = OutputHandler(inputData)
 
     def executeModelLogic(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         for self.contractor in self.inputData.contractorsList:
             self.executeModelLogicForContractor()
-        self.saveToOutputDataframes()
+        self.outputHandler.saveToOutputDataframes()
         
     def executeModelLogicForContractor(self):
         #print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
@@ -61,69 +61,26 @@ class ModelLogic:
 
     def writeToOutputDictionaries(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
-        self.appliedDemands[self.contractor] = self.appliedDemand_Contractor
-        self.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
-        self.demandsToBeMetByStorage[self.contractor] = self.demandsToBeMetByStorage_Contractor
-        self.excessSupply[self.contractor] = self.excessSupply_Contractor
-        
-        self.volumeSurfaceCarryover[self.contractor] = self.volumeSurfaceCarryover_Contractor
-        self.volumeGroundwaterBank[self.contractor] = self.volumeGroundwaterBank_Contractor
-        self.availableCapacitySurface[self.contractor] = self.availableCapacitySurface_Contractor
-        self.availableGroundwaterCapacity[self.contractor] = self.availableGroundwaterCapacity_Contractor
-        self.putGroundwater[self.contractor] = self.putGroundwater_Contractor
-        self.putSurface[self.contractor] = self.putSurface_Contractor
-        self.takeSurface[self.contractor] = self.takeSurface_Contractor
-        self.takeGroundwater[self.contractor] = self.takeGroundwater_Contractor
-        # pctCapacitySurfaceCarryover[contractor] = pctCapacitySurfaceCarryover_Contractor
-        # pctStorageCalledSurfaceCarryover[contractor] = pctStorageCalledSurfaceCarryover_Contractor
-        # pctCapacityGroundwaterBank[contractor] = pctCapacityGroundwaterBank_Contractor
-        # pctStorageCalledGroundwaterBank[contractor] = pctStorageCalledGroundwaterBank_Contractor
-        
-        self.demandsToBeMetByContingentOptions[self.contractor] = self.demandsToBeMetByContingentOptions_Contractor
-        self.contingentConservationReductionVolume[self.contractor] = self.contingentConservationUseReductionVolume_Contractor
-        self.waterMarketTransferDeliveries[self.contractor] = self.waterMarketTransferDeliveries_Contractor
-        self.totalShortage[self.contractor] = self.totalShortage_Contractor
+        self.outputHandler.appliedDemands[self.contractor] = self.appliedDemand_Contractor
+        self.outputHandler.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
+        self.outputHandler.demandsToBeMetByStorage[self.contractor] = self.demandsToBeMetByStorage_Contractor
+        self.outputHandler.excessSupply[self.contractor] = self.excessSupply_Contractor
+        self.outputHandler.volumeSurfaceCarryover[self.contractor] = self.volumeSurfaceCarryover_Contractor
+        self.outputHandler.volumeGroundwaterBank[self.contractor] = self.volumeGroundwaterBank_Contractor
+        self.outputHandler.availableCapacitySurface[self.contractor] = self.availableCapacitySurface_Contractor
+        self.outputHandler.availableGroundwaterCapacity[self.contractor] = self.availableGroundwaterCapacity_Contractor
+        self.outputHandler.putGroundwater[self.contractor] = self.putGroundwater_Contractor
+        self.outputHandler.putSurface[self.contractor] = self.putSurface_Contractor
+        self.outputHandler.takeSurface[self.contractor] = self.takeSurface_Contractor
+        self.outputHandler.takeGroundwater[self.contractor] = self.takeGroundwater_Contractor
+        self.outputHandler.demandsToBeMetByContingentOptions[self.contractor] = self.demandsToBeMetByContingentOptions_Contractor
+        self.outputHandler.contingentConservationReductionVolume[self.contractor] = self.contingentConservationUseReductionVolume_Contractor
+        self.outputHandler.waterMarketTransferDeliveries[self.contractor] = self.waterMarketTransferDeliveries_Contractor
+        self.outputHandler.totalShortage[self.contractor] = self.totalShortage_Contractor
         
         # Cost variables
-        self.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
-        self.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
-
-    def saveToOutputDataframes(self):
-        self.appliedDemands = pd.DataFrame(self.appliedDemands)
-        self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
-        
-        self.excessSupply = pd.DataFrame(self.excessSupply)
-        self.demandsToBeMetByStorage = pd.DataFrame(self.demandsToBeMetByStorage)
-        self.volumeSurfaceCarryover = pd.DataFrame(self.volumeSurfaceCarryover)
-        self.volumeGroundwaterBank = pd.DataFrame(self.volumeGroundwaterBank)
-        self.availableCapacitySurface = pd.DataFrame(self.availableCapacitySurface)
-        self.availableGroundwaterCapacity = pd.DataFrame(self.availableGroundwaterCapacity)
-        self.putGroundwater = pd.DataFrame(self.putGroundwater)
-        self.putSurface = pd.DataFrame(self.putSurface)
-        self.takeSurface= pd.DataFrame(self.takeSurface)
-        self.takeGroundwater = pd.DataFrame(self.takeGroundwater)
-        self.putGroundwaterBankCost = pd.DataFrame(self.putGroundwaterBankCost)
-        self.takeGroundwaterBankCost = pd.DataFrame(self.takeGroundwaterBankCost)
-
-        self.demandsToBeMetByContingentOptions = pd.DataFrame(self.demandsToBeMetByContingentOptions)
-        self.contingentConservationReductionVolume = pd.DataFrame(self.contingentConservationReductionVolume)
-        self.waterMarketTransferDeliveries = pd.DataFrame(self.waterMarketTransferDeliveries)
-        self.totalShortage = pd.DataFrame(self.totalShortage)
-        # self.appliedDemands.to_excel(self.writer, sheet_name = 'appliedDemands')
-        # self.demandsToBeMetBySWPCVP.to_excel(self.writer, sheet_name = 'demandsToBeMetBySWPCVP')
-        # self.demandsToBeMetByStorage.to_excel(self.writer, sheet_name = 'demandsToBeMetByStorage')
-        # self.volumeSurfaceCarryover.to_excel(self.writer, sheet_name = 'volumeSurfaceCarryover')
-        # self.volumeGroundwaterBank.to_excel(self.writer, sheet_name = 'volumeGroundwaterBank')
-        # self.availableCapacitySurface.to_excel(self.writer, sheet_name = 'availableCapacitySurface')
-        # self.availableGroundwaterCapacity.to_excel(self.writer, sheet_name = 'availableGroundwaterCapacity')
-        # self.putGroundwater.to_excel(self.writer, sheet_name = 'putGroundwater')
-        # self.putSurface.to_excel(self.writer, sheet_name = 'putSurface')
-        # self.takeGroundwater.to_excel(self.writer, sheet_name = 'takeGroundwater')
-        # self.takeSurface.to_excel(self.writer, sheet_name = 'takeSurface')
-
-        # workbook = self.writer.book
-        # #demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentWMOs')
-        # self.writer.save()
+        self.outputHandler.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
+        self.outputHandler.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
     
     def implementContingencyWMOsIfNeeded(self):
         contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
@@ -450,34 +407,3 @@ class ModelLogic:
         
         self.reliabilityManagementCost_Contractor = []
         
-    def initializeModelOutputVariables(self):
-        self.appliedDemands = {'Year': self.inputData.historicHydrologyYears} 
-        self.demandsToBeMetBySWPCVP = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByBankedGW = {'Year': self.inputData.historicHydrologyYears}
-        self.excessSupply = {'Year': self.inputData.historicHydrologyYears}
-        self.groundwaterPumpingReduction = {'Year': self.inputData.historicHydrologyYears}
-
-        # Surface carryover and banked groundwater storage dataframes
-        self.volumeSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
-        self.volumeGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
-        self.availableCapacitySurface = {'Year': self.inputData.historicHydrologyYears}
-        self.availableGroundwaterCapacity = {'Year': self.inputData.historicHydrologyYears}
-        self.putGroundwater = {'Year': self.inputData.historicHydrologyYears}
-        self.putSurface = {'Year': self.inputData.historicHydrologyYears}
-        self.takeSurface = {'Year': self.inputData.historicHydrologyYears}
-        self.takeGroundwater = {'Year': self.inputData.historicHydrologyYears}
-        self.putGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
-        self.takeGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
-
-        # Hedging strategy dataframes
-        self.pctCapacitySurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
-        self.pctStorageCalledSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
-        self.pctCapacityGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
-        self.pctStorageCalledGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
-
-        # Contingent WMOs dataframes
-        self.demandsToBeMetByContingentOptions = {'Year': self.inputData.historicHydrologyYears}
-        self.contingentConservationReductionVolume = {'Year': self.inputData.historicHydrologyYears}
-        self.waterMarketTransferDeliveries = {'Year': self.inputData.historicHydrologyYears}
-        self.totalShortage = {'Year': self.inputData.historicHydrologyYears}
