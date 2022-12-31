@@ -3,6 +3,8 @@ import math
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler
+from src.modelLogic.contingencyWMOs.contingencyWMOsHandler import ContingencyWMOs
+from src.modelLogic.contingencyWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 
@@ -14,7 +16,7 @@ class ModelLogic:
         #TODO replace incremental volume with optimization algroithm variable
         self.longtermWMOConservationIncrementalVolume_Contractor = 0
         self.storageUtilities = storageUtilities
-        
+        self.contingencyWMOs = ContingencyWMOs(inputData)
         # Initialize output time series dataframes to include columns as contractors and rows as historical hydrologic reference years.
         self.outputHandler = OutputHandler(inputData)
 
@@ -54,7 +56,8 @@ class ModelLogic:
         self.putOrTakeFromStorage(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
 
     ## If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
-        self.implementContingencyWMOsIfNeeded()
+        contingencyWMOsInput = ContingencyWMOsHandlerInput(self.contractor, self.i, self.plannedLongTermConservation_Contractor, self.totalDemand_Contractor, self.longtermWMOConservationIncrementalVolume_Contractor, self.demandsToBeMetByContingentOptions_Contractor, self.appliedDemand_Contractor, self.volumeSurfaceCarryover_Contractor, self.volumeGroundwaterBank_Contractor)
+        self.contingencyWMOs.implementContingencyWMOsIfNeeded(contingencyWMOsInput)
     
     #### Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
@@ -74,115 +77,13 @@ class ModelLogic:
         self.outputHandler.takeSurface[self.contractor] = self.takeSurface_Contractor
         self.outputHandler.takeGroundwater[self.contractor] = self.takeGroundwater_Contractor
         self.outputHandler.demandsToBeMetByContingentOptions[self.contractor] = self.demandsToBeMetByContingentOptions_Contractor
-        self.outputHandler.contingentConservationReductionVolume[self.contractor] = self.contingentConservationUseReductionVolume_Contractor
-        self.outputHandler.waterMarketTransferDeliveries[self.contractor] = self.waterMarketTransferDeliveries_Contractor
-        self.outputHandler.totalShortage[self.contractor] = self.totalShortage_Contractor
+        self.outputHandler.contingentConservationReductionVolume[self.contractor] = self.contingencyWMOs.contingentConservationUseReductionVolume_Contractor
+        self.outputHandler.waterMarketTransferDeliveries[self.contractor] = self.contingencyWMOs.waterMarketTransferDeliveries_Contractor
+        self.outputHandler.totalShortage[self.contractor] = self.contingencyWMOs.totalShortage_Contractor
         
         # Cost variables
         self.outputHandler.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
         self.outputHandler.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
-    
-    def implementContingencyWMOsIfNeeded(self):
-        contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
-        self.shortageThresholdForWaterMarketTransfers_Contractor = self.inputData.shortageThresholdForWaterMarketTransfers.loc[self.contractor][self.inputData.futureYear] / 100
-        
-        if self.demandsToBeMetByContingentOptions_Contractor[self.i] > 0.0 or (self.volumeSurfaceCarryover_Contractor[self.i] + self.volumeGroundwaterBank_Contractor[self.i]) < contingentConservationStorageTrigger_Contractor:
-            self.implementContingencyWMOs()
-        else:
-            self.doNotImplementContingencyWMOs()
-    
-    
-    def implementContingencyWMOs(self):
-        self.implementContingencyConservation()
-        self.deliverWaterMarketTransfers()
-        
-        # Implement Rationing Program and calculate Loss Function
-        self.calculateShortageByUseType()
-        self.calculateEconomicLossByUseType()
-            
-            
-    def doNotImplementContingencyWMOs(self):
-        self.contingentConservationUseReductionVolume_Contractor.append(0)
-        self.waterMarketTransferDeliveries_Contractor.append(0)
-        self.totalShortage_Contractor.append(0)
-        
-    def deliverWaterMarketTransfers(self):
-        self.shortagePortionOfTotalAppliedDemand = self.demandsToBeMetByContingentOptions_Contractor[self.i] / self.appliedDemand_Contractor[self.i]
-        
-        ## Deliver Water Market Transfer supplies if shortage portion is above user-indicated threshold
-        if  self.shortagePortionOfTotalAppliedDemand > self.shortageThresholdForWaterMarketTransfers_Contractor:
-            self.waterMarketTransferDeliveries_Contractor.append(min(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i], self.inputData.transferLimit[self.contractor][self.i]))
-            self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i] - self.waterMarketTransferDeliveries_Contractor[self.i]))
-        else:
-            self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.i])
-            
-    def implementContingencyConservation(self):
-        self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
-        
-        self.contingentConservationUseReductionVolume_Contractor.append(self.contingentConservationUseReduction_Contractor * self.appliedDemand_Contractor[self.i])
-        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.demandsToBeMetByContingentOptions_Contractor[self.i] - self.contingentConservationUseReductionVolume_Contractor[self.i])
-
-    def calculateShortageByUseType(self):
-        # Calculate demand hardening adjustment factor and adjusted shortage
-        self.demandHardeningFactor_Contractor = int(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]) / int(100)
-        self.baseConservationAsPercentOfDemand = self.plannedLongTermConservation_Contractor / self.totalDemand_Contractor[self.i]
-        self.longTermWMOConservationAsPercentOfDemand = self.longtermWMOConservationIncrementalVolume_Contractor / self.totalDemand_Contractor[self.i]
-        self.demandHardeningAdjustmentFactor_Contractor = 1 + ((((1 + self.baseConservationAsPercentOfDemand) * (1 + self.longTermWMOConservationAsPercentOfDemand)) -1) * self.demandHardeningFactor_Contractor)
-        self.adjustedShortage_Contractor = self.totalShortage_Contractor[self.i] * self.demandHardeningAdjustmentFactor_Contractor
-        
-        # Calculate shortage portion by type
-        self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily.loc[self.contractor] * self.inputData.singleFamilyUsePortion.loc[self.contractor] 
-                                                                              + self.inputData.cutRatio_multiFamily.loc[self.contractor] * self.inputData.multiFamilyUsePortion.loc[self.contractor] 
-                                                                              + self.inputData.cutRatio_industrial.loc[self.contractor] * self.inputData.industrialUsePortion.loc[self.contractor] 
-                                                                              + self.inputData.cutRatio_commercial.loc[self.contractor] * self.inputData.commAndGovUsePortion.loc[self.contractor] 
-                                                                              + self.inputData.cutRatio_landscape.loc[self.contractor] * self.inputData.landscapeUsePortion.loc[self.contractor]
-                                                                                )
-        self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_multiFamily.loc[self.contractor]
-        self.industrialShortagePortionOfIndustrialUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_industrial.loc[self.contractor]
-        self.commercialShortagePortionOfCommerciallUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_commercial.loc[self.contractor]
-        self.landscapeShortagePortionOfLandscapeUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_landscape.loc[self.contractor]
-        
-        # Calculate shortage by type
-        self.singleFamilyShortage_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.adjustedShortage_Contractor
-        self.multiamilyShortage_Contractor = self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor * self.adjustedShortage_Contractor
-        self.industrialShortage_Contractor = self.industrialShortagePortionOfIndustrialUse_Contractor * self.adjustedShortage_Contractor
-        self.commercialShortage_Contractor = self.commercialShortagePortionOfCommerciallUse_Contractor * self.adjustedShortage_Contractor
-        self.landscapeShortage_Contractor = self.landscapeShortagePortionOfLandscapeUse_Contractor * self.adjustedShortage_Contractor
-        #TODO add test to confirm total shortage of each use type = adjusted shortage
-    
-    def calculateEconomicLossByUseType(self):
-        self.singleFamilyUse_Contractor = self.inputData.singleFamilyUsePortion * self.appliedDemand_Contractor[self.i]
-        self.multiFamilyUse_Contractor = self.inputData.multiFamilyUsePortion * self.appliedDemand_Contractor[self.i]
-        self.industrialUse_Contractor = self.inputData.industrialUsePortion * self.appliedDemand_Contractor[self.i]
-        self.commercialUse_Contractor = self.inputData.commAndGovUsePortion * self.appliedDemand_Contractor[self.i]
-        self.landscapeUse_Contractor = self.inputData.landscapeUsePortion * self.appliedDemand_Contractor[self.i]
-        
-        ##TODO elasticity should be by use type specifically?
-        self.coefficient_SF = self.singleFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
-        self.coefficient_MF = self.multiFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
-        self.coefficient_IND = self.industrialUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
-        self.coefficient_COM = self.commercialUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
-        self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.contractor]))
-        
-        if self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor <= self.inputData.lowerLossBoundary.loc[self.contractor]:
-            self.singleFamilyEconomicLoss_Contractor = ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
-            - ((self.inputData.elasticityOfDemand.loc[self.contractor] 
-                * (self.singleFamilyUse_Contractor 
-                   * (1 - self.inputData.lowerLossBoundary.loc[self.contractor]) 
-                   * math.exp((math.log(self.singleFamilyUse_Contractor * (1 - self.inputData.lowerLossBoundary.loc[self.contractor]) 
-                                        / self.coefficient_SF) 
-                               / self.inputData.elasticityOfDemand.loc[self.contractor])) 
-                   / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))))
-        elif self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor >= self.inputData.upperLossBoundary.loc[self.contractor]:
-            ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor 
-              * math.exp((math.log(self.singleFamilyUse_Contractor  / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
-            - ((self.inputData.elasticityOfDemand.loc[self.contractor] * (self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contractor])) 
-                * math.exp((math.log((self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contractor]))) / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor]))/(self.inputData.elasticityOfDemand.loc[self.contractor] + 1)
-        else:
-            ((self.inputData.elasticityOfDemand.loc[self.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor]))/(self.inputData.elasticityOfDemand.loc[self.contractor] + 1)) - ((self.inputData.elasticityOfDemand.loc[self.contractor] * (self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)*math.exp((math.log((self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)/self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.contractor])) / (self.inputData.elasticityOfDemand.loc[self.contractor] + 1))
-    
-    
-    
     
     
     def deliverLocalSuppliesAndImplementPlannedConservation(self):
@@ -277,7 +178,7 @@ class ModelLogic:
                                                         + self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i]
                                                         + self.takeGroundwater_Contractor[self.i]
                                                         + self.takeSurface_Contractor[self.i]
-                                                        + self.waterMarketTransferDeliveries_Contractor[self.i])
+                                                        + self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i])
         
         self.groundwaterBankPutUnitCost_Contractor = self.inputData.groundwaterBankPutUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.groundwaterBankTakeUnitCost_Contractor = self.inputData.groundwaterBankTakeUnitCost.loc[self.contractor][self.inputData.futureYear]
@@ -308,9 +209,9 @@ class ModelLogic:
         self.distributionCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.distributionUnitCost_Contractor)
         self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.distributionUnitCost_Contractor)
         
-        self.waterMarketTransferCost_Contractor.append(self.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketTransferUnitCost_Contractor)
+        self.waterMarketTransferCost_Contractor.append(self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketTransferUnitCost_Contractor)
         
-        if self.contingentConservationUseReductionVolume_Contractor[self.i] > 0:
+        if self.contingencyWMOs.contingentConservationUseReductionVolume_Contractor[self.i] > 0:
             self.contingentConservationCost_Contractor.append(self.contingentConservationUnitCost_Contractor * self.urbanPopulation_Contractor)
         else:
             self.contingentConservationCost_Contractor.append(0)
@@ -377,10 +278,6 @@ class ModelLogic:
         self.takeGroundwater_Contractor = []
         
         self.demandsToBeMetByContingentOptions_Contractor = []
-        self.contingentConservationUseReductionVolume_Contractor = []
-        self.demandsToBeMetByWaterMarketTransfers_Contractor = []
-        self.waterMarketTransferDeliveries_Contractor = []
-        self.totalShortage_Contractor = []
         
         self.totalSuppliesDelivered_Contractor = []
         
