@@ -1,5 +1,4 @@
 import pandas as pd
-import math
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler

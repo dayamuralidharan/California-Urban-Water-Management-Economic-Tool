@@ -34,6 +34,12 @@ class ContingencyWMOs:
         self.waterMarketTransferDeliveries_Contractor.append(0)
         self.totalShortage_Contractor.append(0)
         
+    def implementContingencyConservation(self):
+        self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.input.contractor][self.inputData.futureYear].values[0]
+        
+        self.contingentConservationUseReductionVolume_Contractor.append((self.contingentConservationUseReduction_Contractor/100) * self.input.appliedDemand_Contractor[self.input.i])
+        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.input.demandsToBeMetByContingentOptions_Contractor[self.input.i] - self.contingentConservationUseReductionVolume_Contractor[self.input.i])
+    
     def deliverWaterMarketTransfers(self):
         self.shortagePortionOfTotalAppliedDemand = self.input.demandsToBeMetByContingentOptions_Contractor[self.input.i] / self.input.appliedDemand_Contractor[self.input.i]
         
@@ -44,12 +50,7 @@ class ContingencyWMOs:
         else:
             self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.input.i])
             
-    def implementContingencyConservation(self):
-        self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.input.contractor][self.inputData.futureYear].values[0]
-        
-        self.contingentConservationUseReductionVolume_Contractor.append(self.contingentConservationUseReduction_Contractor * self.input.appliedDemand_Contractor[self.input.i])
-        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.input.demandsToBeMetByContingentOptions_Contractor[self.input.i] - self.contingentConservationUseReductionVolume_Contractor[self.input.i])
-
+    
     def calculateShortageByUseType(self):
         # Calculate demand hardening adjustment factor and adjusted shortage
         self.demandHardeningFactor_Contractor = int(self.inputData.demandHardeningFactor.loc[self.input.contractor][self.inputData.futureYear]) / int(100)
