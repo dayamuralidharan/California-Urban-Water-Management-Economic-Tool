@@ -58,14 +58,18 @@ class InputData:
         self.cutRatio_singleFamily = self.contingentWMOsAssumptions.cutRatio_singleFamily
         self.cutRatio_multiFamily = self.contingentWMOsAssumptions.cutRatio_multiFamily
         self.cutRatio_industrial = self.contingentWMOsAssumptions.cutRatio_industrial
-        self.cutRatio_commercial = self.contingentWMOsAssumptions.cutRatio_commercial
+        self.cutRatio_commercial = self.contingentWMOsAssumptions.cutRatio_commAndGov
         self.cutRatio_landscape = self.contingentWMOsAssumptions.cutRatio_landscape
         
         self.storageVolumeTriggerForRationingProgram = self.contingentWMOsAssumptions.storageVolumeTriggerForRationingProgram
         self.lowerLossBoundary = self.contingentWMOsAssumptions.lowerLossBoundary
         self.upperLossBoundary = self.contingentWMOsAssumptions.upperLossBoundary
-        self.elasticityOfDemand = self.contingentWMOsAssumptions.elasticityOfDemand
-        self.consecutiveYearLossAdjustment = self.contingentWMOsAssumptions.consecutiveYearLossAdjustment
+        self.elasticityOfDemand_singleFamily = self.contingentWMOsAssumptions.elasticityOfDemand_singleFamily
+        self.elasticityOfDemand_multiFamily = self.contingentWMOsAssumptions.elasticityOfDemand_multiFamily
+        self.elasticityOfDemand_indsutrial = self.contingentWMOsAssumptions.elasticityOfDemand_industrial
+        self.elasticityOfDemand_commAndGov = self.contingentWMOsAssumptions.elasticityOfDemand_commAndGov
+        self.elasticityOfDemand_landscape = self.contingentWMOsAssumptions.elasticityOfDemand_landscape
+        
         self.retailPrice = self.contingentWMOsAssumptions.retailPrice
 
     

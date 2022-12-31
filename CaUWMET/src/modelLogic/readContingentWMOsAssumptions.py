@@ -95,16 +95,19 @@ class ContingentWMOsAssumptions:
         # Definition of Rationing Program and Loss Function variables
         self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][globalAssumptions.futureYear]
         self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][globalAssumptions.futureYear]
-        self.consecutiveYearLossAdjustment = rationingProgramInputData[rationingProgramInputData['Variable'] == "Consecutive Year Loss Adjustment (%)"][globalAssumptions.futureYear]
         self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"] #TODO get just for future year here
         self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"][globalAssumptions.futureYear]
 
         self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
         self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
         self.cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']['Cut Ratio']
-        self.cutRatio_commercial = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']['Cut Ratio']
+        self.cutRatio_commAndGov = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']['Cut Ratio']
         self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']['Cut Ratio']
 
-        self.elasticityOfDemand = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity']['Value']
+        self.elasticityOfDemand_singleFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Single Family Residential']['Value']
+        self.elasticityOfDemand_multiFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Multi-Family Residential']['Value']
+        self.elasticityOfDemand_industrial = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Industrial']['Value']
+        self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Commercial and Governmental']['Value']
+        self.elasticityOfDemand_landscape = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Landscape']['Value']
         self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']['Value']
         self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']['Value']

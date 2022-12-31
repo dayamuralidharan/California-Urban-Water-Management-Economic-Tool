@@ -83,29 +83,29 @@ class ContingencyWMOs:
         self.singleFamilyUse_Contractor = self.inputData.singleFamilyUsePortion * self.input.appliedDemand_Contractor[self.input.i]
         self.multiFamilyUse_Contractor = self.inputData.multiFamilyUsePortion * self.input.appliedDemand_Contractor[self.input.i]
         self.industrialUse_Contractor = self.inputData.industrialUsePortion * self.input.appliedDemand_Contractor[self.input.i]
-        self.commercialUse_Contractor = self.inputData.commAndGovUsePortion * self.input.appliedDemand_Contractor[self.input.i]
+        self.commAndGovUse_Contractor = self.inputData.commAndGovUsePortion * self.input.appliedDemand_Contractor[self.input.i]
         self.landscapeUse_Contractor = self.inputData.landscapeUsePortion * self.input.appliedDemand_Contractor[self.input.i]
         
         ##TODO elasticity should be by use type specifically?
-        self.coefficient_SF = self.singleFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.input.contractor]))
-        self.coefficient_MF = self.multiFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.input.contractor]))
-        self.coefficient_IND = self.industrialUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.input.contractor]))
-        self.coefficient_COM = self.commercialUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.input.contractor]))
-        self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand.loc[self.input.contractor]))
+        self.coefficient_SF = self.singleFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor]))
+        self.coefficient_MF = self.multiFamilyUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand_multiFamily.loc[self.input.contractor]))
+        self.coefficient_IND = self.industrialUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand_indsutrial.loc[self.input.contractor]))
+        self.coefficient_COM = self.commAndGovUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand_commAndGov.loc[self.input.contractor]))
+        self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.input.contractor]) ** float(self.inputData.elasticityOfDemand_landscape.loc[self.input.contractor]))
         
         if self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor <= self.inputData.lowerLossBoundary.loc[self.input.contractor]:
-            self.singleFamilyEconomicLoss_Contractor = ((self.inputData.elasticityOfDemand.loc[self.input.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.input.contractor])) / (self.inputData.elasticityOfDemand.loc[self.input.contractor] + 1))
-            - ((self.inputData.elasticityOfDemand.loc[self.input.contractor] 
+            self.singleFamilyEconomicLoss_Contractor = ((self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] + 1))
+            - ((self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] 
                 * (self.singleFamilyUse_Contractor 
                    * (1 - self.inputData.lowerLossBoundary.loc[self.input.contractor]) 
                    * math.exp((math.log(self.singleFamilyUse_Contractor * (1 - self.inputData.lowerLossBoundary.loc[self.input.contractor]) 
                                         / self.coefficient_SF) 
-                               / self.inputData.elasticityOfDemand.loc[self.input.contractor])) 
-                   / (self.inputData.elasticityOfDemand.loc[self.input.contractor] + 1))))
+                               / self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor])) 
+                   / (self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] + 1))))
         elif self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor >= self.inputData.upperLossBoundary.loc[self.input.contractor]:
-            ((self.inputData.elasticityOfDemand.loc[self.input.contractor] * self.singleFamilyUse_Contractor 
-              * math.exp((math.log(self.singleFamilyUse_Contractor  / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.input.contractor])) / (self.inputData.elasticityOfDemand.loc[self.input.contractor] + 1))
-            - ((self.inputData.elasticityOfDemand.loc[self.input.contractor] * (self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.input.contractor])) 
-                * math.exp((math.log((self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.input.contractor]))) / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.input.contractor]))/(self.inputData.elasticityOfDemand.loc[self.input.contractor] + 1)
+            ((self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] * self.singleFamilyUse_Contractor 
+              * math.exp((math.log(self.singleFamilyUse_Contractor  / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] + 1))
+            - ((self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] * (self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.input.contractor])) 
+                * math.exp((math.log((self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.input.contractor]))) / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor]))/(self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] + 1)
         else:
-            ((self.inputData.elasticityOfDemand.loc[self.input.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.input.contractor]))/(self.inputData.elasticityOfDemand.loc[self.input.contractor] + 1)) - ((self.inputData.elasticityOfDemand.loc[self.input.contractor] * (self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)*math.exp((math.log((self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)/self.coefficient_SF)) / self.inputData.elasticityOfDemand.loc[self.input.contractor])) / (self.inputData.elasticityOfDemand.loc[self.input.contractor] + 1))
+            ((self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor]))/(self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] + 1)) - ((self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] * (self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)*math.exp((math.log((self.singleFamilyUse_Contractor - self.singleFamilyShortage_Contractor)/self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.input.contractor] + 1))
