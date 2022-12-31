@@ -60,6 +60,13 @@ class InputData:
         self.cutRatio_industrial = self.contingentWMOsAssumptions.cutRatio_industrial
         self.cutRatio_commercial = self.contingentWMOsAssumptions.cutRatio_commercial
         self.cutRatio_landscape = self.contingentWMOsAssumptions.cutRatio_landscape
+        
+        self.storageVolumeTriggerForRationingProgram = self.contingentWMOsAssumptions.storageVolumeTriggerForRationingProgram
+        self.lowerLossBoundary = self.contingentWMOsAssumptions.lowerLossBoundary
+        self.upperLossBoundary = self.contingentWMOsAssumptions.upperLossBoundary
+        self.elasticityOfDemand = self.contingentWMOsAssumptions.elasticityOfDemand
+        self.consecutiveYearLossAdjustment = self.contingentWMOsAssumptions.consecutiveYearLossAdjustment
+        self.retailPrice = self.contingentWMOsAssumptions.retailPrice
 
     
         #### Get Long-term WMOs Input Assumptions

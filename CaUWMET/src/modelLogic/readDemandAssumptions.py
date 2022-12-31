@@ -13,6 +13,9 @@ class DemandAssumptions:
         self.plannedLongTermConservation = pd.read_csv(inputPlannedConservationFile)
         ETAWAdjustments = pd.read_csv(inputETAWAdjustmentsFile).set_index('Year')
         useByTypeData = pd.read_csv(inputUseByTypeFile)
+        
+        demandsData.set_index('Contractor', inplace = True)
+        useByTypeData.set_index('Contractor', inplace = True)
 
         # Initialize variable as a time series
         self.totalDemands = {'Year': globalAssumptions.historicHydrologyYears}
@@ -23,8 +26,8 @@ class DemandAssumptions:
             #TODO remove lookup function, not needed.
             contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
             contractorYearType = globalAssumptions.reclassYearType[contractor]
-            totalDemandsInput = demandsData[demandsData['Contractor'] == contractor]
-            totalDemandsInput = totalDemandsInput[['Variable', 'Contractor', globalAssumptions.futureYear]]
+            totalDemandsInput = demandsData.loc[contractor]
+            totalDemandsInput = totalDemandsInput[['Variable', globalAssumptions.futureYear]]
             contractorDemands = []
             
             mapYearType = {
@@ -48,27 +51,21 @@ class DemandAssumptions:
         self.totalDemands = pd.DataFrame(self.totalDemands)
         
         # Set up Use by Type variables and Interior/Exterior Use by Type Variables
-        singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (acre-feet/year)']
-        multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (acre-feet/year)']
-        industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (acre-feet/year)']
-        commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (acre-feet/year)']
-        agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (acre-feet/year)']
-        landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (acre-feet/year)']
-        otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (acre-feet/year)']
+        singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (acre-feet/year)'][globalAssumptions.futureYear]
+        multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (acre-feet/year)'][globalAssumptions.futureYear]
+        industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (acre-feet/year)'][globalAssumptions.futureYear]
+        commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (acre-feet/year)'][globalAssumptions.futureYear]
+        agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (acre-feet/year)'][globalAssumptions.futureYear]
+        landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (acre-feet/year)'][globalAssumptions.futureYear]
+        otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (acre-feet/year)'][globalAssumptions.futureYear]
 
-        normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (acre-feet/year)']
+        normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (acre-feet/year)'][globalAssumptions.futureYear]
+        
 
-        singleFamilyUse.set_index('Contractor', inplace = True)
-        multiFamilyUse.set_index('Contractor', inplace = True)
-        industrialUse.set_index('Contractor', inplace = True)
-        commAndGovUse.set_index('Contractor', inplace = True)
-        agUse.set_index('Contractor', inplace = True)
-        landscapeUse.set_index('Contractor', inplace = True)
-        otherUse.set_index('Contractor', inplace = True)
-        normalYearDemands.set_index('Contractor', inplace = True)
-
-        self.singleFamilyUsePortion = singleFamilyUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
-        self.multiFamilyUsePortion = multiFamilyUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
-        self.industrialUsePortion = industrialUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
-        self.commAndGovUsePortion = commAndGovUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
-        self.landscapeUsePortion = landscapeUse[globalAssumptions.futureYear] / normalYearDemands[globalAssumptions.futureYear]
+        self.singleFamilyUsePortion = singleFamilyUse / normalYearDemands
+        self.multiFamilyUsePortion = multiFamilyUse / normalYearDemands
+        self.industrialUsePortion = industrialUse / normalYearDemands
+        self.commAndGovUsePortion = commAndGovUse / normalYearDemands
+        self.landscapeUsePortion = landscapeUse / normalYearDemands
+        
+        print(self.singleFamilyUsePortion)
