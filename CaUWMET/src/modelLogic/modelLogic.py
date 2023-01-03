@@ -63,7 +63,7 @@ class ModelLogic:
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
         
         self.economicLossByUseType = EconomicLossByUseType(self.inputData, self.contingencyWMOs.shortageByUseType, contingencyWMOsInput)
-        self.economicLossByUseType.calculateEconomicLossByUseType()
+        self.economicLossByUseType.calculateEconomicLossByUseType(self.contingencyWMOs.shortageByUseType.singleFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_singleFamily, self.economicLossByUseType.singleFamilyUse_Contractor, self.economicLossByUseType.coefficient_SF, self.economicLossByUseType.singleFamilyEconomicLoss_Contractor)
         
 
     def writeToOutputDictionaries(self):

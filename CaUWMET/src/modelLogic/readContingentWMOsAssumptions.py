@@ -109,5 +109,7 @@ class ContingentWMOsAssumptions:
         self.elasticityOfDemand_industrial = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Industrial']['Value']
         self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Commercial and Governmental']['Value']
         self.elasticityOfDemand_landscape = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Landscape']['Value']
+        
+        #TODO set up by use type
         self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']['Value']
         self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']['Value']

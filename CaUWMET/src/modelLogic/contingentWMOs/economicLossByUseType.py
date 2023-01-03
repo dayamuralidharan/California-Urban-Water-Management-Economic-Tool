@@ -20,26 +20,32 @@ class EconomicLossByUseType:
         self.coefficient_COM = self.commAndGovUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_commAndGov.loc[self.contingentWMOsinput.contractor]))
         self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_landscape.loc[self.contingentWMOsinput.contractor]))
       
-    def calculateEconomicLossByUseType(self):
-        if self.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor <= self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            self.singleFamilyEconomicLoss_Contractor = ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
-            - ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] 
-                * (self.singleFamilyUse_Contractor 
-                   * (1 - self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
-                   * math.exp((math.log(self.singleFamilyUse_Contractor * (1 - self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
-                                        / self.coefficient_SF) 
-                               / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) 
-                   / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))))
-        elif self.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor >= self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] * self.singleFamilyUse_Contractor 
-              * math.exp((math.log(self.singleFamilyUse_Contractor  / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
-            - ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] * (self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])) 
-                * math.exp((math.log((self.singleFamilyUse_Contractor * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))) / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor]))/(self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1)
+        self.singleFamilyEconomicLoss_Contractor = []
+        self.multiFamilyEconomicLoss_Contractor = []
+        self.industrialEconomicLoss_Contractor = []
+        self.commAndGovEconomicLoss_Contractor = []
+        self.landscapeEconomicLoss_Contractor = []
+      
+    def calculateEconomicLossByUseType(self, shortageByUseType, shortagePortionOfUse, lowerLossBoundary, elasticityOfDemand, volumeByUseType, coefficient, economicLossByUseType):
+        if shortagePortionOfUse <= lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
+            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * math.exp((math.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
+            - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] 
+                * (volumeByUseType 
+                   * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
+                   * math.exp((math.log(volumeByUseType * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
+                                        / coefficient) 
+                               / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) 
+                   / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))))
+        elif shortagePortionOfUse >= self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
+            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType 
+              * math.exp((math.log(volumeByUseType  / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
+            - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])) 
+                * math.exp((math.log((volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))) / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
         else:
-            ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor]))/(self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1)) - ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] * (self.singleFamilyUse_Contractor - self.shortageByUseType.singleFamilyShortage_Contractor)*math.exp((math.log((self.singleFamilyUse_Contractor - self.shortageByUseType.singleFamilyShortage_Contractor)/self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
+            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * math.exp((math.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)) - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType - shortageByUseType)*math.exp((math.log((volumeByUseType - shortageByUseType)/coefficient)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
         
         
-        
+        economicLossByUseType.append(economicLoss)
         
         # if self.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor <= self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
         #     self.singleFamilyEconomicLoss_Contractor = ((self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] * self.singleFamilyUse_Contractor * math.exp((math.log(self.singleFamilyUse_Contractor / self.coefficient_SF)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
