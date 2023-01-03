@@ -1,14 +1,15 @@
 import math
 from src.modelLogic.inputData import InputData
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
-from src.modelLogic.contingencyWMOs.shortageByUseType import ShortageByUseType
+from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
+from src.modelLogic.contingentWMOs.shortageByUseType import ShortageByUseType
 
-class ContingencyWMOs:
-    def __init__(self, inputData: InputData):
+class EconomicLossByUseType:
+    def __init__(self, inputData: InputData, shortageByUseType: ShortageByUseType):
         self.inputData = inputData
-        self.shortageByUseType = ShortageByUseType(self.inputData)
+        self.shortageByUseType = shortageByUseType
       
-    def calculateEconomicLossByUseType(self):
+    def calculateEconomicLossByUseType(self, input: ContingencyWMOsHandlerInput):
+        self.contingentWMOsinput = input
         self.singleFamilyUse_Contractor = self.inputData.singleFamilyUsePortion * self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i]
         self.multiFamilyUse_Contractor = self.inputData.multiFamilyUsePortion * self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i]
         self.industrialUse_Contractor = self.inputData.industrialUsePortion * self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i]

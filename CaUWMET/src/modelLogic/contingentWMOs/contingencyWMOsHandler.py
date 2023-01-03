@@ -1,12 +1,14 @@
 import math
 from src.modelLogic.inputData import InputData
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
-from src.modelLogic.contingencyWMOs.shortageByUseType import ShortageByUseType
+from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
+from src.modelLogic.contingentWMOs.shortageByUseType import ShortageByUseType
+from src.modelLogic.contingentWMOs.economicLossByUseType import EconomicLossByUseType
 
 class ContingencyWMOs:
     def __init__(self, inputData: InputData):
         self.inputData = inputData
         self.shortageByUseType = ShortageByUseType(self.inputData)
+        self.economicLossByUseType = EconomicLossByUseType(self.inputData, self.shortageByUseType)
         self.contingentConservationUseReductionVolume_Contractor = []
         self.waterMarketTransferDeliveries_Contractor = []
         self.totalShortage_Contractor = []
@@ -28,7 +30,7 @@ class ContingencyWMOs:
         
         # Implement Rationing Program and calculate Loss Function
         self.shortageByUseType.calculateShortageByUseType(self.contingentWMOsinput, self.totalShortage_Contractor)
-        self.calculateEconomicLossByUseType()
+        self.economicLossByUseType.calculateEconomicLossByUseType(self.contingentWMOsinput)
             
             
     def doNotImplementContingencyWMOs(self):

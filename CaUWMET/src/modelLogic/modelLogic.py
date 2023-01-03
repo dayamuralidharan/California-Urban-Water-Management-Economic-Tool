@@ -2,8 +2,8 @@ import pandas as pd
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandler import ContingencyWMOs
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
+from src.modelLogic.contingentWMOs.contingencyWMOsHandler import ContingencyWMOs
+from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 

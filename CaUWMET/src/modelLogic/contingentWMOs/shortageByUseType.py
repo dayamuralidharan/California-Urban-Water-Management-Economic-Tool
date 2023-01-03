@@ -1,5 +1,5 @@
 from src.modelLogic.inputData import InputData
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
+from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
 
 class ShortageByUseType:
     def __init__(self, inputData: InputData):
@@ -9,6 +9,7 @@ class ShortageByUseType:
         # Calculate demand hardening adjustment factor and adjusted shortage
         self.input = input
         self.totalShortage_Contractor = totalShortage_Contractor
+        
         self.demandHardeningFactor_Contractor = int(self.inputData.demandHardeningFactor.loc[self.input.contractor][self.inputData.futureYear]) / int(100)
         self.baseConservationAsPercentOfDemand = self.input.plannedLongTermConservation_Contractor / self.input.totalDemand_Contractor[self.input.i]
         self.longTermWMOConservationAsPercentOfDemand = self.input.longtermWMOConservationIncrementalVolume_Contractor / self.input.totalDemand_Contractor[self.input.i]
