@@ -2,8 +2,9 @@ import pandas as pd
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandler import ContingencyWMOs
-from src.modelLogic.contingencyWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
+from src.modelLogic.contingentWMOs.contingencyWMOsHandler import ContingencyWMOs
+from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
+from src.modelLogic.contingentWMOs.economicLossByUseType import EconomicLossByUseType
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 
@@ -51,15 +52,18 @@ class ModelLogic:
         # Check if there is remaining demand to be met by stored supplies, or calculate excess SWP/CVP supply
         self.checkIfThereIsExcessSupplyOrRemainingDemand()
 
-        #### If excess supply switch includes storage operations, put excess into or take from storage to meet demands:
+        # If excess supply switch includes storage operations, put excess into or take from storage to meet demands:
         self.putOrTakeFromStorage(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
 
-    ## If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
+        # If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
         contingencyWMOsInput = ContingencyWMOsHandlerInput(self.contractor, self.i, self.plannedLongTermConservation_Contractor, self.totalDemand_Contractor, self.longtermWMOConservationIncrementalVolume_Contractor, self.demandsToBeMetByContingentOptions_Contractor, self.appliedDemand_Contractor, self.volumeSurfaceCarryover_Contractor, self.volumeGroundwaterBank_Contractor)
         self.contingencyWMOs.implementContingencyWMOsIfNeeded(contingencyWMOsInput)
-    
-    #### Calculate Costs
+        
+        # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
+        
+        self.economicLossByUseType = EconomicLossByUseType(self.inputData, self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
+        self.economicLossByUseType.calculateTotalEconomicLoss()
 
     def writeToOutputDictionaries(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
