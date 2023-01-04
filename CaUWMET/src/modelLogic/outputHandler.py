@@ -35,6 +35,10 @@ class OutputHandler:
         self.waterMarketTransferDeliveries = {'Year': self.inputData.historicHydrologyYears}
         self.totalShortage = {'Year': self.inputData.historicHydrologyYears}
         
+        self.totalReliabilityMgmtCost = {'Year': self.inputData.historicHydrologyYears}
+        self.totalEconomicLoss = {'Year': self.inputData.historicHydrologyYears}
+        self.totalCost = {'Year': self.inputData.historicHydrologyYears}
+        
     def saveToOutputDataframes(self):
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
         self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
@@ -56,6 +60,16 @@ class OutputHandler:
         self.contingentConservationReductionVolume = pd.DataFrame(self.contingentConservationReductionVolume)
         self.waterMarketTransferDeliveries = pd.DataFrame(self.waterMarketTransferDeliveries)
         self.totalShortage = pd.DataFrame(self.totalShortage)
+        
+        self.totalReliabilityMgmtCost = pd.DataFrame(self.totalReliabilityMgmtCost)
+        self.totalEconomicLoss = pd.DataFrame(self.totalEconomicLoss)
+        #self.totalCost = pd.DataFrame(self.totalCost)
+        
+        
+        
+        
+        
+        
         # self.appliedDemands.to_excel(self.writer, sheet_name = 'appliedDemands')
         # self.demandsToBeMetBySWPCVP.to_excel(self.writer, sheet_name = 'demandsToBeMetBySWPCVP')
         # self.demandsToBeMetByStorage.to_excel(self.writer, sheet_name = 'demandsToBeMetByStorage')
