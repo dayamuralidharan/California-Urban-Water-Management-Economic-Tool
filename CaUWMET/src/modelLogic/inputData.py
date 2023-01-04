@@ -66,7 +66,7 @@ class InputData:
         self.upperLossBoundary = self.contingentWMOsAssumptions.upperLossBoundary
         self.elasticityOfDemand_singleFamily = self.contingentWMOsAssumptions.elasticityOfDemand_singleFamily
         self.elasticityOfDemand_multiFamily = self.contingentWMOsAssumptions.elasticityOfDemand_multiFamily
-        self.elasticityOfDemand_indsutrial = self.contingentWMOsAssumptions.elasticityOfDemand_industrial
+        self.elasticityOfDemand_industrial = self.contingentWMOsAssumptions.elasticityOfDemand_industrial
         self.elasticityOfDemand_commAndGov = self.contingentWMOsAssumptions.elasticityOfDemand_commAndGov
         self.elasticityOfDemand_landscape = self.contingentWMOsAssumptions.elasticityOfDemand_landscape
         

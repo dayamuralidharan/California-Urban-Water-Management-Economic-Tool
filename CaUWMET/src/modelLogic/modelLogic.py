@@ -62,9 +62,8 @@ class ModelLogic:
         # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
         
-        self.economicLossByUseType = EconomicLossByUseType(self.inputData, self.contingencyWMOs.shortageByUseType, contingencyWMOsInput)
-        self.economicLossByUseType.calculateEconomicLossByUseType(self.contingencyWMOs.shortageByUseType.singleFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_singleFamily, self.economicLossByUseType.singleFamilyUse_Contractor, self.economicLossByUseType.coefficient_SF, self.economicLossByUseType.singleFamilyEconomicLoss_Contractor)
-        
+        self.economicLossByUseType = EconomicLossByUseType(self.inputData, self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
+        self.economicLossByUseType.calculateTotalEconomicLoss()
 
     def writeToOutputDictionaries(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
