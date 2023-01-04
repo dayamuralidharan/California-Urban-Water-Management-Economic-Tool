@@ -8,7 +8,7 @@ class ContingencyWMOsHandlerInput:
             demandsToBeMetByContingentOptions_Contractor, 
             appliedDemand_Contractor,
             volumeSurfaceCarryover_Contractor,
-            volumeGroundwaterBank_Contractor
+            volumeGroundwaterBank_Contractor,
         ):
         self.contractor = contractor
         self.i = i

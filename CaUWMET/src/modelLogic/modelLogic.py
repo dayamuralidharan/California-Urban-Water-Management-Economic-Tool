@@ -25,8 +25,12 @@ class ModelLogic:
         for self.contractor in self.inputData.contractorsList:
             self.executeModelLogicForContractor()
         self.outputHandler.saveToOutputDataframes()
+        print(self.economicLossByUseType.totalEconomicLoss_Contractor)
+        #print(self.economicLossByUseType.totalEconomicLoss_Contractor)
+        print(self.appliedDemand_Contractor)
         
     def executeModelLogicForContractor(self):
+        self.economicLossByUseType = EconomicLossByUseType(self.inputData)
         #print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
         
         # Set up variables that will be used for calcs by contractor
@@ -62,8 +66,9 @@ class ModelLogic:
         # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
         
-        self.economicLossByUseType = EconomicLossByUseType(self.inputData, self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
-        self.economicLossByUseType.calculateTotalEconomicLoss()
+        
+        self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
+        
 
     def writeToOutputDictionaries(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
@@ -87,6 +92,10 @@ class ModelLogic:
         # Cost variables
         self.outputHandler.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
         self.outputHandler.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
+        
+        self.outputHandler.totalReliabilityMgmtCost[self.contractor] = self.reliabilityManagementCost_Contractor
+        self.outputHandler.totalEconomicLoss[self.contractor] = self.economicLossByUseType.totalEconomicLoss_Contractor
+        
     
     
     def deliverLocalSuppliesAndImplementPlannedConservation(self):
