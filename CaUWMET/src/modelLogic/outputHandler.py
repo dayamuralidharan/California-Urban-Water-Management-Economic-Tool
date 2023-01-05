@@ -37,7 +37,7 @@ class OutputHandler:
         
         self.totalReliabilityMgmtCost = {'Year': self.inputData.historicHydrologyYears}
         self.totalEconomicLoss = {'Year': self.inputData.historicHydrologyYears}
-        self.totalCost = {'Year': self.inputData.historicHydrologyYears}
+        self.totalAnnualCost = {'Year': self.inputData.historicHydrologyYears}
         
     def saveToOutputDataframes(self):
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
@@ -63,7 +63,7 @@ class OutputHandler:
         
         self.totalReliabilityMgmtCost = pd.DataFrame(self.totalReliabilityMgmtCost)
         self.totalEconomicLoss = pd.DataFrame(self.totalEconomicLoss)
-        #self.totalCost = pd.DataFrame(self.totalCost)
+        self.totalAnnualCost = pd.DataFrame(self.totalAnnualCost)
         
         
         

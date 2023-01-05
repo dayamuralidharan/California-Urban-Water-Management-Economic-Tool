@@ -25,9 +25,7 @@ class ModelLogic:
         for self.contractor in self.inputData.contractorsList:
             self.executeModelLogicForContractor()
         self.outputHandler.saveToOutputDataframes()
-        print(self.economicLossByUseType.totalEconomicLoss_Contractor)
-        #print(self.economicLossByUseType.totalEconomicLoss_Contractor)
-        print(self.appliedDemand_Contractor)
+        
         
     def executeModelLogicForContractor(self):
         self.economicLossByUseType = EconomicLossByUseType(self.inputData)
@@ -65,10 +63,8 @@ class ModelLogic:
         
         # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
-        
-        
         self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
-        
+        self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
 
     def writeToOutputDictionaries(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
@@ -95,6 +91,7 @@ class ModelLogic:
         
         self.outputHandler.totalReliabilityMgmtCost[self.contractor] = self.reliabilityManagementCost_Contractor
         self.outputHandler.totalEconomicLoss[self.contractor] = self.economicLossByUseType.totalEconomicLoss_Contractor
+        self.outputHandler.totalAnnualCost[self.contractor] = self.totalAnnualCost_Contractor
         
     
     
@@ -315,4 +312,5 @@ class ModelLogic:
         self.rationingProgramCost_Contractor = []
         
         self.reliabilityManagementCost_Contractor = []
+        self.totalAnnualCost_Contractor = []
         
