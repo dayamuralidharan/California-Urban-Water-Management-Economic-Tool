@@ -39,7 +39,9 @@ class OutputHandler:
         self.totalEconomicLoss = {'Year': self.inputData.historicHydrologyYears}
         self.totalAnnualCost = {'Year': self.inputData.historicHydrologyYears}
         
-    def saveToOutputDataframes(self):
+        self.averageTotalAnnualCost = {'Contractor': self.inputData.contractorsList}
+        
+    def writeToSystemwideOutputDataframes(self):
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
         self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
         
@@ -65,23 +67,4 @@ class OutputHandler:
         self.totalEconomicLoss = pd.DataFrame(self.totalEconomicLoss)
         self.totalAnnualCost = pd.DataFrame(self.totalAnnualCost)
         
-        
-        
-        
-        
-        
-        # self.appliedDemands.to_excel(self.writer, sheet_name = 'appliedDemands')
-        # self.demandsToBeMetBySWPCVP.to_excel(self.writer, sheet_name = 'demandsToBeMetBySWPCVP')
-        # self.demandsToBeMetByStorage.to_excel(self.writer, sheet_name = 'demandsToBeMetByStorage')
-        # self.volumeSurfaceCarryover.to_excel(self.writer, sheet_name = 'volumeSurfaceCarryover')
-        # self.volumeGroundwaterBank.to_excel(self.writer, sheet_name = 'volumeGroundwaterBank')
-        # self.availableCapacitySurface.to_excel(self.writer, sheet_name = 'availableCapacitySurface')
-        # self.availableGroundwaterCapacity.to_excel(self.writer, sheet_name = 'availableGroundwaterCapacity')
-        # self.putGroundwater.to_excel(self.writer, sheet_name = 'putGroundwater')
-        # self.putSurface.to_excel(self.writer, sheet_name = 'putSurface')
-        # self.takeGroundwater.to_excel(self.writer, sheet_name = 'takeGroundwater')
-        # self.takeSurface.to_excel(self.writer, sheet_name = 'takeSurface')
-
-        # workbook = self.writer.book
-        # #demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = 'demandsToBeMetByContingentWMOs')
-        # self.writer.save()
+        self.averageTotalAnnualCost = pd.DataFrame(self.averageTotalAnnualCost)

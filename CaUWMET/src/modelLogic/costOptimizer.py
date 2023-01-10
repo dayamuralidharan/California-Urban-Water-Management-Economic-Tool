@@ -7,12 +7,21 @@
 # Calculate global minimum on curve
 # Return supply volume increments that correspond to that global min
 
-
 class CostOptimizer:
     
     def __init__(self, modelLogic):
         self.modelLogic = modelLogic
+        self.minimumCost = 0
         
-    def optimize(self):
-        self.modelLogic.executeModelLogic()
-        return False
+        self.longtermWMOConservationIncrementalVolume_Contractor = 10
+        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10
+        
+    #def optimize(self):
+        #for volume in waterManagementVolumes:
+            #self.modelLogic.executeModelLogic(volume)

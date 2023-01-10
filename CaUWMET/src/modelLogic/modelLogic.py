@@ -11,25 +11,26 @@ from src.modelLogic.contingentWMOs.economicLossByUseType import EconomicLossByUs
 # Gets the system wide average annual cost
 class ModelLogic:
     def __init__(self, inputData: InputData, storageUtilities: StorageUtilities):
-        self.writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
-        
         self.inputData = inputData
-        #TODO replace incremental volume with optimization algroithm variable
-        self.longtermWMOConservationIncrementalVolume_Contractor = 0
         self.storageUtilities = storageUtilities
         self.contingencyWMOs = ContingencyWMOs(inputData)
-        # Initialize output time series dataframes to include columns as contractors and rows as historical hydrologic reference years.
         self.outputHandler = OutputHandler(inputData)
         
-    def getSystemWideAverageAnnualCost(self):
-        pass
+    def loopThroughWmoIncrementalVolumes(self):
+        self.numberOfLoops = 1 / self.inputData.wmoSupplyVolumeIncrement
+        
+        print(self.numberOfLoops)
 
     def executeModelLogic(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         for self.contractor in self.inputData.contractorsList:
             self.executeModelLogicForContractor()
-        self.outputHandler.saveToOutputDataframes()
+        self.outputHandler.writeToSystemwideOutputDataframes()
         
+        self.systemwideAverageAnnualCost = self.outputHandler.averageTotalAnnualCost.iloc[:].sum(axis=1)
+        self.systemwideAverageAnnualCost = self.systemwideAverageAnnualCost[0]
+        
+        self.loopThroughWmoIncrementalVolumes()
         
     def executeModelLogicForContractor(self):
         self.economicLossByUseType = EconomicLossByUseType(self.inputData)
@@ -39,18 +40,35 @@ class ModelLogic:
         #TODO move to initilizeVariablesForContractorLoop function
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
+        self.longtermWMOConservationIncrementalVolume_Contractor = 10
+        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10
+        self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
+                                                                + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor
+                                                                + self.longtermWMOConservationIncrementalVolume_Contractor
+                                                                + self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor
+                                                                + self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor
+                                                                + self.longtermWMODesalinationSupplyIncrementalVolume_Contractor
+                                                                + self.longtermWMORecycledSupplyIncrementalVolume_Contractor
+                                                                + self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor
+                                                                + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor)
         
-        
-        
-        # Loop through hydrologic reference period
+        # Iterate through the water balance and cost logic over hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
-            self.loopThroughHydrologicReferencePeriod(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-        self.writeToOutputDictionaries()
-        self.averageTotalAnnualCost_contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
-
+            self.waterBalanceAndCostLogic(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
+        self.writeToContractorOutputTimeSeriesDataframe()
+        
+        self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
+        self.outputHandler.averageTotalAnnualCost[self.contractor] = self.averageTotalAnnualCost_Contractor
+        
 
 #TODO Move to its own class        
-    def loopThroughHydrologicReferencePeriod(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
+    def waterBalanceAndCostLogic(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
         #### Deliver local and imported supplies, and implement base long-term conservation to meet demands:
         self.deliverLocalSuppliesAndImplementPlannedConservation()
 
@@ -72,7 +90,7 @@ class ModelLogic:
         self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
         self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
 
-    def writeToOutputDictionaries(self):
+    def writeToContractorOutputTimeSeriesDataframe(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
         self.outputHandler.appliedDemands[self.contractor] = self.appliedDemand_Contractor
         self.outputHandler.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
@@ -99,12 +117,13 @@ class ModelLogic:
         self.outputHandler.totalEconomicLoss[self.contractor] = self.economicLossByUseType.totalEconomicLoss_Contractor
         self.outputHandler.totalAnnualCost[self.contractor] = self.totalAnnualCost_Contractor
         
-    
-    
+        
+        
+        
     def deliverLocalSuppliesAndImplementPlannedConservation(self):
         self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor))
-        self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i]))
+        self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i] - self.totalLongtermWMOSupplyIncrementalVolume_Contractor))
     
     
     def deliverSwpCvpSupplies(self):
@@ -240,14 +259,14 @@ class ModelLogic:
         self.rationingProgramCost_Contractor.append(0)
         
         #TODO: incorporate supply volume into these calcs - replace the 1's 
-        self.surfaceLongTermWMOCost_Contractor.append(1 * longtermWMOSurfaceUnitCost_Contractor)
-        self.groundwaterLongTermWMOCost_Contractor.append(1 * longtermWMOGroundwaterUnitCost_Contractor)
-        self.desalinationLongTermWMOCost_Contractor.append(1 * longtermWMODesalinationUnitCost_Contractor)
-        self.recycledLongTermWMOCost_Contractor.append(1 * longtermWMORecycledUnitCost_Contractor)
-        self.potableReuseLongTermWMOCost_Contractor.append(1 * longtermWMOPotableReuseUnitCost_Contractor)
-        self.transfersAndExchangesLongTermWMOCost_Contractor.append(1 * longtermWMOTransfersExchangesUnitCost_Contractor)
-        self.otherSupplyLongTermWMOCost_Contractor.append(1 * longtermWMOOtherSupplyUnitCost_Contractor)
-        self.conservationLongTermWMOCost_Contractor.append(1 * longtermWMOConservationUnitCost_Contractor)
+        self.surfaceLongTermWMOCost_Contractor.append(self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor * longtermWMOSurfaceUnitCost_Contractor)
+        self.groundwaterLongTermWMOCost_Contractor.append(self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor * longtermWMOGroundwaterUnitCost_Contractor)
+        self.desalinationLongTermWMOCost_Contractor.append(self.longtermWMODesalinationSupplyIncrementalVolume_Contractor * longtermWMODesalinationUnitCost_Contractor)
+        self.recycledLongTermWMOCost_Contractor.append(self.longtermWMORecycledSupplyIncrementalVolume_Contractor * longtermWMORecycledUnitCost_Contractor)
+        self.potableReuseLongTermWMOCost_Contractor.append(self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor * longtermWMOPotableReuseUnitCost_Contractor)
+        self.transfersAndExchangesLongTermWMOCost_Contractor.append(self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor * longtermWMOTransfersExchangesUnitCost_Contractor)
+        self.otherSupplyLongTermWMOCost_Contractor.append(self.longtermWMOOtherSupplyIncrementalVolume_Contractor * longtermWMOOtherSupplyUnitCost_Contractor)
+        self.conservationLongTermWMOCost_Contractor.append(self.longtermWMOConservationIncrementalVolume_Contractor * longtermWMOConservationUnitCost_Contractor)
         
         
         self.reliabilityManagementCost_Contractor.append(self.groundwaterBankPutCost_Contractor[self.i]

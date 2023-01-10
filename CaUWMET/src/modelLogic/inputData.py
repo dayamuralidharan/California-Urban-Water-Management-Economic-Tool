@@ -83,6 +83,7 @@ class InputData:
         self.longtermWMOTransfersExchangesUnitCost = self.longtermWMOsAssumptions.longtermWMOTransfersExchangesUnitCost
         self.longtermWMOOtherSupplyUnitCost = self.longtermWMOsAssumptions.longtermWMOOtherSupplyUnitCost
         self.longtermWMOConservationUnitCost = self.longtermWMOsAssumptions.longtermWMOConservationUnitCost
+        self.wmoSupplyVolumeIncrement = self.longtermWMOsAssumptions.wmoSupplyVolumeIncrement
         
         #### Get Global Assumptions
         self.contractorsList = self.globalAssumptions.contractorsList

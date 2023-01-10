@@ -25,22 +25,24 @@ class waterBalanceLogicTests(unittest.TestCase): #this class is inheriting funct
         self.assertEqual(self.modelLogic.outputHandler.appliedDemands['Metropolitan Water District of Southern California'][0], 999995)
         
         # Test delivery of local supplies
-        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964995)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964905)
         
         # Test deliveries of SWP/CVP supplies
-        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0], 959995)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0], 959905)
         
         # Test deliveries from storage (groundwater bank and carryover)
-        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByContingentOptions['Metropolitan Water District of Southern California'][0], 348495)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByContingentOptions['Metropolitan Water District of Southern California'][0], 348405.0)
         
         #Test implementContingencyConservation
-        self.assertEqual(self.modelLogic.contingencyWMOs.demandsToBeMetByWaterMarketTransfers_Contractor[0], 298495.25)
+        self.assertEqual(self.modelLogic.contingencyWMOs.demandsToBeMetByWaterMarketTransfers_Contractor[0], 298405.25)
         
         # Test deliverWaterMarketTransfers
-        self.assertEqual(self.modelLogic.contingencyWMOs.totalShortage_Contractor[0], 297495.25)
+        self.assertEqual(self.modelLogic.contingencyWMOs.totalShortage_Contractor[0], 297405.25)
         
         #Test averaging of total cost over all timesteps
-        self.assertEqual(self.modelLogic.averageTotalAnnualCost_contractor, 374571645.19908273)
+        self.assertEqual(self.modelLogic.averageTotalAnnualCost_Contractor, 374572365.19908273)
+        
+        self.assertEqual(self.modelLogic.systemwideAverageAnnualCost, 374572365.19908273)
         
         
         

@@ -3,6 +3,7 @@ class InputDataLocationsForTesting:
         self.futureYearInput = '2045'
         self.hydroYearTypeInput = "tests/inputDataForTests/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "tests/inputDataForTests/contractorInput_contractorInfo.csv"
+        self.wmoSupplyVolumeIncrement = 0.1
         
         self.inputDemandsFile = "tests/inputDataForTests/demandsInput_totalDemands.csv"
         self.inputPlannedConservationFile = "tests/inputDataForTests/demandsInput_baseLongTermConservationData.csv"
