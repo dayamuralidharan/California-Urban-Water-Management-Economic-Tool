@@ -39,6 +39,9 @@ class waterBalanceLogicTests(unittest.TestCase): #this class is inheriting funct
         # Test deliverWaterMarketTransfers
         self.assertEqual(self.modelLogic.contingencyWMOs.totalShortage_Contractor[0], 297495.25)
         
+        #Test averaging of total cost over all timesteps
+        self.assertEqual(self.modelLogic.averageTotalAnnualCost_contractor, 374571645.19908273)
+        
         
         
 

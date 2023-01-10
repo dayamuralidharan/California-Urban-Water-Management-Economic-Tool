@@ -8,6 +8,7 @@ from src.modelLogic.contingentWMOs.economicLossByUseType import EconomicLossByUs
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 
+# Gets the system wide average annual cost
 class ModelLogic:
     def __init__(self, inputData: InputData, storageUtilities: StorageUtilities):
         self.writer = pd.ExcelWriter('Output_QAQC.xlsx', engine = 'xlsxwriter')
@@ -19,6 +20,9 @@ class ModelLogic:
         self.contingencyWMOs = ContingencyWMOs(inputData)
         # Initialize output time series dataframes to include columns as contractors and rows as historical hydrologic reference years.
         self.outputHandler = OutputHandler(inputData)
+        
+    def getSystemWideAverageAnnualCost(self):
+        pass
 
     def executeModelLogic(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
@@ -29,7 +33,6 @@ class ModelLogic:
         
     def executeModelLogicForContractor(self):
         self.economicLossByUseType = EconomicLossByUseType(self.inputData)
-        #print(type(self.inputData.demandHardeningFactor.loc[self.contractor][self.inputData.futureYear]))
         
         # Set up variables that will be used for calcs by contractor
         self.initilizeVariablesForContractorLoop()
@@ -42,8 +45,11 @@ class ModelLogic:
         # Loop through hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
             self.loopThroughHydrologicReferencePeriod(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-        self.writeToOutputDictionaries()  
-                
+        self.writeToOutputDictionaries()
+        self.averageTotalAnnualCost_contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
+
+
+#TODO Move to its own class        
     def loopThroughHydrologicReferencePeriod(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
         #### Deliver local and imported supplies, and implement base long-term conservation to meet demands:
         self.deliverLocalSuppliesAndImplementPlannedConservation()
