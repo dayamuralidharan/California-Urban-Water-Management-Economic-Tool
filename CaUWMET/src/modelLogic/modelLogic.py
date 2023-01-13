@@ -20,7 +20,6 @@ class ModelLogic:
         # Get number of WMO loops
         self.numberOfWMOLoops = int(round(1 / self.inputData.wmoSupplyVolumeIncrement, 0))
         self.numberOfWMOLoopsList = [None] * self.numberOfWMOLoops
-        self.wmoIncrement = 0
         for self.j in range(len(self.numberOfWMOLoopsList)):
             if self.j == 0:
                 self.wmoIncrement = self.inputData.wmoSupplyVolumeIncrement
@@ -29,13 +28,12 @@ class ModelLogic:
             
             self.executeModelLogic()
             
-            #print(self.longtermWMOConservation_Contractor)
+            print(self.systemwideAverageAnnualCost)
 
         
     def executeModelLogic(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         for self.contractor in self.inputData.contractorsList:
-            print(self.wmoIncrement)
             self.executeModelLogicForContractor()
         self.outputHandler.writeToSystemwideOutputDataframes()
         
@@ -52,14 +50,13 @@ class ModelLogic:
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
         self.longtermWMOConservation_Contractor = 10 * self.wmoIncrement
-        print(self.longtermWMOConservation_Contractor)
-        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10
-        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10
-        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10
-        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10
-        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10
-        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10
-        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
         self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
                                                                 + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOConservation_Contractor

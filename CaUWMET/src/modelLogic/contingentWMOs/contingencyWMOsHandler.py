@@ -9,10 +9,6 @@ class ContingencyWMOs:
         self.inputData = inputData
         self.shortageByUseType = ShortageByUseType(self.inputData)
         
-        # self.contingentConservationUseReductionVolume_Contractor = []
-        # self.waterMarketTransferDeliveries_Contractor = []
-        # self.totalShortage_Contractor = []
-        # self.demandsToBeMetByWaterMarketTransfers_Contractor = []
         
     def implementContingencyWMOsIfNeeded(self, input: ContingencyWMOsHandlerInput, contingentConservationUseReductionVolume_Contractor, waterMarketTransferDeliveries_Contractor, totalShortage_Contractor, demandsToBeMetByWaterMarketTransfers_Contractor):
         self.contingentWMOsinput = input
