@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler
@@ -17,6 +18,7 @@ class ModelLogic:
         self.outputHandler = OutputHandler(inputData)
 
     def loopThroughWmoIncrementalVolumes(self):
+        self.objectiveFunction = [] #TODO rename
         # Get number of WMO loops
         self.numberOfWMOLoops = int(round(1 / self.inputData.wmoSupplyVolumeIncrement, 0))
         self.numberOfWMOLoopsList = [None] * self.numberOfWMOLoops
@@ -27,8 +29,11 @@ class ModelLogic:
                 self.wmoIncrement = self.inputData.wmoSupplyVolumeIncrement + (self.j * self.inputData.wmoSupplyVolumeIncrement)
             
             self.executeModelLogic()
+            self.objectiveFunction.append(self.systemwideAverageAnnualCost)
             
-            print(self.systemwideAverageAnnualCost)
+            #print("j = ", self.j, ": ", self.systemwideAverageAnnualCost)
+        self.objectiveFunction = pd.DataFrame(self.objectiveFunction)
+        print(self.objectiveFunction)
 
         
     def executeModelLogic(self):
