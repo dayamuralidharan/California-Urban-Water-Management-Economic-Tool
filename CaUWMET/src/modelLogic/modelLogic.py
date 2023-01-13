@@ -18,7 +18,7 @@ class ModelLogic:
         self.outputHandler = OutputHandler(inputData)
 
     def loopThroughWmoIncrementalVolumes(self):
-        self.objectiveFunction = [] #TODO rename
+        self.objectiveFunction = [] #TODO rename?
         # Get number of WMO loops
         self.numberOfWMOLoops = int(round(1 / self.inputData.wmoSupplyVolumeIncrement, 0))
         self.numberOfWMOLoopsList = [None] * self.numberOfWMOLoops
@@ -31,9 +31,13 @@ class ModelLogic:
             self.executeModelLogic()
             self.objectiveFunction.append(self.systemwideAverageAnnualCost)
             
-            #print("j = ", self.j, ": ", self.systemwideAverageAnnualCost)
         self.objectiveFunction = pd.DataFrame(self.objectiveFunction)
+        
+        #TODO extract to another function?
+        x = range(self.j + 1)
+        poly = np.polyfit(x, self.objectiveFunction, deg = 3)
         print(self.objectiveFunction)
+        print("poly: ", poly)
 
         
     def executeModelLogic(self):
