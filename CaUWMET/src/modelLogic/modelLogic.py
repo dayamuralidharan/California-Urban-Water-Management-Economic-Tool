@@ -1,5 +1,6 @@
-import pandas as pd
+import pandas as pd #TODO only import functionalities needed?
 import numpy as np
+from scipy.optimize import minimize
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler
@@ -34,10 +35,20 @@ class ModelLogic:
         self.objectiveFunction = pd.DataFrame(self.objectiveFunction)
         
         #TODO extract to another function?
-        x = range(self.j + 1)
-        poly = np.polyfit(x, self.objectiveFunction, deg = 3)
-        print(self.objectiveFunction)
-        print("poly: ", poly)
+        numberOfPortfolios = range(self.j + 1)
+        deg = 3 #TODO make degree user defined
+        polyCoefficients = np.polyfit(numberOfPortfolios, self.objectiveFunction, deg = deg) 
+        def polynomialFunction(x):
+            return polyCoefficients[0][0]*x**deg + polyCoefficients[1][0]*x**(deg - 1) + polyCoefficients[2][0]*x**(deg - 2) + polyCoefficients[3][0]*x
+        
+        x0 = range(1,10)
+        bounds = [(0, None)] * len(x0)
+        #leastCostPoly = minimize(polynomialFunction, x0=x0, bounds = bounds)
+        
+        #print("objectiveFunction: ", self.objectiveFunction)
+        # print(polyCoefficients[1][0])
+        #print("leastCostPoly: ", leastCostPoly)
+        
 
         
     def executeModelLogic(self):
