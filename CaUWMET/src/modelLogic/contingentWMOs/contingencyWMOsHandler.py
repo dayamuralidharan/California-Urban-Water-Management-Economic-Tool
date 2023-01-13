@@ -9,13 +9,17 @@ class ContingencyWMOs:
         self.inputData = inputData
         self.shortageByUseType = ShortageByUseType(self.inputData)
         
-        self.contingentConservationUseReductionVolume_Contractor = []
-        self.waterMarketTransferDeliveries_Contractor = []
-        self.totalShortage_Contractor = []
-        self.demandsToBeMetByWaterMarketTransfers_Contractor = []
+        # self.contingentConservationUseReductionVolume_Contractor = []
+        # self.waterMarketTransferDeliveries_Contractor = []
+        # self.totalShortage_Contractor = []
+        # self.demandsToBeMetByWaterMarketTransfers_Contractor = []
         
-    def implementContingencyWMOsIfNeeded(self, input: ContingencyWMOsHandlerInput):
+    def implementContingencyWMOsIfNeeded(self, input: ContingencyWMOsHandlerInput, contingentConservationUseReductionVolume_Contractor, waterMarketTransferDeliveries_Contractor, totalShortage_Contractor, demandsToBeMetByWaterMarketTransfers_Contractor):
         self.contingentWMOsinput = input
+        self.contingentConservationUseReductionVolume_Contractor = contingentConservationUseReductionVolume_Contractor
+        self.waterMarketTransferDeliveries_Contractor = waterMarketTransferDeliveries_Contractor
+        self.totalShortage_Contractor = totalShortage_Contractor
+        self.demandsToBeMetByWaterMarketTransfers_Contractor = demandsToBeMetByWaterMarketTransfers_Contractor
         contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contingentWMOsinput.contractor][self.inputData.futureYear].values[0]
         self.shortageThresholdForWaterMarketTransfers_Contractor = self.inputData.shortageThresholdForWaterMarketTransfers.loc[self.contingentWMOsinput.contractor][self.inputData.futureYear] / 100
         

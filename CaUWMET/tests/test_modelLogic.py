@@ -15,7 +15,7 @@ class waterBalanceLogicTests(unittest.TestCase): #this class is inheriting funct
         #self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         
     def testModelLogic(self):
-        self.modelLogic.executeModelLogic()
+        self.modelLogic.loopThroughWmoIncrementalVolumes()
         #print(self.modelLogic.inputData.totalDemands['Metropolitan Water District of Southern California'][0])
         #self.assertEqual(self.modelLogic.inputData.plannedLongTermConservation['Contractor'] == 'Metropolitan Water District of Southern California', 5)
         #self.assertEqual(self.modelLogic.inputData.totalDemands['Metropolitan Water District of Southern California'][0], 1000000)
