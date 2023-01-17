@@ -67,5 +67,3 @@ class DemandAssumptions:
         self.industrialUsePortion = industrialUse / normalYearDemands
         self.commAndGovUsePortion = commAndGovUse / normalYearDemands
         self.landscapeUsePortion = landscapeUse / normalYearDemands
-        
-        print(self.singleFamilyUsePortion)

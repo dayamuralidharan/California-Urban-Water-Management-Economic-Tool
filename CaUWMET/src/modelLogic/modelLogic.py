@@ -116,7 +116,7 @@ class ModelLogic:
         
         # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
-        self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs)
+        self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs, self.totalShortage_Contractor)
         self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
 
     def writeToContractorOutputTimeSeriesDataframe(self):
@@ -180,6 +180,7 @@ class ModelLogic:
         self.putGroundwater_Contractor.append(0)
         self.takeSurface_Contractor.append(0)
         self.takeGroundwater_Contractor.append(0)
+        
         
     def implementStorageOperations(self, excessSupplySwitch_Contractor, storageInputAssumptions_Contractor):    
         if self.i == 0: #Initialize storage volumes

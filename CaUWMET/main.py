@@ -7,3 +7,4 @@ inputData = InputData(InputDataLocations())
 modelLogic = ModelLogic(inputData, StorageUtilities())
 
 modelLogic.loopThroughWmoIncrementalVolumes()
+print("Completed running main file")

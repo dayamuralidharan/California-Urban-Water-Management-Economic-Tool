@@ -33,15 +33,3 @@ contractorUse_Commercial = inputData[
 
 contractorUse_Agricultural = inputData[
     inputData["Parameter"].str.match('Agricultural Use')]
-
-
-
-# print(inputData)
-# print(totalContractorDemand_NormOrBetter)
-# print(totalContractorDemand_SingleDryYear)
-# print(totalContractorDemand_MultiDryYear)
-# print(contractorUse_SingleFamilyResidential)
-# print(contractorUse_MultiFamilyResidential)
-# print(contractorUse_Industrial)
-# print(contractorUse_Commercial)
-# print(contractorUse_Agricultural)

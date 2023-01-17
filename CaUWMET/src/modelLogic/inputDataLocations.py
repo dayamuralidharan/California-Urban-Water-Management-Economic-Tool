@@ -1,6 +1,6 @@
 class InputDataLocations:
     def __init__(self):
-        self.futureYearInput = '2025'
+        self.futureYearInput = '2045'
         
         self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
