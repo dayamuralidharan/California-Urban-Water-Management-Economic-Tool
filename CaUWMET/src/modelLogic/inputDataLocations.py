@@ -1,11 +1,13 @@
 class InputDataLocations:
     def __init__(self):
-        self.futureYearInput = '2025'
+        self.futureYearInput = '2045'
         
         self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
         
         self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - connect to dashboard
+        
+        self.wmoSupplyVolumeIncrement = 0.1
         
         self.inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
         self.inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"
@@ -28,3 +30,4 @@ class InputDataLocations:
         
         self.longtermWMOSupplyVolumeInputData = "src/inputData/longtermWMOsInput_supplyVolume.csv"
         self.longtermWMOSupplyUnitCostsInputData = "src/inputData/longtermWMOsInput_supplyCosts.csv"
+        

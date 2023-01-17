@@ -5,6 +5,8 @@ class LongTermWMOsAssumptions:
         # Input Assumptions
         longtermWMOSupplyVolumeInputData = inputDataLocations.longtermWMOSupplyVolumeInputData
         longtermWMOSupplyUnitCostsInputData = inputDataLocations.longtermWMOSupplyUnitCostsInputData
+        self.wmoSupplyVolumeIncrement = inputDataLocations.wmoSupplyVolumeIncrement
+        
 
         longtermWMOSupplyVolumeData = pd.read_csv(longtermWMOSupplyVolumeInputData)
         longtermWMOSupplyUnitCostsData = pd.read_csv(longtermWMOSupplyUnitCostsInputData)
@@ -46,3 +48,5 @@ class LongTermWMOsAssumptions:
         self.longtermWMOTransfersExchangesUnitCost.set_index('Contractor', inplace=True)
         self.longtermWMOOtherSupplyUnitCost.set_index('Contractor', inplace=True)
         self.longtermWMOConservationUnitCost.set_index('Contractor', inplace=True)
+        
+        

@@ -1,4 +1,5 @@
 import math
+import numpy as np
 from src.modelLogic.inputData import InputData
 from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
 from src.modelLogic.contingentWMOs.shortageByUseType import ShortageByUseType
@@ -16,7 +17,7 @@ class EconomicLossByUseType:
         
         self.totalEconomicLoss_Contractor = []
         
-    def calculateTotalEconomicLoss(self, shortageByUseType: ShortageByUseType, input: ContingencyWMOsHandlerInput, contingencyWMOs: ContingencyWMOs):
+    def calculateTotalEconomicLoss(self, shortageByUseType: ShortageByUseType, input: ContingencyWMOsHandlerInput, contingencyWMOs: ContingencyWMOs, totalShortage_Contractor):
         self.shortageByUseType = shortageByUseType
         self.contingentWMOsinput = input
         self.contingencyWMOs = contingencyWMOs
@@ -32,7 +33,7 @@ class EconomicLossByUseType:
         self.coefficient_COM = self.commAndGovUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_commAndGov.loc[self.contingentWMOsinput.contractor]))
         self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_landscape.loc[self.contingentWMOsinput.contractor]))
       
-        if self.contingencyWMOs.shortageByUseType.totalShortage_Contractor[self.contingentWMOsinput.i] > 0:
+        if totalShortage_Contractor[self.contingentWMOsinput.i] > 0:
             self.calculateEconomicLossByUseType()
             self.totalEconomicLoss_Contractor.append( self.singleFamilyEconomicLoss_Contractor
                                                     + self.multiFamilyEconomicLoss_Contractor
@@ -53,20 +54,20 @@ class EconomicLossByUseType:
 
     def economicLossFunction(self, shortageByUseType, shortagePortionOfUse, lowerLossBoundary, elasticityOfDemand, volumeByUseType, coefficient):
         if shortagePortionOfUse <= lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * math.exp((math.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
+            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * np.exp((np.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
             - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] 
                 * (volumeByUseType 
                    * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
-                   * math.exp((math.log(volumeByUseType * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
+                   * np.exp((np.log(volumeByUseType * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
                                         / coefficient) 
                                / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) 
                    / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))))
         elif shortagePortionOfUse >= self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
             economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType 
-              * math.exp((math.log(volumeByUseType  / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
+              * np.exp((np.log(volumeByUseType  / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
             - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])) 
-                * math.exp((math.log((volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))) / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+                * np.exp((np.log((volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))) / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
         else:
-            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * math.exp((math.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)) - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType - shortageByUseType)*math.exp((math.log((volumeByUseType - shortageByUseType)/coefficient)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
+            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * np.exp((np.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)) - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType - shortageByUseType)*np.exp((np.log((volumeByUseType - shortageByUseType)/coefficient)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
         
         return economicLoss.loc[self.contingentWMOsinput.contractor]
