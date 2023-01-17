@@ -17,41 +17,9 @@ class ModelLogic:
         self.storageUtilities = storageUtilities
         self.contingencyWMOs = ContingencyWMOs(inputData)
         self.outputHandler = OutputHandler(inputData)
-
-    def loopThroughWmoIncrementalVolumes(self):
-        self.objectiveFunction = [] #TODO rename?
-        # Get number of WMO loops
-        self.numberOfWMOLoops = int(round(1 / self.inputData.wmoSupplyVolumeIncrement, 0))
-        self.numberOfWMOLoopsList = [None] * self.numberOfWMOLoops
-        for self.j in range(len(self.numberOfWMOLoopsList)):
-            if self.j == 0:
-                self.wmoIncrement = self.inputData.wmoSupplyVolumeIncrement
-            else:
-                self.wmoIncrement = self.inputData.wmoSupplyVolumeIncrement + (self.j * self.inputData.wmoSupplyVolumeIncrement)
-            
-            self.executeModelLogic()
-            self.objectiveFunction.append(self.systemwideAverageAnnualCost)
-            
-        self.objectiveFunction = pd.DataFrame(self.objectiveFunction)
         
-        #TODO extract to another function?
-        numberOfPortfolios = range(self.j + 1)
-        deg = 3 #TODO make degree user defined
-        polyCoefficients = np.polyfit(numberOfPortfolios, self.objectiveFunction, deg = deg) 
-        def polynomialFunction(x):
-            return polyCoefficients[0][0]*x**deg + polyCoefficients[1][0]*x**(deg - 1) + polyCoefficients[2][0]*x**(deg - 2) + polyCoefficients[3][0]*x
-        
-        x0 = range(1,10)
-        bounds = [(0, None)] * len(x0)
-        #leastCostPoly = minimize(polynomialFunction, x0=x0, bounds = bounds)
-        
-        #print("objectiveFunction: ", self.objectiveFunction)
-        # print(polyCoefficients[1][0])
-        #print("leastCostPoly: ", leastCostPoly)
-        
-
-        
-    def executeModelLogic(self):
+    def executeModelLogic(self, wmoIncrement):
+        self.wmoIncrement = wmoIncrement
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         for self.contractor in self.inputData.contractorsList:
             self.executeModelLogicForContractor()

@@ -1,24 +1,21 @@
-import unittest
+from unittest import TestCase
 from src.modelLogic.inputData import InputData
 from src.modelLogic.modelLogic import ModelLogic
 from src.modelLogic.storageUtilities import StorageUtilities
 from tests.inputDataLocationsForTesting import InputDataLocationsForTesting
 
 # See CaUWMET_Tests.xlsx for how values for assertEqual functions below were calculated
+# TODO: set up test for economic loss function
 
-
-class waterBalanceLogicTests(unittest.TestCase): #this class is inheriting functionality of the unittest.TestCase class
+class waterBalanceLogicTests(TestCase): #this class is inheriting functionality of the unittest.TestCase class
     def setUp(self):
         inputData = InputData(InputDataLocationsForTesting())
-        self.modelLogic = ModelLogic(inputData, StorageUtilities()) #creates an instance of the Model Logic class so it inherits the variables and methods within it, e.g. implementContingencyConservation function
+        self.modelLogic = ModelLogic(inputData, StorageUtilities())
         
-        #self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         
     def testModelLogic(self):
-        self.modelLogic.loopThroughWmoIncrementalVolumes()
-        #print(self.modelLogic.inputData.totalDemands['Metropolitan Water District of Southern California'][0])
-        #self.assertEqual(self.modelLogic.inputData.plannedLongTermConservation['Contractor'] == 'Metropolitan Water District of Southern California', 5)
-        #self.assertEqual(self.modelLogic.inputData.totalDemands['Metropolitan Water District of Southern California'][0], 1000000)
+        self.wmoIncrement = 1
+        self.modelLogic.executeModelLogic(self.wmoIncrement)
         
         # Test remaining demands are as expected after each supply source is delivered/demand reduction is implemented
         # Test implementation of planned long-term conservation

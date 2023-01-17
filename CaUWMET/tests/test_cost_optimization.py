@@ -1,12 +1,16 @@
 from unittest import TestCase
+from src.modelLogic.inputData import InputData
+from src.modelLogic.modelLogic import ModelLogic
+from src.modelLogic.storageUtilities import StorageUtilities
+from tests.inputDataLocationsForTesting import InputDataLocationsForTesting
 from src.modelLogic.costOptimizer import CostOptimizer
-from unittest.mock import Mock, MagicMock
 
 class CostOptimizationTests(TestCase):
     
-    def test_cost_was_optimized(self):
-        modelLogic = Mock()
-        modelLogic.executeModelLogic = MagicMock()
-        costOptimizer = CostOptimizer(modelLogic)
-        #costOptimizer.optimize()
-        #modelLogic.executeModelLogic.assert_called_once()
+    def testPolynomialFunctionWasRetrieved(self):
+        inputData = InputData(InputDataLocationsForTesting())
+        self.modelLogic = ModelLogic(inputData, StorageUtilities())
+        self.costOptimizer = CostOptimizer(inputData, self.modelLogic)
+        self.costOptimizer.loopThroughWmoIncrementalVolumes()
+        
+        self.assertIsNotNone(self.costOptimizer.polyCoefficients)
