@@ -1,6 +1,5 @@
 import pandas as pd #TODO only import functionalities needed?
 import numpy as np
-from scipy.optimize import minimize
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.outputHandler import OutputHandler
