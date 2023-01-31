@@ -1,6 +1,5 @@
 
 import pandas as pd
-from src.modelLogic.modelUtilities import lookupCorrespondingValue
 
 class SupplyAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
@@ -45,8 +44,8 @@ class SupplyAssumptions:
             exchangesSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Transfers and Exchanges for Normal or Better Years (acre-feet/year)']
             otherSupplyNormalYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Other Supply Types for Normal or Better Years (acre-feet/year)']
 
-            totalLocalSupplyNormalYear = surfaceSupplyNormalYear + groundwaterSupplyNormalYear + recycleSupplyNormalYear + potableReuseSupplyNormalYear +desalinationSupplyNormalYear + exchangesSupplyNormalYear + otherSupplyNormalYear
-            totalLocalSupplyNormalYear.drop('Variable', axis=1, inplace=True)
+            self.totalLocalSupplyNormalYear = surfaceSupplyNormalYear + groundwaterSupplyNormalYear + recycleSupplyNormalYear + potableReuseSupplyNormalYear +desalinationSupplyNormalYear + exchangesSupplyNormalYear + otherSupplyNormalYear
+            self.totalLocalSupplyNormalYear.drop('Variable', axis=1, inplace=True)
 
             # Set up local supply dataframe for Single Dry Year Types
             surfaceSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Surface for Single Dry Years (acre-feet/year)']
@@ -57,8 +56,8 @@ class SupplyAssumptions:
             exchangesSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Transfers and Exchanges for Single Dry Years (acre-feet/year)']
             otherSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Other Supply Types for Single Dry Years (acre-feet/year)']
 
-            totalLocalSupplySingleDryYear = surfaceSupplySingleDryYear + groundwaterSupplySingleDryYear + recycleSupplySingleDryYear + potableReuseSupplySingleDryYear +desalinationSupplySingleDryYear + exchangesSupplySingleDryYear + otherSupplySingleDryYear
-            totalLocalSupplySingleDryYear.drop('Variable', axis=1, inplace=True)
+            self.totalLocalSupplySingleDryYear = surfaceSupplySingleDryYear + groundwaterSupplySingleDryYear + recycleSupplySingleDryYear + potableReuseSupplySingleDryYear +desalinationSupplySingleDryYear + exchangesSupplySingleDryYear + otherSupplySingleDryYear
+            self.totalLocalSupplySingleDryYear.drop('Variable', axis=1, inplace=True)
 
             # Set up local supply dataframe for Multi-Dry Year Types
             surfaceSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Surface for Multiple Dry Years (acre-feet/year)']
@@ -69,25 +68,34 @@ class SupplyAssumptions:
             exchangesSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Transfers and Exchanges for Multiple Dry Years (acre-feet/year)']
             otherSupplyMultiDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Other Supply Types for Multiple Dry Years (acre-feet/year)']
 
-            totalLocalSupplyMultiDryYear = surfaceSupplyMultiDryYear + groundwaterSupplyMultiDryYear + recycleSupplyMultiDryYear + potableReuseSupplyMultiDryYear +desalinationSupplyMultiDryYear + exchangesSupplyMultiDryYear + otherSupplyMultiDryYear
-            totalLocalSupplyMultiDryYear.drop('Variable', axis=1, inplace=True)
+            self.totalLocalSupplyMultiDryYear = surfaceSupplyMultiDryYear + groundwaterSupplyMultiDryYear + recycleSupplyMultiDryYear + potableReuseSupplyMultiDryYear +desalinationSupplyMultiDryYear + exchangesSupplyMultiDryYear + otherSupplyMultiDryYear
+            self.totalLocalSupplyMultiDryYear.drop('Variable', axis=1, inplace=True)
 
             # Create Total Local Supply time series based on local contractor hydrologic year type
             self.totalLocalSupply = {'Year': globalAssumptions.historicHydrologyYears}
 
             for contractor in globalAssumptions.contractorsList:
-                contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
-                contractorYearType = globalAssumptions.UWMPhydrologicYearType[contractor]
+                self.contractorYearType = globalAssumptions.UWMPhydrologicYearType[contractor]
                 contractorLocalSupply = []
 
-                if localSupplyScenarioRadioButtonIndex == 0:
-                    for i in range(len(globalAssumptions.historicHydrologyYears)):
-                        if contractorYearType[i] == "NB": #Normal or Better
-                            contractorLocalSupply.append(totalLocalSupplyNormalYear.loc[contractor][globalAssumptions.futureYear])
-                        elif contractorYearType[i] == "SD": #Single Dry
-                                contractorLocalSupply.append(totalLocalSupplySingleDryYear.loc[contractor][globalAssumptions.futureYear])
-                        elif contractorYearType[i] == "MD": #Multi-Dry
-                                contractorLocalSupply.append(totalLocalSupplyMultiDryYear.loc[contractor][globalAssumptions.futureYear])
+                
+                for i in range(len(globalAssumptions.historicHydrologyYears)):
+                    if self.contractorYearType[i] == "NB": #Normal or Better
+                        contractorLocalSupply.append(self.totalLocalSupplyNormalYear.loc[contractor][globalAssumptions.futureYear])
+                    elif self.contractorYearType[i] == "SD": #Single Dry
+                            contractorLocalSupply.append(self.totalLocalSupplySingleDryYear.loc[contractor][globalAssumptions.futureYear])
+                    elif self.contractorYearType[i] == "MD": #Multi-Dry
+                            contractorLocalSupply.append(self.totalLocalSupplyMultiDryYear.loc[contractor][globalAssumptions.futureYear])
                 self.totalLocalSupply[contractor] = contractorLocalSupply
 
             self.totalLocalSupply = pd.DataFrame(self.totalLocalSupply)
+            
+    # def mapSupplyTablesToHydrologicYearTypeTimeSeries():
+    #     for i in range(len(globalAssumptions.historicHydrologyYears)):
+    #         if self.contractorYearType[i] == "NB": #Normal or Better
+    #             contractorLocalSupply.append(self.totalLocalSupplyNormalYear.loc[contractor][globalAssumptions.futureYear])
+    #         elif self.contractorYearType[i] == "SD": #Single Dry
+    #                 contractorLocalSupply.append(self.totalLocalSupplySingleDryYear.loc[contractor][globalAssumptions.futureYear])
+    #         elif self.contractorYearType[i] == "MD": #Multi-Dry
+    #                 contractorLocalSupply.append(self.totalLocalSupplyMultiDryYear.loc[contractor][globalAssumptions.futureYear])
+    # return contractorLocalSupply

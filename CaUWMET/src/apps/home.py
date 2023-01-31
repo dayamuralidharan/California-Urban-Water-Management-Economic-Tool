@@ -6,8 +6,6 @@ from globalUtilities import opt_echo
 def app():
 
     with opt_echo():
-        # Declare variables
-        
         local_css("style.css")
 
         st.subheader("Welcome to the California Urban Water Management Economics Tool")
