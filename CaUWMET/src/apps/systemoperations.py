@@ -16,17 +16,6 @@ from pageUtilities.summaryPlots_SystemOperations import displaySummaryPlots
 def setExcessWaterSwitchDataToEditableTableInput(gridResponseData): 
     st.session_state.excessWaterSwitchdf = gridResponseData
 
-def setCarryoverStorageDataToEditableTableInput(gridResponseData): 
-    st.session_state.carryoverStoragedf = gridResponseData
-
-def setCarryoverStorageCostsDataToEditableTableInput(gridResponseData): 
-    st.session_state.carryoverStorageCostdf = gridResponseData
-
-def setTransfersDataToEditableTableInput(gridResponseData): 
-    st.session_state.transfersdf = gridResponseData
-
-def setTransfersCostDataToEditableTableInput(gridResponseData): 
-    st.session_state.transfersCostdf = gridResponseData
 
 def app():
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
@@ -68,19 +57,3 @@ def app():
         ####  TABLE 1 EXCESS WATER SWITCH
         if st.session_state.excessWaterSwitchRadioButtonIndex == 1:
             editableTable(st.session_state.excessWaterSwitchdf, st.session_state.futurePlanningYear, setExcessWaterSwitchDataToEditableTableInput, "Excess Water Switch System Operations", "Excess Water Switch")
-
-        #### TABLE 2 CARRYOVER STORAGE
-        if st.session_state.carryoverStorageRadioButtonIndex == 1:
-            editableTable(st.session_state.carryoverStoragedf, st.session_state.futurePlanningYear, setCarryoverStorageDataToEditableTableInput, "Carryover Storage Systems Operations", "Carryover Storage (acre-feet/year)")
-
-        ####  TABLE 3 CARRYOVER STORAGE COSTS
-        if st.session_state.carryoverStorageCostRadioButtonIndex == 1:
-            editableTable(st.session_state.carryoverStorageCostdf, st.session_state.futurePlanningYear, setCarryoverStorageCostsDataToEditableTableInput, "Carryover Storage System Operations", "Carryover Storage Costs ($/acre-feet)")
-            
-        ####  TABLE 4 TRANSFERS
-        if st.session_state.transfersRadioButtonIndex == 1:
-            editableTable(st.session_state.transfersdf, st.session_state.futurePlanningYear, setTransfersDataToEditableTableInput, "Transfers System Operations", "Max transfer capacity (acre-feet/year)")
-
-        ####  TABLE 5 TRANSFERS COSTS
-        if st.session_state.transfersCostRadioButtonIndex == 1:
-            editableTable(st.session_state.transfersCostdf, st.session_state.futurePlanningYear, setTransfersCostDataToEditableTableInput, "Transfers Costs System Operations", "Transfer Cost ($/acre-feet)")

@@ -51,14 +51,9 @@ inputDataBaseLongTermConservation = fetch_data("inputData/demandsInput_baseLongT
 
 inputDataLocalSupplies = fetch_data("inputData/supplyInput_localSupplies.csv")
 inputDataSWPCVP = fetch_data("inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
-inputDataCostBySupplyType = fetch_data("inputData/supplyInput_costsBySupplyType.csv")
-inputDataSupplyPriority = fetch_data("inputData/supplyInput_supplyPriorities.csv")
 
 inputDataExcessWaterSwitch = fetch_data("inputData/systemOperationsInput_ExcessWaterSwitch.csv")
-inputDataCarryoverStorage = fetch_data("inputData/systemOperationsInput_CarryoverStorage.csv")
-inputDataCarryoverStorageCost = fetch_data("inputData/systemOperationsInput_CarryoverStorageCost.csv")
-inputDataTransfers = fetch_data("inputData/systemOperationsInput_Transfers.csv")
-inputDataTransfersCost = fetch_data("inputData/systemOperationsInput_TransfersCost.csv")
+
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
@@ -113,11 +108,6 @@ if 'localSuppliesdf' not in st.session_state:
 if 'swpCVPSuppliesdf' not in st.session_state:
     st.session_state['swpCVPSuppliesdf'] = inputDataSWPCVP
 
-if 'costBySupplyTypedf' not in st.session_state:
-    st.session_state['costBySupplyTypedf'] = inputDataCostBySupplyType
-
-if 'supplyPrioritydf' not in st.session_state:
-    st.session_state['supplyPrioritydf'] = inputDataSupplyPriority
 
 #---------------------------------------------------------------#
 # INITIALIZE SYSTEM OPERATIONS ASSUMPTION SESSION STATE VARIABLES
@@ -142,15 +132,3 @@ if 'transfersCostRadioButtonIndex' not in st.session_state:
 #### Initialize input datasets with default values 
 if 'excessWaterSwitchdf' not in st.session_state:
     st.session_state['excessWaterSwitchdf'] = inputDataExcessWaterSwitch
-
-if 'carryoverStoragedf' not in st.session_state:
-    st.session_state['carryoverStoragedf'] = inputDataCarryoverStorage
-
-if 'carryoverStorageCostdf' not in st.session_state:
-    st.session_state['carryoverStorageCostdf'] = inputDataCarryoverStorageCost
-
-if 'transfersdf' not in st.session_state:
-    st.session_state['transfersdf'] = inputDataTransfers
-    
-if 'transfersCostdf' not in st.session_state:
-    st.session_state['transfersCostdf'] = inputDataTransfersCost

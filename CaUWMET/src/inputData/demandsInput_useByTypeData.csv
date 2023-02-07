@@ -1,8 +1,8 @@
-﻿Variable,Contractor,2045,Notes
-Single Family Residential Use (acre-feet/year),Metropolitan Water District of Southern California,500000,
-Multi-Family Residential Use (acre-feet/year),Metropolitan Water District of Southern California,250000,
-Industrial Use (acre-feet/year),Metropolitan Water District of Southern California,100000,
-Commercial and Governmental Use (acre-feet/year),Metropolitan Water District of Southern California,50000,
-Agricultural Use (acre-feet/year),Metropolitan Water District of Southern California,0,
-Landscape Use (acre-feet/year),Metropolitan Water District of Southern California,100000,
-Other (acre-feet/year),Metropolitan Water District of Southern California,0,
+﻿Variable,Study Region,Contractor,2045,Notes
+Single Family Residential Use (acre-feet/year),Southern California,Metropolitan Water District of Southern California,500000,
+Multi-Family Residential Use (acre-feet/year),Southern California,Metropolitan Water District of Southern California,250000,
+Industrial Use (acre-feet/year),Southern California,Metropolitan Water District of Southern California,100000,
+Commercial and Governmental Use (acre-feet/year),Southern California,Metropolitan Water District of Southern California,50000,
+Agricultural Use (acre-feet/year),Southern California,Metropolitan Water District of Southern California,0,
+Landscape Use (acre-feet/year),Southern California,Metropolitan Water District of Southern California,100000,
+Other (acre-feet/year),Southern California,Metropolitan Water District of Southern California,0,
