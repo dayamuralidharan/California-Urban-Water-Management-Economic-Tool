@@ -17,7 +17,8 @@ def runWmoOptimizer():
     modelLogic = ModelLogic(inputData, StorageUtilities())
     costOptimizer = CostOptimizer(inputData, modelLogic)
     costOptimizer.loopThroughWmoIncrementalVolumes()
-    print("Completed running main file")
+    print("Completed running Water Management Optimization.")
+    print(costOptimizer.objectiveFunction)
 
 
 app = MultiApp()
