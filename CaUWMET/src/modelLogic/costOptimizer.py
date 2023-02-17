@@ -19,7 +19,7 @@ class CostOptimizer:
         self.inputData = inputData
         self.modelLogic = modelLogic
 
-    def loopThroughWmoIncrementalVolumes(self):
+    def optimizeWMOs(self):
         #User input: self.inputData.wmoSupplyVolumeIncrement = 0.1
         
         self.objectiveFunction = []

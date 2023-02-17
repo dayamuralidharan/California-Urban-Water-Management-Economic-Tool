@@ -8,5 +8,5 @@ from src.modelLogic.costOptimizer import CostOptimizer
 inputData = InputData(InputDataLocations())
 modelLogic = ModelLogic(inputData, StorageUtilities())
 costOptimizer = CostOptimizer(inputData, modelLogic)
-costOptimizer.loopThroughWmoIncrementalVolumes()
+costOptimizer.optimizeWMOs()
 print("Completed running main file")
