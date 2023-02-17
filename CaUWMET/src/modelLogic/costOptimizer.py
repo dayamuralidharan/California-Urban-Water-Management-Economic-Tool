@@ -26,7 +26,7 @@ class CostOptimizer:
         
         #TODO: Add a zero increment loop
         # Get number of WMO loops
-        self.numberOfWMOLoops = int(round(1 / self.inputData.wmoSupplyVolumeIncrement, 0)) 
+        self.numberOfWMOLoops = 1 # int(round(1 / self.inputData.wmoSupplyVolumeIncrement, 0)) 
         self.numberOfWMOLoopsList = [None] * self.numberOfWMOLoops # Feel free to clean this line up
         for self.j in range(len(self.numberOfWMOLoopsList)):
             if self.j == 0:

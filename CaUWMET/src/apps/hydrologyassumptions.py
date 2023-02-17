@@ -2,7 +2,7 @@ import base64
 import streamlit as st
 import pandas as pd 
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-from globalUtilities import opt_echo
+from src.globalUtilities import opt_echo
 
 def app():
 
@@ -18,7 +18,7 @@ def app():
         #         demands = pd.read_csv(path)
                 
             # else:
-            demands = pd.read_csv("inputData/hydrologyAssumptions.csv")
+            demands = pd.read_csv("src/inputData/hydrologyAssumptions.csv")
             return pd.DataFrame(demands)
 
         #Example controlers

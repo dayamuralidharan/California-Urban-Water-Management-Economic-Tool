@@ -1,4 +1,4 @@
-from suppliesHelper import displayPieAndBarPlots, localSuppliesExplanationText,  swpCVPExplanationText, costBySupplyTypeExplanationText, supplyPriorityTypeExplanationText
+from src.suppliesHelper import displayPieAndBarPlots, localSuppliesExplanationText,  swpCVPExplanationText, costBySupplyTypeExplanationText, supplyPriorityTypeExplanationText
 import streamlit as st
 import pandas as pd
 

@@ -1,12 +1,11 @@
 import streamlit as st
-import traceback
-from load_css import local_css
-from globalUtilities import opt_echo
+from src.load_css import local_css
+from src.globalUtilities import opt_echo
 
 def app():
 
     with opt_echo():
-        local_css("style.css")
+        local_css("src/style.css")
 
         st.subheader("Welcome to the California Urban Water Management Economics Tool")
 
