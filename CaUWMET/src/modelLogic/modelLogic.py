@@ -26,9 +26,17 @@ class ModelLogic:
         
         self.systemwideAverageAnnualCost = self.outputHandler.averageTotalAnnualCost.iloc[:].sum(axis=1)
         self.systemwideAverageAnnualCost = self.systemwideAverageAnnualCost[0]
-        
-        
-    def executeModelLogicForContractor(self):
+
+    def execute(self, x):
+        f = []
+        for y in x:
+            print(y)
+            result = self.executeModelLogicForContractor(y)
+            f.append([result])
+            print(f)
+        return f
+    
+    def executeModelLogicForContractor(self, x):
         self.economicLossByUseType = EconomicLossByUseType(self.inputData)
         
         # Set up variables that will be used for calcs by contractor
@@ -36,14 +44,14 @@ class ModelLogic:
         #TODO move to initilizeVariablesForContractorLoop function
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
-        self.longtermWMOConservation_Contractor = 10 * self.wmoIncrement
-        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
-        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
-        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
-        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
-        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
-        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
-        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10 * self.wmoIncrement
+        self.longtermWMOConservation_Contractor = x[0] #* self.wmoIncrement
+        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
         self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
                                                                 + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOConservation_Contractor
@@ -61,6 +69,7 @@ class ModelLogic:
         
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
         self.outputHandler.averageTotalAnnualCost[self.contractor] = self.averageTotalAnnualCost_Contractor
+        return self.averageTotalAnnualCost_Contractor
         
 
 #TODO Move to its own class        

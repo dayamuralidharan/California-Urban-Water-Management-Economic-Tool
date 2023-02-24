@@ -6,7 +6,7 @@ from pyswarms.utils.functions import single_obj as fx
 #print(fx)
 
 def objectiveFunction(x):
-    f = x[0] * 2 #### Why x[0] and not x?
+    f = x[0] * 2 
     return f
 
 x_max = [10, 10]
@@ -15,7 +15,7 @@ bounds = (x_min, x_max)
 
 # Set-up hyperparameters
 options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
-optimizer = GlobalBestPSO(n_particles=1, dimensions=1, options=options) #, bounds=bounds) Adding breaks code
+optimizer = GlobalBestPSO(n_particles=1, dimensions=1, options=options) #, bounds=bounds) 
 
 cost, pos = optimizer.optimize(objectiveFunction, 1000)
 
