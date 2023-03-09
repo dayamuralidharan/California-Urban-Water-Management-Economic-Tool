@@ -36,12 +36,12 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Hydrology Assumptions": hydrologyassumptions,
-    "Demand Assumptions": demands,
-    "Supply Assumptions": supplies,
-    "System Operation Assumptions": systemoperations,
-    "Water Management Assumptions": watermanagement,
-    "Results": results,
+    "Input Hydrology Assumptions": hydrologyassumptions,
+    "Input Demand Assumptions": demands,
+    "Input Supply Assumptions": supplies,
+    "Input System Operation Assumptions": systemoperations,
+    "Input Water Management Assumptions": watermanagement,
+    "Run Model and View Results": results,
     "Documentation and References": faq,
     "Return Test": returnTest,
 }

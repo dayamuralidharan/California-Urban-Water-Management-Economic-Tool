@@ -11,11 +11,12 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
     def setUp(self):
         inputData = InputData(InputDataLocationsForTesting())
         self.modelLogic = ModelLogic(inputData, StorageUtilities())
+        self.modelLogic.contractor = 'Metropolitan Water District of Southern California'
         
         
     def testModelLogic(self):
-        self.wmoIncrement = 1
-        self.modelLogic.executeModelLogic(self.wmoIncrement)
+        self.x = [10]
+        self.modelLogic.executeModelLogicForContractor(self.x)
         
         # Test remaining demands are as expected after each supply source is delivered/demand reduction is implemented
         # Test implementation of planned long-term conservation
@@ -39,7 +40,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         #Test averaging of total cost over all timesteps
         self.assertEqual(self.modelLogic.averageTotalAnnualCost_Contractor, 374572365.19908273)
         
-        self.assertEqual(self.modelLogic.systemwideAverageAnnualCost, 374572365.19908273)
+        #self.assertEqual(self.modelLogic.systemwideAverageAnnualCost, 374572365.19908273)
         
         
         

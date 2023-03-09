@@ -17,15 +17,12 @@ class ModelLogic:
         self.contingencyWMOs = ContingencyWMOs(inputData)
         self.outputHandler = OutputHandler(inputData)
         
-    def executeModelLogic(self, wmoIncrement):
-        self.wmoIncrement = wmoIncrement
+    #def optimizeForAllContractors(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
-        for self.contractor in self.inputData.contractorsList:
-            self.executeModelLogicForContractor()
-        self.outputHandler.writeToSystemwideOutputDataframes()
+        #for self.contractor in self.inputData.contractorsList:
+            # self.executeModelLogicForContractor(x) #TODO change to optimization function
+        #self.outputHandler.writeToSystemwideOutputDataframes()
         
-        self.systemwideAverageAnnualCost = self.outputHandler.averageTotalAnnualCost.iloc[:].sum(axis=1)
-        self.systemwideAverageAnnualCost = self.systemwideAverageAnnualCost[0]
 
     def execute(self, x):
         f = []
