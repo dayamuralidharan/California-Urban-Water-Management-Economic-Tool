@@ -6,7 +6,7 @@ from streamlit.hashing import _CodeHasher
 from streamlit.report_thread import get_report_ctx
 from streamlit.server.server import Server
 import traceback
-from load_css import local_css
+from src.load_css import local_css
 
 st.set_page_config(layout="wide")
 
@@ -17,9 +17,9 @@ def app():
 
         col_list = ["Contractor", "Study Region", "Hydro. Region", "Type", "Key Info", "SWP or CVP"]
 
-        state.data = pd.DataFrame(pd.read_csv("inputData/contractorInformation.csv", usecols=col_list))
+        state.data = pd.DataFrame(pd.read_csv("src/inputData/contractorInformation.csv", usecols=col_list))
     
-    local_css("style.css")
+    local_css("src/style.css")
     st.title("Contractor Descriptions")
     st.write("This page is where you can modify contractor names, associated study and hydrologic regions, type, etc. You can also add or remove contractors from the model here.")
     st.write('')

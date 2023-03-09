@@ -1,4 +1,4 @@
-from demandsHelper import displayPieAndBarPlots, demandsExplainationText, useByTypeExplainationText, intExtUseByTypeExplainationText, baseLongTermConservationText
+from src.demandsHelper import displayPieAndBarPlots, demandsExplainationText, useByTypeExplainationText, intExtUseByTypeExplainationText, baseLongTermConservationText
 import streamlit as st
 import pandas as pd 
 

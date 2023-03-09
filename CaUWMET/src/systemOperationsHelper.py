@@ -3,7 +3,7 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import numpy as np
-from colors import colors
+from src.colors import colors
 
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
@@ -84,7 +84,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
     return fig
 
 def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey, piePlotTitle, barPlotTitle, barPlotXAxisLabel, colors):
-    color_map_df = load_data("inputData/color_map_df_demands.csv")
+    color_map_df = load_data("src/inputData/color_map_df_demands.csv")
     plotInputData['k_labels'] = np.select(varsForLabel, k_labelValues)
     
     plotInputData['colors'] = np.select(varsForLabel, colors) 

@@ -111,7 +111,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
     return fig
 
 def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey, piePlotTitle, barPlotTitle, barPlotXAxisLabel, colors):
-    color_map_df = load_data("inputData/color_map_df_demands.csv")
+    color_map_df = load_data("src/inputData/color_map_df_demands.csv")
     plotInputData['k_labels'] = np.select(varsForLabel, k_labelValues)
     
     plotInputData['colors'] = np.select(varsForLabel, colors) 

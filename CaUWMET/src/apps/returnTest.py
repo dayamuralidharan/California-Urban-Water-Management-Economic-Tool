@@ -1,5 +1,5 @@
 import streamlit as st
-from globalUtilities import opt_echo
+from src.globalUtilities import opt_echo
 
 def app():
     

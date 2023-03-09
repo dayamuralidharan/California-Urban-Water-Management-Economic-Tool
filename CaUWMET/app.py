@@ -1,8 +1,24 @@
 import streamlit as st
-from multiapp import MultiApp
+from src.multiapp import MultiApp
 # import your app modules here
-from apps import home, demands, modeloverview, hydrologyassumptions, supplies, systemoperations, results, faq, returnTest, watermanagement
-from globalUtilities import fetch_data
+from src.apps import home, demands, modeloverview, hydrologyassumptions, supplies, systemoperations, results, faq, returnTest, watermanagement
+from src.globalUtilities import fetch_data
+
+from src.modelLogic.modelLogic import ModelLogic
+from src.modelLogic.inputData import InputData
+from src.modelLogic.storageUtilities import StorageUtilities
+from src.modelLogic.inputDataLocations import InputDataLocations
+from src.modelLogic.costOptimizer import CostOptimizer
+
+
+def runWmoOptimizer():
+    print("Starting to run WMO Optimizer")
+    inputData = InputData(InputDataLocations())
+    modelLogic = ModelLogic(inputData, StorageUtilities())
+    costOptimizer = CostOptimizer(inputData, modelLogic)
+    costOptimizer.optimizeWMOs()
+    print("Completed running Water Management Optimization.")
+    print(costOptimizer.objectiveFunction)
 
 
 app = MultiApp()
@@ -15,17 +31,17 @@ with col1:
     """)
 
 with col2: 
-    st.image('dwrlogo.jpg', width=90)
+    st.image('src/dwrlogo.jpg', width=90)
 
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Hydrology Assumptions": hydrologyassumptions,
-    "Demand Assumptions": demands,
-    "Supply Assumptions": supplies,
-    "System Operation Assumptions": systemoperations,
-    "Water Management Assumptions": watermanagement,
-    "Results": results,
+    "Input Hydrology Assumptions": hydrologyassumptions,
+    "Input Demand Assumptions": demands,
+    "Input Supply Assumptions": supplies,
+    "Input System Operation Assumptions": systemoperations,
+    "Input Water Management Assumptions": watermanagement,
+    "Run Model and View Results": results,
     "Documentation and References": faq,
     "Return Test": returnTest,
 }
@@ -41,18 +57,18 @@ futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
 futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYearsList, key = 'futurePlanningYear')
 
 st.sidebar.write("")
-st.sidebar.button('Run Model')
+st.sidebar.button('Run Model', on_click = runWmoOptimizer)
 
 #### Fetch input data
-inputDataTotalDemands = fetch_data("inputData/demandsInput_totalDemands.csv")
-inputDataDemandByUseType = fetch_data("inputData/demandsInput_useByTypeData.csv")
-inputDataIntExtDemandsByUseType = fetch_data("inputData/demandsInput_intAndExtUseByTypeData.csv")
-inputDataBaseLongTermConservation = fetch_data("inputData/demandsInput_baseLongTermConservationData.csv")
+inputDataTotalDemands = fetch_data("src/inputData/demandsInput_totalDemands.csv")
+inputDataDemandByUseType = fetch_data("src/inputData/demandsInput_useByTypeData.csv")
+inputDataIntExtDemandsByUseType = fetch_data("src/inputData/demandsInput_intAndExtUseByTypeData.csv")
+inputDataBaseLongTermConservation = fetch_data("src/inputData/demandsInput_baseLongTermConservationData.csv")
 
-inputDataLocalSupplies = fetch_data("inputData/supplyInput_localSupplies.csv")
-inputDataSWPCVP = fetch_data("inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
+inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
+inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
 
-inputDataExcessWaterSwitch = fetch_data("inputData/systemOperationsInput_ExcessWaterSwitch.csv")
+inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
 
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES

@@ -1,10 +1,10 @@
 import streamlit as st
 import streamlit as st
-from load_css import local_css
-from globalUtilities import opt_echo
-from pageUtilities.editableTable import editableTable
-from pageUtilities.selectData_SystemOperations import setSystemOperationsDatasetsFromRadioButtons
-from pageUtilities.summaryPlots_SystemOperations import displaySummaryPlots
+from src.load_css import local_css
+from src.globalUtilities import opt_echo
+from src.pageUtilities.editableTable import editableTable
+from src.pageUtilities.selectData_SystemOperations import setSystemOperationsDatasetsFromRadioButtons
+from src.pageUtilities.summaryPlots_SystemOperations import displaySummaryPlots
 
 #TODO Plot in collapsible section should average, not sum (Nira)
 #TODO Kensey and Nira to review the color_map_df in demandsHelper file. I don't really understand the labeling. Also, why are colors input here but also declared in line ~129?
@@ -22,7 +22,7 @@ def app():
     with opt_echo():
 
         #Set font styling (currently used for green text)
-        local_css("style.css")
+        local_css("src/style.css")
 
         st.title('System Operations Assumptions Page')
         st.header("Steps to use this page")

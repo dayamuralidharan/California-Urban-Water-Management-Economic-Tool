@@ -1,6 +1,6 @@
 import streamlit as st
 import traceback
-from load_css import local_css
+from src.load_css import local_css
 
 def app():
     

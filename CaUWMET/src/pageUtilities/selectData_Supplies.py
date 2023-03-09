@@ -1,5 +1,5 @@
 import streamlit as st
-from globalUtilities import fetch_data
+from src.globalUtilities import fetch_data
 
 # Functions to set which option from the radio selector inputs are chosen and UWMP values if that is the chosen dataset.
 # These functions are called in the last function defined in this page, "setSupplyDatasetsFromRadioButtons" which gets called in the supplies.py file.
