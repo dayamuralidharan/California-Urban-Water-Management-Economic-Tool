@@ -38,17 +38,18 @@ class ModelLogic:
         
         # Set up variables that will be used for calcs by contractor
         self.initilizeVariablesForContractorLoop()
-        #TODO move to initilizeVariablesForContractorLoop function
+        self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
+        
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
-        self.longtermWMOConservation_Contractor = x[0] #* self.wmoIncrement
-        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
-        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
-        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
-        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
-        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
-        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
-        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10 #* self.wmoIncrement
+        self.longtermWMOConservation_Contractor = x[0]
+        self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = 10 
+        self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMODesalinationSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMORecycledSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = 10
+        self.longtermWMOOtherSupplyIncrementalVolume_Contractor = 10
         self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
                                                                 + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOConservation_Contractor
@@ -71,7 +72,7 @@ class ModelLogic:
 
 #TODO Move to its own class        
     def waterBalanceAndCostLogic(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
-        #### Deliver local and imported supplies, and implement base long-term conservation to meet demands:
+        # Deliver local and imported supplies, and implement base long-term conservation to meet demands:
         self.deliverLocalSuppliesAndImplementPlannedConservation()
 
         # Deliver SWP/CVP supplies
@@ -295,15 +296,11 @@ class ModelLogic:
                                                             + self.conservationLongTermWMOCost_Contractor[self.i]
                                                             )
     def initilizeVariablesForContractorLoop(self):
-        self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
         self.appliedDemand_Contractor = []
         self.demandsToBeMetBySWPCVP_Contractor = []
         self.demandsToBeMetByStorage_Contractor = []
 
-        #TODO Update with optimization logic
         # Water balance variables
-        self.longtermWMOSurfaceVolume_Contractor = self.inputData.longtermWMOSurfaceVolumeLimit.loc[self.contractor][self.inputData.futureYear]
-        
         self.excessSupply_Contractor = []
         self.groundwaterPumpingReduction_Contractor = []
         
