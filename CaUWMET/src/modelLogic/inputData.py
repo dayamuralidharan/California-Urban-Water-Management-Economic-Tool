@@ -14,6 +14,11 @@ class InputData:
         self.contingentWMOsAssumptions = ContingentWMOsAssumptions(self.globalAssumptions, inputDataLocations)
         self.longtermWMOsAssumptions = LongTermWMOsAssumptions(inputDataLocations)
         
+        #### Get Global Assumptions
+        self.contractorsList = self.globalAssumptions.contractorsList
+        self.historicHydrologyYears = self.globalAssumptions.historicHydrologyYears
+        self.futureYear = self.globalAssumptions.futureYear
+        
         #### Get Demand Input Assumptions
         self.totalDemands = self.demandAssumptions.totalDemands
         self.plannedLongTermConservation = self.demandAssumptions.plannedLongTermConservation
@@ -75,6 +80,14 @@ class InputData:
     
         #### Get Long-term WMOs Input Assumptions
         self.longtermWMOSurfaceVolumeLimit = self.longtermWMOsAssumptions.longtermWMOSurfaceVolumeLimit
+        self.longtermWMOGroundwaterVolumeLimit = self.longtermWMOsAssumptions.longtermWMOGroundwaterVolumeLimit
+        self.longtermWMODesalinationVolumeLimit = self.longtermWMOsAssumptions.longtermWMODesalinationVolumeLimit
+        self.longtermWMORecycledVolumeLimit = self.longtermWMOsAssumptions.longtermWMORecycledVolumeLimit
+        self.longtermWMOPotableReuseVolumeLimit = self.longtermWMOsAssumptions.longtermWMOPotableReuseVolumeLimit
+        self.longtermWMOTransfersExchangesVolumeLimit = self.longtermWMOsAssumptions.longtermWMOTransfersExchangesVolumeLimit
+        self.longtermWMOOtherSupplyVolumeLimit = self.longtermWMOsAssumptions.longtermWMOOtherSupplyVolumeLimit
+        self.longtermWMOConservationVolumeLimit = self.longtermWMOsAssumptions.longtermWMOConservationVolumeLimit
+        
         self.longtermWMOSurfaceUnitCost = self.longtermWMOsAssumptions.longtermWMOSurfaceUnitCost
         self.longtermWMOGroundwaterUnitCost = self.longtermWMOsAssumptions.longtermWMOGroundwaterUnitCost
         self.longtermWMODesalinationUnitCost = self.longtermWMOsAssumptions.longtermWMODesalinationUnitCost
@@ -83,9 +96,6 @@ class InputData:
         self.longtermWMOTransfersExchangesUnitCost = self.longtermWMOsAssumptions.longtermWMOTransfersExchangesUnitCost
         self.longtermWMOOtherSupplyUnitCost = self.longtermWMOsAssumptions.longtermWMOOtherSupplyUnitCost
         self.longtermWMOConservationUnitCost = self.longtermWMOsAssumptions.longtermWMOConservationUnitCost
-        self.wmoSupplyVolumeIncrement = self.longtermWMOsAssumptions.wmoSupplyVolumeIncrement
+        self.wmoSupplyVolumeIncrement = self.longtermWMOsAssumptions.wmoSupplyVolumeIncrement #TODO delete this variable, no longer needed
         
-        #### Get Global Assumptions
-        self.contractorsList = self.globalAssumptions.contractorsList
-        self.historicHydrologyYears = self.globalAssumptions.historicHydrologyYears
-        self.futureYear = self.globalAssumptions.futureYear
+        
