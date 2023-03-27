@@ -45,8 +45,8 @@ formula = nodeMappingDf['Calsim 3 M&I Delivery Arc'].values
 inputDSSFileName = "DCRBL_DV_6.68.dss"
 inputDSS = "inputData_FullContractorList/" + inputDSSFileName
 inputDSSFile = os.path.join(dirname, inputDSS)  # Entire path to the input file (including the extension)
-start_date = "31Oct1921 00:00:00"   # Start time
-end_date = "30Sep2003 00:00:00"     # End time
+start_date = "1921-10"   # Start time - Not used at the moment
+end_date = "2003-09"     # End time - maintain the format "YYYY-MM"
 outputFileName = "inputData_FullContractorList/swpCVPSupplyData" + inputDSSFileName + ".csv"
 outputFile = os.path.join(dirname, outputFileName)
 
@@ -100,6 +100,7 @@ for i, item in enumerate(formula):
                 plist1 = d.get_pathnames(fdf3)
                 nodePathnames.append(plist1[0])
                 dfr1, units1, ptype1 = d.read_rts(plist1[0])
+                dfr1 = dfr1[dfr1.index <= end_date]  # Limiting data to end date
                 # Resample monthly data to yearly
                 dfr2 = dfr1.resample('Y').sum()
                 # Keep data only for required years
