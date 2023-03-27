@@ -5,10 +5,10 @@
 3,City of Roseville,D8G_NP + D8G_PMI,DG_26N_PU1
 4,City of West Sacramento,D165_PSC,DG_21_PU
 5,Yuba City,D204_PMI,DG_16_PU
-6,El Dorado Irrigation District,D8F_NP + D8F_PMI,All non-project in CS3
+6,El Dorado Irrigation District,D8F_NP + D8F_PMI,D_FOLSM_WTPEDH_CVP + D_FOLSM_EDCOCA_CVP
 7,Napa County Flood Control & Water Conservation District,"D403B_PMI + D403B_PCO + 
 D403B_PIN",D_BKR004_NBA009_NAPA
-8,Placer County Water Agency,D8H_PMI+D300_NP,All non-project in CS3
+8,Placer County Water Agency,D8H_PMI+D300_NP,D_FOLSM_24_NU2_CVP
 9,Sacramento County Water Agency,D168C+D167B,DG_26S_PU6 + DG_26S_PU5 + DG_26S_PU4
 10,San Juan Water District,D8D_NP + D8E_NP + D8E_PMI,DG_26N_PU2 + DG_26N_PU3
 11,Shasta Contractors,D104_PMI*0.5 + D104_PMI*0.35,Not clear in CS3
