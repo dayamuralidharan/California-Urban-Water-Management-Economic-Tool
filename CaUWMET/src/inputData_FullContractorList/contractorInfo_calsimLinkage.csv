@@ -1,7 +1,7 @@
 ,Contractor,Calsim II M&I Delivery Arc,Calsim 3 M&I Delivery Arc
 0,Butte County,D201,Not clear in CS3
 1,City of Folsom,D8B_NP + D8B_PMI,DG_26S_PU1 - 4/31*D_FOLSM_WTPFOL_WR
-2,City of Redding,D104_PSC*0.13779 + D104_PMI*0.5,D_02_SU + DG_03_PU3 + DG_03_SU
+2,City of Redding,D104_PSC*0.13779 + D104_PMI*0.5,DG_02_SU + DG_03_PU3 + DG_03_SU
 3,City of Roseville,D8G_NP + D8G_PMI,DG_26N_PU1
 4,City of West Sacramento,D165_PSC,DG_21_PU
 5,Yuba City,D204_PMI,DG_16_PU

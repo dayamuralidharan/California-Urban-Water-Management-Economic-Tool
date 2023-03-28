@@ -72,8 +72,8 @@ for i, item in enumerate(formula):
             ("wy" in item.lower()) or
             ("clear" in item.lower()) or
             ("not_applicable" in item.lower()) or
-            ("non-project" in item.lower()) or
-            ("d_02_su" in item.lower())
+            ("non-project" in item.lower())
+            # ("d_02_su" in item.lower())  # City of Redding definition has been corrected -> it is DG_02_SU
             # Used D_WSB032_CLRTA2_PMI as I couldn't find D_WSB032_CLRTA_PMI
             # Used D_WSB032_CLRTA2_PCO as I couldnt' find D_WSB032_CLRTA_PCO
     ):
@@ -102,7 +102,7 @@ for i, item in enumerate(formula):
                 dfr1, units1, ptype1 = d.read_rts(plist1[0])
                 dfr1 = dfr1[dfr1.index <= end_date]  # Limiting data to end date
                 # Resample monthly data to yearly
-                dfr2 = dfr1.resample('Y').sum()
+                dfr2 = dfr1.resample('Y').sum()   # TODO: Change this to mean - so that we can report in annual mean cfs
                 # Keep data only for required years
                 dfr3 = dfr2[(dfr2.index.year >= 1921) & (dfr2.index.year <= 2003)]
             var.append(dfr3[dfr3.columns[0]].values)
