@@ -6,7 +6,11 @@ from src.pageUtilities.selectData_Demands import setDemandDatasetsFromRadioButto
 from src.pageUtilities.summaryPlots_Demands import displaySummaryPlots
 from src.load_css import local_css
 
-#TODO Review the color_map_df in demandsHelper file. I don't really understand the labeling. Also, why are colors input here but also declared in line ~129?
+#TODO Plot in collapsible section should average, not sum (Nira)
+#TODO Kensey and Nira to review the color_map_df in demandsHelper file. I don't really understand the labeling. Also, why are colors input here but also declared in line ~129?
+#TODO See if we can get demandsHelper file into pageUtilities folder (Kensey)
+#TODO Make green text again (Nira)
+#TODO Make bar plots color code by region too (Nira)
 
 # Functions used to set variables equal to user-defined values in the editable tables if user-defined data is selected over default, also known as "grids"
 def setTotalDemandsDataToUserInput(gridResponseData): 
