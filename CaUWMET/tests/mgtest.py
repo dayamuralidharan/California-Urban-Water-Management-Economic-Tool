@@ -44,9 +44,9 @@ w += [ modelLogic.inputData.longtermWMOConservationUnitCost.loc[modelLogic.contr
 
 ### Bucket Testing ###
 # randomish 1x8 variables
-wt = sample(list(range(1,5))*2,k=8)  # weights
-lb = [0]*8                           # upper bound
-ub = sample([50,40,30,20]*2,k=8)     # lower bound
+wt = sample(list(range(1,5))*2, k=8)  # weights
+lb = [0]*8                           # lower bound
+ub = sample([50,40,30,20]*2, k=8)     # upper bound
 wmo = [                              # wmo names
     'Surface',
     'Groundwater',
@@ -62,7 +62,7 @@ wmo = [                              # wmo names
 cmod = [ {'wmo':i,'wt':j,'lb':k,'ub':l} for i,j,k,l in list(zip(wmo,wt,lb,ub)) ]
 
 # sort by weights
-cmod_sort = sorted(cmod,key=lambda d: d['wt'])
+cmod_sort = sorted(cmod, key=lambda d: d['wt'])
 
 # cmod_sort to nested dict keyed by rank
 rank = 0
