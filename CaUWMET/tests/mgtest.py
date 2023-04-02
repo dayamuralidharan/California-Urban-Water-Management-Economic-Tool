@@ -1,0 +1,122 @@
+import numpy as np
+
+from pymoo.core.problem import Problem
+from pymoo.algorithms.soo.nonconvex.pso import PSO
+from pymoo.optimize import minimize
+
+from src.modelLogic.modelLogic import ModelLogic
+from src.modelLogic.inputData import InputData
+from src.modelLogic.storageUtilities import StorageUtilities
+from src.modelLogic.inputDataLocations import InputDataLocations
+
+from pprint import pprint
+
+inputData = InputData(InputDataLocations())
+modelLogic = ModelLogic(inputData, StorageUtilities())
+modelLogic.contractor = 'Metropolitan Water District of Southern California'
+ 
+# assign weights
+w = []
+
+w += [ modelLogic.inputData.longtermWMOSurfaceUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMOGroundwaterUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMODesalinationUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMORecycledUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMOPotableReuseUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMOTransfersExchangesUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMOOtherSupplyUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+w += [ modelLogic.inputData.longtermWMOConservationUnitCost.loc[modelLogic.contractor][inputData.futureYear] ]
+
+from random import sample
+
+# bucket testing
+# 1x8 variables
+wmo = [
+    'Surface',
+    'Groundwater',
+    'Desalination',
+    'Recycled',
+    'PotableReuse',
+    'TransfersExchanges',
+    'OtherSupply',
+    'Conservation'
+]
+wt = sample(list(range(1,5))*2,k=8)  # weights
+lb = [0]*8                           # upper bound
+ub = sample([50,40,30,20]*2,k=8)     # lower bound
+
+# lb/ub constraint model cmod
+cmod = [ {'wt':j,'lb':k,'ub':l} for j,k,l in list(zip(wt,lb,ub)) ]
+
+# sort by weights
+cmod_sort = sorted(cmod,key=lambda d: d['wt'])
+
+# cmod_sort to nested dict keyed by rank
+rank=0
+cmod_rank={}
+while rank < len(cmod_sort):
+    cmod_rank[rank] = [ d for d in cmod_sort if d['wt'] == cmod_sort[rank]['wt'] ]
+    rank += len(cmod_rank[rank])
+
+
+# fill buckets equally per rank
+a = 178 # allowance
+for rank in cmod_rank.values():
+    for d in rank:
+        d['fill'] = 0
+    
+    b = sum([d['ub'] for d in rank])  # capacity
+    
+    if a > b:                         # determine rank allowance
+        ra = b
+    else: 
+        ra = a
+    
+    a -= ra                           # decrement total allowance
+    
+    i = 0
+    while ra > 0:
+        if rank[i]['fill'] != rank[i]['ub']:  # fill if ub not met
+            rank[i]['fill'] += 1
+            ra -= 1
+                
+        if i >= len(rank) - 1:  # cycle through variables sharing rank
+            i = 0
+        else:
+            i += 1
+
+
+# solved system
+cmod_solved = [ i for items in cmod_rank.values() for i in items ]
+
+# cost
+amounts =[ d['fill'] for d in cmod_solved ]
+weights = [ d['wt'] for d in cmod_solved ]
+cost = np.dot(amounts, weights)
+
+
+# more basic reprex
+# fill buckets
+# a = 178 # allowance
+# for wmo in cmod_sort:
+#     if a - wmo['ub'] < 0:
+#         wmo['fill'] = a
+#         a=0
+#     else:
+#         wmo['fill'] = wmo['ub']
+#         a -= wmo['ub']
+# 
+# weights = [d['wt'] for d in cmod_sort]
+# amounts = [d['fill'] for d in cmod_sort]
+# 
+# cost = np.dot(weights,amounts)
+
+
+
