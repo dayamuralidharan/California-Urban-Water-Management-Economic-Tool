@@ -1,7 +1,7 @@
 import streamlit as st
 from src.multiapp import MultiApp
 # import your app modules here
-from src.apps import home, demands, modeloverview, hydrologyassumptions, supplies, systemoperations, results, faq, returnTest, watermanagement
+from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, faq, watermanagement
 from src.globalUtilities import fetch_data
 
 from src.modelLogic.modelLogic import ModelLogic
@@ -36,14 +36,13 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Input Hydrology Assumptions": hydrologyassumptions,
+    "Contractor Information": contractorinformation,
     "Input Demand Assumptions": demands,
     "Input Supply Assumptions": supplies,
     "Input System Operation Assumptions": systemoperations,
-    "Input Water Management Assumptions": watermanagement,
+    "Water Management Options Assumptions": watermanagement,
     "Run Model and View Results": results,
     "Documentation and References": faq,
-    "Return Test": returnTest,
 }
 
 st.sidebar.title('Navigation')
