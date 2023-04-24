@@ -13,6 +13,7 @@ def displaySummaryPlots():
     st.write(demandsExplainationText)
 
     # Set up total demand variables for summary poster plots
+    # demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor']]
     demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
