@@ -14,7 +14,6 @@ class EconomicLossByUseType:
         self.industrialEconomicLoss_Contractor = []
         self.commAndGovEconomicLoss_Contractor = []
         self.landscapeEconomicLoss_Contractor = []
-        
         self.totalEconomicLoss_Contractor = []
         
     def calculateTotalEconomicLoss(self, shortageByUseType: ShortageByUseType, input: ContingencyWMOsHandlerInput, contingencyWMOs: ContingencyWMOs, totalShortage_Contractor):

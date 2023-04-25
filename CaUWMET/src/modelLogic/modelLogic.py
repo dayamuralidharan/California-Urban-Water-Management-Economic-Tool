@@ -1,3 +1,5 @@
+
+import pdb
 import pandas as pd #TODO only import functionalities needed?
 import numpy as np
 from src.modelLogic.inputData import InputData
@@ -27,10 +29,11 @@ class ModelLogic:
     def execute(self, x):
         f = []
         for y in x:
-            print(y)
+            print(f"y: {y}")
+#            breakpoint()
             result = self.executeModelLogicForContractor(y)
             f.append([result])
-            print(f)
+            print(f"f: {f}")
         return f
     
     def executeModelLogicForContractor(self, x):
@@ -42,6 +45,7 @@ class ModelLogic:
         
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
+
         self.longtermWMOConservation_Contractor = x[0]
         self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = x[1] 
         self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = x[2]
@@ -50,7 +54,7 @@ class ModelLogic:
         self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = x[5]
         self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = x[6]
         self.longtermWMOOtherSupplyIncrementalVolume_Contractor = x[7]
-        self.totalLongtermWMOSupplyIncrementalVolume_Contractor = sum(self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
+        self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
                                                                 + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOConservation_Contractor
                                                                 + self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor
@@ -140,9 +144,7 @@ class ModelLogic:
         else:
             self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - self.demandsToBeMetBySWPCVP_Contractor[self.i]))
             self.demandsToBeMetByStorage_Contractor.append(0)
-    
-    
-    
+
         
     def doNotImplementStorageOperations(self):
         self.groundwaterPumpingReduction_Contractor.append(0)

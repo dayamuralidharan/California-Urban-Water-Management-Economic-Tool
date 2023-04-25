@@ -19,7 +19,7 @@ from src.modelLogic.modelLogic import ModelLogic
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.inputDataLocations import InputDataLocations
-#from src.modelLogic.readLongTermWMOsAssumptions import LongTermWMOsAssumptions
+from src.modelLogic.readLongTermWMOsAssumptions import LongTermWMOsAssumptions
 
 ### PyMoo Optimization Problem ###
 
@@ -34,20 +34,24 @@ class CostOptimizer(Problem):
     https://pymoo.org/
     '''
     def __init__(self, 
-                 wmoSupply: int,             # how much are we allocating to the WMOs? int for now...
+                 wmoSupply: int,             # how much are we allocating to the longterm WMOs? int for now...
                  upperBounds: list,          # upper bound of each WMO type for a given scenario - len(list)=8
                  modelLogic: ModelLogic):    # prepared ModelLogic object with InputData and StorageUtilities
         '''
         Initializing the CostOptimizer class requires parameterizing a given CaUWMET model
         for a given contractor and requested wmoSupply.
+        Inputs:
+            wmoSupply :: integer (for now..., could later be a number)
+            upperBounds :: list of numbers, length 8
+            modelLogic :: ModelLogic object loaded with InputData, StorageUtilities, and Contractor
         '''
         self.wmoSupply = wmoSupply           # must be greater than 0
         self.upperBounds = upperBounds       # list length 8 upper bounding WMOs
-        self.objectiveFunction = modelLogic.executeModelLogicForContractor
+        self.objectiveFunction = modelLogic.execute
         
         # parameterize the objective function
         super().__init__(
-            n_var=8, n_obj=1, n_eq_constr=1, 
+            n_var=8, n_obj=1, #n_eq_constr=1, 
             xl=[0]*8, xu=self.upperBounds    # xl and xu set f bounds 
         )
 
@@ -55,12 +59,14 @@ class CostOptimizer(Problem):
     def _evaluate(self, x, out, *args, **kwargs):
         '''
         Inputs:
-           wmoSupply :: int
+           x :: list of numbers, length 8
         Returns objective function f(x) as execution of model logic
         Returns equality constraint h(x) as wmoSupply - sum(x) = 0
         ''' 
         out["F"] = self.objectiveFunction(x)
-        out["H"] = self.wmoSupply - np.sum(x)
+        print(f"{(self.wmoSupply - np.sum(x,axis=1)).shape}")
+        print(f"{self.wmoSupply - np.sum(x,axis=1)}")        
+        #out["H"] = self.wmoSupply - np.sum(x, axis=1)
         
 
 ### Optimization Test ###
@@ -72,16 +78,27 @@ def main():
     modelLogic = ModelLogic(inputData, StorageUtilities())
     modelLogic.contractor = 'Metropolitan Water District of Southern California'
     
-    # upperBounds = LongTermWMOsAssumptions(InputDataLocations()).longtermWMO.......['2045']
-    upperBounds = [50]*8
+    ltaWMO = LongTermWMOsAssumptions(InputDataLocations())
+    year = '2045'
     
+    upperBounds = [
+        ltaWMO.longtermWMOSurfaceVolumeLimit[ltaWMO.longtermWMOSurfaceVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMOGroundwaterVolumeLimit[ltaWMO.longtermWMOGroundwaterVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMODesalinationVolumeLimit[ltaWMO.longtermWMODesalinationVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMORecycledVolumeLimit[ltaWMO.longtermWMORecycledVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMOPotableReuseVolumeLimit[ltaWMO.longtermWMOPotableReuseVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMOTransfersExchangesVolumeLimit[ltaWMO.longtermWMOTransfersExchangesVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMOOtherSupplyVolumeLimit[ltaWMO.longtermWMOOtherSupplyVolumeLimit.index==modelLogic.contractor][year][0],
+        ltaWMO.longtermWMOConservationVolumeLimit[ltaWMO.longtermWMOConservationVolumeLimit.index==modelLogic.contractor][year][0],
+    ]
+
     wmoSupply = 500
     
     problem = CostOptimizer(wmoSupply=wmoSupply, upperBounds=upperBounds, modelLogic=modelLogic)
     
-    algorithm = PSO()
+    algorithm = PSO(pop_size=10)
     
-    res = minimize(problem, algorithm, seed=42, verbose=False)
+    res = minimize(problem, algorithm, seed=42, verbose=True)
     
     print("Best solution found: \nX = %s\nF = %s" % (res.X, res.F))
     
