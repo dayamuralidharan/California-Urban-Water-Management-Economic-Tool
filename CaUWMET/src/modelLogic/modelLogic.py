@@ -1,4 +1,3 @@
-
 import pdb
 import pandas as pd #TODO only import functionalities needed?
 import numpy as np
@@ -68,7 +67,9 @@ class ModelLogic:
         for self.i in range(len(self.inputData.historicHydrologyYears)):
             self.waterBalanceAndCostLogic(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
         self.writeToContractorOutputTimeSeriesDataframe()
-        
+        print("------------------")
+        print(f"self.outputHandler.totalAnnualCost[self.contractor]: {self.outputHandler.totalAnnualCost[self.contractor]}")
+        print("------------------")
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
         self.outputHandler.averageTotalAnnualCost[self.contractor] = self.averageTotalAnnualCost_Contractor
         return self.averageTotalAnnualCost_Contractor
