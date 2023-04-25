@@ -1,6 +1,6 @@
 ###### Requirements without version specifiers ######
 pandas
-streamlit 0.86.0
+streamlit
 streamlit_aggrid
 plotly
 numpy
@@ -9,5 +9,5 @@ multiapp
 scikit_learn
 
 ###### Requirements with version specifiers ######
-pyproj==2.6.1.post1 # Version and bits Matching. Must be the same version as Python, Anaconda (eg: cp37-cp37m-win_amd64.whl - Version 3.7, 64-bits)
-Shapely==1.7.0      # Version and bits Matching. Must be the same version as Python, Anaconda (eg: cp37-cp37m-win_amd64.whl - Version 3.7, 64-bits)
+#pyproj==2.6.1.post1 # Version and bits Matching. Must be the same version as Python, Anaconda (eg: cp37-cp37m-win_amd64.whl - Version 3.7, 64-bits)
+#Shapely==1.7.0      # Version and bits Matching. Must be the same version as Python, Anaconda (eg: cp37-cp37m-win_amd64.whl - Version 3.7, 64-bits)

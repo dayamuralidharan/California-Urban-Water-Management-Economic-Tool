@@ -1,5 +1,6 @@
 import streamlit as st
 from src.globalUtilities import fetch_data
+from src.pageUtilities.summaryPlots_Demands import displaySummaryPlots
 
 # Functions to set which option from the radio selector inputs are chosen and UWMP values if that is the chosen dataset.
 def setTotalDemandsInputData():
@@ -38,6 +39,7 @@ def setBaseLongTermConservationInputData():
 
 def setDemandDatasetsFromRadioButtons():
     demandsDatasetOptions = ['UWMP reported values', 'ETAW adjusted demands', 'Input demands in table below']
+
     st.radio("""1. Select the Total Demand Scenario Dataset from the options below. If the last option is selected, 
     update the data in the Total Demand Scenarios table in the first collapsible section below.""", options = demandsDatasetOptions, index = st.session_state.totalDemandScenarioRadioButtonIndex, key = "totalDemandsChoice", on_change = setTotalDemandsInputData)
 
