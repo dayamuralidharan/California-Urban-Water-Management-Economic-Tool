@@ -28,11 +28,11 @@ class ModelLogic:
     def execute(self, x):
         f = []
         for y in x:
-            print(f"y: {y}")
+#            print(f"y: {y}")
 #            breakpoint()
             result = self.executeModelLogicForContractor(y)
             f.append([result])
-            print(f"f: {f}")
+#            print(f"f: {f}")
         return f
     
     def executeModelLogicForContractor(self, x):
@@ -93,9 +93,9 @@ class ModelLogic:
         # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
         self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs, self.totalShortage_Contractor)
-        print("---------------")
-        print(f"self.economicLossByUseType.totalEconomicLoss_Contractor[self.i]: {self.economicLossByUseType.totalEconomicLoss_Contractor[self.i]}")
-        print("---------------")
+#        print("---------------")
+#        print(f"self.economicLossByUseType.totalEconomicLoss_Contractor[self.i]: {self.economicLossByUseType.totalEconomicLoss_Contractor[self.i]}")
+#        print("---------------")
         self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
 
     def writeToContractorOutputTimeSeriesDataframe(self):

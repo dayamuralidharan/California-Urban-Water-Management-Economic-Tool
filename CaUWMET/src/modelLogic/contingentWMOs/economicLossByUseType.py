@@ -33,26 +33,26 @@ class EconomicLossByUseType:
         self.coefficient_IND = self.industrialUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_industrial.loc[self.contingentWMOsinput.contractor]))
         self.coefficient_COM = self.commAndGovUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_commAndGov.loc[self.contingentWMOsinput.contractor]))
         self.coefficient_LAND = self.landscapeUse_Contractor / (float(self.inputData.retailPrice.loc[self.contingentWMOsinput.contractor]) ** float(self.inputData.elasticityOfDemand_landscape.loc[self.contingentWMOsinput.contractor]))
-        print("---------------")
-        print(f"totalShortage_Contractor[self.contingentWMOsinput.i]:\n{totalShortage_Contractor[self.contingentWMOsinput.i]}")
-        print("+++++++++++++++")
-        print(totalShortage_Contractor[self.contingentWMOsinput.i] > 0)
+#        print("---------------")
+#        print(f"totalShortage_Contractor[self.contingentWMOsinput.i]:\n{totalShortage_Contractor[self.contingentWMOsinput.i]}")
+#        print("+++++++++++++++")
+#        print(totalShortage_Contractor[self.contingentWMOsinput.i] > 0)
         if totalShortage_Contractor[self.contingentWMOsinput.i] > 0:
             self.calculateEconomicLossByUseType()
-            print(type(self.singleFamilyEconomicLoss_Contractor))
-            print(type(self.multiFamilyEconomicLoss_Contractor))
-            print(type(self.industrialEconomicLoss_Contractor))
-            print(type(self.industrialEconomicLoss_Contractor))
-            print(type(self.commAndGovEconomicLoss_Contractor))
-            print(type(self.landscapeEconomicLoss_Contractor))
-
-            print(self.singleFamilyEconomicLoss_Contractor)
-            print(self.multiFamilyEconomicLoss_Contractor)
-            print(self.industrialEconomicLoss_Contractor)
-            print(self.industrialEconomicLoss_Contractor)
-            print(self.commAndGovEconomicLoss_Contractor)
-            print(self.landscapeEconomicLoss_Contractor)
-            print(self.singleFamilyEconomicLoss_Contractor+self.multiFamilyEconomicLoss_Contractor+self.industrialEconomicLoss_Contractor+self.industrialEconomicLoss_Contractor+self.commAndGovEconomicLoss_Contractor+self.landscapeEconomicLoss_Contractor)
+#            print(type(self.singleFamilyEconomicLoss_Contractor))
+#            print(type(self.multiFamilyEconomicLoss_Contractor))
+#            print(type(self.industrialEconomicLoss_Contractor))
+#            print(type(self.industrialEconomicLoss_Contractor))
+#            print(type(self.commAndGovEconomicLoss_Contractor))
+#            print(type(self.landscapeEconomicLoss_Contractor))
+#
+#            print(self.singleFamilyEconomicLoss_Contractor)
+#            print(self.multiFamilyEconomicLoss_Contractor)
+#            print(self.industrialEconomicLoss_Contractor)
+#            print(self.industrialEconomicLoss_Contractor)
+#            print(self.commAndGovEconomicLoss_Contractor)
+#            print(self.landscapeEconomicLoss_Contractor)
+#            print(self.singleFamilyEconomicLoss_Contractor+self.multiFamilyEconomicLoss_Contractor+self.industrialEconomicLoss_Contractor+self.industrialEconomicLoss_Contractor+self.commAndGovEconomicLoss_Contractor+self.landscapeEconomicLoss_Contractor)
 
             self.totalEconomicLoss_Contractor.append( self.singleFamilyEconomicLoss_Contractor
                                                     + self.multiFamilyEconomicLoss_Contractor
@@ -63,8 +63,8 @@ class EconomicLossByUseType:
                                                     )
         else:
             self.totalEconomicLoss_Contractor.append(0)
-        print(f"self.totalEconomicLoss_Contractor:\n{self.totalEconomicLoss_Contractor}")
-        print("---------------")
+#        print(f"self.totalEconomicLoss_Contractor:\n{self.totalEconomicLoss_Contractor}")
+#        print("---------------")
 
 
     def calculateEconomicLossByUseType(self):
@@ -74,25 +74,25 @@ class EconomicLossByUseType:
 #        breakpoint()
         self.commAndGovEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor, self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_commAndGov, self.commAndGovUse_Contractor, self.coefficient_COM)
         
-        print("----------")
-        print("comm and gov economic loss inputs")
-        print(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor)
-        print(self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor)
-        print(self.inputData.lowerLossBoundary)
-        print(self.inputData.elasticityOfDemand_commAndGov)
-        print(self.commAndGovUse_Contractor)
-        print(self.coefficient_COM)
-        
-        print("++++++++++++++++++")
-        print("landscape economic loss inputs")
-        print(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor) 
-        print(self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor)
-        print(self.inputData.lowerLossBoundary)
-        print(self.inputData.elasticityOfDemand_landscape)
-        print(self.landscapeUse_Contractor)
-        print(self.coefficient_LAND)
-
-        breakpoint()
+#        print("----------")
+#        print("comm and gov economic loss inputs")
+#        print(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor)
+#        print(self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor)
+#        print(self.inputData.lowerLossBoundary)
+#        print(self.inputData.elasticityOfDemand_commAndGov)
+#        print(self.commAndGovUse_Contractor)
+#        print(self.coefficient_COM)
+#        
+#        print("++++++++++++++++++")
+#        print("landscape economic loss inputs")
+#        print(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor) 
+#        print(self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor)
+#        print(self.inputData.lowerLossBoundary)
+#        print(self.inputData.elasticityOfDemand_landscape)
+#        print(self.landscapeUse_Contractor)
+#        print(self.coefficient_LAND)
+#
+#        breakpoint()
         self.landscapeEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor, self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_landscape, self.landscapeUse_Contractor, self.coefficient_LAND)
 
 

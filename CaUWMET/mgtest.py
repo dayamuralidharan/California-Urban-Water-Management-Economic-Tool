@@ -10,6 +10,7 @@ from pprint import pprint
 from pymoo.core.problem import Problem
 from pymoo.algorithms.soo.nonconvex.pso import PSO
 from pymoo.optimize import minimize
+from pymoo.termination import get_termination
 
 #from tests.test_modelLogic.py import ModelLogic
 #from tests.test_inputDataLocationsForTesting import InputDataLocationsForTesting
@@ -52,7 +53,7 @@ class CostOptimizer(Problem):
         # parameterize the objective function
         super().__init__(
             n_var=8, n_obj=1, #n_eq_constr=1, 
-            xl=[0.1]*8, xu=self.upperBounds    # xl and xu set f bounds 
+            xl=[0]*8, xu=self.upperBounds    # xl and xu set f bounds 
         )
 
 
@@ -64,8 +65,8 @@ class CostOptimizer(Problem):
         Returns equality constraint h(x) as wmoSupply - sum(x) = 0
         ''' 
         out["F"] = self.objectiveFunction(x)
-        print(f"{(self.wmoSupply - np.sum(x,axis=1)).shape}")
-        print(f"{self.wmoSupply - np.sum(x,axis=1)}")        
+#        print(f"{(self.wmoSupply - np.sum(x,axis=1)).shape}")
+#        print(f"{self.wmoSupply - np.sum(x,axis=1)}")
         #out["H"] = self.wmoSupply - np.sum(x, axis=1)
         
 
@@ -81,24 +82,37 @@ def main():
     ltaWMO = LongTermWMOsAssumptions(InputDataLocations())
     year = '2045'
     
-    upperBounds = [
-        ltaWMO.longtermWMOSurfaceVolumeLimit[ltaWMO.longtermWMOSurfaceVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMOGroundwaterVolumeLimit[ltaWMO.longtermWMOGroundwaterVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMODesalinationVolumeLimit[ltaWMO.longtermWMODesalinationVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMORecycledVolumeLimit[ltaWMO.longtermWMORecycledVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMOPotableReuseVolumeLimit[ltaWMO.longtermWMOPotableReuseVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMOTransfersExchangesVolumeLimit[ltaWMO.longtermWMOTransfersExchangesVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMOOtherSupplyVolumeLimit[ltaWMO.longtermWMOOtherSupplyVolumeLimit.index==modelLogic.contractor][year][0],
-        ltaWMO.longtermWMOConservationVolumeLimit[ltaWMO.longtermWMOConservationVolumeLimit.index==modelLogic.contractor][year][0],
-    ]
+#    upperBounds = [
+#        ltaWMO.longtermWMOSurfaceVolumeLimit[ltaWMO.longtermWMOSurfaceVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMOGroundwaterVolumeLimit[ltaWMO.longtermWMOGroundwaterVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMODesalinationVolumeLimit[ltaWMO.longtermWMODesalinationVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMORecycledVolumeLimit[ltaWMO.longtermWMORecycledVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMOPotableReuseVolumeLimit[ltaWMO.longtermWMOPotableReuseVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMOTransfersExchangesVolumeLimit[ltaWMO.longtermWMOTransfersExchangesVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMOOtherSupplyVolumeLimit[ltaWMO.longtermWMOOtherSupplyVolumeLimit.index==modelLogic.contractor][year][0],
+#        ltaWMO.longtermWMOConservationVolumeLimit[ltaWMO.longtermWMOConservationVolumeLimit.index==modelLogic.contractor][year][0],
+#    ]
 
+    upperBounds = [50]*8
     wmoSupply = 500
     
     problem = CostOptimizer(wmoSupply=wmoSupply, upperBounds=upperBounds, modelLogic=modelLogic)
+    algorithm = PSO(
+        pop_size=10,
+        w=0.9, c1=5.0, c2=1.0,
+        adaptive=True,
+        max_velocity_rate=0.2
+    )
+    termination = get_termination("n_gen", 10)
     
-    algorithm = PSO(pop_size=10)
-    
-    res = minimize(problem, algorithm, seed=42, verbose=True)
+    res = minimize(
+        problem, 
+        algorithm, 
+        termination, 
+        seed=42, 
+        verbose=True,
+        save_history=False
+    )
     
     print("Best solution found: \nX = %s\nF = %s" % (res.X, res.F))
     
