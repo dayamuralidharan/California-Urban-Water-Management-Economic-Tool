@@ -4,22 +4,6 @@ from src.multiapp import MultiApp
 from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, faq, watermanagement
 from src.globalUtilities import fetch_data
 
-from src.modelLogic.modelLogic import ModelLogic
-from src.modelLogic.inputData import InputData
-from src.modelLogic.storageUtilities import StorageUtilities
-from src.modelLogic.inputDataLocations import InputDataLocations
-from src.modelLogic.costOptimizer import CostOptimizer
-
-
-def runWmoOptimizer():
-    print("Starting to run WMO Optimizer")
-    inputData = InputData(InputDataLocations())
-    modelLogic = ModelLogic(inputData, StorageUtilities())
-    costOptimizer = CostOptimizer(inputData, modelLogic)
-    costOptimizer.optimizeWMOs()
-    print("Completed running Water Management Optimization.")
-    print(costOptimizer.objectiveFunction)
-
 
 app = MultiApp()
 
@@ -55,49 +39,14 @@ st.sidebar.write("")
 futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
 futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYearsList, key = 'futurePlanningYear')
 
-st.sidebar.write("")
-st.sidebar.button('Run Model', on_click = runWmoOptimizer)
 
 #### Fetch input data
-inputDataTotalDemands = fetch_data("src/inputData/demandsInput_totalDemands.csv")
-inputDataDemandByUseType = fetch_data("src/inputData/demandsInput_useByTypeData.csv")
-inputDataIntExtDemandsByUseType = fetch_data("src/inputData/demandsInput_intAndExtUseByTypeData.csv")
-inputDataBaseLongTermConservation = fetch_data("src/inputData/demandsInput_baseLongTermConservationData.csv")
 
 inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
 inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
 
 inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
 
-#---------------------------------------------------------------#
-# INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
-#---------------------------------------------------------------#
-
-# Initialize radio button indices with default values
-if 'totalDemandScenarioRadioButtonIndex' not in st.session_state:
-    st.session_state['totalDemandScenarioRadioButtonIndex'] = 0
-
-if 'useByTypeRadioButtonIndex' not in st.session_state:
-    st.session_state['useByTypeRadioButtonIndex'] = 0
-
-if 'intExtUseByTypeRadioButtonIndex' not in st.session_state:
-    st.session_state['intExtUseByTypeRadioButtonIndex'] = 0
-
-if 'baseLongTermConservationRadioButtonIndex' not in st.session_state:
-    st.session_state['baseLongTermConservationRadioButtonIndex'] = 0
-
-#### Initialize input datasets with default values 
-if 'totalDemandsdf' not in st.session_state:
-    st.session_state['totalDemandsdf'] = inputDataTotalDemands
-
-if 'useByTypedf' not in st.session_state:
-    st.session_state['useByTypedf'] = inputDataDemandByUseType
-
-if 'intExtUseByTypedf' not in st.session_state:
-    st.session_state['intExtUseByTypedf'] = inputDataIntExtDemandsByUseType
-
-if 'baseLongTermConservationdf' not in st.session_state:
-    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation
     
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
