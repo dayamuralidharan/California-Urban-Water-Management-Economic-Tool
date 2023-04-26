@@ -4,22 +4,6 @@ from src.multiapp import MultiApp
 from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, faq, watermanagement
 from src.globalUtilities import fetch_data
 
-from src.modelLogic.modelLogic import ModelLogic
-from src.modelLogic.inputData import InputData
-from src.modelLogic.storageUtilities import StorageUtilities
-from src.modelLogic.inputDataLocations import InputDataLocations
-from src.modelLogic.costOptimizer import CostOptimizer
-
-
-def runWmoOptimizer():
-    print("Starting to run WMO Optimizer")
-    inputData = InputData(InputDataLocations())
-    modelLogic = ModelLogic(inputData, StorageUtilities())
-    costOptimizer = CostOptimizer(inputData, modelLogic)
-    costOptimizer.optimizeWMOs()
-    print("Completed running Water Management Optimization.")
-    print(costOptimizer.objectiveFunction)
-
 
 app = MultiApp()
 
@@ -55,8 +39,6 @@ st.sidebar.write("")
 futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
 futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYearsList, key = 'futurePlanningYear')
 
-st.sidebar.write("")
-st.sidebar.button('Run Model', on_click = runWmoOptimizer)
 
 #### Fetch input data
 inputDataTotalDemands = fetch_data("src/inputData/demandsInput_totalDemands.csv")
