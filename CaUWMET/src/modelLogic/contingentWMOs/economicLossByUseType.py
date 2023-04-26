@@ -71,26 +71,98 @@ class EconomicLossByUseType:
         self.singleFamilyEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.singleFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_singleFamily, self.singleFamilyUse_Contractor, self.coefficient_SF)
         self.multiFamilyEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.multiFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.multiFamilyShortagePortionOfMultiFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_multiFamily, self.multiFamilyUse_Contractor, self.coefficient_MF)
         self.industrialEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.industrialShortage_Contractor, self.contingencyWMOs.shortageByUseType.industrialShortagePortionOfIndustrialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_industrial, self.industrialUse_Contractor, self.coefficient_IND)
+#        breakpoint()
         self.commAndGovEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor, self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_commAndGov, self.commAndGovUse_Contractor, self.coefficient_COM)
+        
+        print("----------")
+        print("comm and gov economic loss inputs")
+        print(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor)
+        print(self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor)
+        print(self.inputData.lowerLossBoundary)
+        print(self.inputData.elasticityOfDemand_commAndGov)
+        print(self.commAndGovUse_Contractor)
+        print(self.coefficient_COM)
+        
+        print("++++++++++++++++++")
+        print("landscape economic loss inputs")
+        print(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor) 
+        print(self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor)
+        print(self.inputData.lowerLossBoundary)
+        print(self.inputData.elasticityOfDemand_landscape)
+        print(self.landscapeUse_Contractor)
+        print(self.coefficient_LAND)
+
+        breakpoint()
         self.landscapeEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor, self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_landscape, self.landscapeUse_Contractor, self.coefficient_LAND)
 
 
     def economicLossFunction(self, shortageByUseType, shortagePortionOfUse, lowerLossBoundary, elasticityOfDemand, volumeByUseType, coefficient):
-        if shortagePortionOfUse <= lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * np.exp((np.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
-            - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] 
-                * (volumeByUseType 
-                   * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
-                   * np.exp((np.log(volumeByUseType * (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) 
-                                        / coefficient) 
-                               / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) 
-                   / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))))
-        elif shortagePortionOfUse >= self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType 
-              * np.exp((np.log(volumeByUseType  / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1))
-            - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])) 
-                * np.exp((np.log((volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))) / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+        if shortagePortionOfUse < lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
+            economicLoss = ((
+                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * 
+                volumeByUseType * 
+                np.exp(
+                    (np.log(volumeByUseType / coefficient)) / 
+                    elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+                )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+            ) - ((
+                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (
+                    volumeByUseType * 
+                    (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) * 
+                    np.exp((
+                        np.log(
+                            volumeByUseType * 
+                            (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) / 
+                            coefficient
+                        ) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+                    )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+                )
+            ))
+        elif shortagePortionOfUse > self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
+            economicLoss = ((
+                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * 
+                volumeByUseType * 
+                np.exp(
+                    (np.log(volumeByUseType / coefficient)) / 
+                    elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+                )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+            ) - ((
+                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (
+                    volumeByUseType * 
+                    (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])
+                ) * np.exp((
+                    np.log((
+                        volumeByUseType * 
+                        (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])
+                    )) / coefficient
+                )) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+            )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
         else:
-            economicLoss = ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * np.exp((np.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]))/(elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)) - ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType - shortageByUseType)*np.exp((np.log((volumeByUseType - shortageByUseType)/coefficient)) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor])) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1))
+            economicLoss = ((
+                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * 
+                volumeByUseType * 
+                np.exp(
+                    (np.log(volumeByUseType / coefficient)) / 
+                    elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+                )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+            ) - ((
+                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * 
+                (volumeByUseType - shortageByUseType) * 
+                np.exp((
+                    np.log(
+                        (volumeByUseType - shortageByUseType)/coefficient)
+                    ) / self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor]
+                )) / (self.inputData.elasticityOfDemand_singleFamily.loc[self.contingentWMOsinput.contractor] + 1)
+            )
         
         return economicLoss.loc[self.contingentWMOsinput.contractor]
+
+
+
+# (
+#     (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType * np.exp((np.log(volumeByUseType / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) 
+#      / 
+#     (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+# )
+# -
+# ((elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])) * np.exp((np.log((volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))) / coefficient)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor])) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)

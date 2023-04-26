@@ -52,7 +52,7 @@ class CostOptimizer(Problem):
         # parameterize the objective function
         super().__init__(
             n_var=8, n_obj=1, #n_eq_constr=1, 
-            xl=[0]*8, xu=self.upperBounds    # xl and xu set f bounds 
+            xl=[0.1]*8, xu=self.upperBounds    # xl and xu set f bounds 
         )
 
 
