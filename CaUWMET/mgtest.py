@@ -1,11 +1,6 @@
-# This script explores a closed form solution to optimizing the WMO unit costs
-# Also explores ModelLogic class, getting weight vector from WMO UnitCosts
-# gist - lines to be run in terminal, not executable
-# Mark Green 4/1/23
-
-import random
 import numpy as np
 from pprint import pprint
+import timeit
 
 from pymoo.core.problem import Problem
 from pymoo.algorithms.soo.nonconvex.pso import PSO
@@ -63,8 +58,11 @@ class CostOptimizer(Problem):
            x :: list of numbers, length 8
         Returns objective function f(x) as execution of model logic
         Returns equality constraint h(x) as wmoSupply - sum(x) = 0
-        ''' 
+        '''
+        tic = timeit.default_timer()
         out["F"] = self.objectiveFunction(x)
+        toc = timeit.default_timer()
+        print(f"Execution Time: {toc-tic:.2f}s")
 #        print(f"{(self.wmoSupply - np.sum(x,axis=1)).shape}")
 #        print(f"{self.wmoSupply - np.sum(x,axis=1)}")
         #out["H"] = self.wmoSupply - np.sum(x, axis=1)
@@ -98,7 +96,7 @@ def main():
     
     problem = CostOptimizer(wmoSupply=wmoSupply, upperBounds=upperBounds, modelLogic=modelLogic)
     algorithm = PSO(
-        pop_size=10,
+        pop_size=50,
         w=0.9, c1=5.0, c2=1.0,
         adaptive=True,
         max_velocity_rate=0.2
