@@ -37,21 +37,35 @@ page.app()
 #TODO include this on side bar for every page.
 st.sidebar.write("")
 futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
-futurePlanningYear = st.sidebar.selectbox('Select which future planning year you would like the model to simulate.', futurePlanningYearsList, key = 'futurePlanningYear')
+futurePlanningYear = st.sidebar.selectbox('Select future planning horizon to view.', futurePlanningYearsList, key = 'futurePlanningYear')
 
 
-#### Fetch input data
 
-inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
-inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
+#---------------------------------------------------------------#
+# INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+inputDataTotalDemands = fetch_data("src/inputData/demandsInput_totalDemands.csv")
+inputDataDemandByUseType = fetch_data("src/inputData/demandsInput_useByTypeData.csv")
+inputDataIntExtDemandsByUseType = fetch_data("src/inputData/demandsInput_intAndExtUseByTypeData.csv")
+inputDataBaseLongTermConservation = fetch_data("src/inputData/demandsInput_baseLongTermConservationData.csv")
 
-inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
+if 'totalDemandsdf' not in st.session_state:
+    st.session_state['totalDemandsdf'] = inputDataTotalDemands
 
+if 'useByTypedf' not in st.session_state:
+    st.session_state['useByTypedf'] = inputDataDemandByUseType
+
+if 'intExtUseByTypedf' not in st.session_state:
+    st.session_state['intExtUseByTypedf'] = inputDataIntExtDemandsByUseType
+
+if 'baseLongTermConservationdf' not in st.session_state:
+    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation
     
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-
+inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
+inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
 # Initialize radio button indices with default values
 if 'localSuppliesRadioButtonIndex' not in st.session_state:
     st.session_state['localSuppliesRadioButtonIndex'] = 0
@@ -76,7 +90,7 @@ if 'swpCVPSuppliesdf' not in st.session_state:
 #---------------------------------------------------------------#
 # INITIALIZE SYSTEM OPERATIONS ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-
+inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
 # Initialize radio button indices with default values
 if 'excessWaterSwitchRadioButtonIndex' not in st.session_state:
     st.session_state['excessWaterSwitchRadioButtonIndex'] = 0
