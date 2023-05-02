@@ -15,34 +15,17 @@ def app():
         of least-cost-planning to provide users information on 1) the cost of a water supply reliability
         enhancement and 2) the cost of unreliability.""")
         st.write("")
-        st.write("""Users can learn about the model approach, edit model assumptions and review results by navigating through the pages in the navigation tree
+        st.write("""Users can learn about the model approach, view model assumptions and review results by navigating through the pages in the navigation tree
         to the left. If you would like to view or modify the source code, please visit the GitHub repository at: <repository link>.
         Additional information on the model approach, documentation, and video tutorials can be found in the Model Overview page.""")        
 
         st.markdown("""<div><span class='font'>
-        Steps to use this tool are summarized in green below. </span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.write("")
- 
+        Steps to use CaUWMET are summarized in green below. </span></div>""", unsafe_allow_html=True)
         st.markdown("""<div><span class='font'>
-        1. Update and review model inputs on pages with the word "Assumptions" in the title. </span></div>""", unsafe_allow_html=True)
-
-        st.write("")
-
+        1. Update input data in the CSV files found in the inputData folder of the model package.  </span></div>""", unsafe_allow_html=True)
         st.markdown("""<div><span class='font'>
-        2. If preferred, assumptions can also be updated through the Excel template downloaded from the button below. Once the worksheet has been filled out, please upload it through the button below. </span></div>""", unsafe_allow_html=True)
-
-        st.write("")
-        st.button('Download Input Data Template in Excel Format', help="""Users can download the input data template in Excel format to update via Excel
-        if it is preferred over inputting through the Assumptions pages. Once the data is updated in the template, upload the data in the button below.""")
-        st.write("")
-
-        st.button('Upload Input Data in Excel Format', help="""Users can download the input data template in Excel format from the button above to update via Excel
-        if it is preferred over inputting through the Assumptions pages. Once the data is updated in the template, upload the data by clicking this button.""")
-        st.write("")
-
-
+        2. Review input data in the pages that include the terms "Input Assumptions" </span></div>""", unsafe_allow_html=True)
         st.markdown("""<div><span class='font'>
-        3. View results </span></div>""", unsafe_allow_html=True)
-        st.write("""View results at the Results page provided in the tree on the left side of this page.
-        Results can also be downloaded to Excel format from this page.""")        
+        3. Run the CaUWMET.exe file to run the model. </span></div>""", unsafe_allow_html=True) 
+        st.markdown("""<div><span class='font'>
+        4. View results on the "View Results" page and/or CSV files in the outputData folder </span></div>""", unsafe_allow_html=True)        
