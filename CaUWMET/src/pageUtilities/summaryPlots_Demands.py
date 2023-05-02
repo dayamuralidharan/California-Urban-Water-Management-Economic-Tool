@@ -2,8 +2,6 @@ from src.demandsHelper import displayPieAndBarPlots, demandsExplainationText, us
 import streamlit as st
 import pandas as pd 
 
-st.header("Demand Assumptions Overview")
-    
 #---------------------------------------------------------------#
 # SUMMARY POSTER FOR TOTAL DEMAND SCENARIOS
 #---------------------------------------------------------------#

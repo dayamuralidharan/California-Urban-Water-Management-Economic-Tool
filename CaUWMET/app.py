@@ -2,7 +2,7 @@ import streamlit as st
 st.set_page_config(layout="wide")
 from src.multiapp import MultiApp
 # import your app modules here
-from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, faq, watermanagement
+from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, watermanagement
 from src.globalUtilities import fetch_data
 
 app = MultiApp()
@@ -24,9 +24,8 @@ PAGES = {
     "Input Demand Assumptions": demands,
     "Input Supply Assumptions": supplies,
     "Input System Operation Assumptions": systemoperations,
-    "Water Management Options Assumptions": watermanagement,
+    "Input Water Management Options Assumptions": watermanagement,
     "View Results": results,
-    "Documentation and References": faq,
 }
 
 st.sidebar.title('Navigation')
@@ -34,7 +33,7 @@ selection = st.sidebar.radio("Go to",list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
 
-#TODO include this on side bar for every page.
+#TODO include this on side bar for every page. Make future planning year list dynamic based on input data.
 st.sidebar.write("")
 futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
 futurePlanningYear = st.sidebar.selectbox('Select future planning horizon to view.', futurePlanningYearsList, key = 'futurePlanningYear')

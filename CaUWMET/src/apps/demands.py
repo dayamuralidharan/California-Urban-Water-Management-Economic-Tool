@@ -44,11 +44,15 @@ def app():
 
         with st.expander("Total Demand Scenarios"):
             displaySummaryPlotsTotalDemandScenarios()
+            st.table(data = st.session_state.totalDemandsdf)
         with st.expander("Water Use By Type"):
             displaySummaryPlotsWaterUseByType()
+            st.table(data = st.session_state.useByTypedf)
         with st.expander("Interior and Exterior Use By Type"):
             displaySummaryPlotsIntExtUseByType()
+            st.table(data = st.session_state.intExtUseByTypedf)
         with st.expander("Base Long-term Conservation"):
             displaySummaryPlotsBaseLongTermConservation()
+            st.table(data = st.session_state.baseLongTermConservationdf)
 
         
