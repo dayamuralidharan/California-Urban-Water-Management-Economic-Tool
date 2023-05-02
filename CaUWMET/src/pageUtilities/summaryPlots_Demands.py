@@ -2,19 +2,19 @@ from src.demandsHelper import displayPieAndBarPlots, demandsExplainationText, us
 import streamlit as st
 import pandas as pd 
 
-def displaySummaryPlots(): 
-    st.header("Demand Assumptions Overview")
+st.header("Demand Assumptions Overview")
     
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR TOTAL DEMAND SCENARIOS
-    #---------------------------------------------------------------#
+#---------------------------------------------------------------#
+# SUMMARY POSTER FOR TOTAL DEMAND SCENARIOS
+#---------------------------------------------------------------#
 
+def displaySummaryPlotsTotalDemandScenarios():
     st.subheader("Total Demand Scenarios")
     st.write(demandsExplainationText)
 
     # Set up total demand variables for summary poster plots
     # demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor']]
-    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     demandVars = ['Normal or Better Demands (acre-feet/year)', 'Single Dry-Year Demands (acre-feet/year)','Multiple Dry-Year Demands (acre-feet/year)']
@@ -37,11 +37,12 @@ def displaySummaryPlots():
     # SUMMARY POSTER FOR TOTAL USE BY TYPE
     #---------------------------------------------------------------#
 
+def displaySummaryPlotsWaterUseByType():
     st.subheader("Water Use By Type")
     st.write(useByTypeExplainationText)
 
     # Set up variables for summary poster plots
-    useByTypePlotInputData = st.session_state.useByTypedf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    useByTypePlotInputData = st.session_state.useByTypedf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
     useByTypePlotInputData = pd.melt(useByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     useByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     useByTypeVars = [
@@ -75,11 +76,13 @@ def displaySummaryPlots():
     #---------------------------------------------------------------#
     # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY TYPE
     #---------------------------------------------------------------#
+
+def displaySummaryPlotsIntExtUseByType(): 
     st.subheader("Interior and Exterior Use By Type")
     st.write(intExtUseByTypeExplainationText)
 
     # Set up variables for summary poster plots
-    intExtUseByTypePlotInputData = st.session_state.intExtUseByTypedf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    intExtUseByTypePlotInputData = st.session_state.intExtUseByTypedf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
     intExtUseByTypePlotInputData = pd.melt(intExtUseByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     intExtUseByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     intExtUseByTypeVars = [
@@ -109,11 +112,13 @@ def displaySummaryPlots():
     #---------------------------------------------------------------#
     # CREATE SUMMARY POSTER FOR BASE LONG-TERM CONSERVATION
     #---------------------------------------------------------------#
+
+def displaySummaryPlotsBaseLongTermConservation():    
     st.subheader("Base Long-term Conservation")
     st.write(baseLongTermConservationText)
 
     # Set up variables for summary poster plots
-    baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
     baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     baseLongTermConservationPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     baseLongTermConservationVars = [

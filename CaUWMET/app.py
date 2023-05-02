@@ -1,9 +1,9 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 from src.multiapp import MultiApp
 # import your app modules here
 from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, faq, watermanagement
 from src.globalUtilities import fetch_data
-
 
 app = MultiApp()
 
