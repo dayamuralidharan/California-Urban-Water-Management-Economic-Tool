@@ -16,15 +16,21 @@ def app():
 
         st.title('Demand Assumptions Page')
         
-
-
-        st.write("<span class='font'>There are four demand input datasets including:</span>", unsafe_allow_html=True) 
-        st.write("<span class='font'>1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types.</span>", unsafe_allow_html=True)
-        st.write("<span class='font'>2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.</span>", unsafe_allow_html=True)
-        st.write("<span class='font'>3) Interior and Exterior Use by Type for each category listed above, and</span>", unsafe_allow_html=True)
-        st.write("<span class='font'>4) Base Long-term Conservation</span>", unsafe_allow_html=True)
-        st.write("<span class='font'>A detailed description of each of variable is provided in the Demand Assumptions Overview section below.</span>", unsafe_allow_html=True)
+        st.markdown("""<div><span class='font'>
+        There are four Demand input datasets including:</span></div>""", unsafe_allow_html=True)
         st.write("")
+        st.markdown("""<div><span class='font'>
+        1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types.</span></div>""", unsafe_allow_html=True)
+        st.markdown("""<div><span class='font'>
+        2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.</span></div>""", unsafe_allow_html=True)
+        st.markdown("""<div><span class='font'>
+        3) Interior and Exterior Use by Type for each category listed above.</span></div>""", unsafe_allow_html=True)
+        st.markdown("""<div><span class='font'>
+        4) Base Long-term Conservation</span></div>""", unsafe_allow_html=True)
+        st.write("")
+        st.markdown("""<div><span class='font'>
+        A detailed description of each of variable is provided in each expandable section below.</span></div>""", unsafe_allow_html=True)
+
 
         #HIDE EXPANDER BORDERS
         hide = """

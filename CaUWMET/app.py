@@ -20,12 +20,12 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Contractor Information": contractorinformation,
+    "Contractor Assumptions": contractorinformation,
     "Input Demand Assumptions": demands,
     "Input Supply Assumptions": supplies,
     "Input System Operation Assumptions": systemoperations,
     "Water Management Options Assumptions": watermanagement,
-    "Run Model and View Results": results,
+    "View Results": results,
     "Documentation and References": faq,
 }
 

@@ -46,7 +46,7 @@ def displaySummaryPlotsWaterUseByType():
     useByTypePlotInputData = pd.melt(useByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     useByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     useByTypeVars = [
-        'Single-Family Residential Use (acre-feet/year)', 
+        'Single Family Residential Use (acre-feet/year)', 
         'Multi-Family Residential Use (acre-feet/year)',
         'Industrial Use (acre-feet/year)',
         'Commercial and Governmental Use (acre-feet/year)',
