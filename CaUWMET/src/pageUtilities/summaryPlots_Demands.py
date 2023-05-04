@@ -15,7 +15,7 @@ def displaySummaryPlotsTotalDemandScenarios():
     demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    demandVars = ['Normal or Better Demands (acre-feet/year)', 'Single Dry-Year Demands (acre-feet/year)','Multiple Dry-Year Demands (acre-feet/year)']
+    demandVars = ['Normal or Better Demands (AFY)', 'Single Dry-Year Demands (AFY)','Multiple Dry-Year Demands (AFY)']
 
     demandVarsForLabel = [
         demandsPlotInputData['Type'] == demandVars[0],
@@ -44,13 +44,13 @@ def displaySummaryPlotsWaterUseByType():
     useByTypePlotInputData = pd.melt(useByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     useByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     useByTypeVars = [
-        'Single Family Residential Use (acre-feet/year)', 
-        'Multi-Family Residential Use (acre-feet/year)',
-        'Industrial Use (acre-feet/year)',
-        'Commercial and Governmental Use (acre-feet/year)',
-        'Agricultural Use (acre-feet/year)',
-        'Landscape Use (acre-feet/year)',
-        'Other (acre-feet/year)'
+        'Single Family Residential Use (AFY)', 
+        'Multi-Family Residential Use (AFY)',
+        'Industrial Use (AFY)',
+        'Commercial and Governmental Use (AFY)',
+        'Agricultural Use (AFY)',
+        'Landscape Use (AFY)',
+        'Other Use (AFY) (i.e. Losses, groundwater recharge, sales to other agencies etc.)'
         ]
 
     useByTypeVarsForLabel = [
@@ -84,11 +84,10 @@ def displaySummaryPlotsIntExtUseByType():
     intExtUseByTypePlotInputData = pd.melt(intExtUseByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     intExtUseByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     intExtUseByTypeVars = [
-        'Fraction of single-family residential use that is interior (%)', 
+        'Fraction of single family residential use that is interior (%)', 
         'Fraction of multi-family residential use that is interior (%)',
         'Fraction of commercial use that is interior (%)',
         'Fraction of industrial use that is interior (%)',
-        'Share of exterior use unaffected by ETAW (% of total exterior use)',
         ]
 
     intExtUseByTypeVarsForLabel = [
@@ -96,14 +95,13 @@ def displaySummaryPlotsIntExtUseByType():
         intExtUseByTypePlotInputData['Type'] == intExtUseByTypeVars[1],
         intExtUseByTypePlotInputData['Type'] == intExtUseByTypeVars[2],
         intExtUseByTypePlotInputData['Type'] == intExtUseByTypeVars[3],
-        intExtUseByTypePlotInputData['Type'] == intExtUseByTypeVars[4]
         ]
-    intExtUseByTypeNumberOfVars = [0, 1, 2, 3, 4]
+    intExtUseByTypeNumberOfVars = [0, 1, 2, 3]
     intExtUseByTypeSelectBoxKey = "Interior and Exterior Use By Type Selectbox"
     intExtUseByTypePiePlotLabel = "Interior and Exterior Use By Type by Study Region"
     intExtUseByTypeBarPlotLabel = "Interior and Exterior Use By Type by Contractor"
     intExtUseByTypeBarPlotXAxisLabel = "Interior and Exterior Use By Type (acre-feet/year)"
-    intExtUseByTypeColors = ['#F63366', '#2BB1BB', '#22466B', '#FF7F50','#DFFF00']
+    intExtUseByTypeColors = ['#F63366', '#2BB1BB', '#22466B', '#FF7F50']
 
     displayPieAndBarPlots(intExtUseByTypeVars, intExtUseByTypeVarsForLabel, intExtUseByTypeNumberOfVars, intExtUseByTypePlotInputData, intExtUseByTypeSelectBoxKey, intExtUseByTypePiePlotLabel, intExtUseByTypeBarPlotLabel, intExtUseByTypeBarPlotXAxisLabel, intExtUseByTypeColors)
 
@@ -112,7 +110,7 @@ def displaySummaryPlotsIntExtUseByType():
     #---------------------------------------------------------------#
 
 def displaySummaryPlotsBaseLongTermConservation():    
-    st.subheader("Base Long-term Conservation")
+    st.subheader("Planned Long-term Conservation")
     st.write(baseLongTermConservationText)
 
     # Set up variables for summary poster plots
@@ -120,17 +118,17 @@ def displaySummaryPlotsBaseLongTermConservation():
     baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     baseLongTermConservationPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     baseLongTermConservationVars = [
-        'Base Long-term Conservation (acre-feet)'
+        'Planned Long-term Conservation (AFY)'
         ]
 
     baseLongTermConservationVarsForLabel = [
         baseLongTermConservationPlotInputData['Type'] == baseLongTermConservationVars[0]
         ]
     baseLongTermConservationNumberOfVars = [0]
-    baseLongTermConservationSelectBoxKey = "Base Long-term Conservation Selectbox"
-    baseLongTermConservationPiePlotLabel = "Base Long-term Conservation by Study Region"
-    baseLongTermConservationBarPlotLabel = "Base Long-term Conservation by Contractor"
-    baseLongTermConservationBarPlotXAxisLabel = "Base Long-term Conservation (acre-feet/year)"
+    baseLongTermConservationSelectBoxKey = "Planned Long-term Conservation Selectbox"
+    baseLongTermConservationPiePlotLabel = "Planned Long-term Conservation by Study Region"
+    baseLongTermConservationBarPlotLabel = "Planned Long-term Conservation by Contractor"
+    baseLongTermConservationBarPlotXAxisLabel = "Planned Long-term Conservation (acre-feet/year)"
     baseLongTermConservationColors = ['#F63366']
 
     displayPieAndBarPlots(baseLongTermConservationVars, baseLongTermConservationVarsForLabel, baseLongTermConservationNumberOfVars, baseLongTermConservationPlotInputData, baseLongTermConservationSelectBoxKey, baseLongTermConservationPiePlotLabel, baseLongTermConservationBarPlotLabel, baseLongTermConservationBarPlotXAxisLabel, baseLongTermConservationColors)
