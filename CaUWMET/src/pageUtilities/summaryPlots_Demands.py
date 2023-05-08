@@ -67,7 +67,7 @@ def displaySummaryPlotsWaterUseByType():
     useByTypePiePlotLabel = "Use By Type by Study Region"
     useByTypeBarPlotLabel = "Use By Type by Contractor"
     useByTypeBarPlotXAxisLabel = "Use By Type (acre-feet/year)"
-    useByTypeColors = ['#F63366', '#2BB1BB', '#22466B', '#FF7F50','#DFFF00', '#6495ED', '#CCCCFF']
+    useByTypeColors = ['#FF7F50','#DFFF00', '#6495ED', '#CCCCFF', '#9FE2BF', 'FFBF00', '800000']
 
     displayPieAndBarPlots(useByTypeVars, useByTypeVarsForLabel, useByTypeNumberOfVars, useByTypePlotInputData, useByTypeSelectBoxKey, useByTypePiePlotLabel, useByTypeBarPlotLabel, useByTypeBarPlotXAxisLabel, useByTypeColors)
 
@@ -101,7 +101,7 @@ def displaySummaryPlotsIntExtUseByType():
     intExtUseByTypePiePlotLabel = "Interior and Exterior Use By Type by Study Region"
     intExtUseByTypeBarPlotLabel = "Interior and Exterior Use By Type by Contractor"
     intExtUseByTypeBarPlotXAxisLabel = "Interior and Exterior Use By Type (acre-feet/year)"
-    intExtUseByTypeColors = ['#F63366', '#2BB1BB', '#22466B', '#FF7F50']
+    intExtUseByTypeColors = ['#808000', '#008000', '#0000FF', '#000080']
 
     displayPieAndBarPlots(intExtUseByTypeVars, intExtUseByTypeVarsForLabel, intExtUseByTypeNumberOfVars, intExtUseByTypePlotInputData, intExtUseByTypeSelectBoxKey, intExtUseByTypePiePlotLabel, intExtUseByTypeBarPlotLabel, intExtUseByTypeBarPlotXAxisLabel, intExtUseByTypeColors)
 
@@ -129,6 +129,6 @@ def displaySummaryPlotsBaseLongTermConservation():
     baseLongTermConservationPiePlotLabel = "Planned Long-term Conservation by Study Region"
     baseLongTermConservationBarPlotLabel = "Planned Long-term Conservation by Contractor"
     baseLongTermConservationBarPlotXAxisLabel = "Planned Long-term Conservation (acre-feet/year)"
-    baseLongTermConservationColors = ['#F63366']
+    baseLongTermConservationColors = ['#00FF00']
 
     displayPieAndBarPlots(baseLongTermConservationVars, baseLongTermConservationVarsForLabel, baseLongTermConservationNumberOfVars, baseLongTermConservationPlotInputData, baseLongTermConservationSelectBoxKey, baseLongTermConservationPiePlotLabel, baseLongTermConservationBarPlotLabel, baseLongTermConservationBarPlotXAxisLabel, baseLongTermConservationColors)
