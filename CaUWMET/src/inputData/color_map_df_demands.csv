@@ -12,6 +12,6 @@
 10,10,Fraction of multi-family residential use that is interior (%),#008000
 11,11,Fraction of commercial use that is interior (%),#0000FF
 12,12,Fraction of industrial use that is interior (%),#000080
-13,13,Base Long-term Conservation (acre-feet),#00FF00
+13,13,Planned Long-term Conservation (acre-feet/year),#00FF00
 14,14,Other (acre-feet/year),#800000
 15,15,,#C0C0C0
