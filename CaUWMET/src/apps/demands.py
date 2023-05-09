@@ -26,7 +26,7 @@ def app():
         st.markdown("""<div><span class='font'>
         3) Interior and Exterior Use by Type for each category listed above.</span></div>""", unsafe_allow_html=True)
         st.markdown("""<div><span class='font'>
-        4) Base Long-term Conservation</span></div>""", unsafe_allow_html=True)
+        4) Planned Long-term Conservation</span></div>""", unsafe_allow_html=True)
         st.write("")
         st.markdown("""<div><span class='font'>
         A detailed description of each of variable is provided in each expandable section below.</span></div>""", unsafe_allow_html=True)
@@ -51,7 +51,7 @@ def app():
         with st.expander("Interior and Exterior Use By Type"):
             displaySummaryPlotsIntExtUseByType()
             st.table(data = st.session_state.intExtUseByTypedf)
-        with st.expander("Base Long-term Conservation"):
+        with st.expander("Planned Long-term Conservation"):
             displaySummaryPlotsBaseLongTermConservation()
             st.table(data = st.session_state.baseLongTermConservationdf)
 
