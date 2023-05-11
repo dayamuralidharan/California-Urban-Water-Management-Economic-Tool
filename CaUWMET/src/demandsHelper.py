@@ -3,6 +3,7 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import numpy as np
+from src.colors import colors
 
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
@@ -53,7 +54,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                                 y = y, orientation = 'h',
                                 name = label_name,
                                 # hovertemplate='<b>Year: %{x}</b><br>#Songs: %{y}',
-                                marker_color = pd.Series([label_name]*len(y)).map(color_dict),
+                                marker_color = colors,
                                 legendgroup = 'grp2',
                                 showlegend=True),
                                 row = 1, col = 2)
