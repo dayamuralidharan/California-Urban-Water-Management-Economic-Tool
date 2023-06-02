@@ -3,6 +3,7 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import numpy as np
+from src.colors import colors
 
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
@@ -17,7 +18,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
             # [ {"type":"scatter", "colspan": 2}, None]],
             subplot_titles=(piePlotTitle, 
                             barPlotTitle), 
-            vertical_spacing=0.1, horizontal_spacing= 0.04)
+            vertical_spacing=0.1, horizontal_spacing= 0.1)
 
     for i in fig['layout']['annotations']:
         i['font'] = dict(size=18, family="Times New Roman")
@@ -53,43 +54,16 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                                 y = y, orientation = 'h',
                                 name = label_name,
                                 # hovertemplate='<b>Year: %{x}</b><br>#Songs: %{y}',
-                                marker_color = pd.Series([label_name]*len(y)).map(color_dict),
+                                marker_color = colors,
                                 legendgroup = 'grp2',
                                 showlegend=True),
                                 row = 1, col = 2)
-    fig.update_xaxes(title_text = barPlotXAxisTitle,linecolor = 'grey', mirror = True, 
+    fig.update_xaxes(title_text = barPlotXAxisTitle, linecolor = 'grey', mirror = True, 
                         title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1,
                         zeroline = False, 
                         row = 1, col = 2)
     fig.update_yaxes(side = 'right', linecolor = 'grey', mirror = True, dtick = -5,
                      row = 1, col = 2)
-
-    # #SCATTER
-    # fig.add_trace(go.Scatter(
-    #             x=contractor_df['Contractor'],
-    #             y=contractor_df['Rank'],
-    #             mode = 'markers',
-    #             marker_color = contractor_df['Demands'].map(color_dict),
-    #             customdata = contractor_df.loc[:,['Year','Rank']],
-    #             # hovertemplate='<b>Year: %{customdata[0]}</b><br>Rank: %{customdata[1]} <br>Title: %{customdata[2]}',
-    #             legendgroup = 'grp1',
-    #             showlegend=False
-    #             ),
-    #             row = 2, col = 1
-    #             )
-    # fig.update_traces(marker = dict(symbol = 'circle', size = 7
-    #                                 #,line = dict(color = 'grey', width = 0.5)
-    #                                 ),
-    #                   name = "",
-    #                   row = 2, col =1)
-    # fig.update_yaxes(autorange = 'reversed',title = 'Rank',showgrid=True, 
-    #                 mirror = True, zeroline = False, linecolor = 'grey', 
-    #                 title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1, 
-    #                 row = 2, col = 1)
-    # fig.update_xaxes(title="",showgrid=True, mirror = True,
-    #                 linecolor = 'grey', 
-    #                 gridcolor = 'grey', gridwidth = 0.1,
-    #                 row = 2, col =1)
 
     fig.update_layout( # customize font and margins
                         # barmode = 'stack',
@@ -97,17 +71,17 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                         plot_bgcolor='rgba(0,0,0,0)',
                         #plot_bgcolor = '#0E1117',#'black',
                         font_family= 'Times New Roman',#"Helvetica",
-                        width=1400,
+                        width=1100,
                         height=700,
                         template = 'plotly_dark',
-                        legend=dict(title="", orientation = 'v', x = 1.45,
+                        legend=dict(title="", orientation = 'h', y = -0.15,
                                     font=dict(size = 10),
                                     bordercolor = 'LightGrey',
                                     borderwidth=0.5),
                         font=dict(size=12),
-                        margin = dict(l = 40, t = 40, r = 40, b = 40)
+                        margin = dict(l = 0, t = 40, r = 40, b = 40)
                     )
-    
+
     return fig
 
 def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey, piePlotTitle, barPlotTitle, barPlotXAxisLabel, colors):
@@ -125,8 +99,8 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
         selectVariable = []
         selectVariable.append(st.selectbox('', vars, key= selectBoxKey, help="Select variable to display in plots below."))
         
-        plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
-
+    plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
+        
     # Setting up color palette dict
     color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
     fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
