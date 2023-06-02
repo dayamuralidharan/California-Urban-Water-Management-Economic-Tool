@@ -24,6 +24,7 @@ class ContingencyWMOs:
         else:
             self.doNotImplementContingencyWMOs()
         
+        
     def implementContingencyWMOs(self):
         self.implementContingencyConservation()
         self.deliverWaterMarketTransfers()
@@ -32,11 +33,12 @@ class ContingencyWMOs:
         self.shortageByUseType.calculateShortageByUseType(self.contingentWMOsinput, self.totalShortage_Contractor)
         
             
-            
     def doNotImplementContingencyWMOs(self):
         self.contingentConservationUseReductionVolume_Contractor.append(0)
         self.waterMarketTransferDeliveries_Contractor.append(0)
         self.totalShortage_Contractor.append(0)
+        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(0)
+        
         
     def implementContingencyConservation(self):
         self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.contingentWMOsinput.contractor][self.inputData.futureYear].values[0]
@@ -44,6 +46,7 @@ class ContingencyWMOs:
         self.contingentConservationUseReductionVolume_Contractor.append((self.contingentConservationUseReduction_Contractor/100) * self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i])
         self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.contingentWMOsinput.demandsToBeMetByContingentOptions_Contractor[self.contingentWMOsinput.i] - self.contingentConservationUseReductionVolume_Contractor[self.contingentWMOsinput.i])
     
+
     def deliverWaterMarketTransfers(self):
         self.shortagePortionOfTotalAppliedDemand = self.contingentWMOsinput.demandsToBeMetByContingentOptions_Contractor[self.contingentWMOsinput.i] / self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i]
         
@@ -53,4 +56,5 @@ class ContingencyWMOs:
             self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.contingentWMOsinput.i] - self.waterMarketTransferDeliveries_Contractor[self.contingentWMOsinput.i]))
         else:
             self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.contingentWMOsinput.i])
+            self.waterMarketTransferDeliveries_Contractor.append(0)
             
