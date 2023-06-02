@@ -8,57 +8,53 @@ from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.inputDataLocations import InputDataLocations
  
-class ShortageCost(Problem):
+class CostOptimizer(Problem):
     '''
-    This class is a PyMoo problem class designed to simulate the effects of shortage level...
+    This class is a PyMoo problem class designed to simulate the effects of wmoSupply level...
     ...on water usage cost optimization across various sources.
  
-    The objective function f(x) has an equality constraint g(x) = shortage.
+    The objective function f(x) has an equality constraint g(x) = wmoSupply.
     The algorithm is a particle swarm optimizer with default settings. 
  
     https://pymoo.org/
     '''
-    def __init__(self, demands, supplies, w):
-        super().__init__(n_var=1, n_obj=1, n_eq_constr=1, xl=0.0, xu=50) # xl and xu set f bounds ## TODO: Need to make xl and xu array, set n_var = 8
-        self.shortage = demands - supplies
-        self.rc = w[0] # 'rationing coefficient'
-        self.w = w[1:] # water source weights
-        inputData = InputData(InputDataLocations())
-        self.modelLogic = ModelLogic(inputData, StorageUtilities())
-        self.modelLogic.contractor = 'Metropolitan Water District of Southern California'
- 
-    def rationing(self, x, *args, **kwargs): 
+    def __init__(self, 
+                 wmoSupply: int,        # how much are we allocating to the WMOs? int for now...
+                 contractor: str,       # which subcontractor? e.g. 'Metropolitan Water District of Southern California'
+                 upperBounds: list,     # upper bound of each WMO for a given scenario - len(list)=8
+                 inputData: InputData, inputDataLocations: InputDataLocations, 
+                 storageUtilities: StorageUtilities, modelLogic: ModelLogic):
         '''
-        Inputs:
-	        x :: Array ;; volumes from water sources
-	        shortage :: int
-	    Computes rationing r = (shortage - sum(x)) '''
-
-        try:
-            r = (self.shortage-np.sum(x,axis=1))
-            r[r<0] = 0 # Set lower bound constraint on rationing
-        except IndexError:
-            r = (self.shortage-np.sum(x,axis=0))
-            if r<0:
-                r=0
-        return r
- 
+        Initializing the CostOptimizer class requires parameterizing a given CaUWMET model
+        for a given contractor and requested wmoSupply.
+        '''
+        self.wmoSupply = wmoSupply      # must be greater than 0
+        self.upperBounds = upperBounds  # list length 8 upper bounding WMOs
+        self.inputData = inputData
+        self.inputDataLocations = inputDataLocations
+        self.storageUtilities = storageUtilities
+        self.modelLogic = modelLogic
+        self.modelLogic = self.modelLogic(
+            self.inputData(self.inputDataLocations()), 
+            self.storageUtilities()
+        )
+        self.modelLogic.contractor = contractor
+        
+        # parameterize the objective function
+        super().__init__(
+            n_var=8, n_obj=1, n_eq_constr=1, 
+            xl=[0]*8, xu=self.upperBounds    # xl and xu set f bounds 
+        )
+    
+    
     def _evaluate(self, x, out, *args, **kwargs):
         '''
         Inputs:
-            x :: Array of shape w[] * population size: The size of the swarm being used;; volumes from water sources
-            w :: Array of shape w[0] ;; cost units for water sources
-            rc :: int ;; cost unit for rationing
-            shortage :: int
-        Compute rationing r
-        Returns f(x) as x dot w + rc * r
-        Returns h(x) as shortage - sum(x) = 0
-
+           wmoSupply :: int
+        Returns objective function f(x) as execution of model logic
+        Returns equality constraint h(x) as wmoSupply - sum(x) = 0
         ''' 
-        r = self.rationing(x, self.shortage)
-        f = x.dot(self.w) # 
-        f += self.rc * r # 
         out["F"] = self.modelLogic.execute(x)
-        h = self.shortage - np.sum(np.c_[x,r],axis=1)
-        out["H"] = h
+        out["H"] = self.wmoSupply - np.sum(x)
+        
 
