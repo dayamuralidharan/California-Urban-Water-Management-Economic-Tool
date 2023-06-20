@@ -41,7 +41,7 @@ class ModelLogic:
         # Set up variables that will be used for calcs by contractor
         self.initilizeVariablesForContractorLoop()
         self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
-
+        
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
 
@@ -93,9 +93,6 @@ class ModelLogic:
         # Calculate Costs
         self.calculateReliabilityManagementCosts(storageInputAssumptions_Contractor)
         self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs, self.totalShortage_Contractor)
-#        print("---------------")
-#        print(f"self.economicLossByUseType.totalEconomicLoss_Contractor[self.i]: {self.economicLossByUseType.totalEconomicLoss_Contractor[self.i]}")
-#        print("---------------")
         self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
 
     def writeToContractorOutputTimeSeriesDataframe(self):
@@ -124,9 +121,7 @@ class ModelLogic:
         self.outputHandler.totalReliabilityMgmtCost[self.contractor] = self.reliabilityManagementCost_Contractor
         self.outputHandler.totalEconomicLoss[self.contractor] = self.economicLossByUseType.totalEconomicLoss_Contractor
         self.outputHandler.totalAnnualCost[self.contractor] = self.totalAnnualCost_Contractor
-        
-        
-        
+                
         
     def deliverLocalSuppliesAndImplementPlannedConservation(self):
         self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
@@ -196,8 +191,7 @@ class ModelLogic:
         
     def putOrTakeFromStorage(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
         excessSupplyToStorageSwitches = ["Put into Carryover and Groundwater Bank", "Put into Groundwater Bank", "Put into Carryover Storage"]
-        
-        
+    
         if (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[0]) or (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[1]) or (storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == excessSupplyToStorageSwitches[2]):
             self.implementStorageOperations(excessSupplySwitch_Contractor, storageInputAssumptions_Contractor)
         
@@ -209,10 +203,7 @@ class ModelLogic:
         else:
             self.doNotImplementStorageOperations()
             self.demandsToBeMetByContingentOptions_Contractor.append(0)
-            
-            
-            
-            
+             
             
     def calculateReliabilityManagementCosts(self, storageInputAssumptions_Contractor):
         self.totalSuppliesDelivered_Contractor.append(self.inputData.totalLocalSupply[self.contractor][self.i]
@@ -274,8 +265,6 @@ class ModelLogic:
         self.transfersAndExchangesLongTermWMOCost_Contractor.append(self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor * longtermWMOTransfersExchangesUnitCost_Contractor)
         self.otherSupplyLongTermWMOCost_Contractor.append(self.longtermWMOOtherSupplyIncrementalVolume_Contractor * longtermWMOOtherSupplyUnitCost_Contractor)
         self.conservationLongTermWMOCost_Contractor.append(self.longtermWMOConservation_Contractor * longtermWMOConservationUnitCost_Contractor)
-        
-       
 
         self.reliabilityManagementCost_Contractor.append(
             self.groundwaterBankPutCost_Contractor[self.i]

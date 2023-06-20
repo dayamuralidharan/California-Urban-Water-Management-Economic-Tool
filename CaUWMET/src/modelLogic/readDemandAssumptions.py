@@ -31,9 +31,9 @@ class DemandAssumptions:
             contractorDemands = []
             
             mapYearType = {
-                'NB': 'Normal or Better Demands (acre-feet/year)',
-                'SD': 'Single Dry-Year Demands (acre-feet/year)',
-                'MD': 'Multiple Dry-Year Demands (acre-feet/year)',
+                'NB': 'Normal or Better Demands (AFY)',
+                'SD': 'Single Dry-Year Demands (AFY)',
+                'MD': 'Multiple Dry-Year Demands (AFY)',
             }
             if totalDemandScenarioRadioButtonIndex == 1:   # Apply ETAW Adjustments to Normal or Better Demands
                 for i, Year in enumerate(globalAssumptions.historicHydrologyYears):
@@ -51,15 +51,15 @@ class DemandAssumptions:
         self.totalDemands = pd.DataFrame(self.totalDemands)
         
         # Set up Use by Type variables and Interior/Exterior Use by Type Variables
-        singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (acre-feet/year)'][globalAssumptions.futureYear]
-        multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (acre-feet/year)'][globalAssumptions.futureYear]
-        industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (acre-feet/year)'][globalAssumptions.futureYear]
-        commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (acre-feet/year)'][globalAssumptions.futureYear]
-        agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (acre-feet/year)'][globalAssumptions.futureYear]
-        landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (acre-feet/year)'][globalAssumptions.futureYear]
-        otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (acre-feet/year)'][globalAssumptions.futureYear]
+        singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (AFY)'][globalAssumptions.futureYear]
+        multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (AFY)'][globalAssumptions.futureYear]
+        industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (AFY)'][globalAssumptions.futureYear]
+        commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (AFY)'][globalAssumptions.futureYear]
+        agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (AFY)'][globalAssumptions.futureYear]
+        landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (AFY)'][globalAssumptions.futureYear]
+        otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (AFY)'][globalAssumptions.futureYear]
 
-        normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (acre-feet/year)'][globalAssumptions.futureYear]
+        normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (AFY)'][globalAssumptions.futureYear]
         
 
         self.singleFamilyUsePortion = singleFamilyUse / normalYearDemands
