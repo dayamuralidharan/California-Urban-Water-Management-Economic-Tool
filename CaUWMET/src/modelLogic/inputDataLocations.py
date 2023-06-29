@@ -5,9 +5,9 @@ class InputDataLocations:
         self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
         
-        self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - connect to dashboard
+        self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - delete
         
-        self.wmoSupplyVolumeIncrement = 0.1
+        self.wmoSupplyVolumeIncrement = 0.1##TODO - delete
         
         self.inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
         self.inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"

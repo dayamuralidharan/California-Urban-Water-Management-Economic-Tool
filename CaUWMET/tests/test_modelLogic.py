@@ -15,7 +15,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         
     def testModelLogic(self):
-        self.x = [10]
+        self.x = [10, 10, 10, 10, 10, 10, 10, 10]
         self.modelLogic.executeModelLogicForContractor(self.x)
         
         # Test remaining demands are as expected after each supply source is delivered/demand reduction is implemented
@@ -36,11 +36,12 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         # Test deliverWaterMarketTransfers
         self.assertEqual(self.modelLogic.contingencyWMOs.totalShortage_Contractor[0], 297405.25)
+        print('adjustedShortage_Contractor:')
+        print(self.modelLogic.contingencyWMOs.shortageByUseType.adjustedShortage_Contractor)
         
         #Test averaging of total cost over all timesteps
         self.assertEqual(self.modelLogic.averageTotalAnnualCost_Contractor, 374572365.19908273)
         
-        #self.assertEqual(self.modelLogic.systemwideAverageAnnualCost, 374572365.19908273)
         
         
         

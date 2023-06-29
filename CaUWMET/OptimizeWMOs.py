@@ -50,10 +50,10 @@ class CostProblem(ElementwiseProblem):
         '''
         self.wmoFloor = wmoFloor if wmoFloor is not None else None
         self.wmoSupply = wmoSupply if wmoSupply is not None else None
-        self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoSupply]])
+        self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoSupply]]) #TODO: Recommend making name clearer
         self.lowerBounds = lowerBounds
         self.upperBounds = upperBounds
-        self.objectiveFunction = modelLogic.executeModelLogicForContractor  # execute ModelLogic
+        self.objectiveFunction = modelLogic.executeModelLogicForContractor
         
         super().__init__(  # parameterize the objective function
             n_var=8, n_obj=1, n_ieq_constr=self.n_ieq_constr, 
@@ -90,8 +90,8 @@ class OptimizeWMOs:
     TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
-                 year='2045', 
-                 contractor='Metropolitan Water District of Southern California',
+                 year='2045', #TODO connect to input data
+                 contractor='Metropolitan Water District of Southern California', #TODO connect to input data
                  wmoFloor=None, 
                  wmoSupply=None, 
                  lowerBounds=[0]*8, 

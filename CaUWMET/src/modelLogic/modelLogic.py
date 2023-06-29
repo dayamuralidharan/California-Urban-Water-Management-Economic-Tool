@@ -24,7 +24,7 @@ class ModelLogic:
             # self.executeModelLogicForContractor(x) #TODO change to optimization function
         #self.outputHandler.writeToSystemwideOutputDataframes()
         
-
+    #TODO delete this function
     def execute(self, x):
         f = []
         for y in x:
@@ -256,7 +256,6 @@ class ModelLogic:
         #TODO calculate rationing program cost    
         self.rationingProgramCost_Contractor.append(0)
         
-        #TODO: incorporate supply volume into these calcs - replace the 1's 
         self.surfaceLongTermWMOCost_Contractor.append(self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor * longtermWMOSurfaceUnitCost_Contractor)
         self.groundwaterLongTermWMOCost_Contractor.append(self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor * longtermWMOGroundwaterUnitCost_Contractor)
         self.desalinationLongTermWMOCost_Contractor.append(self.longtermWMODesalinationSupplyIncrementalVolume_Contractor * longtermWMODesalinationUnitCost_Contractor)
