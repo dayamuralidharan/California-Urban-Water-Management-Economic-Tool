@@ -14,7 +14,10 @@ class ShortageByUseType:
         self.baseConservationAsPercentOfDemand = self.input.plannedLongTermConservation_Contractor / self.input.totalDemand_Contractor[self.input.i]
         self.longTermWMOConservationAsPercentOfDemand = self.input.longtermWMOConservationIncrementalVolume_Contractor / self.input.totalDemand_Contractor[self.input.i]
         self.demandHardeningAdjustmentFactor_Contractor = 1 + ((((1 + self.baseConservationAsPercentOfDemand) * (1 + self.longTermWMOConservationAsPercentOfDemand)) -1) * self.demandHardeningFactor_Contractor)
-        self.adjustedShortage_Contractor = self.totalShortage_Contractor[self.input.i] * self.demandHardeningAdjustmentFactor_Contractor
+        
+        self.actualShortagePercentage_Contractor = self.totalShortage_Contractor[self.input.i] / self.input.totalDemand_Contractor[self.input.i]
+        self.adjustedShortage_Contractor = self.actualShortagePercentage_Contractor * self.demandHardeningAdjustmentFactor_Contractor
+        
         
         # Calculate shortage portion by type
         self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor = self.adjustedShortage_Contractor/ (self.inputData.cutRatio_singleFamily.loc[self.input.contractor] * self.inputData.singleFamilyUsePortion.loc[self.input.contractor] 
@@ -29,9 +32,8 @@ class ShortageByUseType:
         self.landscapeShortagePortionOfLandscapeUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_landscape.loc[self.input.contractor]
         
         # Calculate shortage by type
-        self.singleFamilyShortage_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.adjustedShortage_Contractor
-        self.multiFamilyShortage_Contractor = self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor * self.adjustedShortage_Contractor
-        self.industrialShortage_Contractor = self.industrialShortagePortionOfIndustrialUse_Contractor * self.adjustedShortage_Contractor
-        self.commercialShortage_Contractor = self.commercialShortagePortionOfCommercialUse_Contractor * self.adjustedShortage_Contractor
-        self.landscapeShortage_Contractor = self.landscapeShortagePortionOfLandscapeUse_Contractor * self.adjustedShortage_Contractor
-        #TODO add test to confirm total shortage of each use type = adjusted shortage
+        self.singleFamilyShortage_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.singleFamilyUse.loc[self.input.contractor]
+        self.multiFamilyShortage_Contractor = self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor * self.inputData.multiFamilyUse.loc[self.input.contractor]
+        self.industrialShortage_Contractor = self.industrialShortagePortionOfIndustrialUse_Contractor * self.inputData.industrialUse.loc[self.input.contractor]
+        self.commercialShortage_Contractor = self.commercialShortagePortionOfCommercialUse_Contractor * self.inputData.commAndGovUse.loc[self.input.contractor]
+        self.landscapeShortage_Contractor = self.landscapeShortagePortionOfLandscapeUse_Contractor * self.inputData.landscapeUse.loc[self.input.contractor]

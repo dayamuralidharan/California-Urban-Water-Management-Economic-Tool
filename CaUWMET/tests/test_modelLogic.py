@@ -51,10 +51,8 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         #Test implementation of Contingent Conservation Programs
         #TODO switch all variables to output handler variable like those above
         self.assertEqual(self.modelLogic.contingencyWMOs.demandsToBeMetByWaterMarketTransfers_Contractor[0], 298415.25)
+        self.assertEqual(self.modelLogic.totalShortage_Contractor[0], 297415.25)
         self.assertEqual(self.modelLogic.contingentConservationCost_Contractor[0], 21900500)
-        
-        # Test delivery of Water Market Transfers
-        self.assertEqual(self.modelLogic.contingencyWMOs.totalShortage_Contractor[0], 297415.25)
         self.assertEqual(self.modelLogic.waterMarketTransferCost_Contractor[0], 468093.5324)
         
         # Test other delivery reliability costs
@@ -66,8 +64,27 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         # Test total reliability cost
         self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 560579597.235211)
         
-        # Test remaining shortages and associated costs
-        self.assertEqual(self.modelLogic.totalShortage_Contractor[0], 297415.25)
+        # Test shortage by use type
+        # Note most variables used to calculate the economic loss are not lists and last timestep is tested instead of i=0
+        self.assertEqual(self.modelLogic.totalDemand_Contractor[93], 1500000)
+        self.assertEqual(self.modelLogic.plannedLongTermConservation_Contractor, 5)
+        self.assertEqual(self.modelLogic.totalShortage_Contractor[93], 773315.25)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.baseConservationAsPercentOfDemand, 3.3333333333333333e-06)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.demandHardeningAdjustmentFactor_Contractor, 1.0000050000111111)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor, 0.5155460777232284)
+        
+        print(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor)
+        print(self.modelLogic.inputData.cutRatio_singleFamily.loc['Metropolitan Water District of Southern California'])
+        print(self.modelLogic.inputData.singleFamilyUsePortion.loc['Metropolitan Water District of Southern California'])
+        
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, 0.3984897219116741)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortage_Contractor, 298867.29143375554)
+        
+        
+        # Test economic loss function
+        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 1310923025.89395)
+        
+        
         
         
         

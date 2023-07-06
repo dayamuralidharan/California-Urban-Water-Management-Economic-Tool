@@ -51,19 +51,19 @@ class DemandAssumptions:
         self.totalDemands = pd.DataFrame(self.totalDemands)
         
         # Set up Use by Type variables and Interior/Exterior Use by Type Variables
-        singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (AFY)'][globalAssumptions.futureYear]
-        multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (AFY)'][globalAssumptions.futureYear]
-        industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (AFY)'][globalAssumptions.futureYear]
-        commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (AFY)'][globalAssumptions.futureYear]
+        self.singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (AFY)'][globalAssumptions.futureYear]
+        self.multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (AFY)'][globalAssumptions.futureYear]
+        self.industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (AFY)'][globalAssumptions.futureYear]
+        self.commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (AFY)'][globalAssumptions.futureYear]
         agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (AFY)'][globalAssumptions.futureYear]
-        landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (AFY)'][globalAssumptions.futureYear]
+        self.landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (AFY)'][globalAssumptions.futureYear]
         otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (AFY)'][globalAssumptions.futureYear]
 
         normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (AFY)'][globalAssumptions.futureYear]
         
 
-        self.singleFamilyUsePortion = singleFamilyUse / normalYearDemands
-        self.multiFamilyUsePortion = multiFamilyUse / normalYearDemands
-        self.industrialUsePortion = industrialUse / normalYearDemands
-        self.commAndGovUsePortion = commAndGovUse / normalYearDemands
-        self.landscapeUsePortion = landscapeUse / normalYearDemands
+        self.singleFamilyUsePortion = self.singleFamilyUse / normalYearDemands
+        self.multiFamilyUsePortion = self.multiFamilyUse / normalYearDemands
+        self.industrialUsePortion = self.industrialUse / normalYearDemands
+        self.commAndGovUsePortion = self.commAndGovUse / normalYearDemands
+        self.landscapeUsePortion = self.landscapeUse / normalYearDemands
