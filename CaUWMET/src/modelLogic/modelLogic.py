@@ -24,7 +24,7 @@ class ModelLogic:
             # self.executeModelLogicForContractor(x) #TODO change to optimization function
         #self.outputHandler.writeToSystemwideOutputDataframes()
         
-
+    #TODO delete this function
     def execute(self, x):
         f = []
         for y in x:
@@ -54,7 +54,6 @@ class ModelLogic:
         self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = x[6]
         self.longtermWMOOtherSupplyIncrementalVolume_Contractor = x[7]
         self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
-                                                                + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOConservation_Contractor
                                                                 + self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor
@@ -130,15 +129,16 @@ class ModelLogic:
     
     
     def deliverSwpCvpSupplies(self):
+        #TODO it would probably be better to be consistent and make self.SWPCVPSupply_Contractor a list instead of a scalar here.
         self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
-        self.remainingDemandAfterDeliveryOfSwpCVPSupplies = self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor
+        self.remainingDemandAfterDeliveryOfSwpCVPSupplies = max(0, self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
         
     def checkIfThereIsExcessSupplyOrRemainingDemand(self):
         if self.remainingDemandAfterDeliveryOfSwpCVPSupplies > 0:
             self.demandsToBeMetByStorage_Contractor.append(self.remainingDemandAfterDeliveryOfSwpCVPSupplies)
             self.excessSupply_Contractor.append(0)
         else:
-            self.excessSupply_Contractor.append((self.SWPCVPSupply_Contractor - self.demandsToBeMetBySWPCVP_Contractor[self.i]))
+            self.excessSupply_Contractor.append((max(0, self.SWPCVPSupply_Contractor - self.demandsToBeMetBySWPCVP_Contractor[self.i])))
             self.demandsToBeMetByStorage_Contractor.append(0)
 
         
@@ -204,27 +204,26 @@ class ModelLogic:
             self.doNotImplementStorageOperations()
             self.demandsToBeMetByContingentOptions_Contractor.append(0)
              
-            
+                     
     def calculateReliabilityManagementCosts(self, storageInputAssumptions_Contractor):
-        self.totalSuppliesDelivered_Contractor.append(self.inputData.totalLocalSupply[self.contractor][self.i]
-                                                        + self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i]
+        self.totalSuppliesDelivered_Contractor.append(min(self.inputData.totalLocalSupply[self.contractor][self.i] + self.totalLongtermWMOSupplyIncrementalVolume_Contractor, self.appliedDemand_Contractor[self.i])
+                                                        + max(0, self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i])
                                                         + self.takeGroundwater_Contractor[self.i]
                                                         + self.takeSurface_Contractor[self.i]
                                                         + self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i])
         
+        #Get unit cost input data
+        self.swpCVPDeliveryUnitCost_Contractor = self.inputData.swpCVPDeliveryUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.groundwaterBankPutUnitCost_Contractor = self.inputData.groundwaterBankPutUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.groundwaterBankTakeUnitCost_Contractor = self.inputData.groundwaterBankTakeUnitCost.loc[self.contractor][self.inputData.futureYear]
-        self.swpCVPDeliveryUnitCost_Contractor = self.inputData.swpCVPDeliveryUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.groundwaterPumpingUnitCost_Contractor = self.inputData.groundwaterPumpingUnitCost[self.contractor][self.i]
         self.waterTreatmentUnitCost_Contractor = self.inputData.waterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.distributionUnitCost_Contractor = self.inputData.distributionUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.wastewaterTreatmentUnitCost_Contractor = self.inputData.wastewaterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.wastewaterTreatmentFraction_Contractor = self.inputData.wastewaterTreatmentFraction.loc[self.contractor][self.inputData.futureYear] / 100
-        
         self.waterMarketTransferUnitCost_Contractor = self.inputData.waterMarketTransferCost[self.contractor][self.i]
         self.contingentConservationUnitCost_Contractor = self.inputData.contingentConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
-        
         longtermWMOSurfaceUnitCost_Contractor = self.inputData.longtermWMOSurfaceUnitCost.loc[self.contractor][self.inputData.futureYear]
         longtermWMOGroundwaterUnitCost_Contractor = self.inputData.longtermWMOGroundwaterUnitCost.loc[self.contractor][self.inputData.futureYear]
         longtermWMODesalinationUnitCost_Contractor = self.inputData.longtermWMODesalinationUnitCost.loc[self.contractor][self.inputData.futureYear]
@@ -234,12 +233,15 @@ class ModelLogic:
         longtermWMOOtherSupplyUnitCost_Contractor = self.inputData.longtermWMOOtherSupplyUnitCost.loc[self.contractor][self.inputData.futureYear]
         longtermWMOConservationUnitCost_Contractor = self.inputData.longtermWMOConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
         
+        #Get reliability management costs based on delivered volumes
+        self.swpCVPDeliveryCost_Contractor.append((max(0, self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i])) * self.swpCVPDeliveryUnitCost_Contractor)
+        
         self.groundwaterBankPutCost_Contractor.append(self.putGroundwater_Contractor[self.i] * self.groundwaterBankPutUnitCost_Contractor)
         self.groundwaterBankTakeCost_Contractor.append(self.takeGroundwater_Contractor[self.i] * self.groundwaterBankTakeUnitCost_Contractor)
-        self.swpCVPDeliveryCost_Contractor.append((self.SWPCVPSupply_Contractor- self.excessSupply_Contractor[self.i]) * self.swpCVPDeliveryUnitCost_Contractor)
+        
         self.waterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.waterTreatmentUnitCost_Contractor)
         self.distributionCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.distributionUnitCost_Contractor)
-        self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.distributionUnitCost_Contractor)
+        self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.wastewaterTreatmentUnitCost_Contractor)
         
         self.waterMarketTransferCost_Contractor.append(self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketTransferUnitCost_Contractor)
         
@@ -256,7 +258,6 @@ class ModelLogic:
         #TODO calculate rationing program cost    
         self.rationingProgramCost_Contractor.append(0)
         
-        #TODO: incorporate supply volume into these calcs - replace the 1's 
         self.surfaceLongTermWMOCost_Contractor.append(self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor * longtermWMOSurfaceUnitCost_Contractor)
         self.groundwaterLongTermWMOCost_Contractor.append(self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor * longtermWMOGroundwaterUnitCost_Contractor)
         self.desalinationLongTermWMOCost_Contractor.append(self.longtermWMODesalinationSupplyIncrementalVolume_Contractor * longtermWMODesalinationUnitCost_Contractor)
