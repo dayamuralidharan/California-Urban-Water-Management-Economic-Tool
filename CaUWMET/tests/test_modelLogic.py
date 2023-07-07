@@ -76,6 +76,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, 0.39848482655708467)
         self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortage_Contractor, 448290.9469224215)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.multiFamilyShortage_Contractor, 134487.28407672644)
         
         
         # Test economic loss function
@@ -84,7 +85,8 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         self.assertEqual(self.modelLogic.economicLossByUseType.constantOfIntegration_SF['Metropolitan Water District of Southern California'], 4108949.9456299148)
         self.assertEqual(self.modelLogic.economicLossByUseType.singleFamilyEconomicLoss_Contractor, 1213606550.9561996)
-        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 1310923025.89395)
+        self.assertEqual(self.modelLogic.economicLossByUseType.multiFamilyEconomicLoss_Contractor, 319933590.67021227)
+        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 1966292083.8347049)
         
         
         
