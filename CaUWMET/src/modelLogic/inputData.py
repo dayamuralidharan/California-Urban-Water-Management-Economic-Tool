@@ -83,6 +83,8 @@ class InputData:
         self.elasticityOfDemand_landscape = self.contingentWMOsAssumptions.elasticityOfDemand_landscape
         
         self.retailPrice = self.contingentWMOsAssumptions.retailPrice
+        
+        self.costForRationingProgram  = self.contingentWMOsAssumptions.costForRationingProgram 
 
     
         #### Get Long-term WMOs Input Assumptions

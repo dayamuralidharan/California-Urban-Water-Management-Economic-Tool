@@ -60,9 +60,10 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.waterTreatmentCost_Contractor[0], 249294165.24617)
         self.assertEqual(self.modelLogic.distributionCost_Contractor[0], 189153045.02617002)
         self.assertEqual(self.modelLogic.wastewaterTreatmentCost_Contractor[0], 79756562.338471)
+        self.assertEqual(self.modelLogic.rationingProgramCost_Contractor[0], 175204000.0)
         
         # Test total reliability cost
-        self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 560579597.235211)
+        self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 735783597.235211)
         
         # Test shortage by use type
         # Note most variables used to calculate the economic loss are not lists and last timestep is tested instead of i=0

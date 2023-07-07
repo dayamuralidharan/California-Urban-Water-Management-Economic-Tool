@@ -224,8 +224,10 @@ class ModelLogic:
         self.distributionUnitCost_Contractor = self.inputData.distributionUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.wastewaterTreatmentUnitCost_Contractor = self.inputData.wastewaterTreatmentUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.wastewaterTreatmentFraction_Contractor = self.inputData.wastewaterTreatmentFraction.loc[self.contractor][self.inputData.futureYear] / 100
+        
         self.waterMarketTransferUnitCost_Contractor = self.inputData.waterMarketTransferCost[self.contractor][self.i]
         self.contingentConservationUnitCost_Contractor = self.inputData.contingentConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
+        self.costForRationingProgram_Contractor = float(self.inputData.costForRationingProgram.loc[self.contractor])
         self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
         
         longtermWMOSurfaceUnitCost_Contractor = self.inputData.longtermWMOSurfaceUnitCost.loc[self.contractor][self.inputData.futureYear]
@@ -268,8 +270,11 @@ class ModelLogic:
         else:
             self.groundwaterPumpingSavings_Contractor.append(0)
         
-        #TODO calculate rationing program cost    
-        self.rationingProgramCost_Contractor.append(0)
+        #TODO calculate rationing program cost
+        if self.totalShortage_Contractor[self.i] > 0:    
+            self.rationingProgramCost_Contractor.append(self.costForRationingProgram_Contractor* self.urbanPopulation_Contractor)
+        else:
+            self.rationingProgramCost_Contractor.append(0)
         
         self.surfaceLongTermWMOCost_Contractor.append(self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor * longtermWMOSurfaceUnitCost_Contractor + longtermWMOSurfaceBaseCost_Contractor)
         self.groundwaterLongTermWMOCost_Contractor.append(self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor * longtermWMOGroundwaterUnitCost_Contractor + longtermWMOGroundwaterBaseCost_Contractor)
