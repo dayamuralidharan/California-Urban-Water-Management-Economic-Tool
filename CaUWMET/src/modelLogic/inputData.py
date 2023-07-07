@@ -22,6 +22,13 @@ class InputData:
         #### Get Demand Input Assumptions
         self.totalDemands = self.demandAssumptions.totalDemands
         self.plannedLongTermConservation = self.demandAssumptions.plannedLongTermConservation
+        
+        self.singleFamilyUse = self.demandAssumptions.singleFamilyUse
+        self.multiFamilyUse = self.demandAssumptions.multiFamilyUse
+        self.industrialUse =self.demandAssumptions.industrialUse
+        self.commAndGovUse = self.demandAssumptions.commAndGovUse
+        self.landscapeUse = self.demandAssumptions.landscapeUse
+        
         self.singleFamilyUsePortion = self.demandAssumptions.singleFamilyUsePortion
         self.multiFamilyUsePortion = self.demandAssumptions.multiFamilyUsePortion
         self.industrialUsePortion =self.demandAssumptions.industrialUsePortion
