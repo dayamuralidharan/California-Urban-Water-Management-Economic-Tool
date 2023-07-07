@@ -270,7 +270,6 @@ class ModelLogic:
         else:
             self.groundwaterPumpingSavings_Contractor.append(0)
         
-        #TODO calculate rationing program cost
         if self.totalShortage_Contractor[self.i] > 0:    
             self.rationingProgramCost_Contractor.append(self.costForRationingProgram_Contractor* self.urbanPopulation_Contractor)
         else:
