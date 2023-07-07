@@ -15,7 +15,9 @@ import numpy as np
 import pyhecdss
 import pandas as pd
 
-#TODO add GUI for users to input DSS file names and locations
+#TODO add GUI for users to input DSS file names and locations, and start and end times
+#TODO how does code know whether to read Calsim II or Calsim 3 delivery arcs for each contractor?
+#TODO add conversion to AFY
 
 
 # Function that checks if the last digit of a non-empty string is a digit or an alphabet. (Helper Function)

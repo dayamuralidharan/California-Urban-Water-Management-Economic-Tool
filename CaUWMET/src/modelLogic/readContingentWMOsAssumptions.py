@@ -9,7 +9,6 @@ class ContingentWMOsAssumptions:
         cutRatioInputFile = inputDataLocations.cutRatioInputFile
         elasticityOfDemandInputFile = inputDataLocations.elasticityOfDemandInputFile
 
-        # contingentConservationData = pd.read_csv(inputContingentConservationFile)
         contingentConservationInputData = pd.read_csv(contingentConservationInputFile)
         waterMarketTransfersInputData = pd.read_csv(waterMarketTransfersInputFile)
         rationingProgramInputData = pd.read_csv(rationingProgramInputFile)
@@ -20,7 +19,7 @@ class ContingentWMOsAssumptions:
         rationingProgramInputData.set_index('Contractor', inplace = True)
         elasticityOfDemandInputData.set_index('Contractor', inplace = True)
 
-        # Definition of Contingent Conservation Variables
+        # Set Contingent Conservation Variables
         self.contingentConservationUseReduction = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
         self.contingentConservationStorageTrigger = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)']
         self.contingentConservationUnitCost = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Contingency Conservation Publicity Campaign Cost ($/capita)']
@@ -29,7 +28,7 @@ class ContingentWMOsAssumptions:
         self.contingentConservationUnitCost.set_index('Contractor', inplace = True)
         self.urbanPopulation.set_index('Contractor', inplace = True)
 
-        # Definition of Water Market Transfers Variables
+        # Set Water Market Transfers Variables
         waterMarketTransfersInputData.set_index('Contractor', inplace = True)
         
         self.shortageThresholdForWaterMarketTransfers = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
@@ -92,11 +91,12 @@ class ContingentWMOsAssumptions:
         self.waterMarketTransferCost = pd.DataFrame(waterMarketTransferCost)
 
 
-        # Definition of Rationing Program and Loss Function variables
+        # Set Rationing Program and Loss Function variables
         self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][globalAssumptions.futureYear]
         self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][globalAssumptions.futureYear]
         self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"] #TODO get just for future year here
         self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"][globalAssumptions.futureYear]
+
 
         self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
         self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
