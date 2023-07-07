@@ -20,10 +20,10 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         # After each supply source is delivered/demand reduction is implemented, test remaining demands are as expected, along with any associated costs
         # Test implementation of planned long-term conservation
-        self.assertEqual(self.modelLogic.outputHandler.appliedDemands['Metropolitan Water District of Southern California'][0], 999995)
+        self.assertEqual(self.modelLogic.outputHandler.appliedDemands['Metropolitan Water District of Southern California'][0], 999985)
         
         # Test delivery of local supplies
-        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964915)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964905)
         # Test long-term WMO costs
         self.assertEqual(self.modelLogic.surfaceLongTermWMOCost_Contractor[0], 100)
         self.assertEqual(self.modelLogic.groundwaterLongTermWMOCost_Contractor[0], 100)
@@ -36,7 +36,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         
         # Test deliveries of SWP/CVP supplies
-        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0], 959915)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0], 959905)
         self.assertEqual(self.modelLogic.swpCVPDeliveryCost_Contractor[0], 500000)
         
         # Test deliveries from storage (groundwater bank and carryover)
@@ -46,12 +46,12 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.outputHandler.putGroundwater['Metropolitan Water District of Southern California'][0], 0)
         self.assertEqual(self.modelLogic.outputHandler.takeGroundwaterBankCost['Metropolitan Water District of Southern California'][0], 19506431.092)
         self.assertEqual(self.modelLogic.outputHandler.putGroundwaterBankCost['Metropolitan Water District of Southern California'][0], 0)
-        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByContingentOptions['Metropolitan Water District of Southern California'][0], 348415.0)
+        self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetByContingentOptions['Metropolitan Water District of Southern California'][0], 348405.0)
         
         #Test implementation of Contingent Conservation Programs
         #TODO switch all variables to output handler variable like those above
-        self.assertEqual(self.modelLogic.contingencyWMOs.demandsToBeMetByWaterMarketTransfers_Contractor[0], 298415.25)
-        self.assertEqual(self.modelLogic.totalShortage_Contractor[0], 297415.25)
+        self.assertEqual(self.modelLogic.contingencyWMOs.demandsToBeMetByWaterMarketTransfers_Contractor[0], 298405.75)
+        self.assertEqual(self.modelLogic.totalShortage_Contractor[0], 297405.75)
         self.assertEqual(self.modelLogic.contingentConservationCost_Contractor[0], 21900500)
         self.assertEqual(self.modelLogic.waterMarketTransferCost_Contractor[0], 468093.5324)
         
@@ -68,20 +68,22 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         # Note most variables used to calculate the economic loss are not lists and last timestep is tested instead of i=0
         self.assertEqual(self.modelLogic.totalDemand_Contractor[93], 1500000)
         self.assertEqual(self.modelLogic.plannedLongTermConservation_Contractor, 5)
-        self.assertEqual(self.modelLogic.totalShortage_Contractor[93], 773315.25)
+        self.assertEqual(self.modelLogic.totalShortage_Contractor[93], 773305.75)
         self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.baseConservationAsPercentOfDemand, 3.3333333333333333e-06)
         self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.demandHardeningAdjustmentFactor_Contractor, 1.0000050000111111)
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor, 0.5155460777232284)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor, 0.5155397443582282)
         
-        print(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor)
-        print(self.modelLogic.inputData.cutRatio_singleFamily.loc['Metropolitan Water District of Southern California'])
-        print(self.modelLogic.inputData.singleFamilyUsePortion.loc['Metropolitan Water District of Southern California'])
         
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, 0.3984897219116741)
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortage_Contractor, 298867.29143375554)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, 0.39848482655708467)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortage_Contractor, 448290.9469224215)
         
         
         # Test economic loss function
+        self.assertEqual(self.modelLogic.outputHandler.appliedDemands['Metropolitan Water District of Southern California'][93], 1499985)
+
+        
+        self.assertEqual(self.modelLogic.economicLossByUseType.constantOfIntegration_SF['Metropolitan Water District of Southern California'], 4108949.9456299148)
+        self.assertEqual(self.modelLogic.economicLossByUseType.singleFamilyEconomicLoss_Contractor, 1213606550.9561996)
         self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 1310923025.89395)
         
         

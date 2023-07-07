@@ -31,9 +31,17 @@ class ShortageByUseType:
         self.commercialShortagePortionOfCommercialUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_commercial.loc[self.input.contractor]
         self.landscapeShortagePortionOfLandscapeUse_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.cutRatio_landscape.loc[self.input.contractor]
         
+        # Calculate use by type
+        self.singleFamilyUse_Contractor = (self.inputData.singleFamilyUsePortion[self.input.contractor] * self.input.appliedDemand_Contractor[self.input.i])
+        self.multiFamilyUse_Contractor = (self.inputData.multiFamilyUsePortion[self.input.contractor] * self.input.appliedDemand_Contractor[self.input.i])
+        self.industrialUse_Contractor = (self.inputData.industrialUsePortion[self.input.contractor] * self.input.appliedDemand_Contractor[self.input.i])
+        self.comAndGovUse_Contractor = (self.inputData.commAndGovUsePortion[self.input.contractor] * self.input.appliedDemand_Contractor[self.input.i])
+        self.landscapeUse_Contractor = (self.inputData.landscapeUsePortion[self.input.contractor] * self.input.appliedDemand_Contractor[self.input.i])
+        
+        
         # Calculate shortage by type
-        self.singleFamilyShortage_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.inputData.singleFamilyUse.loc[self.input.contractor]
-        self.multiFamilyShortage_Contractor = self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor * self.inputData.multiFamilyUse.loc[self.input.contractor]
-        self.industrialShortage_Contractor = self.industrialShortagePortionOfIndustrialUse_Contractor * self.inputData.industrialUse.loc[self.input.contractor]
-        self.commercialShortage_Contractor = self.commercialShortagePortionOfCommercialUse_Contractor * self.inputData.commAndGovUse.loc[self.input.contractor]
-        self.landscapeShortage_Contractor = self.landscapeShortagePortionOfLandscapeUse_Contractor * self.inputData.landscapeUse.loc[self.input.contractor]
+        self.singleFamilyShortage_Contractor = self.singleFamilyShortagePortionOfSingleFamilyUse_Contractor * self.singleFamilyUse_Contractor
+        self.multiFamilyShortage_Contractor = self.multiFamilyShortagePortionOfMultiFamilyUse_Contractor * self.multiFamilyUse_Contractor
+        self.industrialShortage_Contractor = self.industrialShortagePortionOfIndustrialUse_Contractor * self.industrialUse_Contractor
+        self.commercialShortage_Contractor = self.commercialShortagePortionOfCommercialUse_Contractor * self.comAndGovUse_Contractor
+        self.landscapeShortage_Contractor = self.landscapeShortagePortionOfLandscapeUse_Contractor * self.landscapeUse_Contractor
