@@ -103,6 +103,14 @@ class InputData:
         self.longtermWMOTransfersExchangesUnitCost = self.longtermWMOsAssumptions.longtermWMOTransfersExchangesUnitCost
         self.longtermWMOOtherSupplyUnitCost = self.longtermWMOsAssumptions.longtermWMOOtherSupplyUnitCost
         self.longtermWMOConservationUnitCost = self.longtermWMOsAssumptions.longtermWMOConservationUnitCost
-        self.wmoSupplyVolumeIncrement = self.longtermWMOsAssumptions.wmoSupplyVolumeIncrement #TODO delete this variable, no longer needed
+        
+        self.longtermWMOSurfaceBaseCost = self.longtermWMOsAssumptions.longtermWMOSurfaceBaseCost
+        self.longtermWMOGroundwaterBaseCost = self.longtermWMOsAssumptions.longtermWMOGroundwaterBaseCost
+        self.longtermWMODesalinationBaseCost = self.longtermWMOsAssumptions.longtermWMODesalinationBaseCost
+        self.longtermWMORecycledBaseCost = self.longtermWMOsAssumptions.longtermWMORecycledBaseCost
+        self.longtermWMOPotableReuseBaseCost = self.longtermWMOsAssumptions.longtermWMOPotableReuseBaseCost
+        self.longtermWMOTransfersExchangesBaseCost = self.longtermWMOsAssumptions.longtermWMOTransfersExchangesBaseCost
+        self.longtermWMOOtherSupplyBaseCost = self.longtermWMOsAssumptions.longtermWMOOtherSupplyBaseCost
+        self.longtermWMOConservationBaseCost = self.longtermWMOsAssumptions.longtermWMOConservationBaseCost
         
         

@@ -91,19 +91,4 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
         
         
-        
-        
-
-        
-        
-        
-
-        # print(self.modelLogic.excessSupply_Contractor[0])
-        
-        #Test averaging of total cost over all timesteps
-        #self.assertEqual(self.modelLogic.averageTotalAnnualCost_Contractor, 374572365.19908273)
-        
-        
-        
-        
 

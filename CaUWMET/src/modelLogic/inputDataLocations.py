@@ -1,13 +1,11 @@
 class InputDataLocations:
     def __init__(self):
-        self.futureYearInput = '2045'
+        self.futureYearInput = '2045' #TODO this should be in user input file
         
         self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
         
-        self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - delete
-        
-        self.wmoSupplyVolumeIncrement = 0.1##TODO - delete
+        self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - rename, this should be an input for user to choose time series or UWMP demand data
         
         self.inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
         self.inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"
@@ -22,7 +20,7 @@ class InputDataLocations:
         self.supplyRecycledTimeseriesInput = "src/inputData/supplyInput_recycledTimeSeries.csv"
         self.supplySurfaceTimeseriesInput = "src/inputData/supplyInput_surfaceTimeSeries.csv"
         self.supplyExchangesTimeseriesInput = "src/inputData/supplyInput_transfersAndExchangesTimeSeries.csv"
-        self.swpCVPSupplyDataInput = "src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv"
+        self.swpCVPSupplyDataInput = "src/inputData/supplyInput_SWPCVP.csv"
         
         self.storageDataInput = "src/inputData/systemOperationsInput_Storage.csv"
         self.excessWaterSwitchDataInput = "src/inputData/systemOperationsInput_ExcessWaterSwitch.csv"
@@ -36,5 +34,6 @@ class InputDataLocations:
         self.elasticityOfDemandInputFile = "src/inputData/contingentWMOsInput_elasticityofDemand.csv"
         
         self.longtermWMOSupplyVolumeInputData = "src/inputData/longtermWMOsInput_supplyVolume.csv"
-        self.longtermWMOSupplyUnitCostsInputData = "src/inputData/longtermWMOsInput_supplyCosts.csv"
+        self.longtermWMOSupplyUnitCostsInputData = "src/inputData/longtermWMOsInput_supplyUnitCosts.csv"
+        self.longtermWMOSupplyBaseCostsInputData = "src/inputData/longtermWMOsInput_supplyBaseCosts.csv"
         

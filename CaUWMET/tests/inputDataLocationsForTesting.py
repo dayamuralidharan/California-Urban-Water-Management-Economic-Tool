@@ -34,4 +34,5 @@ class InputDataLocationsForTesting:
         self.elasticityOfDemandInputFile = "tests/inputDataForTests/contingentWMOsInput_elasticityofDemand.csv"
         
         self.longtermWMOSupplyVolumeInputData = "tests/inputDataForTests/longtermWMOsInput_supplyVolume.csv"
-        self.longtermWMOSupplyUnitCostsInputData = "tests/inputDataForTests/longtermWMOsInput_supplyCosts.csv"
+        self.longtermWMOSupplyUnitCostsInputData = "tests/inputDataForTests/longtermWMOsInput_supplyUnitCosts.csv"
+        self.longtermWMOSupplyBaseCostsInputData = "tests/inputDataForTests/longtermWMOsInput_supplyBaseCosts.csv"
