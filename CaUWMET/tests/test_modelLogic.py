@@ -5,7 +5,7 @@ from src.modelLogic.storageUtilities import StorageUtilities
 from tests.inputDataLocationsForTesting import InputDataLocationsForTesting
 
 # See CaUWMET_Tests.xlsx for how values for assertEqual functions below were calculated
-# TODO: set up test for economic loss function
+# See CaUWMET_CPED example for Python test.xlsx for how the values in the assertEqual functions below were calculated for the economic loss variables
 
 class waterBalanceLogicTests(TestCase): #this class is inheriting functionality of the unittest.TestCase class
     def setUp(self):
