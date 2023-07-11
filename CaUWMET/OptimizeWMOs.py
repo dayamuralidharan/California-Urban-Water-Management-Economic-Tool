@@ -52,7 +52,7 @@ class CostProblem(ElementwiseProblem):
         self.wmoSupply = wmoSupply if wmoSupply is not None else None
         self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoSupply]]) #TODO: Recommend making name clearer
         self.lowerBounds = lowerBounds
-        self.upperBounds = upperBounds
+        self.upperBounds = [ ub if ub>0 else 0.01 for ub in upperBounds ]
         self.objectiveFunction = modelLogic.executeModelLogicForContractor
         
         super().__init__(  # parameterize the objective function
@@ -90,8 +90,8 @@ class OptimizeWMOs:
     TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
-                 year='2045', #TODO connect to input data
-                 contractor='Metropolitan Water District of Southern California', #TODO connect to input data
+                 year='2045', 
+                 contractor='Metropolitan Water District of Southern California',
                  wmoFloor=None, 
                  wmoSupply=None, 
                  lowerBounds=[0]*8, 
@@ -134,7 +134,7 @@ class OptimizeWMOs:
             max_velocity_rate=0.2
         )
         # parameterize the termination criteria
-        termination = get_termination("n_gen", 5)
+        termination = get_termination("n_gen", 20)
         
         # execute optimization
         self.res = minimize(
@@ -147,6 +147,8 @@ class OptimizeWMOs:
         )
 
         print("Best solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
+        
+        return self.res
         
         
     def visualization_a(self):
@@ -169,7 +171,7 @@ class OptimizeWMOs:
         # assign plot variables
         TAF = np.sum(X,axis=1)  # sum of longtermWMOSupply variables
         loss_millions = [f*10**-6 for f in F]
-        colors = [item for item in [0,1,2,3,4] for i in range(10)]  # this only works for the n_gen=5 because of this....
+        colors = [ item for item in list(range(len(self.res.history))) for i in range(len(self.res.pop)) ]  # this only works for the n_gen=5 because of this....
 
         # matplotlib
         fig, ax = plt.subplots(1, 1, figsize=(6, 6))          # setup the plot
@@ -178,7 +180,7 @@ class OptimizeWMOs:
         cmap = mpl.colors.LinearSegmentedColormap.from_list(  # create the new map
             'Custom cmap', cmaplist, cmap.N
         )
-        bounds = np.linspace(0, 5, 6)                         # define the bins
+        bounds = np.linspace(0, len(self.res.history), len(self.res.history)+1)   # define the bins
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)        # normalize
 
         ax.scatter(TAF, loss_millions, c=colors, cmap=cmap, norm=norm, alpha=0.5)
@@ -199,5 +201,6 @@ class OptimizeWMOs:
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
         
         return ax
+
 
         
