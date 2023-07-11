@@ -128,10 +128,10 @@ class OptimizeWMOs:
         )
         # parameterize algorithm
         algorithm = PSO(
-            pop_size=10,
-            w=0.9, c1=5.0, c2=1.0,
+            pop_size=20,
+            w=0.8, c1=10.0, c2=1.0,
             adaptive=True,
-            max_velocity_rate=0.2
+            max_velocity_rate=0.3
         )
         # parameterize the termination criteria
         termination = get_termination("n_gen", 20)
@@ -149,6 +149,15 @@ class OptimizeWMOs:
         print("Best solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
         
         return self.res
+    
+# TODO: Replace pseudocode below to report values of the best option
+#     def report_best(self):
+#         X = self.res.X
+#         results = ModelLogic.execute_model_logic_for_contractor(X, optimize=False)
+#         return results.csv
+    
+# TODO: Replace pseudocode below to report values of a given
+#     def report_custom(self, X):
         
         
     def visualization_a(self):
@@ -185,8 +194,9 @@ class OptimizeWMOs:
 
         ax.scatter(TAF, loss_millions, c=colors, cmap=cmap, norm=norm, alpha=0.5)
         ax.set_title("Particle Costs evaluated in Optimization History\nOptimal Point shown in Red")
-        ax.set_xlabel("Sum of longtermWMO Supply variables")
-        ax.set_ylabel("Total Economic Losses ($ Million)")
+        ax.set_xlabel("Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year)")
+        ax.set_xscale('log')
+        ax.set_ylabel("Expected Costs and Losses ($ Million)")
         ax.ticklabel_format(axis="y", style="sci", useOffset=False)
 
         # create a second axes for the colorbar
@@ -199,8 +209,6 @@ class OptimizeWMOs:
 
         # plot the best result in red
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
+        plt.show()
         
         return ax
-
-
-        

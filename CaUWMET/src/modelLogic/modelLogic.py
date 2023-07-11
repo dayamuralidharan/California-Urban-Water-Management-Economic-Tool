@@ -23,19 +23,9 @@ class ModelLogic:
         #for self.contractor in self.inputData.contractorsList:
             # self.executeModelLogicForContractor(x) #TODO change to optimization function
         #self.outputHandler.writeToSystemwideOutputDataframes()
-        
-    #TODO delete this function
-    def execute(self, x):
-        f = []
-        for y in x:
-#            print(f"y: {y}")
-#            breakpoint()
-            result = self.executeModelLogicForContractor(y)
-            f.append([result])
-#            print(f"f: {f}")
-        return f
+
     
-    def executeModelLogicForContractor(self, x):
+    def executeModelLogicForContractor(self, x, optimize=True):
         self.economicLossByUseType = EconomicLossByUseType(self.inputData)
         
         # Set up variables that will be used for calcs by contractor
@@ -70,7 +60,11 @@ class ModelLogic:
         self.writeToContractorOutputTimeSeriesDataframe()
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
         self.outputHandler.averageTotalAnnualCost[self.contractor] = self.averageTotalAnnualCost_Contractor
-        return self.averageTotalAnnualCost_Contractor
+        
+        if optimize:
+            return self.averageTotalAnnualCost_Contractor
+        # else: 
+        #     return alltherestofthethings #TODO: Kensey
         
 
 #TODO Move to its own class        
