@@ -16,7 +16,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         
     def testModelLogic(self):
         self.x = [10, 10, 10, 10, 10, 10, 10, 10]
-        self.modelLogic.executeModelLogicForContractor(self.x)
+        self.modelLogic.execute(self.x)
         
         # After each supply source is delivered/demand reduction is implemented, test remaining demands are as expected, along with any associated costs
         # Test implementation of planned long-term conservation
