@@ -18,14 +18,15 @@ class ModelLogic:
         self.contingencyWMOs = ContingencyWMOs(inputData)
         self.outputHandler = OutputHandler(inputData)
         
+        
     #def optimizeForAllContractors(self):
         # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
         #for self.contractor in self.inputData.contractorsList:
-            # self.executeModelLogicForContractor(x) #TODO change to optimization function
+            # self.execute(x) #TODO change to optimization function
         #self.outputHandler.writeToSystemwideOutputDataframes()
-
     
-    def executeModelLogicForContractor(self, x, optimize=True):
+    
+    def execute(self, x, optimize=True):
         self.economicLossByUseType = EconomicLossByUseType(self.inputData)
         
         # Set up variables that will be used for calcs by contractor
@@ -34,7 +35,7 @@ class ModelLogic:
         
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
         excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
-
+    
         self.longtermWMOConservation_Contractor = x[0]
         self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = x[1] 
         self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor = x[2]
@@ -66,7 +67,7 @@ class ModelLogic:
         # else: 
         #     return alltherestofthethings #TODO: Kensey
         
-
+    
 #TODO Move to its own class        
     def waterBalanceAndCostLogic(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
         # Deliver local and imported supplies, and implement base long-term conservation to meet demands:
@@ -80,7 +81,7 @@ class ModelLogic:
 
         # If excess supply switch includes storage operations, put excess into or take from storage to meet demands:
         self.putOrTakeFromStorage(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-
+    
         # If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
         contingencyWMOsInput = ContingencyWMOsHandlerInput(self.contractor, self.i, self.plannedLongTermConservation_Contractor, self.totalDemand_Contractor, self.longtermWMOConservation_Contractor, self.demandsToBeMetByContingentOptions_Contractor, self.appliedDemand_Contractor, self.volumeSurfaceCarryover_Contractor, self.volumeGroundwaterBank_Contractor)
         self.contingencyWMOs.implementContingencyWMOsIfNeeded(contingencyWMOsInput, self.contingentConservationUseReductionVolume_Contractor, self.waterMarketTransferDeliveries_Contractor, self.totalShortage_Contractor, self.demandsToBeMetByWaterMarketTransfers_Contractor)
@@ -90,7 +91,7 @@ class ModelLogic:
         
         self.economicLossByUseType.calculateTotalEconomicLoss(self.contingencyWMOs.shortageByUseType, contingencyWMOsInput, self.contingencyWMOs, self.totalShortage_Contractor)
         self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
-
+    
     def writeToContractorOutputTimeSeriesDataframe(self):
         # Append dataframes with updated contractor data as calculated in model logic above.
         self.outputHandler.appliedDemands[self.contractor] = self.appliedDemand_Contractor

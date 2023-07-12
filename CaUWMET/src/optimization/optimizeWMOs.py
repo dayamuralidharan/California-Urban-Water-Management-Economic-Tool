@@ -7,7 +7,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
-import time
 import warnings
 
 from pymoo.core.problem import ElementwiseProblem
@@ -31,7 +30,7 @@ class CostProblem(ElementwiseProblem):
     The objective space of F(X) is mapped by an algorithm, within the u/l bounds for each dimension of X.
     Optionally, F(X) can be constrained by inequality constraints G(X): 
        + g1(x) > wmoFloor  :: defines a floor value of the sum( longtermWMOSupply ) 
-       + g2(x) < wmoSupply :: defines a ceiling value of the sum( longtermWMOSupply )
+       + g2(x) < wmoCeiling :: defines a ceiling value of the sum( longtermWMOSupply )
     https://pymoo.org/
     '''
     def __init__(self, 
@@ -39,23 +38,24 @@ class CostProblem(ElementwiseProblem):
                  upperBounds: list,          # upper bound of each longtermWMO type for a given scenario - len(list)=8
                  modelLogic: ModelLogic,     # prepared ModelLogic object with InputData and StorageUtilities
                  wmoFloor=None,              # how low are we constraining the sum longtermWMOs?
-                 wmoSupply=None,             # how high are we constraining the sum longtermWMOs?
+                 wmoCeiling=None,            # how high are we constraining the sum longtermWMOs?
                  **kwargs):    
         '''
         Initializing the CostProblem class requires parameterizing a CaUWMET model for a given contractor.
         Inputs:
-            wmoFloor/wmoSupply :: number > 0, max sum of the longtermWMO allocations
+            wmoFloor/wmoCeiling :: number > 0, max sum of the longtermWMO allocations
             lowerBounds/upperBounds :: list of numbers, length 8
             modelLogic :: ModelLogic object loaded with InputData, StorageUtilities, and Contractor
         '''
         self.wmoFloor = wmoFloor if wmoFloor is not None else None
-        self.wmoSupply = wmoSupply if wmoSupply is not None else None
-        self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoSupply]]) #TODO: Recommend making name clearer
+        self.wmoCeiling = wmoCeiling if wmoCeiling is not None else None
+        self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoCeiling]]) #TODO: Recommend making name clearer
         self.lowerBounds = lowerBounds
-        self.upperBounds = [ ub if ub>0 else 0.01 for ub in upperBounds ]
-        self.objectiveFunction = modelLogic.executeModelLogicForContractor
+        self.upperBounds = [ ub if ub>0 else 0.0001 for ub in upperBounds ]  #TODO: refine how the upper bound 0 vals are handled
+        self.objectiveFunction = modelLogic.execute
         
-        super().__init__(  # parameterize the objective function
+        # parameterize the objective function
+        super().__init__(
             n_var=8, n_obj=1, n_ieq_constr=self.n_ieq_constr, 
             xl=self.lowerBounds, xu=self.upperBounds,  # xl and xu set longtermWMOSupply bounds 
             **kwargs
@@ -69,15 +69,13 @@ class CostProblem(ElementwiseProblem):
         Returns objective function f(x)
         Returns inequality constraints g(x)
         '''
-        tic = time.perf_counter()
         if self.n_ieq_constr > 0:
             out["F"] = self.objectiveFunction(x)
-            G1 = self.wmoFloor - np.sum(x)   # np.sum(x) >= self.wmoFloor
-            G2 = np.sum(x) - self.wmoSupply  # self.wmoSupply >= np.sum(x)
-            out["G"] = [G1, G2]
+            G1 = self.wmoFloor - np.sum(x) if G1 is not None else None     # np.sum(x) >= self.wmoFloor
+            G2 = np.sum(x) - self.wmoCeiling  if G1 is not None else None  # self.wmoCeiling >= np.sum(x)
+            out["G"] = [ g for g in [G1,G2] if g is not None ]
         else:
             out["F"] = self.objectiveFunction(x)
-        toc = time.perf_counter()
         
 
 ### instantiate CaUWMET model and execute MOO problem ###
@@ -93,7 +91,7 @@ class OptimizeWMOs:
                  year='2045', 
                  contractor='Metropolitan Water District of Southern California',
                  wmoFloor=None, 
-                 wmoSupply=None, 
+                 wmoCeiling=None, 
                  lowerBounds=[0]*8, 
                  upperBounds='longtermWMOVolumeLimits'):
         
@@ -101,7 +99,7 @@ class OptimizeWMOs:
         self.modelLogic = ModelLogic(self.inputData, StorageUtilities())
         self.modelLogic.contractor = contractor
         self.wmoFloor = wmoFloor
-        self.wmoSupply = wmoSupply
+        self.wmoCeiling = wmoCeiling
         self.lowerBounds = lowerBounds
         self.upperBounds = upperBounds if upperBounds != 'longtermWMOVolumeLimits' else [
             self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][year][0],
@@ -123,11 +121,12 @@ class OptimizeWMOs:
         # parameterize the problem
         problem = CostProblem(
             modelLogic=self.modelLogic,
-            wmoFloor=self.wmoFloor, wmoSupply=self.wmoSupply, 
+            wmoFloor=self.wmoFloor, wmoCeiling=self.wmoCeiling, 
             lowerBounds=self.lowerBounds, upperBounds=self.upperBounds
         )
+        
         # parameterize algorithm
-        algorithm = PSO(
+        algorithm = PSO(  # TODO: enable users to play with hyperparameters????
             pop_size=20,
             w=0.8, c1=10.0, c2=1.0,
             adaptive=True,
@@ -145,28 +144,33 @@ class OptimizeWMOs:
             verbose=True,
             save_history=True
         )
-
-        print("Best solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
+        
+        print("\nBest solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
+        print(f"Execution time: {round(self.res.exec_time)} seconds")
         
         return self.res
     
-# TODO: Replace pseudocode below to report values of the best option
-#     def report_best(self):
-#         X = self.res.X
-#         results = ModelLogic.execute_model_logic_for_contractor(X, optimize=False)
-#         return results.csv
     
-# TODO: Replace pseudocode below to report values of a given
-#     def report_custom(self, X):
+    # TODO: update code below to report values of the best option once integrated into model execution function
+    # def report_best(self):
+    #     X = self.res.X
+    #     best_results = ModelLogic.execute(X, optimize=False)
+    #     print(best_results)  # TODO: output to CSV
+    #     return best_results
+    
+    
+    # TODO: Replace pseudocode below to report values of a given
+    # def report_custom(self, X):
         
         
-    def visualization_a(self):
+    def visualization_a(self, save=False):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
         
         '''
-        # get the particles - this should be its own self callable method...
+        # get the particles 
+        # TODO: this could be its own method...
         X = []
         F = []
         try:
@@ -180,8 +184,8 @@ class OptimizeWMOs:
         # assign plot variables
         TAF = np.sum(X,axis=1)  # sum of longtermWMOSupply variables
         loss_millions = [f*10**-6 for f in F]
-        colors = [ item for item in list(range(len(self.res.history))) for i in range(len(self.res.pop)) ]  # this only works for the n_gen=5 because of this....
-
+        colors = [ item for item in list(range(len(self.res.history))) for i in range(len(self.res.pop)) ]
+        
         # matplotlib
         fig, ax = plt.subplots(1, 1, figsize=(6, 6))          # setup the plot
         cmap = plt.cm.viridis                                 # define the colormap
@@ -191,14 +195,15 @@ class OptimizeWMOs:
         )
         bounds = np.linspace(0, len(self.res.history), len(self.res.history)+1)   # define the bins
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)        # normalize
-
+        
+        # define scatter plot axes
         ax.scatter(TAF, loss_millions, c=colors, cmap=cmap, norm=norm, alpha=0.5)
         ax.set_title("Particle Costs evaluated in Optimization History\nOptimal Point shown in Red")
         ax.set_xlabel("Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year)")
         ax.set_xscale('log')
         ax.set_ylabel("Expected Costs and Losses ($ Million)")
         ax.ticklabel_format(axis="y", style="sci", useOffset=False)
-
+        
         # create a second axes for the colorbar
         ax2 = fig.add_axes([0.95, 0.1, 0.03, 0.8])
         cb = mpl.colorbar.ColorbarBase(
@@ -206,9 +211,15 @@ class OptimizeWMOs:
             spacing='proportional', ticks=bounds, boundaries=bounds, format='%1i'
         )
         ax2.set_ylabel('Iteration Number', size=12)
-
+        
         # plot the best result in red
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
         plt.show()
         
-        return ax
+        if save:
+            pop = self.res.algorithm.pop_size
+            n = self.res.algorithm.n_iter
+            start = self.res.algorithm.start_time
+            plt.savefig(f'graphics/optPlot_p{pop}_n{n}_{round(start)}.png')
+
+            
