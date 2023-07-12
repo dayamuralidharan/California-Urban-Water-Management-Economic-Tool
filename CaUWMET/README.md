@@ -6,4 +6,4 @@ To run:
 
 1. `cd <path to CaUWMET>`
 2. `poetry install`
-3. `poetry shell & poetry poetry run python main.py`
+3. `poetry shell & poetry run python main.py`
