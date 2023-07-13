@@ -71,8 +71,8 @@ class CostProblem(ElementwiseProblem):
         '''
         if self.n_ieq_constr > 0:
             out["F"] = self.objectiveFunction(x)
-            G1 = self.wmoFloor - np.sum(x) if G1 is not None else None     # np.sum(x) >= self.wmoFloor
-            G2 = np.sum(x) - self.wmoCeiling  if G1 is not None else None  # self.wmoCeiling >= np.sum(x)
+            G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None       # np.sum(x) >= self.wmoFloor
+            G2 = np.sum(x) - self.wmoCeiling  if self.wmoCeiling is not None else None  # self.wmoCeiling >= np.sum(x)
             out["G"] = [ g for g in [G1,G2] if g is not None ]
         else:
             out["F"] = self.objectiveFunction(x)
@@ -172,18 +172,27 @@ class OptimizeWMOs:
         # TODO: this could be its own method...
         X = []
         F = []
+        colors = []
+        c = 0
         try:
             for h in self.res.history:
                 for p in h.particles:
-                    X.append(p._X)
-                    F.append(p._F)
+                    if self.wmoCeiling is not None:
+                        if np.sum(p._X) < self.wmoCeiling:
+                            X.append(p._X)
+                            F.append(p._F)
+                            colors.append(c)
+                    else: 
+                        X.append(p._X)
+                        F.append(p._F)
+                        colors.append(c)
+                c+=1
         except: 
             print("Couldn't get particles. Aborting...")
         
         # assign plot variables
         TAF = np.sum(X,axis=1)  # sum of longtermWMOSupply variables
         loss_millions = [f*10**-6 for f in F]
-        colors = [ item for item in list(range(len(self.res.history))) for i in range(len(self.res.pop)) ]
         
         # matplotlib
         fig, ax = plt.subplots(1, 1, figsize=(6, 6))          # setup the plot
