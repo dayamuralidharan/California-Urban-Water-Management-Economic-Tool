@@ -64,8 +64,8 @@ class ModelLogic:
         
         if optimize:
             return self.averageTotalAnnualCost_Contractor
-        # else: 
-        #     return alltherestofthethings #TODO: Kensey
+        else: 
+            return ['hello']
         
     
 #TODO Move to its own class        
