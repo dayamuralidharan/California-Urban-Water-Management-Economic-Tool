@@ -20,19 +20,24 @@ class RunOptimizedWMOs():
     def runOptimizedWMOs(self):
         self.modelLogic.execute(self.x, optimize=False)
 
-
-        longtermWMOVolumeLimit = pd.DataFrame({'Contractor': self.inputData.contractorsList})
-                                #   'Conservation': self.inputData.longtermWMOConservationVolumeLimit[self.inputData.futureYear].to_dict(),
-                                #   'Surface': self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.futureYear],
-                                #   'Groundwater': self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.futureYear],
-                                #   'Desalination': self.inputData.longtermWMODesalinationVolumeLimit[self.inputData.futureYear],
-                                #   'Recycled': self.inputData.longtermWMORecycledVolumeLimit[self.inputData.futureYear],
-                                #   'Potable Reuse': self.inputData.longtermWMORecycledVolumeLimit[self.inputData.futureYear],
-                                #   'Transfers and Exchanges': self.inputData.longtermWMOTransfersExchangesVolumeLimit[self.inputData.futureYear],
-                                #   'Other': self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.futureYear]
-        longtermWMOVolumeLimit.set_index('Contractor')
-        longtermWMOVolumeLimitDataFrames = [longtermWMOVolumeLimit, self.inputData.longtermWMOConservationVolumeLimit[self.inputData.futureYear], ]
+        # Configure long-term WMO available supply dataframe for output
+        longtermWMOVolumeLimit = pd.concat([self.inputData.longtermWMOConservationVolumeLimit[self.inputData.futureYear], 
+                                          self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.futureYear],
+                                          self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.futureYear],
+                                          self.inputData.longtermWMODesalinationVolumeLimit[self.inputData.futureYear],
+                                          self.inputData.longtermWMORecycledVolumeLimit[self.inputData.futureYear],
+                                          self.inputData.longtermWMOPotableReuseVolumeLimit[self.inputData.futureYear],
+                                          self.inputData.longtermWMOTransfersExchangesVolumeLimit[self.inputData.futureYear],
+                                          self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.futureYear]],
+                                          axis = 1)
         
-        longtermWMOVolumeLimit2 =pd.concat(longtermWMOVolumeLimitDataFrames)
+        longtermWMOVolumeLimit.columns = ['Conservation', 
+                                       'Surface', 
+                                       'Groundwater', 
+                                       'Desalination',
+                                       'Recycled', 
+                                       'Potable Reuse', 
+                                       'Transfers and Exchanges', 
+                                      'Other']
         
-        print(longtermWMOVolumeLimit2)
+        print(longtermWMOVolumeLimit)
