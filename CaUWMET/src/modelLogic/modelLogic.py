@@ -61,6 +61,9 @@ class ModelLogic:
         self.writeToContractorOutputTimeSeriesDataframe()
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
         self.outputHandler.averageTotalAnnualCost[self.contractor] = self.averageTotalAnnualCost_Contractor
+
+        #TODO move to outside contractor loop
+        self.outputHandler.writeToSystemwideOutputDataframes()
         
         if optimize:
             return self.averageTotalAnnualCost_Contractor
@@ -93,7 +96,7 @@ class ModelLogic:
         self.totalAnnualCost_Contractor.append(self.reliabilityManagementCost_Contractor[self.i] + self.economicLossByUseType.totalEconomicLoss_Contractor[self.i])
     
     def writeToContractorOutputTimeSeriesDataframe(self):
-        # Append dataframes with updated contractor data as calculated in model logic above.
+        # Append contractor results to output dataframes.
         self.outputHandler.appliedDemands[self.contractor] = self.appliedDemand_Contractor
         self.outputHandler.demandsToBeMetBySWPCVP[self.contractor] = self.demandsToBeMetBySWPCVP_Contractor
         self.outputHandler.demandsToBeMetByStorage[self.contractor] = self.demandsToBeMetByStorage_Contractor
@@ -114,6 +117,18 @@ class ModelLogic:
         # Cost variables
         self.outputHandler.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
         self.outputHandler.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
+        self.outputHandler.swpCVPDeliveryCost[self.contractor] = self.swpCVPDeliveryCost_Contractor
+        self.outputHandler.waterMarketTransferCost[self.contractor] = self.waterMarketTransferCost_Contractor
+        
+        self.outputHandler.surfaceLongTermWMOCost[self.contractor] = self.surfaceLongTermWMOCost_Contractor
+        self.outputHandler.groundwaterLongTermWMOCost[self.contractor] = self.groundwaterLongTermWMOCost_Contractor
+        self.outputHandler.desalinationLongTermWMOCost[self.contractor] = self.desalinationLongTermWMOCost_Contractor
+        self.outputHandler.recycledLongTermWMOCost[self.contractor] = self.recycledLongTermWMOCost_Contractor
+        self.outputHandler.potableReuseLongTermWMOCost[self.contractor] = self.potableReuseLongTermWMOCost_Contractor
+        self.outputHandler.transfersAndExchangesLongTermWMOCost[self.contractor] = self.transfersAndExchangesLongTermWMOCost_Contractor
+        self.outputHandler.otherSupplyLongTermWMOCost[self.contractor] = self.otherSupplyLongTermWMOCost_Contractor
+        self.outputHandler.conservationLongTermWMOCost[self.contractor] = self.conservationLongTermWMOCost_Contractor
+        
         
         self.outputHandler.totalReliabilityMgmtCost[self.contractor] = self.reliabilityManagementCost_Contractor
         self.outputHandler.totalEconomicLoss[self.contractor] = self.economicLossByUseType.totalEconomicLoss_Contractor

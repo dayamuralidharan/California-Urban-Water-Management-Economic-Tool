@@ -7,6 +7,7 @@ numpy
 altair
 multiapp
 scikit_learn
+openpyxl
 
 ###### Requirements with version specifiers ######
 #pyproj==2.6.1.post1 # Version and bits Matching. Must be the same version as Python, Anaconda (eg: cp37-cp37m-win_amd64.whl - Version 3.7, 64-bits)
