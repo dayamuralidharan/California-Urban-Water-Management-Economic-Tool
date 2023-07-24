@@ -6,7 +6,7 @@ from src.modelLogic.inputDataLocations import InputDataLocations
 import pandas as pd
 
 
-class RunOptimizedWMOs():
+class GetResults():
     def __init__(self, 
                  x, 
                  contractor):
@@ -17,7 +17,7 @@ class RunOptimizedWMOs():
         self.x = x
         
         
-    def runOptimizedWMOs(self):
+    def exportResults(self):
         self.modelLogic.execute(self.x, optimize=False)
 
         # Configure long-term WMO available supply dataframe for output
@@ -60,4 +60,7 @@ class RunOptimizedWMOs():
 
             self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "WM Transfers", index_label = "Water Market Transfer Deliveries")
             self.modelLogic.outputHandler.waterMarketTransferCost.to_excel(writer, sheet_name = "WM Transfer Costs", index_label = "Water Market Transfer Costs")
+
+            self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
+            
         print(self.x)

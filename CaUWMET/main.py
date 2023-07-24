@@ -1,9 +1,9 @@
-from runOptimizedWMOs import RunOptimizedWMOs
+from exportResults import GetResults
 
 def main():
-    main = RunOptimizedWMOs(x = [10, 10, 10, 10, 10, 10, 10, 10], 
+    main = GetResults(x = [10, 10, 10, 10, 10, 10, 10, 10], 
                  contractor='Metropolitan Water District of Southern California')
-    main.runOptimizedWMOs()
+    main.exportResults()
 
     # # parameterize the optimization - defaults below...
     # year='2045'
