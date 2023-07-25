@@ -20,7 +20,7 @@ class GetResults():
     def exportResults(self):
         self.modelLogic.execute(self.x, optimize=False)
 
-        # Configure long-term WMO available supply dataframe for output
+        # Reconfigure dataframes that need to before exporting to Excel.
         longtermWMOVolumeLimit = pd.concat([self.inputData.longtermWMOConservationVolumeLimit[self.inputData.futureYear], 
                                           self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.futureYear],
                                           self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.futureYear],
@@ -31,6 +31,7 @@ class GetResults():
                                           self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.futureYear]],
                                           axis = 1)
         
+        #TODO: Filter dataframe just for contractor list.
         longtermWMOVolumeLimit.columns = ['Conservation', 
                                        'Surface', 
                                        'Groundwater', 
@@ -40,8 +41,14 @@ class GetResults():
                                        'Transfers and Exchanges', 
                                       'Other']
         
-        #Export to Excel
+        #TODO: reconfigure to handle all contractors in contractor loop and make row headers = option names
+        self.x = pd.DataFrame(self.x)
+        
+        #Export Results to Excel
         with pd.ExcelWriter("output.xlsx") as writer:
+            longtermWMOVolumeLimit.to_excel(writer, sheet_name = "Long-term WMOs Volume Limits", index_label = "Long-term WMOs Volume Limits")
+            self.x.to_excel(writer, sheet_name = "Long-term WMOs Optimized Volume", index_label = "Long-term WMOs Optimized Volumes")
+            
             self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost")
             self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss")
             
