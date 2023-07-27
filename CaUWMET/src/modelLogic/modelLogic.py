@@ -44,8 +44,7 @@ class ModelLogic:
         self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor = x[5]
         self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor = x[6]
         self.longtermWMOOtherSupplyIncrementalVolume_Contractor = x[7]
-        self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor 
-                                                                + self.longtermWMOConservation_Contractor
+        self.totalLongtermWMOSupplyIncrementalVolume_Contractor = (self.longtermWMOOtherSupplyIncrementalVolume_Contractor # Note this term does not include the long-term conservation WMO
                                                                 + self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor
                                                                 + self.longtermWMODesalinationSupplyIncrementalVolume_Contractor
@@ -139,7 +138,16 @@ class ModelLogic:
         self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor - self.longtermWMOConservation_Contractor))
         self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i] - self.totalLongtermWMOSupplyIncrementalVolume_Contractor))
-    
+
+        print(self.i)
+        print('totalDemand_Contractor')
+        print(self.totalDemand_Contractor[self.i])
+        print('self.plannedLongTermConservation_Contractor')
+        print(self.plannedLongTermConservation_Contractor)
+        print('self.longtermWMOConservation_Contractor')
+        print(self.longtermWMOConservation_Contractor)
+        print('appliedDemand_Contractor')
+        print(self.appliedDemand_Contractor[self.i])
     
     def deliverSwpCvpSupplies(self):
         #TODO it would probably be better to be consistent and make self.SWPCVPSupply_Contractor a list instead of a scalar here.

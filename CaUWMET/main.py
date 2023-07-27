@@ -1,13 +1,14 @@
 from exportResults import GetResults
+from src.optimization.optimizeWMOs import OptimizeWMOs
 
 def main():
-    main = GetResults(x = [10, 10, 10, 10, 10, 10, 10, 10], 
-                 contractor='Metropolitan Water District of Southern California')
+    main = GetResults(x = [1, 1, 1, 1, 1, 1, 1, 1], 
+                 contractor='City of Tracy')
     main.exportResults()
 
-    # # parameterize the optimization - defaults below...
+    # parameterize the optimization - defaults below...
     # year='2045'
-    # contractor='Metropolitan Water District of Southern California'
+    # contractor='City of Tracy'
     # wmoFloor=None
     # wmoCeiling=None
     # lowerBounds=[0]*8

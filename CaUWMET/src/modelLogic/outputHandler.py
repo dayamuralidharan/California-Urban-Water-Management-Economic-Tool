@@ -66,6 +66,7 @@ class OutputHandler:
         
         self.excessSupply = pd.DataFrame(self.excessSupply)
         self.demandsToBeMetByStorage = pd.DataFrame(self.demandsToBeMetByStorage)
+        self.demandsToBeMetByBankedGW = pd.DataFrame(self.demandsToBeMetByBankedGW)
         self.volumeSurfaceCarryover = pd.DataFrame(self.volumeSurfaceCarryover)
         self.volumeGroundwaterBank = pd.DataFrame(self.volumeGroundwaterBank)
         self.availableCapacitySurface = pd.DataFrame(self.availableCapacitySurface)

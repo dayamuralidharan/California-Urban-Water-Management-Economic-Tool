@@ -70,4 +70,18 @@ class GetResults():
 
             self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
             
-        print(self.x)
+        with pd.ExcelWriter("Results_QAQC.xlsx") as writer:
+            self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost")
+            self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss")
+
+            self.modelLogic.outputHandler.appliedDemands.to_excel(writer, sheet_name = "Applied Demands", index_label = "Applied Demands")
+            self.modelLogic.outputHandler.demandsToBeMetByBankedGW.to_excel(writer, sheet_name = "GWBankDemands", index_label = "Demands to be met by GW bank")
+            self.modelLogic.outputHandler.volumeGroundwaterBank.to_excel(writer, sheet_name = "GWBankVolume", index_label = "GW bank volume")
+            self.modelLogic.outputHandler.takeGroundwater.to_excel(writer, sheet_name = "GWBankTake", index_label = "GW bank take volume")
+            self.modelLogic.outputHandler.putGroundwater.to_excel(writer, sheet_name = "GWBankPut", index_label = "GW bank put volume")
+            self.modelLogic.outputHandler.demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = "ContingentDemands", index_label = "Contingent Options Demands")
+            
+            self.modelLogic.outputHandler.contingentConservationReductionVolume.to_excel(writer, sheet_name = "Contingent Conservation Volume", index_label = "Contingent Conservation Volume")
+            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "Market Transfers", index_label = "Water Market Transfer Deliveries")
+
+            self.modelLogic.outputHandler.totalShortage.to_excel(writer, sheet_name = "TotalShortage", index_label = "Total Shortage")
