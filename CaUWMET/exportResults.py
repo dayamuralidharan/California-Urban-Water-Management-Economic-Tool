@@ -75,7 +75,7 @@ class GetResults():
             self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss")
 
             self.modelLogic.outputHandler.appliedDemands.to_excel(writer, sheet_name = "Applied Demands", index_label = "Applied Demands")
-            self.modelLogic.outputHandler.demandsToBeMetByBankedGW.to_excel(writer, sheet_name = "GWBankDemands", index_label = "Demands to be met by GW bank")
+            self.modelLogic.outputHandler.demandsToBeMetByStorage.to_excel(writer, sheet_name = "StorageDemands", index_label = "Demands to be met by storage")
             self.modelLogic.outputHandler.volumeGroundwaterBank.to_excel(writer, sheet_name = "GWBankVolume", index_label = "GW bank volume")
             self.modelLogic.outputHandler.takeGroundwater.to_excel(writer, sheet_name = "GWBankTake", index_label = "GW bank take volume")
             self.modelLogic.outputHandler.putGroundwater.to_excel(writer, sheet_name = "GWBankPut", index_label = "GW bank put volume")

@@ -3,12 +3,12 @@ from src.modelLogic.inputData import InputData
 
 class OutputHandler:
     def __init__(self, inputData: InputData):
+        
         #After variables are calculated, convert to dictionary then to panda dataframes
         self.inputData = inputData        
         self.appliedDemands = {'Year': self.inputData.historicHydrologyYears} 
         self.demandsToBeMetBySWPCVP = {'Year': self.inputData.historicHydrologyYears}
         self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByBankedGW = {'Year': self.inputData.historicHydrologyYears}
         self.excessSupply = {'Year': self.inputData.historicHydrologyYears}
         self.groundwaterPumpingReduction = {'Year': self.inputData.historicHydrologyYears}
 
@@ -66,7 +66,6 @@ class OutputHandler:
         
         self.excessSupply = pd.DataFrame(self.excessSupply)
         self.demandsToBeMetByStorage = pd.DataFrame(self.demandsToBeMetByStorage)
-        self.demandsToBeMetByBankedGW = pd.DataFrame(self.demandsToBeMetByBankedGW)
         self.volumeSurfaceCarryover = pd.DataFrame(self.volumeSurfaceCarryover)
         self.volumeGroundwaterBank = pd.DataFrame(self.volumeGroundwaterBank)
         self.availableCapacitySurface = pd.DataFrame(self.availableCapacitySurface)

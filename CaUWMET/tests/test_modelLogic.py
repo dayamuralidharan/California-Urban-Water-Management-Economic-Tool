@@ -40,6 +40,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.swpCVPDeliveryCost_Contractor[0], 500000)
         
         # Test deliveries from storage (groundwater bank and carryover)
+        print(self.modelLogic.outputHandler.demandsToBeMetByStorage['Metropolitan Water District of Southern California'][0])
         self.assertEqual(self.modelLogic.outputHandler.takeSurface['Metropolitan Water District of Southern California'][0], 516500)
         self.assertEqual(self.modelLogic.outputHandler.takeGroundwater['Metropolitan Water District of Southern California'][0], 95000)
         self.assertEqual(self.modelLogic.outputHandler.putSurface['Metropolitan Water District of Southern California'][0], 0)
