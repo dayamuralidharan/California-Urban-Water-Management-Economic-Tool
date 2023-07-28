@@ -54,8 +54,7 @@ class ModelLogic:
         
         # Iterate through the water balance and cost logic over hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
-            #print("i:")
-            #print(self.i)
+            print("i:", self.i)
             self.waterBalanceAndCostLogic(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
         self.writeToContractorOutputTimeSeriesDataframe()
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
@@ -138,19 +137,8 @@ class ModelLogic:
         self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor - self.longtermWMOConservation_Contractor))
         self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i] - self.totalLongtermWMOSupplyIncrementalVolume_Contractor))
-
-        print(self.i)
-        print('totalDemand_Contractor')
-        print(self.totalDemand_Contractor[self.i])
-        print('self.plannedLongTermConservation_Contractor')
-        print(self.plannedLongTermConservation_Contractor)
-        print('self.longtermWMOConservation_Contractor')
-        print(self.longtermWMOConservation_Contractor)
-        print('appliedDemand_Contractor')
-        print(self.appliedDemand_Contractor[self.i])
     
     def deliverSwpCvpSupplies(self):
-        #TODO it would probably be better to be consistent and make self.SWPCVPSupply_Contractor a list instead of a scalar here.
         self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
         self.remainingDemandAfterDeliveryOfSwpCVPSupplies = max(0, self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
         
@@ -176,10 +164,11 @@ class ModelLogic:
         
         
     def implementStorageOperations(self, excessSupplySwitch_Contractor, storageInputAssumptions_Contractor):    
-        if self.i == 0: #Initialize storage volumes
+        # Initialize storage volumes
+        if self.i == 0: 
             self.volumeSurfaceCarryover_Contractor.append(storageInputAssumptions_Contractor['initialSurfaceStorageVolume_Contractor'])
             self.volumeGroundwaterBank_Contractor.append(storageInputAssumptions_Contractor['initialGroundwaterStorageVolume_Contractor'])
-        else: # Initialize with previous time step's volumes which are updated in the putOrTakeFromStorage function
+        else:
             self.volumeSurfaceCarryover_Contractor.append(self.volumeSurfaceCarryover_Contractor[self.i-1])
             self.volumeGroundwaterBank_Contractor.append(self.volumeGroundwaterBank_Contractor[self.i-1])
                 
@@ -196,9 +185,6 @@ class ModelLogic:
         self.putGroundwater_Contractor.append(putsIntoStorage_Contractor['putGroundwater_Contractor'])
         self.putSurface_Contractor.append(putsIntoStorage_Contractor['putSurface_Contractor'])
         
-        self.volumeGroundwaterBank_Contractor[self.i] = self.volumeGroundwaterBank_Contractor[self.i] + self.putGroundwater_Contractor[self.i]
-        self.volumeSurfaceCarryover_Contractor[self.i] = self.volumeSurfaceCarryover_Contractor[self.i] + self.putSurface_Contractor[self.i]
-        
     ## If there is no excess supply, but remaining demand after local and CVP/SWP supplies are delivered, take from surface carryover storage first, then banked groundwater storage
         takesFromStorage_Contractor = self.storageUtilities.takeFromStorage(self.i, self.demandsToBeMetByStorage_Contractor,
                         self.volumeSurfaceCarryover_Contractor, storageInputAssumptions_Contractor['surfaceMaximumCapacity_Contractor'], storageInputAssumptions_Contractor['surfaceMaximumTakeCapacity_Contractor'],
@@ -208,6 +194,10 @@ class ModelLogic:
         self.takeSurface_Contractor.append(takesFromStorage_Contractor['takeSurface_Contractor'])
         self.takeGroundwater_Contractor.append(takesFromStorage_Contractor['takeGroundwater_Contractor'])
         self.demandsToBeMetByContingentOptions_Contractor.append(takesFromStorage_Contractor['demandsToBeMetByContingentOptions_Contractor'])
+
+        # Update storage volumes after puts and takes
+        self.volumeGroundwaterBank_Contractor[self.i] = self.volumeGroundwaterBank_Contractor[self.i] + self.putGroundwater_Contractor[self.i] - self.takeGroundwater_Contractor[self.i]
+        self.volumeSurfaceCarryover_Contractor[self.i] = self.volumeSurfaceCarryover_Contractor[self.i] + self.putSurface_Contractor[self.i] - self.takeSurface_Contractor[self.i]
         
         
     def putOrTakeFromStorage(self, storageInputAssumptions_Contractor, excessSupplySwitch_Contractor):
