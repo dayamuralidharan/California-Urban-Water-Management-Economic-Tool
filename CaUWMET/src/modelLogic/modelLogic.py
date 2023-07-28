@@ -183,12 +183,12 @@ class ModelLogic:
             #TODO groundwater pumping reduction should be set to min of excess supply and local groundwater supplies
             self.groundwaterPumpingReduction_Contractor.append(self.excessSupply_Contractor[self.i])
             self.doNotImplementStorageOperations(storageInputAssumptions_Contractor)
-            self.demandsToBeMetByContingentOptions_Contractor.append(0)
+            self.demandsToBeMetByContingentOptions_Contractor.append(self.demandsToBeMetByStorage_Contractor[self.i])
         
         # If switch is set to turn back pool and there is excess supply, send to turn back pool and do not implement any storage operations
         else:
             self.doNotImplementStorageOperations(storageInputAssumptions_Contractor)
-            self.demandsToBeMetByContingentOptions_Contractor.append(0)
+            self.demandsToBeMetByContingentOptions_Contractor.append(self.demandsToBeMetByStorage_Contractor[self.i])
              
     def implementStorageOperations(self, excessSupplySwitch_Contractor, storageInputAssumptions_Contractor):
         # If there is excess supply, calculate put into storage

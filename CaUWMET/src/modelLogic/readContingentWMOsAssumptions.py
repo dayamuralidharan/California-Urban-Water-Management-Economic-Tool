@@ -36,7 +36,7 @@ class ContingentWMOsAssumptions:
 
         transferLimit_NormalOrBetterYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Normal or Better Years (AFY)']
         transferLimit_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Dry Years (AFY)']
-        transferLimit_ConsecutiveDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above)']
+        transferLimitPortion_ConsecutiveDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above)']
 
         waterMarketTransferCost_WetYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
         waterMarketTransferCost_AboveNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
@@ -47,7 +47,7 @@ class ContingentWMOsAssumptions:
 
         transferLimit_NormalOrBetterYears.drop('Variable', axis=1, inplace=True)
         transferLimit_DryYears.drop('Variable', axis=1, inplace=True)
-        transferLimit_ConsecutiveDryYears.drop('Variable', axis=1, inplace=True)
+        transferLimitPortion_ConsecutiveDryYears.drop('Variable', axis=1, inplace=True)
         waterMarketTransferCost_WetYears.drop('Variable', axis=1, inplace=True)
         waterMarketTransferCost_AboveNormalYears.drop('Variable', axis=1, inplace=True)
         waterMarketTransferCost_BelowNormalYears.drop('Variable', axis=1, inplace=True)
@@ -82,7 +82,7 @@ class ContingentWMOsAssumptions:
                 elif contractorUWMPYearType[i] == 'SD':
                     contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][globalAssumptions.futureYear])  
                 elif contractorUWMPYearType[i] == 'MD':
-                    contractorTransferLimit.append(transferLimit_ConsecutiveDryYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][globalAssumptions.futureYear] * (transferLimitPortion_ConsecutiveDryYears.loc[contractor][globalAssumptions.futureYear] / 100))
             
             transferLimit[contractor] = contractorTransferLimit
             waterMarketTransferCost[contractor] = contractorWaterMarketTransferCost
