@@ -18,6 +18,8 @@ class InputData:
         self.contractorsList = self.globalAssumptions.contractorsList
         self.historicHydrologyYears = self.globalAssumptions.historicHydrologyYears
         self.futureYear = self.globalAssumptions.futureYear
+        self.UWMPhydrologicYearType = self.globalAssumptions.UWMPhydrologicYearType
+        self.hydroYearType = self.globalAssumptions.hydroYearTypeForSelectedContractors
         
         #### Get Demand Input Assumptions
         self.totalDemands = self.demandAssumptions.totalDemands
@@ -36,6 +38,7 @@ class InputData:
         self.landscapeUsePortion = self.demandAssumptions.landscapeUsePortion
         
         #### Get Supply Input Assumptions
+        #TODO: add groundwater supply as a variable here, needed for calculating groundwater reduction
         self.totalLocalSupply = self.supplyAssumptions.totalLocalSupply
         self.swpCVPSupply = self.supplyAssumptions.swpCVPSupply
         

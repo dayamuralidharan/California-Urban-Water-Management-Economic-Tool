@@ -3,12 +3,12 @@ from src.modelLogic.inputData import InputData
 
 class OutputHandler:
     def __init__(self, inputData: InputData):
+        
         #After variables are calculated, convert to dictionary then to panda dataframes
         self.inputData = inputData        
         self.appliedDemands = {'Year': self.inputData.historicHydrologyYears} 
         self.demandsToBeMetBySWPCVP = {'Year': self.inputData.historicHydrologyYears}
         self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByBankedGW = {'Year': self.inputData.historicHydrologyYears}
         self.excessSupply = {'Year': self.inputData.historicHydrologyYears}
         self.groundwaterPumpingReduction = {'Year': self.inputData.historicHydrologyYears}
 
@@ -21,8 +21,7 @@ class OutputHandler:
         self.putSurface = {'Year': self.inputData.historicHydrologyYears}
         self.takeSurface = {'Year': self.inputData.historicHydrologyYears}
         self.takeGroundwater = {'Year': self.inputData.historicHydrologyYears}
-        self.putGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
-        self.takeGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
+        
 
         # Hedging strategy dataframes
         self.pctCapacitySurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
@@ -34,7 +33,25 @@ class OutputHandler:
         self.demandsToBeMetByContingentOptions = {'Year': self.inputData.historicHydrologyYears}
         self.contingentConservationReductionVolume = {'Year': self.inputData.historicHydrologyYears}
         self.waterMarketTransferDeliveries = {'Year': self.inputData.historicHydrologyYears}
+
         self.totalShortage = {'Year': self.inputData.historicHydrologyYears}
+        
+        # Cost dataframes
+        self.putGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
+        self.takeGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
+
+        # Long-term WMO costs
+        self.surfaceLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.groundwaterLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.desalinationLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.recycledLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.potableReuseLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.transfersAndExchangesLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.otherSupplyLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+        self.conservationLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
+
+        self.swpCVPDeliveryCost = {'Year': self.inputData.historicHydrologyYears}
+        self.waterMarketTransferCost = {'Year': self.inputData.historicHydrologyYears}
         
         self.totalReliabilityMgmtCost = {'Year': self.inputData.historicHydrologyYears}
         self.totalEconomicLoss = {'Year': self.inputData.historicHydrologyYears}
@@ -57,14 +74,29 @@ class OutputHandler:
         self.putSurface = pd.DataFrame(self.putSurface)
         self.takeSurface= pd.DataFrame(self.takeSurface)
         self.takeGroundwater = pd.DataFrame(self.takeGroundwater)
-        self.putGroundwaterBankCost = pd.DataFrame(self.putGroundwaterBankCost)
-        self.takeGroundwaterBankCost = pd.DataFrame(self.takeGroundwaterBankCost)
+        
 
         self.demandsToBeMetByContingentOptions = pd.DataFrame(self.demandsToBeMetByContingentOptions)
         self.contingentConservationReductionVolume = pd.DataFrame(self.contingentConservationReductionVolume)
         self.waterMarketTransferDeliveries = pd.DataFrame(self.waterMarketTransferDeliveries)
         self.totalShortage = pd.DataFrame(self.totalShortage)
         
+        #Cost dataframes
+        self.putGroundwaterBankCost = pd.DataFrame(self.putGroundwaterBankCost)
+        self.takeGroundwaterBankCost = pd.DataFrame(self.takeGroundwaterBankCost)
+
+        self.surfaceLongTermWMOCost = pd.DataFrame(self.surfaceLongTermWMOCost)
+        self.groundwaterLongTermWMOCost = pd.DataFrame(self.groundwaterLongTermWMOCost)
+        self.desalinationLongTermWMOCost = pd.DataFrame(self.desalinationLongTermWMOCost)
+        self.recycledLongTermWMOCost = pd.DataFrame(self.recycledLongTermWMOCost)
+        self.potableReuseLongTermWMOCost = pd.DataFrame(self.potableReuseLongTermWMOCost)
+        self.transfersAndExchangesLongTermWMOCost = pd.DataFrame(self.transfersAndExchangesLongTermWMOCost)
+        self.otherSupplyLongTermWMOCost = pd.DataFrame(self.otherSupplyLongTermWMOCost)
+        self.conservationLongTermWMOCost = pd.DataFrame(self.conservationLongTermWMOCost)
+
+        self.swpCVPDeliveryCost = pd.DataFrame(self.swpCVPDeliveryCost)
+        self.waterMarketTransferCost = pd.DataFrame(self.waterMarketTransferCost)
+
         self.totalReliabilityMgmtCost = pd.DataFrame(self.totalReliabilityMgmtCost)
         self.totalEconomicLoss = pd.DataFrame(self.totalEconomicLoss)
         self.totalAnnualCost = pd.DataFrame(self.totalAnnualCost)

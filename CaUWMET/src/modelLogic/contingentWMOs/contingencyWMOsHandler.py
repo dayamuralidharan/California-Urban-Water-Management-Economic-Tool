@@ -43,8 +43,8 @@ class ContingencyWMOs:
     def implementContingencyConservation(self):
         self.contingentConservationUseReduction_Contractor = self.inputData.contingentConservationUseReduction[self.inputData.contingentConservationUseReduction['Contractor'] == self.contingentWMOsinput.contractor][self.inputData.futureYear].values[0]
         
-        self.contingentConservationUseReductionVolume_Contractor.append((self.contingentConservationUseReduction_Contractor/100) * self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i])
-        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(self.contingentWMOsinput.demandsToBeMetByContingentOptions_Contractor[self.contingentWMOsinput.i] - self.contingentConservationUseReductionVolume_Contractor[self.contingentWMOsinput.i])
+        self.contingentConservationUseReductionVolume_Contractor.append(min(self.contingentWMOsinput.demandsToBeMetByContingentOptions_Contractor[self.contingentWMOsinput.i], (self.contingentConservationUseReduction_Contractor/100) * self.contingentWMOsinput.appliedDemand_Contractor[self.contingentWMOsinput.i]))
+        self.demandsToBeMetByWaterMarketTransfers_Contractor.append(max(0, self.contingentWMOsinput.demandsToBeMetByContingentOptions_Contractor[self.contingentWMOsinput.i] - self.contingentConservationUseReductionVolume_Contractor[self.contingentWMOsinput.i]))
     
 
     def deliverWaterMarketTransfers(self):

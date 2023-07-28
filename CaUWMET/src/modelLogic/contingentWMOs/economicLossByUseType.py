@@ -51,48 +51,31 @@ class EconomicLossByUseType:
         self.commAndGovEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor, self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_commAndGov, self.commAndGovUse_Contractor, self.constantOfIntegration_COM)
         self.landscapeEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor, self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_landscape, self.landscapeUse_Contractor, self.constantOfIntegration_LAND)
 
-    #TODO simplify functions in if statement to look like the last "else" statement
+    
     def economicLossFunction(self, shortageByUseType, shortagePortionOfUse, lowerLossBoundary, elasticityOfDemand, volumeByUseType, constantOfIntegration):
         if shortagePortionOfUse < lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            economicLoss = ((
-                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * 
-                volumeByUseType * 
-                np.exp(
-                    (np.log(volumeByUseType / constantOfIntegration)) / 
-                    elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
-                )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
-            ) - ((
-                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (
-                    volumeByUseType * 
-                    (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) * 
-                    np.exp((
-                        np.log(
-                            volumeByUseType * 
-                            (1 - lowerLossBoundary.loc[self.contingentWMOsinput.contractor]) / 
-                            constantOfIntegration
-                        ) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
-                    )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
-                )
-            ))
+            #TODO simplify functions in if statement to look like the last "else" statement
+
+            a = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType
+            exponent1 = (np.log(volumeByUseType / constantOfIntegration)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+            b = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1
+            c = (a * np.exp(exponent1)) / b
+            d = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType *(1 - self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor]))
+            e = np.log((volumeByUseType * (1 - self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor])) / constantOfIntegration)
+            f = np.exp(e / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+
+            economicLoss = c - (d * f)
+            
         elif shortagePortionOfUse > self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            economicLoss = ((
-                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * 
-                volumeByUseType * 
-                np.exp(
-                    (np.log(volumeByUseType / constantOfIntegration)) / 
-                    elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
-                )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
-            ) - ((
-                elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (
-                    volumeByUseType * 
-                    (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])
-                ) * np.exp((
-                    np.log((
-                        volumeByUseType * 
-                        (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])
-                    )) / constantOfIntegration
-                )) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
-            )) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+            a = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType
+            exponent1 = (np.log(volumeByUseType / constantOfIntegration)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
+            b = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1
+            c = (a * np.exp(exponent1)) / b
+            d = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType *(1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]))
+            e = np.log((volumeByUseType * (1 - self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor])) / constantOfIntegration)
+            f = np.exp(e / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
+            
+            economicLoss = c - (d * f)
         else:
             a = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType
             exponent1 = (np.log(volumeByUseType / constantOfIntegration)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]

@@ -5,15 +5,14 @@ class SupplyAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
         #TODO: Connect to streamlit dashboard, will either be table by year type or time series
         #TODO: Set up reading in supply data to read in time series if radio button below is set to 0
-        localSupplyScenarioRadioButtonIndex = 1
+        baseSupplyInputAsTimeSeries = False
 
-        # SWP CVP Supplies Input
+        # Read SWP/CVP delivery data from CSV
         swpCVPSupplyDataInput = inputDataLocations.swpCVPSupplyDataInput
-        # Read Data from CSV
         self.swpCVPSupply = pd.read_csv(swpCVPSupplyDataInput)
 
-        if localSupplyScenarioRadioButtonIndex:
-            # Setting up Local Supplies by Type timeseries dataframes
+        if baseSupplyInputAsTimeSeries:
+            # Read in and set local base supplies timeseries dataframes
             surfaceSupply = pd.read_csv(inputDataLocations.supplySurfaceTimeseriesInput)
             groundwaterSupply = pd.read_csv(inputDataLocations.supplyGroundwaterTimeseriesInput)
             recycleSupply = pd.read_csv(inputDataLocations.supplyRecycledTimeseriesInput)
@@ -27,12 +26,9 @@ class SupplyAssumptions:
             )
             self.totalLocalSupply['Year'] = surfaceSupply['Year']
         else:
-            # SUPPLIES Inputs
+            # Read in tabular data from CSV
             localSuppliesDataInput = inputDataLocations.localSuppliesDataInput
-
-            # Read in data from CSV
             localSuppliesByType = pd.read_csv(localSuppliesDataInput)
-
             localSuppliesByType.set_index('Contractor', inplace = True)
 
             # Set up local supply dataframe for Normal Year Types
