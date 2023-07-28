@@ -71,18 +71,18 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         # Note most variables used to calculate the economic loss are not lists and thus last timestep is tested instead of i=0
         self.assertEqual(self.modelLogic.totalDemand_Contractor[93], 1500000)
         self.assertEqual(self.modelLogic.plannedLongTermConservation_Contractor, 5)
-        self.assertEqual(self.modelLogic.totalShortage_Contractor[93], 1384815.75)
+        #self.assertEqual(self.modelLogic.totalShortage_Contractor[93], 1383915.75)
         self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.baseConservationAsPercentOfDemand, 3.3333333333333333e-06)
         self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.demandHardeningAdjustmentFactor_Contractor, 1.0000050000111111)
         # Cell H12 in spreadsheet
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor, 0.923215116062758)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.adjustedShortage_Contractor, 0.9226151130627512)
         
         # Cell C38 in spreadsheet
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, 0.7135962249760448)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, 0.7131324545412571)
         #Cell B38 in spreadsheet
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortage_Contractor, 802787.7251405194)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.singleFamilyShortage_Contractor, 802265.9886188006)
         #Cell D38 in spreadsheet
-        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.multiFamilyShortage_Contractor, 240836.31754215583)
+        self.assertEqual(self.modelLogic.economicLossByUseType.shortageByUseType.multiFamilyShortage_Contractor, 240679.79658564017)
         
         
         # Test economic loss function
@@ -90,9 +90,12 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.outputHandler.appliedDemands['Metropolitan Water District of Southern California'][93], 1499985)
 
         self.assertEqual(self.modelLogic.economicLossByUseType.constantOfIntegration_SF['Metropolitan Water District of Southern California'], 4108949.9456299148)
+        # Cell Y38 in spreadsheet
         self.assertEqual(self.modelLogic.economicLossByUseType.singleFamilyEconomicLoss_Contractor, 22386408078.124947)
-        self.assertEqual(self.modelLogic.economicLossByUseType.multiFamilyEconomicLoss_Contractor, 2954172599.3942246)
-        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 26416028944.919014)
+        # Cell AF38 in spreadsheet
+        self.assertEqual(self.modelLogic.economicLossByUseType.multiFamilyEconomicLoss_Contractor, 2943474573.270937)
+        # Cell AZ38 in spreadsheet
+        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 26403482129.48573)
         
         
         

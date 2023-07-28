@@ -53,10 +53,6 @@ class ContingencyWMOs:
         ## Deliver Water Market Transfer supplies if shortage portion is above user-indicated threshold
         if  self.shortagePortionOfTotalAppliedDemand > self.shortageThresholdForWaterMarketTransfers_Contractor:
             self.waterMarketTransferDeliveries_Contractor.append(min(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.contingentWMOsinput.i], self.inputData.transferLimit[self.contingentWMOsinput.contractor][self.contingentWMOsinput.i]))
-            print("i: ", self.contingentWMOsinput.i)
-            print(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.contingentWMOsinput.i])
-            print(self.inputData.transferLimit[self.contingentWMOsinput.contractor][self.contingentWMOsinput.i])
-            
             self.totalShortage_Contractor.append(max(0, self.demandsToBeMetByWaterMarketTransfers_Contractor[self.contingentWMOsinput.i] - self.waterMarketTransferDeliveries_Contractor[self.contingentWMOsinput.i]))
         else:
             self.totalShortage_Contractor.append(self.demandsToBeMetByWaterMarketTransfers_Contractor[self.contingentWMOsinput.i])
