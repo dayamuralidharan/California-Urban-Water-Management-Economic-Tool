@@ -54,7 +54,7 @@ class ModelLogic:
         
         # Iterate through the water balance and cost logic over hydrologic reference period
         for self.i in range(len(self.inputData.historicHydrologyYears)):
-            print("i:", self.i)
+            #print("i:", self.i)
             self.waterBalanceAndCostLogic(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
         self.writeToContractorOutputTimeSeriesDataframe()
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
@@ -81,8 +81,6 @@ class ModelLogic:
         # If excess supply switch includes storage operations, put excess into or take from storage to meet demands
         # If excess supply switch is set to reduce groundwater pumping, take excess supply and reduce groundwater
         self.manageExcessSuppliesOrDemandOnStorage(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-        #print("gw bank volume: ", self.volumeGroundwaterBank_Contractor[self.i])
-        #print("gw bank take", self.takeGroundwater_Contractor[self.i])
     
         # If there is still remaining demand and/or storage is below user-defined threshold to retrieve water market transfers, implement contingent WMOs (contingency conservation, and/or water market transfers, and/or rationing program):
         contingencyWMOsInput = ContingencyWMOsHandlerInput(self.contractor, self.i, self.plannedLongTermConservation_Contractor, self.totalDemand_Contractor, self.longtermWMOConservation_Contractor, self.demandsToBeMetByContingentOptions_Contractor, self.appliedDemand_Contractor, self.volumeSurfaceCarryover_Contractor, self.volumeGroundwaterBank_Contractor)
@@ -181,6 +179,7 @@ class ModelLogic:
         
         # If switch is set to reduce groundwater pumping and there is excess supply, reduce groundwater pumping and do not implement storage operations
         elif storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == "Reduce Groundwater Pumping":
+            
             #TODO groundwater pumping reduction should be set to min of excess supply and local groundwater supplies
             self.groundwaterPumpingReduction_Contractor.append(self.excessSupply_Contractor[self.i])
             self.doNotImplementStorageOperations(storageInputAssumptions_Contractor)
