@@ -46,42 +46,47 @@ class GetResults():
         
         #Export Results to Excel
         with pd.ExcelWriter("output.xlsx") as writer:
-            longtermWMOVolumeLimit.to_excel(writer, sheet_name = "Long-term WMOs Volume Limits", index_label = "Long-term WMOs Volume Limits")
-            self.x.to_excel(writer, sheet_name = "Long-term WMOs Optimized Volume", index_label = "Long-term WMOs Optimized Volumes")
+            longtermWMOVolumeLimit.to_excel(writer, sheet_name = "Long-term WMOs Volume Limits", index_label = "Long-term WMOs Volume Limits (acre-feet/year)")
+            self.x.to_excel(writer, sheet_name = "Long-term WMOs Optimized Volume", index_label = "Long-term WMOs Optimized Volumes (acre-feet/year)")
             
-            self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost")
-            self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss")
+            self.modelLogic.outputHandler.excessSupply.to_excel(writer, sheet_name = "Excess Supply", index_label = "Excess Supply (acre-feet/year)")
+            self.modelLogic.outputHandler.putSurface.to_excel(writer, sheet_name = "Put Surface", index_label = "Puts into surface carryover storage")
+            self.modelLogic.outputHandler.putGroundwater.to_excel(writer, sheet_name = "Put GW", index_label = "Puts into groundwater bank (acre-feet/year)")
+            self.modelLogic.outputHandler.totalShortage.to_excel(writer, sheet_name = "TotalShortage", index_label = "Total Shortage (acre-feet/year)")
+
+            self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost ($)")
+            self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss ($)")
             
-            self.modelLogic.outputHandler.surfaceLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost SW", index_label = "Long-term WMO Cost: Surface")
-            self.modelLogic.outputHandler.groundwaterLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost GW", index_label = "Long-term WMO Cost: Groundwater")
-            self.modelLogic.outputHandler.desalinationLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Desal", index_label = "Long-term WMO Cost: Desalination")
-            self.modelLogic.outputHandler.recycledLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Recyc", index_label = "Long-term WMO Cost: Recycled")
-            self.modelLogic.outputHandler.potableReuseLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost PR", index_label = "Long-term WMO Cost: Potable Reuse")
-            self.modelLogic.outputHandler.transfersAndExchangesLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost TransExch", index_label = "Long-term WMO Cost: Transfers and Exchanges")
-            self.modelLogic.outputHandler.otherSupplyLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Other", index_label = "Long-term WMO Cost: Other")
-            self.modelLogic.outputHandler.conservationLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Conserv", index_label = "Long-term WMO Cost: Conservation")
+            self.modelLogic.outputHandler.surfaceLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost SW", index_label = "Long-term WMO Cost: Surface ($)")
+            self.modelLogic.outputHandler.groundwaterLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost GW", index_label = "Long-term WMO Cost: Groundwater ($)")
+            self.modelLogic.outputHandler.desalinationLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Desal", index_label = "Long-term WMO Cost: Desalination ($)")
+            self.modelLogic.outputHandler.recycledLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Recyc", index_label = "Long-term WMO Cost: Recycled ($)")
+            self.modelLogic.outputHandler.potableReuseLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost PR", index_label = "Long-term WMO Cost: Potable Reuse ($)")
+            self.modelLogic.outputHandler.transfersAndExchangesLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost TransExch", index_label = "Long-term WMO Cost: Transfers and Exchanges ($)")
+            self.modelLogic.outputHandler.otherSupplyLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Other", index_label = "Long-term WMO Cost: Other ($)")
+            self.modelLogic.outputHandler.conservationLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Conserv", index_label = "Long-term WMO Cost: Conservation ($)")
 
-            self.modelLogic.outputHandler.swpCVPDeliveryCost.to_excel(writer, sheet_name = "SWP CVP Cost", index_label = "SWP/CVP operations cost")
+            self.modelLogic.outputHandler.swpCVPDeliveryCost.to_excel(writer, sheet_name = "SWP CVP Cost", index_label = "SWP/CVP operations cost ($)")
 
-            self.modelLogic.outputHandler.totalReliabilityMgmtCost.to_excel(writer, sheet_name = "Reliability Mgmt Cost", index_label = "Reliability Management costs")
+            self.modelLogic.outputHandler.totalReliabilityMgmtCost.to_excel(writer, sheet_name = "Reliability Mgmt Cost", index_label = "Reliability Management costs ($)")
 
-            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "WM Transfers", index_label = "Water Market Transfer Deliveries")
-            self.modelLogic.outputHandler.waterMarketTransferCost.to_excel(writer, sheet_name = "WM Transfer Costs", index_label = "Water Market Transfer Costs")
+            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "WM Transfers", index_label = "Water Market Transfer Deliveries ($)")
+            self.modelLogic.outputHandler.waterMarketTransferCost.to_excel(writer, sheet_name = "WM Transfer Costs", index_label = "Water Market Transfer Costs ($)")
 
             self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
             
         with pd.ExcelWriter("Results_QAQC.xlsx") as writer:
-            self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost")
-            self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss")
+            self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost ($)")
+            self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss ($)")
 
-            self.modelLogic.outputHandler.appliedDemands.to_excel(writer, sheet_name = "Applied Demands", index_label = "Applied Demands")
-            self.modelLogic.outputHandler.demandsToBeMetByStorage.to_excel(writer, sheet_name = "StorageDemands", index_label = "Demands to be met by storage")
-            self.modelLogic.outputHandler.volumeGroundwaterBank.to_excel(writer, sheet_name = "GWBankVolume", index_label = "GW bank volume")
-            self.modelLogic.outputHandler.takeGroundwater.to_excel(writer, sheet_name = "GWBankTake", index_label = "GW bank take volume")
-            self.modelLogic.outputHandler.putGroundwater.to_excel(writer, sheet_name = "GWBankPut", index_label = "GW bank put volume")
-            self.modelLogic.outputHandler.demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = "ContingentDemands", index_label = "Contingent Options Demands")
+            self.modelLogic.outputHandler.appliedDemands.to_excel(writer, sheet_name = "Applied Demands", index_label = "Applied Demands (acre-feet/year)")
+            self.modelLogic.outputHandler.demandsToBeMetByStorage.to_excel(writer, sheet_name = "StorageDemands", index_label = "Demands to be met by storage (acre-feet/year)")
+            self.modelLogic.outputHandler.volumeGroundwaterBank.to_excel(writer, sheet_name = "GWBankVolume", index_label = "GW bank volume (acre-feet/year)")
+            self.modelLogic.outputHandler.takeGroundwater.to_excel(writer, sheet_name = "GWBankTake", index_label = "GW bank take volume (acre-feet/year)")
+            self.modelLogic.outputHandler.putGroundwater.to_excel(writer, sheet_name = "GWBankPut", index_label = "GW bank put volume (acre-feet/year)")
+            self.modelLogic.outputHandler.demandsToBeMetByContingentOptions.to_excel(writer, sheet_name = "ContingentDemands", index_label = "Contingent Options Demands (acre-feet/year)")
             
-            self.modelLogic.outputHandler.contingentConservationReductionVolume.to_excel(writer, sheet_name = "Contingent Conservation Volume", index_label = "Contingent Conservation Volume")
-            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "Market Transfers", index_label = "Water Market Transfer Deliveries")
+            self.modelLogic.outputHandler.contingentConservationReductionVolume.to_excel(writer, sheet_name = "Contingent Conservation Volume", index_label = "Contingent Conservation Volume (acre-feet/year)")
+            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "Market Transfers", index_label = "Water Market Transfer Deliveries (acre-feet/year)")
 
-            self.modelLogic.outputHandler.totalShortage.to_excel(writer, sheet_name = "TotalShortage", index_label = "Total Shortage")
+            self.modelLogic.outputHandler.totalShortage.to_excel(writer, sheet_name = "TotalShortage", index_label = "Total Shortage (acre-feet/year)")

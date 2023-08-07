@@ -9,7 +9,7 @@ def main():
     if optimize:
         # parameterize the optimization - defaults below...
         year='2045'
-        contractor='City of Coalinga'
+        contractor='City of Tracy'
         wmoFloor=None
         wmoCeiling=None
         lowerBounds=[0]*8
@@ -34,10 +34,9 @@ def main():
         optimizeWMOs.visualization_a(save=True)
 
     else:
-        main = GetResults(x = [0, 0, 0, 0, 0, 0, 0, 0], 
-                    contractor='City of Coalinga')
+        main = GetResults(x = [0, 0, 0, 0, 6.29974272e+03, 0, 7.20995551e+03, 0], # City of Tracy optimized portfolio: [0, 0, 0, 0, 6.29974272e+03, 0, 7.20995551e+03, 0]
+                    contractor='City of Tracy')
         main.exportResults()
     
 if __name__ == "__main__":
     main()
-    
