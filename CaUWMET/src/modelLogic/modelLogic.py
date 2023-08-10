@@ -296,14 +296,15 @@ class ModelLogic:
         else:
             self.rationingProgramCost_Contractor.append(0)
         
-        self.surfaceLongTermWMOCost_Contractor.append(self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor * longtermWMOSurfaceUnitCost_Contractor + longtermWMOSurfaceBaseCost_Contractor)
-        self.groundwaterLongTermWMOCost_Contractor.append(self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor * longtermWMOGroundwaterUnitCost_Contractor + longtermWMOGroundwaterBaseCost_Contractor)
-        self.desalinationLongTermWMOCost_Contractor.append(self.longtermWMODesalinationSupplyIncrementalVolume_Contractor * longtermWMODesalinationUnitCost_Contractor + longtermWMODesalinationBaseCost_Contractor)
-        self.recycledLongTermWMOCost_Contractor.append(self.longtermWMORecycledSupplyIncrementalVolume_Contractor * longtermWMORecycledUnitCost_Contractor + longtermWMORecycledBaseCost_Contractor)
-        self.potableReuseLongTermWMOCost_Contractor.append(self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor * longtermWMOPotableReuseUnitCost_Contractor + longtermWMOPotableReuseBaseCost_Contractor)
-        self.transfersAndExchangesLongTermWMOCost_Contractor.append(self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor * longtermWMOTransfersExchangesUnitCost_Contractor + longtermWMOTransfersExchangesBaseCost_Contractor)
-        self.otherSupplyLongTermWMOCost_Contractor.append(self.longtermWMOOtherSupplyIncrementalVolume_Contractor * longtermWMOOtherSupplyUnitCost_Contractor + longtermWMOOtherSupplyBaseCost_Contractor)
-        self.conservationLongTermWMOCost_Contractor.append(self.longtermWMOConservation_Contractor * longtermWMOConservationUnitCost_Contractor + longtermWMOConservationBaseCost_Contractor)
+        self.surfaceLongTermWMOCost_Contractor.append((self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor * longtermWMOSurfaceUnitCost_Contractor + longtermWMOSurfaceBaseCost_Contractor) * self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor)
+        self.groundwaterLongTermWMOCost_Contractor.append((self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor * longtermWMOGroundwaterUnitCost_Contractor + longtermWMOGroundwaterBaseCost_Contractor) * self.longtermWMOGroundwaterSupplyIncrementalVolume_Contractor)
+        self.desalinationLongTermWMOCost_Contractor.append((self.longtermWMODesalinationSupplyIncrementalVolume_Contractor * longtermWMODesalinationUnitCost_Contractor + longtermWMODesalinationBaseCost_Contractor) * self.longtermWMODesalinationSupplyIncrementalVolume_Contractor)
+        self.recycledLongTermWMOCost_Contractor.append((self.longtermWMORecycledSupplyIncrementalVolume_Contractor * longtermWMORecycledUnitCost_Contractor + longtermWMORecycledBaseCost_Contractor) * self.longtermWMORecycledSupplyIncrementalVolume_Contractor)
+        self.potableReuseLongTermWMOCost_Contractor.append((self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor * longtermWMOPotableReuseUnitCost_Contractor + longtermWMOPotableReuseBaseCost_Contractor) * self.longtermWMOPotableReuseSupplyIncrementalVolume_Contractor)
+        self.transfersAndExchangesLongTermWMOCost_Contractor.append((self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor * longtermWMOTransfersExchangesUnitCost_Contractor + longtermWMOTransfersExchangesBaseCost_Contractor))
+        self.otherSupplyLongTermWMOCost_Contractor.append((self.longtermWMOOtherSupplyIncrementalVolume_Contractor * longtermWMOOtherSupplyUnitCost_Contractor + longtermWMOOtherSupplyBaseCost_Contractor) * self.longtermWMOOtherSupplyIncrementalVolume_Contractor)
+        self.conservationLongTermWMOCost_Contractor.append((self.longtermWMOConservation_Contractor * longtermWMOConservationUnitCost_Contractor + longtermWMOConservationBaseCost_Contractor) * self.longtermWMOConservation_Contractor)
+
 
         self.reliabilityManagementCost_Contractor.append(
             self.groundwaterBankPutCost_Contractor[self.i]
@@ -327,6 +328,8 @@ class ModelLogic:
             + self.transfersAndExchangesLongTermWMOCost_Contractor[self.i]
             + self.otherSupplyLongTermWMOCost_Contractor[self.i]
             + self.conservationLongTermWMOCost_Contractor[self.i]
+
+            - self.groundwaterPumpingSavings_Contractor[self.i]
         )
 
 
