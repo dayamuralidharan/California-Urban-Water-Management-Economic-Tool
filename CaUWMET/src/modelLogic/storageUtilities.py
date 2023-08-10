@@ -47,15 +47,16 @@ class StorageUtilities:
             rechargeLoss_Contractor = putGroundwater_Contractor - putGroundwater_Contractor * rechargeEffectiveness_Contractor
             putGroundwater_Contractor = putGroundwater_Contractor - rechargeLoss_Contractor
             
-            excessSupply_Contractor[i] = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
-            
-            putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))
+            excessAfterGroundwaterPut_Contractor = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
+            putSurface_Contractor = max(min(excessAfterGroundwaterPut_Contractor, availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))
+
+            #excessSupply_Contractor[i] = max(0, excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor - putSurface_Contractor)
 
         elif excessSupplySwitch_Contractor == "Groundwater Bank":
             putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), int('0'))
             rechargeLoss_Contractor = putGroundwater_Contractor - putGroundwater_Contractor * rechargeEffectiveness_Contractor
             putGroundwater_Contractor = putGroundwater_Contractor - rechargeLoss_Contractor
-            excessSupply_Contractor[i] = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
+            #excessSupply_Contractor[i] = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
             
         elif excessSupplySwitch_Contractor == "Carryover Storage":
             putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))

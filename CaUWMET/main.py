@@ -4,7 +4,7 @@ from src.optimization.optimizeWMOs import OptimizeWMOs
 def main():
     #TODO: link to optimize var in execute function
     #TODO: link x in line 37 with optimized x
-    optimize = False
+    optimize = True
 
     if optimize:
         # parameterize the optimization - defaults below...
