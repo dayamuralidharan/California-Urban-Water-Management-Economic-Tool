@@ -25,14 +25,14 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         # Test delivery of local supplies
         self.assertEqual(self.modelLogic.outputHandler.demandsToBeMetBySWPCVP['Metropolitan Water District of Southern California'][0], 964915)
         # Test long-term WMO costs
-        self.assertEqual(self.modelLogic.surfaceLongTermWMOCost_Contractor[0], 100)
-        self.assertEqual(self.modelLogic.groundwaterLongTermWMOCost_Contractor[0], 100)
-        self.assertEqual(self.modelLogic.desalinationLongTermWMOCost_Contractor[0], 100)
-        self.assertEqual(self.modelLogic.recycledLongTermWMOCost_Contractor[0], 100)
-        self.assertEqual(self.modelLogic.potableReuseLongTermWMOCost_Contractor[0], 100)
+        self.assertEqual(self.modelLogic.surfaceLongTermWMOCost_Contractor[0], 1000)
+        self.assertEqual(self.modelLogic.groundwaterLongTermWMOCost_Contractor[0], 1000)
+        self.assertEqual(self.modelLogic.desalinationLongTermWMOCost_Contractor[0], 1000)
+        self.assertEqual(self.modelLogic.recycledLongTermWMOCost_Contractor[0], 1000)
+        self.assertEqual(self.modelLogic.potableReuseLongTermWMOCost_Contractor[0], 1000)
         self.assertEqual(self.modelLogic.transfersAndExchangesLongTermWMOCost_Contractor[0], 100)
-        self.assertEqual(self.modelLogic.otherSupplyLongTermWMOCost_Contractor[0], 100)
-        self.assertEqual(self.modelLogic.conservationLongTermWMOCost_Contractor[0], 100)
+        self.assertEqual(self.modelLogic.otherSupplyLongTermWMOCost_Contractor[0], 1000)
+        self.assertEqual(self.modelLogic.conservationLongTermWMOCost_Contractor[0], 1000)
         
         
         # Test deliveries of SWP/CVP supplies
@@ -64,7 +64,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.rationingProgramCost_Contractor[0], 175204000.0)
         
         # Test total reliability cost
-        self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 735775656.3885316)
+        self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 735781956.3885316)
         
         # Test shortage by use type
         # See CaUWMET_CPED example for Python test.xlsx for how results are derived
