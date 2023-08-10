@@ -7,12 +7,15 @@ class OutputHandler:
         #After variables are calculated, convert to dictionary then to panda dataframes
         self.inputData = inputData        
         self.appliedDemands = {'Year': self.inputData.historicHydrologyYears} 
+        
         self.demandsToBeMetBySWPCVP = {'Year': self.inputData.historicHydrologyYears}
-        self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
+        self.SWPCVPSupplyDelivery = {'Year': self.inputData.historicHydrologyYears}
         self.excessSupply = {'Year': self.inputData.historicHydrologyYears}
         self.groundwaterPumpingReduction = {'Year': self.inputData.historicHydrologyYears}
-
+        self.unallocatedSWPCVPDeliveries = {'Year': self.inputData.historicHydrologyYears}
+        
         # Surface carryover and banked groundwater storage dataframes
+        self.demandsToBeMetByStorage = {'Year': self.inputData.historicHydrologyYears}
         self.volumeSurfaceCarryover = {'Year': self.inputData.historicHydrologyYears}
         self.volumeGroundwaterBank = {'Year': self.inputData.historicHydrologyYears}
         self.availableCapacitySurface = {'Year': self.inputData.historicHydrologyYears}
@@ -67,9 +70,12 @@ class OutputHandler:
         
     def writeToSystemwideOutputDataframes(self):
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
-        self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
         
+        self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
+        self.SWPCVPSupplyDelivery = pd.DataFrame(self.demandsToBeMetBySWPCVP)
         self.excessSupply = pd.DataFrame(self.excessSupply)
+        self.unallocatedSWPCVPDeliveries = pd.DataFrame(self.unallocatedSWPCVPDeliveries)
+
         self.demandsToBeMetByStorage = pd.DataFrame(self.demandsToBeMetByStorage)
         self.volumeSurfaceCarryover = pd.DataFrame(self.volumeSurfaceCarryover)
         self.volumeGroundwaterBank = pd.DataFrame(self.volumeGroundwaterBank)

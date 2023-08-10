@@ -34,11 +34,11 @@ def main():
         optimizeWMOs.visualization_a(save=True)
 
     else:
-        main = GetResults(x = [0, 0, 0, 0, 4.09847281e+03, 0, 7.48575468e+03, 0],
+        main = GetResults(x = [0, 0, 0, 0, 2.34790511e+03, 0, 7.49822714e+03, 0],
                     contractor='City of Tracy')
         main.exportResults()
     
 if __name__ == "__main__":
     main()
 # San Gorgonio Pass Water Agency: [0, 0, 0, 0, 0, 0, 9.99999999e+02, 0]
-# City of Tracy: X = [0, 0, 0, 0, 4.09847281e+03, 0, 7.48575468e+03, 0]
+# City of Tracy: X = [0, 0, 0, 0, 2.34790511e+03, 0, 7.49822714e+03, 0]
