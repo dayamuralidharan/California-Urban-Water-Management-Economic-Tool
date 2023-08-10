@@ -13,19 +13,16 @@ class StoragePutTests(unittest.TestCase):
         self.surfaceMaximumPutCapacity_Contractor = 5
         self.storageUtilities = StorageUtilities()
 
-    def testExcessSupplySwitchIsSetToPutIntoCarryoverAndGroundwaterBank(self):
-        self.verifyGroundWaterAndSurfacePutsForSwitch(4.5, 5, "Put into Carryover and Groundwater Bank")
+    # Test function
+    def testPutIntoCarryoverAndGroundwaterBank(self):
+        self.verifyGroundWaterAndSurfacePuts(4.5, 5, "Groundwater Bank and Carryover Storage")
+        self.verifyGroundWaterAndSurfacePuts(4.5, 0, "Groundwater Bank")
+        self.verifyGroundWaterAndSurfacePuts(0, 5, "Carryover Storage")
+        self.verifyGroundWaterAndSurfacePuts(0, 0, "Turnback Pool")
+        self.verifyGroundWaterAndSurfacePuts(0, 0, "Reduce Groundwater Pumping")
 
-    def testExcessSupplySwitchIsSetToPutIntoGroundwaterBank(self):
-        self.verifyGroundWaterAndSurfacePutsForSwitch(4.5, 0, "Put into Groundwater Bank")
-        
-    def testExcessSupplySwitchIsSetToSurfaceCarryover(self):
-        self.verifyGroundWaterAndSurfacePutsForSwitch(0, 5, "Put into Carryover Storage")
-        
-    def testExcessSupplySwitchIsSetToTurnbackPool(self):
-        self.verifyGroundWaterAndSurfacePutsForSwitch(0, 0, "Turnback Pool")
-        
-    def verifyGroundWaterAndSurfacePutsForSwitch(self, groundwater, surface, switch): # arguments here are the values the results should equal for the test to pass
+    # Helper function    
+    def verifyGroundWaterAndSurfacePuts(self, groundwater, surface, switch):
         excessSupplySwitch_Contractor = switch
         putStorage = self.storageUtilities.putExcessSupplyIntoStorage(self.i, excessSupplySwitch_Contractor, self.excessSupply_Contractor, 
                                                 self.availableGroundwaterCapacity_Contractor, self.groundwaterMaximumPutCapacity_Contractor, 
@@ -35,7 +32,7 @@ class StoragePutTests(unittest.TestCase):
         self.assertEqual(putStorage['putSurface_Contractor'], surface)
         
         
-# Test puts of excess supplies into storage
+# Test Takes from storage and hedging strategy
 class StorageTakeTests(unittest.TestCase):
     def setUp(self):
         self.i = 0
@@ -51,18 +48,13 @@ class StorageTakeTests(unittest.TestCase):
         self.hedgingStorageCapacityFactor_Contractor = 0.25
         self.storageUtilities = StorageUtilities()
 
-    def testStorageHedgingSwitchIsSetToCarryoverAndGroundwaterBank(self):
+    def testStorageHedgingAndTakes(self):
         self.verifyGroundWaterAndSurfaceTakesForSwitch(351349, 403577, "Surface and Groundwater Storage")
-
-    def testStorageHedgingSwitchIsSetToGroundwaterBank(self):
         self.verifyGroundWaterAndSurfaceTakesForSwitch(500000, 425675, "Groundwater Bank Only")
-        
-    def testStorageHedgingSwitchIsSetToSurfaceCarryover(self):
         self.verifyGroundWaterAndSurfaceTakesForSwitch(351349, 500000, "Surface Carryover Only")
-        
-    def testStorageHedgingSwitchIsSetToOff(self):
         self.verifyGroundWaterAndSurfaceTakesForSwitch(500000, 500000, "Off")
-        
+
+    # Helper function    
     def verifyGroundWaterAndSurfaceTakesForSwitch(self, surface, groundwater, switch):
         storageHedgingStrategySwitch_Contractor = switch
         takeStorage = self.storageUtilities.takeFromStorage(self.i, self.demandsToBeMetByStorage_Contractor, 

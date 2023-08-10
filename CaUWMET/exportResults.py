@@ -46,17 +46,34 @@ class GetResults():
         
         #Export Results to Excel
         with pd.ExcelWriter("output.xlsx") as writer:
+            # Water Balance Outputs
+            self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
+
             longtermWMOVolumeLimit.to_excel(writer, sheet_name = "Long-term WMOs Volume Limits", index_label = "Long-term WMOs Volume Limits (acre-feet/year)")
             self.x.to_excel(writer, sheet_name = "Long-term WMOs Optimized Volume", index_label = "Long-term WMOs Optimized Volumes (acre-feet/year)")
             
+            self.modelLogic.outputHandler.SWPCVPSupplyDelivery.to_excel(writer, sheet_name = "SWP CVP Deliveries", index_label = "SWP/CVP Deliveries (acre-feet/year)")
             self.modelLogic.outputHandler.excessSupply.to_excel(writer, sheet_name = "Excess Supply", index_label = "Excess Supply (acre-feet/year)")
+            self.modelLogic.outputHandler.unallocatedSWPCVPDeliveries.to_excel(writer, sheet_name = "Unallocated SWP CVP", index_label = "Unallocated SWP CVP Supply (acre-feet/year)")
+           
             self.modelLogic.outputHandler.putSurface.to_excel(writer, sheet_name = "Put Surface", index_label = "Puts into surface carryover storage")
             self.modelLogic.outputHandler.putGroundwater.to_excel(writer, sheet_name = "Put GW", index_label = "Puts into groundwater bank (acre-feet/year)")
+            self.modelLogic.outputHandler.volumeSurfaceCarryover.to_excel(writer, sheet_name = "Surface Storage", index_label = "Surface carryover storage volume (acre-feet)")
+            self.modelLogic.outputHandler.volumeGroundwaterBank.to_excel(writer, sheet_name = "GW Storage", index_label = "Groundwater bank storage volume (acre-feet)")
+            
+            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "WM Transfers", index_label = "Water Market Transfer Deliveries ($)")
+
             self.modelLogic.outputHandler.totalShortage.to_excel(writer, sheet_name = "TotalShortage", index_label = "Total Shortage (acre-feet/year)")
 
+            # Cost Outputs
+            # Total Costs
             self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost ($)")
             self.modelLogic.outputHandler.totalEconomicLoss.to_excel(writer, sheet_name = "Total Economic Loss", index_label = "Total Economic Loss ($)")
-            
+            self.modelLogic.outputHandler.totalReliabilityMgmtCost.to_excel(writer, sheet_name = "Reliability Mgmt Cost", index_label = "Reliability Management costs ($)")
+
+            # WMO Costs
+            self.modelLogic.outputHandler.waterMarketTransferCost.to_excel(writer, sheet_name = "WM Transfer Costs", index_label = "Water Market Transfer Costs ($)")
+
             self.modelLogic.outputHandler.surfaceLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost SW", index_label = "Long-term WMO Cost: Surface ($)")
             self.modelLogic.outputHandler.groundwaterLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost GW", index_label = "Long-term WMO Cost: Groundwater ($)")
             self.modelLogic.outputHandler.desalinationLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Desal", index_label = "Long-term WMO Cost: Desalination ($)")
@@ -75,12 +92,7 @@ class GetResults():
             self.modelLogic.outputHandler.distributionCost.to_excel(writer, sheet_name = "Distribution Cost", index_label = "Distribution Cost ($)")
             self.modelLogic.outputHandler.wastewaterTreatmentCost.to_excel(writer, sheet_name = "WW Treatment Cost", index_label = "Wastewater Treatment Cost ($)")
 
-            self.modelLogic.outputHandler.totalReliabilityMgmtCost.to_excel(writer, sheet_name = "Reliability Mgmt Cost", index_label = "Reliability Management costs ($)")
-
-            self.modelLogic.outputHandler.waterMarketTransferDeliveries.to_excel(writer, sheet_name = "WM Transfers", index_label = "Water Market Transfer Deliveries ($)")
-            self.modelLogic.outputHandler.waterMarketTransferCost.to_excel(writer, sheet_name = "WM Transfer Costs", index_label = "Water Market Transfer Costs ($)")
-
-            self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
+            
             
         with pd.ExcelWriter("Results_QAQC.xlsx") as writer:
             self.modelLogic.outputHandler.totalAnnualCost.to_excel(writer, sheet_name = "Total Annual Cost", index_label = "Total Annual Cost ($)")
