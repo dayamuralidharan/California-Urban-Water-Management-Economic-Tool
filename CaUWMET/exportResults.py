@@ -66,7 +66,14 @@ class GetResults():
             self.modelLogic.outputHandler.otherSupplyLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Other", index_label = "Long-term WMO Cost: Other ($)")
             self.modelLogic.outputHandler.conservationLongTermWMOCost.to_excel(writer, sheet_name = "LT WMO Cost Conserv", index_label = "Long-term WMO Cost: Conservation ($)")
 
+            #System operations costs
             self.modelLogic.outputHandler.swpCVPDeliveryCost.to_excel(writer, sheet_name = "SWP CVP Cost", index_label = "SWP/CVP operations cost ($)")
+            self.modelLogic.outputHandler.putGroundwaterBankCost.to_excel(writer, sheet_name = "GW Bank Put Cost", index_label = "Groundwater Bank Put Cost ($)")
+            self.modelLogic.outputHandler.takeGroundwaterBankCost.to_excel(writer, sheet_name = "GW Bank Take Cost", index_label = "Groundwater Bank Take Cost ($)")
+            self.modelLogic.outputHandler.groundwaterPumpingSavings.to_excel(writer, sheet_name = "GW Pumping Savings", index_label = "Groundwater Pumping Savings ($)")
+            self.modelLogic.outputHandler.waterTreatmentCost.to_excel(writer, sheet_name = "Water Treatment Cost", index_label = "Water Treatment Cost ($)")
+            self.modelLogic.outputHandler.distributionCost.to_excel(writer, sheet_name = "Distribution Cost", index_label = "Distribution Cost ($)")
+            self.modelLogic.outputHandler.wastewaterTreatmentCost.to_excel(writer, sheet_name = "WW Treatment Cost", index_label = "Wastewater Treatment Cost ($)")
 
             self.modelLogic.outputHandler.totalReliabilityMgmtCost.to_excel(writer, sheet_name = "Reliability Mgmt Cost", index_label = "Reliability Management costs ($)")
 

@@ -113,9 +113,16 @@ class ModelLogic:
         self.outputHandler.totalShortage[self.contractor] = self.contingencyWMOs.totalShortage_Contractor
         
         # Cost variables
+        # System Operations Costs
+        self.outputHandler.swpCVPDeliveryCost[self.contractor] = self.swpCVPDeliveryCost_Contractor
         self.outputHandler.putGroundwaterBankCost[self.contractor] = self.groundwaterBankPutCost_Contractor
         self.outputHandler.takeGroundwaterBankCost[self.contractor] = self.groundwaterBankTakeCost_Contractor
-        self.outputHandler.swpCVPDeliveryCost[self.contractor] = self.swpCVPDeliveryCost_Contractor
+        self.outputHandler.groundwaterPumpingSavings[self.contractor] = self.groundwaterPumpingSavings_Contractor
+        self.outputHandler.waterTreatmentCost[self.contractor] = self.waterTreatmentCost_Contractor
+        self.outputHandler.distributionCost[self.contractor] = self.distributionCost_Contractor
+        self.outputHandler.wastewaterTreatmentCost[self.contractor] = self.wastewaterTreatmentCost_Contractor
+        
+        # WMO Costs
         self.outputHandler.waterMarketTransferCost[self.contractor] = self.waterMarketTransferCost_Contractor
         
         self.outputHandler.surfaceLongTermWMOCost[self.contractor] = self.surfaceLongTermWMOCost_Contractor
@@ -127,7 +134,7 @@ class ModelLogic:
         self.outputHandler.otherSupplyLongTermWMOCost[self.contractor] = self.otherSupplyLongTermWMOCost_Contractor
         self.outputHandler.conservationLongTermWMOCost[self.contractor] = self.conservationLongTermWMOCost_Contractor
         
-        
+        # Total Costs
         self.outputHandler.totalReliabilityMgmtCost[self.contractor] = self.reliabilityManagementCost_Contractor
         self.outputHandler.totalEconomicLoss[self.contractor] = self.economicLossByUseType.totalEconomicLoss_Contractor
         self.outputHandler.totalAnnualCost[self.contractor] = self.totalAnnualCost_Contractor

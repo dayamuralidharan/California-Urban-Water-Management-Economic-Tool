@@ -36,9 +36,14 @@ class OutputHandler:
 
         self.totalShortage = {'Year': self.inputData.historicHydrologyYears}
         
-        # Cost dataframes
+        # System Operations Cost dataframes
+        self.swpCVPDeliveryCost = {'Year': self.inputData.historicHydrologyYears}
         self.putGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
         self.takeGroundwaterBankCost = {'Year': self.inputData.historicHydrologyYears}
+        self.groundwaterPumpingSavings = {'Year': self.inputData.historicHydrologyYears}
+        self.waterTreatmentCost = {'Year': self.inputData.historicHydrologyYears}
+        self.distributionCost = {'Year': self.inputData.historicHydrologyYears}
+        self.wastewaterTreatmentCost = {'Year': self.inputData.historicHydrologyYears}
 
         # Long-term WMO costs
         self.surfaceLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
@@ -50,7 +55,7 @@ class OutputHandler:
         self.otherSupplyLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
         self.conservationLongTermWMOCost = {'Year': self.inputData.historicHydrologyYears}
 
-        self.swpCVPDeliveryCost = {'Year': self.inputData.historicHydrologyYears}
+        
         self.waterMarketTransferCost = {'Year': self.inputData.historicHydrologyYears}
         
         self.totalReliabilityMgmtCost = {'Year': self.inputData.historicHydrologyYears}
@@ -82,9 +87,16 @@ class OutputHandler:
         self.totalShortage = pd.DataFrame(self.totalShortage)
         
         #Cost dataframes
+        #System Operations costs
+        self.swpCVPDeliveryCost = pd.DataFrame(self.swpCVPDeliveryCost)
         self.putGroundwaterBankCost = pd.DataFrame(self.putGroundwaterBankCost)
         self.takeGroundwaterBankCost = pd.DataFrame(self.takeGroundwaterBankCost)
+        self.groundwaterPumpingSavings = pd.DataFrame(self.groundwaterPumpingSavings)
+        self.waterTreatmentCost = pd.DataFrame(self.waterTreatmentCost)
+        self.distributionCost = pd.DataFrame(self.distributionCost)
+        self.wastewaterTreatmentCost = pd.DataFrame(self.wastewaterTreatmentCost)
 
+        # WMO Costs
         self.surfaceLongTermWMOCost = pd.DataFrame(self.surfaceLongTermWMOCost)
         self.groundwaterLongTermWMOCost = pd.DataFrame(self.groundwaterLongTermWMOCost)
         self.desalinationLongTermWMOCost = pd.DataFrame(self.desalinationLongTermWMOCost)
@@ -94,9 +106,9 @@ class OutputHandler:
         self.otherSupplyLongTermWMOCost = pd.DataFrame(self.otherSupplyLongTermWMOCost)
         self.conservationLongTermWMOCost = pd.DataFrame(self.conservationLongTermWMOCost)
 
-        self.swpCVPDeliveryCost = pd.DataFrame(self.swpCVPDeliveryCost)
         self.waterMarketTransferCost = pd.DataFrame(self.waterMarketTransferCost)
 
+        # Total Costs
         self.totalReliabilityMgmtCost = pd.DataFrame(self.totalReliabilityMgmtCost)
         self.totalEconomicLoss = pd.DataFrame(self.totalEconomicLoss)
         self.totalAnnualCost = pd.DataFrame(self.totalAnnualCost)
