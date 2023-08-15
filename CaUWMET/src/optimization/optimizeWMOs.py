@@ -88,7 +88,6 @@ class OptimizeWMOs:
     TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
-                 year='2045', 
                  contractor='Metropolitan Water District of Southern California',
                  wmoFloor=None, 
                  wmoCeiling=None, 

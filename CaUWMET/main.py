@@ -8,7 +8,6 @@ def main():
 
     if optimize:
         # parameterize the optimization - defaults below...
-        year='2045'
         contractor='City of Tracy'
         wmoFloor=None
         wmoCeiling=None
@@ -17,7 +16,6 @@ def main():
 
         print("Instantiate optimizer with chosen parameters...")
         optimizeWMOs = OptimizeWMOs(
-            year=year,
             contractor=contractor,
             wmoFloor=wmoFloor,
             wmoCeiling=wmoCeiling,
