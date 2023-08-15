@@ -27,16 +27,13 @@ def main():
         print('Optimizer instantiated!')
         
         print("\nOptimize CaUWMET model...")
-        optimizeWMOs.optimize()
+        result = optimizeWMOs.optimize()
         print('Optimization complete!')
             
         print("\nVisualize results:")
         optimizeWMOs.visualization_a(save=True)
 
-    else:
-        main = GetResults(x = [0, 0, 0, 0, 2.34790511e+03, 0, 7.49822714e+03, 0],
-                    contractor='City of Tracy')
-        main.exportResults()
+        GetResults(x=result.X, contractor=contractor).exportResults()
     
 if __name__ == "__main__":
     main()

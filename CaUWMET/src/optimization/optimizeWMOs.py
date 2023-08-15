@@ -162,7 +162,7 @@ class OptimizeWMOs:
     # def report_custom(self, X):
         
         
-    def visualization_a(self, save=False):
+    def visualization_a(self, save=False, view=True):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
@@ -222,12 +222,13 @@ class OptimizeWMOs:
         
         # plot the best result in red
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
-        plt.show()
         
         if save:
             pop = self.res.algorithm.pop_size
             n = self.res.algorithm.n_iter
             start = self.res.algorithm.start_time
             plt.savefig(f'graphics/optPlot_p{pop}_n{n}_{round(start)}.png')
-
+        else: 
+            plt.show()
             
+
