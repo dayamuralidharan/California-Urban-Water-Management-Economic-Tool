@@ -27,7 +27,7 @@ def main():
         print('Optimizer instantiated!')
         
         print("\nOptimize CaUWMET model...")
-        result = optimizeWMOs.optimize()
+        result = optimizeWMOs.optimize(result=True)
         print('Optimization complete!')
             
         print("\nVisualize results:")

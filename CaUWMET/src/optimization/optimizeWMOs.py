@@ -102,17 +102,17 @@ class OptimizeWMOs:
         self.wmoCeiling = wmoCeiling
         self.lowerBounds = lowerBounds
         self.upperBounds = upperBounds if upperBounds != 'longtermWMOVolumeLimits' else [
-            self.inputData.longtermWMOConservationVolumeLimit[self.inputData.longtermWMOConservationVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.longtermWMOGroundwaterVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMODesalinationVolumeLimit[self.inputData.longtermWMODesalinationVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMORecycledVolumeLimit[self.inputData.longtermWMORecycledVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOPotableReuseVolumeLimit[self.inputData.longtermWMOPotableReuseVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOTransfersExchangesVolumeLimit[self.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][year][0],
+            self.inputData.longtermWMOConservationVolumeLimit[self.inputData.longtermWMOConservationVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.longtermWMOGroundwaterVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMODesalinationVolumeLimit[self.inputData.longtermWMODesalinationVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMORecycledVolumeLimit[self.inputData.longtermWMORecycledVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMOPotableReuseVolumeLimit[self.inputData.longtermWMOPotableReuseVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMOTransfersExchangesVolumeLimit[self.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][self.inputData.futureYear][0],
         ]
     
-    def optimize(self):
+    def optimize(self, result=False):
         '''
         This method parameterizes the CostProblem and executes the PyMoo optimization. 
         The optimization algorithm and termination criteria are hardcoded for now...
@@ -147,7 +147,8 @@ class OptimizeWMOs:
         print("\nBest solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
         print(f"Execution time: {round(self.res.exec_time)} seconds")
         
-        return self.res
+        if result: 
+            return self.res
     
     
     # TODO: update code below to report values of the best option once integrated into model execution function
@@ -162,7 +163,7 @@ class OptimizeWMOs:
     # def report_custom(self, X):
         
         
-    def visualization_a(self, save=False, view=True):
+    def visualization_a(self, save=False):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
@@ -220,15 +221,18 @@ class OptimizeWMOs:
         )
         ax2.set_ylabel('Iteration Number', size=12)
         
-        # plot the best result in red
+        # plot the best result in red 
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
         
         if save:
             pop = self.res.algorithm.pop_size
             n = self.res.algorithm.n_iter
-            start = self.res.algorithm.start_time
-            plt.savefig(f'graphics/optPlot_p{pop}_n{n}_{round(start)}.png')
+            start = round(self.res.algorithm.start_time)
+            contr = self.modelLogic.contractor.replace(" ", "")
+            yr = self.inputData.futureYear
+            figname = f'graphics/optPlot_{contr}_yr_p-{pop}_n-{n}_{start}.png'
+            plt.savefig(figname)
         else: 
             plt.show()
-            
+
 
