@@ -15,9 +15,6 @@ from pymoo.termination import get_termination
 from pymoo.optimize import minimize
 
 from src.modelLogic.modelLogic import ModelLogic
-from src.modelLogic.inputData import InputData
-from src.modelLogic.storageUtilities import StorageUtilities
-from src.modelLogic.inputDataLocations import InputDataLocations
 
 warnings.filterwarnings('ignore')  # turn off warnings
 
@@ -76,7 +73,7 @@ class CostProblem(ElementwiseProblem):
             out["G"] = [ g for g in [G1,G2] if g is not None ]
         else:
             out["F"] = self.objectiveFunction(x)
-        
+
 
 ### instantiate CaUWMET model and execute MOO problem ###
 
@@ -88,27 +85,27 @@ class OptimizeWMOs:
     TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
-                 contractor='Metropolitan Water District of Southern California',
-                 wmoFloor=None, 
-                 wmoCeiling=None, 
-                 lowerBounds=[0]*8, 
+                 contractor='City of Tracy',
+                 modelLogic=ModelLogic,
+                 wmoFloor=None,
+                 wmoCeiling=None,
+                 lowerBounds=[0]*8,
                  upperBounds='longtermWMOVolumeLimits'):
         
-        self.inputData = InputData(InputDataLocations())
-        self.modelLogic = ModelLogic(self.inputData, StorageUtilities())
+        self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
         self.wmoFloor = wmoFloor
         self.wmoCeiling = wmoCeiling
         self.lowerBounds = lowerBounds
         self.upperBounds = upperBounds if upperBounds != 'longtermWMOVolumeLimits' else [
-            self.inputData.longtermWMOConservationVolumeLimit[self.inputData.longtermWMOConservationVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.longtermWMOGroundwaterVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMODesalinationVolumeLimit[self.inputData.longtermWMODesalinationVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMORecycledVolumeLimit[self.inputData.longtermWMORecycledVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMOPotableReuseVolumeLimit[self.inputData.longtermWMOPotableReuseVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMOTransfersExchangesVolumeLimit[self.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][self.inputData.futureYear][0],
-            self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][self.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOConservationVolumeLimit[self.modelLogic.inputData.longtermWMOConservationVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOSurfaceVolumeLimit[self.modelLogic.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOGroundwaterVolumeLimit[self.modelLogic.inputData.longtermWMOGroundwaterVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMODesalinationVolumeLimit[self.modelLogic.inputData.longtermWMODesalinationVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMORecycledVolumeLimit[self.modelLogic.inputData.longtermWMORecycledVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOPotableReuseVolumeLimit[self.modelLogic.inputData.longtermWMOPotableReuseVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOTransfersExchangesVolumeLimit[self.modelLogic.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOOtherSupplyVolumeLimit[self.modelLogic.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
         ]
     
     def optimize(self, result=False):
@@ -166,7 +163,6 @@ class OptimizeWMOs:
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
-        
         '''
         # get the particles 
         # TODO: this could be its own method...
@@ -224,12 +220,12 @@ class OptimizeWMOs:
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
         
         if save:
-            pop = self.res.algorithm.pop_size
-            n = self.res.algorithm.n_iter
-            start = round(self.res.algorithm.start_time)
-            contr = self.modelLogic.contractor.replace(" ", "")
-            yr = self.inputData.futureYear
-            figname = f'graphics/optPlot_{contr}_yr_p-{pop}_n-{n}_{start}.png'
+            population = self.res.algorithm.pop_size
+            n_iter = self.res.algorithm.n_iter
+            start_time = round(self.res.algorithm.start_time)
+            contractor = self.modelLogic.contractor.replace(" ", "")
+            year = self.modelLogic.inputData.futureYear
+            figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
             plt.savefig(figname)
         else: 
             plt.show()
