@@ -69,7 +69,7 @@ class CostProblem(ElementwiseProblem):
         if self.n_ieq_constr > 0:
             out["F"] = self.objectiveFunction(x)
             G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None       # np.sum(x) >= self.wmoFloor
-            G2 = np.sum(x) - self.wmoCeiling  if self.wmoCeiling is not None else None  # self.wmoCeiling >= np.sum(x)
+            G2 = np.sum(x) - self.wmoCeiling if self.wmoCeiling is not None else None  # self.wmoCeiling >= np.sum(x)
             out["G"] = [ g for g in [G1,G2] if g is not None ]
         else:
             out["F"] = self.objectiveFunction(x)
@@ -148,20 +148,96 @@ class OptimizeWMOs:
             return self.res
     
     
-    def report_best(self, zero_threshold=1):
-         self.X_zero = [0 if x < zero_threshold else x for x in self.res.X]
-         self.F_zero = self.modelLogic.execute(self.X_zero)
-         return self.X_zero, self.F_zero
+    def reportBest(self, zero_threshold=1, result=False):
+        '''
+        This method 0's out the X values below the zero_threshold, then recomputes the new F value.
+        These values are then reported if result = True.
+        Note: 
+            Must be run after .optimize method!
+        '''
+        self.X_zero = [0 if x < zero_threshold else x for x in self.res.X]
+        self.F_zero = self.modelLogic.execute(self.X_zero)
+        if result: 
+            return self.X_zero, self.F_zero
     
     
     # TODO: Replace pseudocode below to report values of a given
     # def report_custom(self, X):
+    
+    
+    def exportResults(self):
+        '''
+        This method exports the results of the output handlers for aggregation into a table. 
+        Note: 
+            Must be run after .optimize method!
+        '''
+        # Outputs
+        # Water Balance Outputs
+        self.modelLogic.outputHandler.SWPCVPSupplyDelivery # (acre-feet/year)
+        self.modelLogic.outputHandler.excessSupply # (acre-feet/year)
+        self.modelLogic.outputHandler.unallocatedSWPCVPDeliveries # (acre-feet/year)
         
+        self.modelLogic.outputHandler.putSurface # (acre-feet/year)
+
+        self.modelLogic.outputHandler.putGroundwater # (acre-feet/year)
+        self.modelLogic.outputHandler.volumeSurfaceCarryover # (acre-feet)
+        self.modelLogic.outputHandler.volumeGroundwaterBank # (acre-feet)
         
+        self.modelLogic.outputHandler.waterMarketTransferDeliveries # ($)
+
+        self.modelLogic.outputHandler.totalShortage # (acre-feet/year)
+
+        # Cost Outputs
+        # Total Costs
+        self.modelLogic.outputHandler.totalAnnualCost # ($)
+        self.modelLogic.outputHandler.totalEconomicLoss # ($)
+        self.modelLogic.outputHandler.totalReliabilityMgmtCost #($)
+
+        # WMO Costs
+        self.modelLogic.outputHandler.waterMarketTransferCost # ($)
+
+        self.modelLogic.outputHandler.surfaceLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.groundwaterLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.desalinationLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.recycledLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.potableReuseLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.transfersAndExchangesLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.otherSupplyLongTermWMOCost # ($)
+        self.modelLogic.outputHandler.conservationLongTermWMOCost # ($)
+
+        #System operations costs
+        self.modelLogic.outputHandler.swpCVPDeliveryCost # ($)
+        self.modelLogic.outputHandler.putGroundwaterBankCost # ($)
+        self.modelLogic.outputHandler.takeGroundwaterBankCost # ($)
+        self.modelLogic.outputHandler.groundwaterPumpingSavings # ($)
+        self.modelLogic.outputHandler.waterTreatmentCost # ($)
+        self.modelLogic.outputHandler.distributionCost # ($)
+        self.modelLogic.outputHandler.wastewaterTreatmentCost # ($)
+
+        
+        # QAQC Results
+        self.modelLogic.outputHandler.totalAnnualCost # ($)
+        self.modelLogic.outputHandler.totalEconomicLoss # ($)
+
+        self.modelLogic.outputHandler.appliedDemands # (acre-feet/year)
+        self.modelLogic.outputHandler.demandsToBeMetByStorage # (acre-feet/year)
+        self.modelLogic.outputHandler.volumeGroundwaterBank # (acre-feet/year)
+        self.modelLogic.outputHandler.takeGroundwater # (acre-feet/year)
+        self.modelLogic.outputHandler.putGroundwater # (acre-feet/year)
+        self.modelLogic.outputHandler.demandsToBeMetByContingentOptions # (acre-feet/year)
+        
+        self.modelLogic.outputHandler.contingentConservationReductionVolume # (acre-feet/year)
+        self.modelLogic.outputHandler.waterMarketTransferDeliveries # (acre-feet/year)
+
+        self.modelLogic.outputHandler.totalShortage # (acre-feet/year)
+    
+    
     def visualization_a(self, save=False):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
+        Note: 
+            Must be run after .optimize method!
         '''
         # get the particles 
         # TODO: this could be its own method...
@@ -202,7 +278,7 @@ class OptimizeWMOs:
         # define scatter plot axes
         ax.scatter(TAF, loss_millions, c=colors, cmap=cmap, norm=norm, alpha=0.5)
         ax.set_title("Particle Costs evaluated in Optimization History\nOptimal Point shown in Red")
-        ax.set_xlabel("Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year)")
+        ax.set_xlabel("Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year")
         ax.set_xscale('log')
         ax.set_ylabel("Expected Costs and Losses ($ Million)")
         ax.ticklabel_format(axis="y", style="sci", useOffset=False)

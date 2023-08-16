@@ -80,7 +80,7 @@ def main():
             result = optimizeWMOs.optimize(result=True)
             X_optim = list(result.X)
             F_optim = result.F[0]
-            X_zero, F_zero = optimizeWMOs.report_best(zero_threshold=1)
+            X_zero, F_zero = optimizeWMOs.reportBest(zero_threshold=1, result=True)
             exec_time = timedelta(seconds = round(result.exec_time))
             print("Model optimized!")
         except Exception as e:
