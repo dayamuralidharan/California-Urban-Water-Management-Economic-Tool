@@ -85,13 +85,14 @@ class OptimizeWMOs:
     TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
-                 contractor='City of Tracy',
+                 verbose=False,
                  modelLogic=ModelLogic,
+                 contractor='City of Tracy',
                  wmoFloor=None,
                  wmoCeiling=None,
                  lowerBounds=[0]*8,
                  upperBounds='longtermWMOVolumeLimits'):
-        
+        self.verbose = verbose
         self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
         self.wmoFloor = wmoFloor
@@ -136,23 +137,21 @@ class OptimizeWMOs:
             algorithm, 
             termination, 
             seed=42, 
-            verbose=True,
+            verbose=self.verbose,
             save_history=True
         )
         
-        print("\nBest solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
+        print("Best solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
         print(f"Execution time: {round(self.res.exec_time)} seconds")
         
         if result: 
             return self.res
     
     
-    # TODO: update code below to report values of the best option once integrated into model execution function
-    # def report_best(self):
-    #     X = self.res.X
-    #     best_results = ModelLogic.execute(X, optimize=False)
-    #     print(best_results)  # TODO: output to CSV
-    #     return best_results
+    def report_best(self, zero_threshold=1):
+         self.X_zero = [0 if x < zero_threshold else x for x in self.res.X]
+         self.F_zero = self.modelLogic.execute(self.X_zero)
+         return self.X_zero, self.F_zero
     
     
     # TODO: Replace pseudocode below to report values of a given
@@ -217,7 +216,9 @@ class OptimizeWMOs:
         ax2.set_ylabel('Iteration Number', size=12)
         
         # plot the best result in red 
-        ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
+        ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red', marker="o")
+        ## TODO: fix - this one doesn't show on the log-x plots and messes up the y axis....
+        #ax.scatter(x=sum(self.X_zero), y=self.F_zero, c='red', marker="*", edgecolors='red')
         
         if save:
             population = self.res.algorithm.pop_size
@@ -227,6 +228,7 @@ class OptimizeWMOs:
             year = self.modelLogic.inputData.futureYear
             figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
             plt.savefig(figname)
+            return figname
         else: 
             plt.show()
 
