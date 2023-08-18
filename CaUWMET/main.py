@@ -24,10 +24,9 @@ def main():
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose mode")
     verbose = parser.parse_args()
-    
 
     # setup log file
-    try:  ### WARNING! this clears the log file if one already exists....
+    try:  # WARNING! this clears the log file if one already exists....
         with open("CaUWMET.log","w") as file: pass
     finally:
         logger = logging.getLogger()
@@ -37,14 +36,14 @@ def main():
     
     # begin logging
     logger.info('CaUWMET Optimization Logs')
-    logger.info(f"{datetime.now()}")
+    logger.info(f"Start Datetime: {datetime.now()}")
 
     print("Prepare model logic...")
     try:
         modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
-        contractors = modelLogic.inputData.contractorsList[:1]  #TODO: remove index reference for prod
+        contractors = modelLogic.inputData.contractorsList  #[:2]  # TODO: remove index reference for prod
         logger.info("ModelLogic - OK")
-        print("Model logic prepared!")
+        print("Model logic prepared")
     except Exception as e:
         logger.info('ModelLogic Failure!')
         logger.info(f"#### START ERROR LOG ####\n{e}\n####  END ERROR LOG  ####")
@@ -55,6 +54,11 @@ def main():
     logger.info('{')  # results logged as json
     
     # Contractor Loop
+    modelOutputsOptimAll = GetResults(modelLogic=modelLogic)
+    qaqcResultsOptimAll = GetResults(modelLogic=modelLogic)
+    modelOutputsZeroAll = GetResults(modelLogic=modelLogic)
+    qaqcResultsZeroAll = GetResults(modelLogic=modelLogic)
+
     for contractor in contractors:
         error = False
         logger.info("  {")
@@ -77,7 +81,7 @@ def main():
                 lowerBounds=lowerBounds,
                 upperBounds=upperBounds
             )
-            print('Optimizer ready!')
+            print('Optimizer ready')
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
@@ -93,7 +97,7 @@ def main():
             X_optim = list(result.X)
             F_optim = result.F[0]
             exec_time = timedelta(seconds = round(result.exec_time))
-            print("Model optimized!")
+            print("Model optimized")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
@@ -105,8 +109,10 @@ def main():
 
         print("Export optimized results...")
         try:
-            outputs_optim, qaqc_optim = optimizeWMOs.exportResults()
-            print("Optimized results exported!")
+            modelOutputsOptim, qaqcResultsOptim = optimizeWMOs.exportResults()
+            modelOutputsOptimAll.appendResults(modelOutputsOptim)
+            qaqcResultsOptimAll.appendResults(qaqcResultsOptim)
+            print("Optimized results exported")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
@@ -119,7 +125,7 @@ def main():
         print("Compute best result...")
         try:
             X_zero, F_zero = optimizeWMOs.reportBest(zero_threshold=1, result=True)
-            print("Best result computed!")
+            print("Best result computed")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
@@ -131,8 +137,10 @@ def main():
         
         print("Export best results...")
         try:
-            outputs_zero, qaqc_zero = optimizeWMOs.exportResults()
-            print("Best results exported!")
+            modelOutputsZero, qaqcResultsZero = optimizeWMOs.exportResults()
+            modelOutputsZeroAll.appendResults(modelOutputsZero)
+            qaqcResultsZeroAll.appendResults(qaqcResultsZero)
+            print("Best results exported")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
@@ -145,7 +153,7 @@ def main():
         print("Visualize results...")
         try:
             viz_a = optimizeWMOs.visualization_a(save=True)
-            print("Visualization complete!")
+            print("Visualization complete")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
@@ -167,10 +175,34 @@ def main():
         logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
         print(f'Optimization complete for {contractor}!')
 
-    # close json, complete logging
+    # close json
     logger.info("}")
     logger.info('---')
-    logger.info(f"{datetime.now()}")
+    logger.info('Optimization loop complete!')
+
+
+    print('Write outputs to excel files...')
+    try:
+        filenames = [
+            'ModelOutputs_Optimal.xlsx',
+            'QAQCResults_Optimal.xlsx',
+            'ModelOutputs_Best.xlsx',
+            'QAQCResults_Best.xlsx'
+        ]
+        modelOutputsOptimAll.writeResults(filenames[0])
+        qaqcResultsOptimAll.writeResults(filenames[1])
+        modelOutputsZeroAll.writeResults(filenames[2])
+        qaqcResultsZeroAll.writeResults(filenames[3])
+        logger.info(f"Excel file outputs: {filenames}")
+        print('Outputs written to excel files')
+    except Exception as e:
+        logger.info('Write outputs to excel Failure!')
+        logger.info(f"#### START ERROR LOG ####\n{e}\n####  END ERROR LOG  ####")
+        print("Write outputs to excel failure! See CaUWMET.log for details....")
+        pass
+
+    # finish logging
+    logger.info(f"End Datetime: {datetime.now()}")
     logger.info('Operation Complete!')
     print('Close CaUWMET.log')
     print("\nModel optimization complete for all Contractors!")

@@ -37,7 +37,7 @@ class CostProblem(ElementwiseProblem):
         '''
         self.wmoFloor = wmoFloor if wmoFloor is not None else None
         self.wmoCeiling = wmoCeiling if wmoCeiling is not None else None
-        self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoCeiling]]) #TODO: Recommend making name clearer
+        self.n_ieq_constr = sum([ i != None for i in [self.wmoFloor, self.wmoCeiling] ]) #TODO: Recommend making name clearer
         self.lowerBounds = lowerBounds
         self.upperBounds = [ ub if ub>0 else 0.0001 for ub in upperBounds ]  #TODO: refine how the upper bound 0 vals are handled
         self.objectiveFunction = modelLogic.execute

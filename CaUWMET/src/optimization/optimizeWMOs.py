@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+import pandas as pd
 import warnings
 
 from pymoo.algorithms.soo.nonconvex.pso import PSO
@@ -16,12 +17,12 @@ warnings.filterwarnings('ignore')  # turn off warnings
 
 ### Optimize CaUWMET Model Longterm WMOs Class ###
 
+# TODO: Need to handle class inheritance better
 class OptimizeWMOs:
     '''
     This class parameterizes, executes, and reports the optimization results of the CostProblem() class.
     Parameterizing the contractor prepares a ModelLogic object, and the year sets the longtermWMO Volumelimits (upper bounds).
     The other inputs are used to execute the PyMoo optimization. Results are stored and accessed for visualization methods. 
-    TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
                  verbose=False,
@@ -81,7 +82,10 @@ class OptimizeWMOs:
             save_history=True
         )
         
-        print("Best solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
+        self.X = self.res.X
+        self.F = self.res.F
+
+        print("Best solution found: \nX = %s\nF = %s" % (self.X, self.F))
         print(f"Execution time: {round(self.res.exec_time)} seconds")
         
         if result: 
@@ -95,14 +99,10 @@ class OptimizeWMOs:
         Note: 
             Must be run after .optimize method!
         '''
-        self.X_zero = [ 0 if x < zero_threshold else x for x in self.res.X ]
-        self.F_zero = self.modelLogic.execute(self.X_zero)
+        self.X = [ 0 if x < zero_threshold else x for x in self.X ]
+        self.F = self.modelLogic.execute(self.X)
         if result: 
-            return self.X_zero, self.F_zero
-    
-    
-    # TODO: Replace pseudocode below to report values of a given
-    # def report_custom(self, X):
+            return self.X, self.F
     
     
     def exportResults(self):
@@ -111,10 +111,16 @@ class OptimizeWMOs:
         Note: 
             Must be run after .optimize method!
         '''
+        modelOutputs = {
+            'longtermWMOVolumeLimits': pd.DataFrame(data={
+                self.modelLogic.contractor: self.upperBounds
+            }),
+            'longtermWMOOptimizedVolumes': pd.DataFrame(data={
+                self.modelLogic.contractor: self.X
+            }),
 
         # Outputs
         # Water Balance Outputs
-        outputs = {
             'SWPCVPSupplyDelivery': self.modelLogic.outputHandler.SWPCVPSupplyDelivery[self.modelLogic.contractor], # (acre-feet/year)
             'excessSupply': self.modelLogic.outputHandler.excessSupply[self.modelLogic.contractor], # (acre-feet/year)
             'unallocatedSWPCVPDeliveries': self.modelLogic.outputHandler.unallocatedSWPCVPDeliveries[self.modelLogic.contractor], # (acre-feet/year)
@@ -154,7 +160,7 @@ class OptimizeWMOs:
         }
         
         # QAQC Results
-        qaqc = {
+        qaqcResults = {
             'totalAnnualCost': self.modelLogic.outputHandler.totalAnnualCost[self.modelLogic.contractor], # ($)
             'totalEconomicLoss': self.modelLogic.outputHandler.totalEconomicLoss[self.modelLogic.contractor], # ($)
             'appliedDemands': self.modelLogic.outputHandler.appliedDemands[self.modelLogic.contractor], # (acre-feet/year)
@@ -168,7 +174,7 @@ class OptimizeWMOs:
             'totalShortage': self.modelLogic.outputHandler.totalShortage[self.modelLogic.contractor], # (acre-feet/year)
         }
         
-        return outputs, qaqc
+        return modelOutputs, qaqcResults
 
 
     def visualization_a(self, save=False):
@@ -202,12 +208,12 @@ class OptimizeWMOs:
         
         # assign plot variables
         TAF = np.sum(X,axis=1)  # sum of longtermWMOSupply variables
-        loss_millions = [f*10**-6 for f in F]
+        loss_millions = [ f*10**-6 for f in F ]
         
         # matplotlib
         fig, ax = plt.subplots(1, 1, figsize=(6, 6))          # setup the plot
         cmap = plt.cm.viridis                                 # define the colormap
-        cmaplist = [cmap(i) for i in range(cmap.N)]           # extract all colors from map
+        cmaplist = [ cmap(i) for i in range(cmap.N) ]           # extract all colors from map
         cmap = mpl.colors.LinearSegmentedColormap.from_list(  # create the new map
             'Custom cmap', cmaplist, cmap.N
         )
