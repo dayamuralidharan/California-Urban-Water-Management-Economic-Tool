@@ -70,7 +70,7 @@ class OptimizeWMOs:
             max_velocity_rate=0.3
         )
         # parameterize the termination criteria
-        termination = get_termination("n_gen", 20)
+        termination = get_termination("n_gen", 20)  # TODO: enable ftol termination
         
         # execute optimization
         self.res = minimize(
@@ -248,7 +248,7 @@ class OptimizeWMOs:
             contractor = self.modelLogic.contractor.replace(" ", "")
             year = self.modelLogic.inputData.futureYear
             figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
-            plt.savefig(figname)
+            plt.savefig(figname) # TODO: configure png so it doesn't cut off data for some plots
             return figname
         else: 
             plt.show()

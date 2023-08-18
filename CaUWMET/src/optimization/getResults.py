@@ -55,8 +55,8 @@ class GetResults():
             self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
             for k, df in self.aggregatedOutputs.items():
                 if len(df)==len(longtermWMO_df):
-                    out_df = pd.concat([longtermWMO_df,df],axis=1).reset_index('LongtermWMO')
-                    out_df = out_df.transpose()
+                    # TODO: re-index by ltWMO name to remove numbered column names
+                    out_df = pd.concat([longtermWMO_df,df],axis=1).transpose()
                     out_df.to_excel(writer, sheet_name=k, index_label=k)
                 elif len(df)==len(historicHydrologyYear_df):
                     out_df = pd.concat([historicHydrologyYear_df,df],axis=1)

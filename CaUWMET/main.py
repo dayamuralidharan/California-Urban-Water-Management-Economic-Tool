@@ -23,6 +23,7 @@ def main():
         description='This program loops through contractors\nto report CaUWMET model optimization results.'
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose mode")
+    # TODO: Add more arguments like run for individual contractor, selecting outputs
     verbose = parser.parse_args()
 
     # setup log file
@@ -41,7 +42,7 @@ def main():
     print("Prepare model logic...")
     try:
         modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
-        contractors = modelLogic.inputData.contractorsList  #[:2]  # TODO: remove index reference for prod
+        contractors = modelLogic.inputData.contractorsList  #[:2]  # WARNING: remove index reference for prod - this for development only!
         logger.info("ModelLogic - OK")
         print("Model logic prepared")
     except Exception as e:
@@ -163,7 +164,6 @@ def main():
         if error:
             continue
 
-        
         # log results if there are no errors
         logger.info(f"    error: 'None',")
         logger.info(f"    X_optim: {X_optim},")
@@ -179,7 +179,6 @@ def main():
     logger.info("}")
     logger.info('---')
     logger.info('Optimization loop complete!')
-
 
     print('Write outputs to excel files...')
     try:
