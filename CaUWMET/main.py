@@ -1,8 +1,9 @@
+# Main - Loop and Report CaUWMET Model Optimization for all Contractors
+
+import argparse
 from datetime import datetime
 from datetime import timedelta
 import logging
-
-# todo: add argparsing for verbose output
 
 from src.modelLogic.modelLogic import ModelLogic
 from src.modelLogic.inputData import InputData
@@ -16,6 +17,15 @@ from src.optimization.getResults import GetResults
 def main():
     print("Begin CaUWMET!")
     
+    # get arguments
+    parser = argparse.ArgumentParser(
+        prog='CaUWMET Model Optimization',
+        description='This program loops through contractors\nto report CaUWMET model optimization results.'
+    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose mode")
+    verbose = parser.parse_args()
+    
+
     # setup log file
     try:  ### WARNING! this clears the log file if one already exists....
         with open("CaUWMET.log","w") as file: pass
@@ -32,7 +42,7 @@ def main():
     print("Prepare model logic...")
     try:
         modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
-        contractors = modelLogic.inputData.contractorsList[:5]  #TODO: remove index reference for prod
+        contractors = modelLogic.inputData.contractorsList[:1]  #TODO: remove index reference for prod
         logger.info("ModelLogic - OK")
         print("Model logic prepared!")
     except Exception as e:
@@ -59,7 +69,7 @@ def main():
         print(f"\nInstantiate optimizer for {contractor}...")
         try:
             optimizeWMOs = OptimizeWMOs(
-                verbose=False,
+                verbose=verbose,
                 modelLogic=modelLogic,
                 contractor=contractor,
                 wmoFloor=wmoFloor,
