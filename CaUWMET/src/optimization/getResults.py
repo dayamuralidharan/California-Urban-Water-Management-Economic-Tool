@@ -1,6 +1,10 @@
+# Script defining the GetResults class
+
 import pandas as pd
 
 from src.modelLogic.modelLogic import ModelLogic
+
+### GetResults Data Writer Class ###
 
 class GetResults():
     '''
