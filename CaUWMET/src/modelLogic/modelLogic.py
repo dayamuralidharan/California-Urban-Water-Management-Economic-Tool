@@ -154,7 +154,7 @@ class ModelLogic:
     def deliverSwpCvpSupplies(self):
         self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
         self.remainingDemandAfterDeliveryOfSwpCVPSupplies = max(0, self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
-        self.SWPCVPSupplyDelivery_Contractor = max(0, self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.remainingDemandAfterDeliveryOfSwpCVPSupplies)
+        self.SWPCVPSupplyDelivery_Contractor.append(max(0, self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.remainingDemandAfterDeliveryOfSwpCVPSupplies))
 
     def checkIfThereIsExcessSupplyOrRemainingDemand(self):
         if self.remainingDemandAfterDeliveryOfSwpCVPSupplies > 0:
@@ -353,6 +353,7 @@ class ModelLogic:
     def initilizeVariablesForContractorLoop(self):
         self.appliedDemand_Contractor = []
         self.demandsToBeMetBySWPCVP_Contractor = []
+        self.SWPCVPSupplyDelivery_Contractor = []
         self.demandsToBeMetByStorage_Contractor = []
 
         # Water balance variables

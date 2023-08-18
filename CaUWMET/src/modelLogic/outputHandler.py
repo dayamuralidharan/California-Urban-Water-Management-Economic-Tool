@@ -72,7 +72,7 @@ class OutputHandler:
         self.appliedDemands = pd.DataFrame(self.appliedDemands)
         
         self.demandsToBeMetBySWPCVP = pd.DataFrame(self.demandsToBeMetBySWPCVP)
-        self.SWPCVPSupplyDelivery = pd.DataFrame(self.demandsToBeMetBySWPCVP)
+        self.SWPCVPSupplyDelivery = pd.DataFrame(self.SWPCVPSupplyDelivery)
         self.excessSupply = pd.DataFrame(self.excessSupply)
         self.unallocatedSWPCVPDeliveries = pd.DataFrame(self.unallocatedSWPCVPDeliveries)
 
