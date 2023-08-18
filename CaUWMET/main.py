@@ -2,13 +2,15 @@ from datetime import datetime
 from datetime import timedelta
 import logging
 
+# todo: add argparsing for verbose output
+
 from src.modelLogic.modelLogic import ModelLogic
 from src.modelLogic.inputData import InputData
 from src.modelLogic.storageUtilities import StorageUtilities
 from src.modelLogic.inputDataLocations import InputDataLocations
 
 from src.optimization.optimizeWMOs import OptimizeWMOs
-from exportResults import GetResults
+from src.optimization.getResults import GetResults
 
 # Main CaUWMET loop script
 def main():
@@ -36,7 +38,7 @@ def main():
     except Exception as e:
         logger.info('ModelLogic Failure!')
         logger.info(f"#### START ERROR LOG ####\n{e}\n####  END ERROR LOG  ####")
-        print("ModelLogic failure! See CaUWMET.log for more details....")
+        print("ModelLogic failure! See CaUWMET.log for details....")
     
     logger.info(f"Begin optimization loop through {len(contractors)} Contractors")
     logger.info('---')
@@ -69,7 +71,7 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
-            print("OptimizeWMOs failure! See CaUWMET.log for more details....")
+            print("OptimizeWMOs failure! See CaUWMET.log for details....")
             error = True
             pass
         if error:
@@ -80,18 +82,56 @@ def main():
             result = optimizeWMOs.optimize(result=True)
             X_optim = list(result.X)
             F_optim = result.F[0]
-            X_zero, F_zero = optimizeWMOs.reportBest(zero_threshold=1, result=True)
             exec_time = timedelta(seconds = round(result.exec_time))
             print("Model optimized!")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
-            print("Optimization failure! See CaUWMET.log for more details....")
+            print("Optimization failure! See CaUWMET.log for details....")
+            error = True
+            pass
+        if error:
+            continue
+
+        print("Export optimized results...")
+        try:
+            outputs_optim, qaqc_optim = optimizeWMOs.exportResults()
+            print("Optimized results exported!")
+        except Exception as e:
+            logger.info(f"    error: '{e}'")
+            logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            print("Export optimized results failure! See CaUWMET.log for details....")
+            error = True
+            pass
+        if error:
+            continue
+
+        print("Compute best result...")
+        try:
+            X_zero, F_zero = optimizeWMOs.reportBest(zero_threshold=1, result=True)
+            print("Best result computed!")
+        except Exception as e:
+            logger.info(f"    error: '{e}'")
+            logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            print("Best result computation failure! See CaUWMET.log for details....")
             error = True
             pass
         if error:
             continue
         
+        print("Export best results...")
+        try:
+            outputs_zero, qaqc_zero = optimizeWMOs.exportResults()
+            print("Best results exported!")
+        except Exception as e:
+            logger.info(f"    error: '{e}'")
+            logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            print("Export best results failure! See CaUWMET.log for details....")
+            error = True
+            pass
+        if error:
+            continue
+
         print("Visualize results...")
         try:
             viz_a = optimizeWMOs.visualization_a(save=True)
@@ -99,24 +139,12 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
-            print("Visualization failure! See CaUWMET.log for more details....")
+            print("Visualization failure! See CaUWMET.log for details....")
             error = True
             pass
         if error:
             continue
-        
-        print("Export results...")
-        try:
-            #GetResults(x=result.X, contractor=contractor).exportResults()
-            print("Results exported!")
-        except Exception as e:
-            logger.info(f"    error: '{e}'")
-            logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
-            print("Export results failure! See CaUWMET.log for more details....")
-            error = True
-            pass
-        if error:
-            continue
+
         
         # log results if there are no errors
         logger.info(f"    error: 'None',")
@@ -134,6 +162,7 @@ def main():
     logger.info('---')
     logger.info(f"{datetime.now()}")
     logger.info('Operation Complete!')
+    print('Close CaUWMET.log')
     print("\nModel optimization complete for all Contractors!")
     print("CaUWMET Complete!")
 

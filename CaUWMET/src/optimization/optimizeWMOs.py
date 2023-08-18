@@ -108,7 +108,8 @@ class OptimizeWMOs:
             self.modelLogic.inputData.longtermWMOTransfersExchangesVolumeLimit[self.modelLogic.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
             self.modelLogic.inputData.longtermWMOOtherSupplyVolumeLimit[self.modelLogic.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
         ]
-    
+
+
     def optimize(self, result=False):
         '''
         This method parameterizes the CostProblem and executes the PyMoo optimization. 
@@ -155,7 +156,7 @@ class OptimizeWMOs:
         Note: 
             Must be run after .optimize method!
         '''
-        self.X_zero = [0 if x < zero_threshold else x for x in self.res.X]
+        self.X_zero = [ 0 if x < zero_threshold else x for x in self.res.X ]
         self.F_zero = self.modelLogic.execute(self.X_zero)
         if result: 
             return self.X_zero, self.F_zero
@@ -171,67 +172,66 @@ class OptimizeWMOs:
         Note: 
             Must be run after .optimize method!
         '''
+
         # Outputs
         # Water Balance Outputs
-        self.modelLogic.outputHandler.SWPCVPSupplyDelivery # (acre-feet/year)
-        self.modelLogic.outputHandler.excessSupply # (acre-feet/year)
-        self.modelLogic.outputHandler.unallocatedSWPCVPDeliveries # (acre-feet/year)
-        
-        self.modelLogic.outputHandler.putSurface # (acre-feet/year)
+        outputs = {
+            'SWPCVPSupplyDelivery': self.modelLogic.outputHandler.SWPCVPSupplyDelivery[self.modelLogic.contractor], # (acre-feet/year)
+            'excessSupply': self.modelLogic.outputHandler.excessSupply[self.modelLogic.contractor], # (acre-feet/year)
+            'unallocatedSWPCVPDeliveries': self.modelLogic.outputHandler.unallocatedSWPCVPDeliveries[self.modelLogic.contractor], # (acre-feet/year)
+            'putSurface': self.modelLogic.outputHandler.putSurface[self.modelLogic.contractor], # (acre-feet/year)
+            'putGroundwater': self.modelLogic.outputHandler.putGroundwater[self.modelLogic.contractor], # (acre-feet/year)
+            'volumeSurfaceCarryover': self.modelLogic.outputHandler.volumeSurfaceCarryover[self.modelLogic.contractor], # (acre-feet)
+            'volumeGroundwaterBank': self.modelLogic.outputHandler.volumeGroundwaterBank[self.modelLogic.contractor], # (acre-feet)
+            'waterMarketTransferDeliveries': self.modelLogic.outputHandler.waterMarketTransferDeliveries[self.modelLogic.contractor], # ($)
+            'totalShortage': self.modelLogic.outputHandler.totalShortage[self.modelLogic.contractor], # (acre-feet/year)
 
-        self.modelLogic.outputHandler.putGroundwater # (acre-feet/year)
-        self.modelLogic.outputHandler.volumeSurfaceCarryover # (acre-feet)
-        self.modelLogic.outputHandler.volumeGroundwaterBank # (acre-feet)
-        
-        self.modelLogic.outputHandler.waterMarketTransferDeliveries # ($)
+            # Cost Outputs
+            # Total Costs
+            'totalAnnualCost': self.modelLogic.outputHandler.totalAnnualCost[self.modelLogic.contractor], # ($)
+            'totalEconomicLoss': self.modelLogic.outputHandler.totalEconomicLoss[self.modelLogic.contractor], # ($)
+            'totalReliabilityMgmtCost': self.modelLogic.outputHandler.totalReliabilityMgmtCost[self.modelLogic.contractor], # ($)
 
-        self.modelLogic.outputHandler.totalShortage # (acre-feet/year)
+            # WMO Costs
+            'waterMarketTransferCost': self.modelLogic.outputHandler.waterMarketTransferCost[self.modelLogic.contractor], # ($)
 
-        # Cost Outputs
-        # Total Costs
-        self.modelLogic.outputHandler.totalAnnualCost # ($)
-        self.modelLogic.outputHandler.totalEconomicLoss # ($)
-        self.modelLogic.outputHandler.totalReliabilityMgmtCost #($)
+            'surfaceLongTermWMOCost': self.modelLogic.outputHandler.surfaceLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'groundwaterLongTermWMOCost': self.modelLogic.outputHandler.groundwaterLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'desalinationLongTermWMOCost': self.modelLogic.outputHandler.desalinationLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'recycledLongTermWMOCost': self.modelLogic.outputHandler.recycledLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'potableReuseLongTermWMOCost': self.modelLogic.outputHandler.potableReuseLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'transfersAndExchangesLongTermWMOCost': self.modelLogic.outputHandler.transfersAndExchangesLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'otherSupplyLongTermWMOCost': self.modelLogic.outputHandler.otherSupplyLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'conservationLongTermWMOCost': self.modelLogic.outputHandler.conservationLongTermWMOCost[self.modelLogic.contractor], # ($)
 
-        # WMO Costs
-        self.modelLogic.outputHandler.waterMarketTransferCost # ($)
-
-        self.modelLogic.outputHandler.surfaceLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.groundwaterLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.desalinationLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.recycledLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.potableReuseLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.transfersAndExchangesLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.otherSupplyLongTermWMOCost # ($)
-        self.modelLogic.outputHandler.conservationLongTermWMOCost # ($)
-
-        #System operations costs
-        self.modelLogic.outputHandler.swpCVPDeliveryCost # ($)
-        self.modelLogic.outputHandler.putGroundwaterBankCost # ($)
-        self.modelLogic.outputHandler.takeGroundwaterBankCost # ($)
-        self.modelLogic.outputHandler.groundwaterPumpingSavings # ($)
-        self.modelLogic.outputHandler.waterTreatmentCost # ($)
-        self.modelLogic.outputHandler.distributionCost # ($)
-        self.modelLogic.outputHandler.wastewaterTreatmentCost # ($)
-
+            #System operations costs
+            'swpCVPDeliveryCost': self.modelLogic.outputHandler.swpCVPDeliveryCost[self.modelLogic.contractor], # ($)
+            'putGroundwaterBankCost': self.modelLogic.outputHandler.putGroundwaterBankCost[self.modelLogic.contractor], # ($)
+            'takeGroundwaterBankCost': self.modelLogic.outputHandler.takeGroundwaterBankCost[self.modelLogic.contractor], # ($)
+            'groundwaterPumpingSavings': self.modelLogic.outputHandler.groundwaterPumpingSavings[self.modelLogic.contractor], # ($)
+            'waterTreatmentCost': self.modelLogic.outputHandler.waterTreatmentCost[self.modelLogic.contractor], # ($)
+            'distributionCost': self.modelLogic.outputHandler.distributionCost[self.modelLogic.contractor], # ($)
+            'wastewaterTreatmentCost': self.modelLogic.outputHandler.wastewaterTreatmentCost[self.modelLogic.contractor], # ($)
+        }
         
         # QAQC Results
-        self.modelLogic.outputHandler.totalAnnualCost # ($)
-        self.modelLogic.outputHandler.totalEconomicLoss # ($)
-
-        self.modelLogic.outputHandler.appliedDemands # (acre-feet/year)
-        self.modelLogic.outputHandler.demandsToBeMetByStorage # (acre-feet/year)
-        self.modelLogic.outputHandler.volumeGroundwaterBank # (acre-feet/year)
-        self.modelLogic.outputHandler.takeGroundwater # (acre-feet/year)
-        self.modelLogic.outputHandler.putGroundwater # (acre-feet/year)
-        self.modelLogic.outputHandler.demandsToBeMetByContingentOptions # (acre-feet/year)
+        qaqc = {
+            'totalAnnualCost': self.modelLogic.outputHandler.totalAnnualCost[self.modelLogic.contractor], # ($)
+            'totalEconomicLoss': self.modelLogic.outputHandler.totalEconomicLoss[self.modelLogic.contractor], # ($)
+            'appliedDemands': self.modelLogic.outputHandler.appliedDemands[self.modelLogic.contractor], # (acre-feet/year)
+            'demandsToBeMetByStorage': self.modelLogic.outputHandler.demandsToBeMetByStorage[self.modelLogic.contractor], # (acre-feet/year)
+            'volumeGroundwaterBank': self.modelLogic.outputHandler.volumeGroundwaterBank[self.modelLogic.contractor], # (acre-feet/year)
+            'takeGroundwater': self.modelLogic.outputHandler.takeGroundwater[self.modelLogic.contractor], # (acre-feet/year)
+            'putGroundwater': self.modelLogic.outputHandler.putGroundwater[self.modelLogic.contractor], # (acre-feet/year)
+            'demandsToBeMetByContingentOptions': self.modelLogic.outputHandler.demandsToBeMetByContingentOptions[self.modelLogic.contractor], # (acre-feet/year)
+            'contingentConservationReductionVolume': self.modelLogic.outputHandler.contingentConservationReductionVolume[self.modelLogic.contractor], # (acre-feet/year)
+            'waterMarketTransferDeliveries': self.modelLogic.outputHandler.waterMarketTransferDeliveries[self.modelLogic.contractor], # (acre-feet/year)
+            'totalShortage': self.modelLogic.outputHandler.totalShortage[self.modelLogic.contractor], # (acre-feet/year)
+        }
         
-        self.modelLogic.outputHandler.contingentConservationReductionVolume # (acre-feet/year)
-        self.modelLogic.outputHandler.waterMarketTransferDeliveries # (acre-feet/year)
+        return outputs, qaqc
 
-        self.modelLogic.outputHandler.totalShortage # (acre-feet/year)
-    
-    
+
     def visualization_a(self, save=False):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
