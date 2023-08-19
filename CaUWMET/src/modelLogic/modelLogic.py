@@ -53,8 +53,8 @@ class ModelLogic:
                                                                 + self.longtermWMOTransfersAndExchangesSupplyIncrementalVolume_Contractor)
         
         # Iterate through the water balance and cost logic over hydrologic reference period
+        #TODO: make range a user input
         for self.i in range(len(self.inputData.historicHydrologyYears)):
-            #print("i:", self.i)
             self.waterBalanceAndCostLogic(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
         self.writeToContractorOutputTimeSeriesDataframe()
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
@@ -150,7 +150,7 @@ class ModelLogic:
         self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor - self.longtermWMOConservation_Contractor))
         self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i] - self.totalLongtermWMOSupplyIncrementalVolume_Contractor))
-        
+
     def deliverSwpCvpSupplies(self):
         self.SWPCVPSupply_Contractor = self.inputData.swpCVPSupply[self.contractor][self.i]
         self.remainingDemandAfterDeliveryOfSwpCVPSupplies = max(0, self.demandsToBeMetBySWPCVP_Contractor[self.i] - self.SWPCVPSupply_Contractor)
