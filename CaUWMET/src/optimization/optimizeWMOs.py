@@ -1,118 +1,56 @@
-# Script defining the CostProblem and OptimizeWMOs classes
-
-#!pip install numpy matplotlib pymoo
-
-#from IPython.core.debugger import set_trace
+# Script defining the OptimizeWMOs class
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+import pandas as pd
 import warnings
 
-from pymoo.core.problem import ElementwiseProblem
 from pymoo.algorithms.soo.nonconvex.pso import PSO
 from pymoo.termination import get_termination
 from pymoo.optimize import minimize
 
 from src.modelLogic.modelLogic import ModelLogic
-from src.modelLogic.inputData import InputData
-from src.modelLogic.storageUtilities import StorageUtilities
-from src.modelLogic.inputDataLocations import InputDataLocations
+from src.optimization.costProblem import CostProblem
 
 warnings.filterwarnings('ignore')  # turn off warnings
 
-### PyMoo Optimization Problem Class ###
+### Optimize CaUWMET Model Longterm WMOs Class ###
 
-class CostProblem(ElementwiseProblem): 
-    '''
-    This class is a PyMoo problem class designed to simulate the effects of longtermWMOSupply levels...
-    ...on water usage cost optimization (economicLoss) for a given contractor. 
-    The objective space of F(X) is mapped by an algorithm, within the u/l bounds for each dimension of X.
-    Optionally, F(X) can be constrained by inequality constraints G(X): 
-       + g1(x) > wmoFloor  :: defines a floor value of the sum( longtermWMOSupply ) 
-       + g2(x) < wmoCeiling :: defines a ceiling value of the sum( longtermWMOSupply )
-    https://pymoo.org/
-    '''
-    def __init__(self, 
-                 lowerBounds: list,          # lower bound of each longtermWMO type for a given scenario - len(list)=8
-                 upperBounds: list,          # upper bound of each longtermWMO type for a given scenario - len(list)=8
-                 modelLogic: ModelLogic,     # prepared ModelLogic object with InputData and StorageUtilities
-                 wmoFloor=None,              # how low are we constraining the sum longtermWMOs?
-                 wmoCeiling=None,            # how high are we constraining the sum longtermWMOs?
-                 **kwargs):    
-        '''
-        Initializing the CostProblem class requires parameterizing a CaUWMET model for a given contractor.
-        Inputs:
-            wmoFloor/wmoCeiling :: number > 0, max sum of the longtermWMO allocations
-            lowerBounds/upperBounds :: list of numbers, length 8
-            modelLogic :: ModelLogic object loaded with InputData, StorageUtilities, and Contractor
-        '''
-        self.wmoFloor = wmoFloor if wmoFloor is not None else None
-        self.wmoCeiling = wmoCeiling if wmoCeiling is not None else None
-        self.n_ieq_constr = sum([i != None for i in [self.wmoFloor, self.wmoCeiling]]) #TODO: Recommend making name clearer
-        self.lowerBounds = lowerBounds
-        self.upperBounds = [ ub if ub>0 else 0.0001 for ub in upperBounds ]  #TODO: refine how the upper bound 0 vals are handled
-        self.objectiveFunction = modelLogic.execute
-        
-        # parameterize the objective function
-        super().__init__(
-            n_var=8, n_obj=1, n_ieq_constr=self.n_ieq_constr, 
-            xl=self.lowerBounds, xu=self.upperBounds,  # xl and xu set longtermWMOSupply bounds 
-            **kwargs
-        )
-
-
-    def _evaluate(self, x, out, *args, **kwargs):
-        '''
-        Inputs:
-           x :: list of numbers, length 8
-        Returns objective function f(x)
-        Returns inequality constraints g(x)
-        '''
-        if self.n_ieq_constr > 0:
-            out["F"] = self.objectiveFunction(x)
-            G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None       # np.sum(x) >= self.wmoFloor
-            G2 = np.sum(x) - self.wmoCeiling  if self.wmoCeiling is not None else None  # self.wmoCeiling >= np.sum(x)
-            out["G"] = [ g for g in [G1,G2] if g is not None ]
-        else:
-            out["F"] = self.objectiveFunction(x)
-        
-
-### instantiate CaUWMET model and execute MOO problem ###
-
+# TODO: Need to handle class inheritance better
 class OptimizeWMOs:
     '''
     This class parameterizes, executes, and reports the optimization results of the CostProblem() class.
     Parameterizing the contractor prepares a ModelLogic object, and the year sets the longtermWMO Volumelimits (upper bounds).
     The other inputs are used to execute the PyMoo optimization. Results are stored and accessed for visualization methods. 
-    TODO: Need to handle class inheritance better
     '''
     def __init__(self, 
-                 year='2045', 
-                 contractor='Metropolitan Water District of Southern California',
-                 wmoFloor=None, 
-                 wmoCeiling=None, 
-                 lowerBounds=[0]*8, 
+                 verbose=False,
+                 modelLogic=ModelLogic,
+                 contractor='City of Tracy',
+                 wmoFloor=None,
+                 wmoCeiling=None,
+                 lowerBounds=[0]*8,
                  upperBounds='longtermWMOVolumeLimits'):
-        
-        self.inputData = InputData(InputDataLocations())
-        self.modelLogic = ModelLogic(self.inputData, StorageUtilities())
+        self.verbose = verbose
+        self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
         self.wmoFloor = wmoFloor
         self.wmoCeiling = wmoCeiling
         self.lowerBounds = lowerBounds
         self.upperBounds = upperBounds if upperBounds != 'longtermWMOVolumeLimits' else [
-            self.inputData.longtermWMOConservationVolumeLimit[self.inputData.longtermWMOConservationVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOSurfaceVolumeLimit[self.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOGroundwaterVolumeLimit[self.inputData.longtermWMOGroundwaterVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMODesalinationVolumeLimit[self.inputData.longtermWMODesalinationVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMORecycledVolumeLimit[self.inputData.longtermWMORecycledVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOPotableReuseVolumeLimit[self.inputData.longtermWMOPotableReuseVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOTransfersExchangesVolumeLimit[self.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][year][0],
-            self.inputData.longtermWMOOtherSupplyVolumeLimit[self.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][year][0],
+            self.modelLogic.inputData.longtermWMOConservationVolumeLimit[self.modelLogic.inputData.longtermWMOConservationVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOSurfaceVolumeLimit[self.modelLogic.inputData.longtermWMOSurfaceVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOGroundwaterVolumeLimit[self.modelLogic.inputData.longtermWMOGroundwaterVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMODesalinationVolumeLimit[self.modelLogic.inputData.longtermWMODesalinationVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMORecycledVolumeLimit[self.modelLogic.inputData.longtermWMORecycledVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOPotableReuseVolumeLimit[self.modelLogic.inputData.longtermWMOPotableReuseVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOTransfersExchangesVolumeLimit[self.modelLogic.inputData.longtermWMOTransfersExchangesVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+            self.modelLogic.inputData.longtermWMOOtherSupplyVolumeLimit[self.modelLogic.inputData.longtermWMOOtherSupplyVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
         ]
-    
-    def optimize(self):
+
+
+    def optimize(self, result=False):
         '''
         This method parameterizes the CostProblem and executes the PyMoo optimization. 
         The optimization algorithm and termination criteria are hardcoded for now...
@@ -132,7 +70,7 @@ class OptimizeWMOs:
             max_velocity_rate=0.3
         )
         # parameterize the termination criteria
-        termination = get_termination("n_gen", 20)
+        termination = get_termination("n_gen", 20)  # TODO: enable ftol termination
         
         # execute optimization
         self.res = minimize(
@@ -140,33 +78,111 @@ class OptimizeWMOs:
             algorithm, 
             termination, 
             seed=42, 
-            verbose=True,
+            verbose=self.verbose,
             save_history=True
         )
         
-        print("\nBest solution found: \nX = %s\nF = %s" % (self.res.X, self.res.F))
+        self.X = self.res.X
+        self.F = self.res.F
+
+        print("Best solution found: \nX = %s\nF = %s" % (self.X, self.F))
         print(f"Execution time: {round(self.res.exec_time)} seconds")
         
-        return self.res
+        if result: 
+            return self.res
     
     
-    # TODO: update code below to report values of the best option once integrated into model execution function
-    # def report_best(self):
-    #     X = self.res.X
-    #     best_results = ModelLogic.execute(X, optimize=False)
-    #     print(best_results)  # TODO: output to CSV
-    #     return best_results
+    def reportBest(self, zero_threshold=1, result=False):
+        '''
+        This method 0's out the X values below the zero_threshold, then recomputes the new F value.
+        These values are then reported if result = True.
+        Note: 
+            Must be run after .optimize method!
+        '''
+        self.X = [ 0 if x < zero_threshold else x for x in self.X ]
+        self.F = self.modelLogic.execute(self.X)
+        if result: 
+            return self.X, self.F
     
     
-    # TODO: Replace pseudocode below to report values of a given
-    # def report_custom(self, X):
+    def exportResults(self):
+        '''
+        This method exports the results of the output handlers for aggregation into a table. 
+        Note: 
+            Must be run after .optimize method!
+        '''
+        modelOutputs = {
+            'longtermWMOVolumeLimits': pd.DataFrame(data={
+                self.modelLogic.contractor: self.upperBounds
+            }),
+            'longtermWMOOptimizedVolumes': pd.DataFrame(data={
+                self.modelLogic.contractor: self.X
+            }),
+
+        # Outputs
+        # Water Balance Outputs
+            'SWPCVPSupplyDelivery': self.modelLogic.outputHandler.SWPCVPSupplyDelivery[self.modelLogic.contractor], # (acre-feet/year)
+            'excessSupply': self.modelLogic.outputHandler.excessSupply[self.modelLogic.contractor], # (acre-feet/year)
+            'unallocatedSWPCVPDeliveries': self.modelLogic.outputHandler.unallocatedSWPCVPDeliveries[self.modelLogic.contractor], # (acre-feet/year)
+            'putSurface': self.modelLogic.outputHandler.putSurface[self.modelLogic.contractor], # (acre-feet/year)
+            'putGroundwater': self.modelLogic.outputHandler.putGroundwater[self.modelLogic.contractor], # (acre-feet/year)
+            'volumeSurfaceCarryover': self.modelLogic.outputHandler.volumeSurfaceCarryover[self.modelLogic.contractor], # (acre-feet)
+            'volumeGroundwaterBank': self.modelLogic.outputHandler.volumeGroundwaterBank[self.modelLogic.contractor], # (acre-feet)
+            'waterMarketTransferDeliveries': self.modelLogic.outputHandler.waterMarketTransferDeliveries[self.modelLogic.contractor], # ($)
+            'totalShortage': self.modelLogic.outputHandler.totalShortage[self.modelLogic.contractor], # (acre-feet/year)
+
+            # Cost Outputs
+            # Total Costs
+            'totalAnnualCost': self.modelLogic.outputHandler.totalAnnualCost[self.modelLogic.contractor], # ($)
+            'totalEconomicLoss': self.modelLogic.outputHandler.totalEconomicLoss[self.modelLogic.contractor], # ($)
+            'totalReliabilityMgmtCost': self.modelLogic.outputHandler.totalReliabilityMgmtCost[self.modelLogic.contractor], # ($)
+
+            # WMO Costs
+            'waterMarketTransferCost': self.modelLogic.outputHandler.waterMarketTransferCost[self.modelLogic.contractor], # ($)
+
+            'surfaceLongTermWMOCost': self.modelLogic.outputHandler.surfaceLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'groundwaterLongTermWMOCost': self.modelLogic.outputHandler.groundwaterLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'desalinationLongTermWMOCost': self.modelLogic.outputHandler.desalinationLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'recycledLongTermWMOCost': self.modelLogic.outputHandler.recycledLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'potableReuseLongTermWMOCost': self.modelLogic.outputHandler.potableReuseLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'transfersAndExchangesLongTermWMOCost': self.modelLogic.outputHandler.transfersAndExchangesLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'otherSupplyLongTermWMOCost': self.modelLogic.outputHandler.otherSupplyLongTermWMOCost[self.modelLogic.contractor], # ($)
+            'conservationLongTermWMOCost': self.modelLogic.outputHandler.conservationLongTermWMOCost[self.modelLogic.contractor], # ($)
+
+            #System operations costs
+            'swpCVPDeliveryCost': self.modelLogic.outputHandler.swpCVPDeliveryCost[self.modelLogic.contractor], # ($)
+            'putGroundwaterBankCost': self.modelLogic.outputHandler.putGroundwaterBankCost[self.modelLogic.contractor], # ($)
+            'takeGroundwaterBankCost': self.modelLogic.outputHandler.takeGroundwaterBankCost[self.modelLogic.contractor], # ($)
+            'groundwaterPumpingSavings': self.modelLogic.outputHandler.groundwaterPumpingSavings[self.modelLogic.contractor], # ($)
+            'waterTreatmentCost': self.modelLogic.outputHandler.waterTreatmentCost[self.modelLogic.contractor], # ($)
+            'distributionCost': self.modelLogic.outputHandler.distributionCost[self.modelLogic.contractor], # ($)
+            'wastewaterTreatmentCost': self.modelLogic.outputHandler.wastewaterTreatmentCost[self.modelLogic.contractor], # ($)
+        }
         
+        # QAQC Results
+        qaqcResults = {
+            'totalAnnualCost': self.modelLogic.outputHandler.totalAnnualCost[self.modelLogic.contractor], # ($)
+            'totalEconomicLoss': self.modelLogic.outputHandler.totalEconomicLoss[self.modelLogic.contractor], # ($)
+            'appliedDemands': self.modelLogic.outputHandler.appliedDemands[self.modelLogic.contractor], # (acre-feet/year)
+            'demandsToBeMetByStorage': self.modelLogic.outputHandler.demandsToBeMetByStorage[self.modelLogic.contractor], # (acre-feet/year)
+            'volumeGroundwaterBank': self.modelLogic.outputHandler.volumeGroundwaterBank[self.modelLogic.contractor], # (acre-feet/year)
+            'takeGroundwater': self.modelLogic.outputHandler.takeGroundwater[self.modelLogic.contractor], # (acre-feet/year)
+            'putGroundwater': self.modelLogic.outputHandler.putGroundwater[self.modelLogic.contractor], # (acre-feet/year)
+            'demandsToBeMetByContingentOptions': self.modelLogic.outputHandler.demandsToBeMetByContingentOptions[self.modelLogic.contractor], # (acre-feet/year)
+            'contingentConservationReductionVolume': self.modelLogic.outputHandler.contingentConservationReductionVolume[self.modelLogic.contractor], # (acre-feet/year)
+            'waterMarketTransferDeliveries': self.modelLogic.outputHandler.waterMarketTransferDeliveries[self.modelLogic.contractor], # (acre-feet/year)
+            'totalShortage': self.modelLogic.outputHandler.totalShortage[self.modelLogic.contractor], # (acre-feet/year)
+        }
         
+        return modelOutputs, qaqcResults
+
+
     def visualization_a(self, save=False):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
-        
+        Note: 
+            Must be run after .optimize method!
         '''
         # get the particles 
         # TODO: this could be its own method...
@@ -192,12 +208,12 @@ class OptimizeWMOs:
         
         # assign plot variables
         TAF = np.sum(X,axis=1)  # sum of longtermWMOSupply variables
-        loss_millions = [f*10**-6 for f in F]
+        loss_millions = [ f*10**-6 for f in F ]
         
         # matplotlib
         fig, ax = plt.subplots(1, 1, figsize=(6, 6))          # setup the plot
         cmap = plt.cm.viridis                                 # define the colormap
-        cmaplist = [cmap(i) for i in range(cmap.N)]           # extract all colors from map
+        cmaplist = [ cmap(i) for i in range(cmap.N) ]           # extract all colors from map
         cmap = mpl.colors.LinearSegmentedColormap.from_list(  # create the new map
             'Custom cmap', cmaplist, cmap.N
         )
@@ -207,7 +223,7 @@ class OptimizeWMOs:
         # define scatter plot axes
         ax.scatter(TAF, loss_millions, c=colors, cmap=cmap, norm=norm, alpha=0.5)
         ax.set_title("Particle Costs evaluated in Optimization History\nOptimal Point shown in Red")
-        ax.set_xlabel("Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year)")
+        ax.set_xlabel("Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year")
         ax.set_xscale('log')
         ax.set_ylabel("Expected Costs and Losses ($ Million)")
         ax.ticklabel_format(axis="y", style="sci", useOffset=False)
@@ -220,14 +236,21 @@ class OptimizeWMOs:
         )
         ax2.set_ylabel('Iteration Number', size=12)
         
-        # plot the best result in red
-        ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red')
-        plt.show()
+        # plot the best result in red 
+        ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red', marker="o")
+        ## TODO: fix - this one doesn't show on the log-x plots and messes up the y axis....
+        #ax.scatter(x=sum(self.X_zero), y=self.F_zero, c='red', marker="*", edgecolors='red')
         
         if save:
-            pop = self.res.algorithm.pop_size
-            n = self.res.algorithm.n_iter
-            start = self.res.algorithm.start_time
-            plt.savefig(f'graphics/optPlot_p{pop}_n{n}_{round(start)}.png')
+            population = self.res.algorithm.pop_size
+            n_iter = self.res.algorithm.n_iter
+            start_time = round(self.res.algorithm.start_time)
+            contractor = self.modelLogic.contractor.replace(" ", "")
+            year = self.modelLogic.inputData.futureYear
+            figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
+            plt.savefig(figname) # TODO: configure png so it doesn't cut off data for some plots
+            return figname
+        else: 
+            plt.show()
 
-            
+

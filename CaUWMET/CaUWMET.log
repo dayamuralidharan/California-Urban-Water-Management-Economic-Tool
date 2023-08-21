@@ -1,0 +1,282 @@
+CaUWMET Optimization Logs
+Start Datetime: 2023-08-18 09:09:20.901372
+ModelLogic - OK
+Begin optimization loop through 27 Contractors
+---
+{
+  {
+    contractor: 'City of Folsom',
+    error: 'None',
+    X_optim: [9.973054995642528e-05, 5.549077222478935e-05, 4.6584830707549054e-05, 9.999950327937286e-05, 1.8812192315902623e-07, 9.580728211335487e-05, 3.5911682456970786e-05, 9.998502674618685e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 18709580.397147495,
+    F_zero: 18709579.803645276,
+    execution_time: '0:01:27',
+    viz_path: 'graphics/CityofFolsom-2045_optimization_p-20_n-21_1692374962.png'
+  },
+  {
+    contractor: 'City of Redding',
+    error: 'None',
+    X_optim: [6.405819617594618e-05, 8.097679737071251e-05, 0.08475630225537237, 6.480795913995408e-05, 2.766222403350871e-05, 3.460751336891602e-05, 1.0305961384126929e-05, 2.814355139300306e-08],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 20921704.461117942,
+    F_zero: 20921706.523747407,
+    execution_time: '0:01:26',
+    viz_path: 'graphics/CityofRedding-2045_optimization_p-20_n-21_1692375050.png'
+  },
+  {
+    contractor: 'City of Roseville',
+    error: 'None',
+    X_optim: [6.240630024016994e-05, 8.555305719556209e-05, 0.08518375340794838, 7.866112096374325e-05, 3.576669823762087e-05, 8.105201772826251e-05, 9.829638797154479e-05, 1.8676448944340584e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 46812684.167664826,
+    F_zero: 46812685.157879,
+    execution_time: '0:01:27',
+    viz_path: 'graphics/CityofRoseville-2045_optimization_p-20_n-21_1692375138.png'
+  },
+  {
+    contractor: 'City of West Sacramento',
+    error: 'None',
+    X_optim: [2.784321768501786e-05, 9.981322613079503e-05, 3.2401265979337334e-05, 5.361355490481788e-05, 6.114866482855324e-05, 9.975740178642946e-05, 4.516555496655615e-06, 5.92366725352995e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 15350271.081452826,
+    F_zero: 15350270.42269764,
+    execution_time: '0:01:33',
+    viz_path: 'graphics/CityofWestSacramento-2045_optimization_p-20_n-21_1692375225.png'
+  },
+  {
+    contractor: 'Yuba City',
+    error: 'None',
+    X_optim: [9.996504663815567e-05, 6.0832270882414484e-05, 1.213225544570083e-06, 6.244027696779297e-05, 3.841035431396353e-05, 6.070978473854058e-08, 1.078590304301246e-05, 8.723841652568951e-06],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 13324959.941533994,
+    F_zero: 13324959.689663224,
+    execution_time: '0:01:30',
+    viz_path: 'graphics/YubaCity-2045_optimization_p-20_n-21_1692375320.png'
+  },
+  {
+    contractor: 'El Dorado Irrigation District',
+    error: 'None',
+    X_optim: [2.807185138860776e-05, 9.985281849534463e-05, 3.219896453666336e-05, 5.380875476622108e-05, 6.259814728979165e-05, 9.975868581844173e-05, 6.681234669329725e-07, 5.831695013910252e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 32598296.513135053,
+    F_zero: 32598295.85095109,
+    execution_time: '0:01:28',
+    viz_path: 'graphics/ElDoradoIrrigationDistrict-2045_optimization_p-20_n-21_1692375410.png'
+  },
+  {
+    contractor: 'Placer County Water Agency',
+    error: 'None',
+    X_optim: [9.997356225005326e-05, 8.997155540463206e-05, 6.945839889874665e-05, 9.999420952656315e-05, 5.152037258776509e-07, 7.79708504009247e-05, 2.8755159932658285e-05, 9.998624473501077e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 170731778.20632932,
+    F_zero: 170731777.91453704,
+    execution_time: '0:02:23',
+    viz_path: 'graphics/PlacerCountyWaterAgency-2045_optimization_p-20_n-21_1692375499.png'
+  },
+  {
+    contractor: 'Sacramento County Water Agency',
+    error: 'None',
+    X_optim: [9.996504663815567e-05, 6.0832270882414484e-05, 1.213225544570083e-06, 6.244027696779297e-05, 3.841035431396353e-05, 6.070978473854058e-08, 1.078590304301246e-05, 8.723841652568951e-06],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 65457719.517906435,
+    F_zero: 65457719.26603585,
+    execution_time: '0:01:33',
+    viz_path: 'graphics/SacramentoCountyWaterAgency-2045_optimization_p-20_n-21_1692375643.png'
+  },
+  {
+    contractor: 'San Juan Water District',
+    error: 'None',
+    X_optim: [9.996504663815567e-05, 6.0832270882414484e-05, 1.213225544570083e-06, 6.244027696779297e-05, 3.841035431396353e-05, 6.070978473854058e-08, 1.078590304301246e-05, 8.723841652568951e-06],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 40391941.71953785,
+    F_zero: 40391941.467667036,
+    execution_time: '0:01:32',
+    viz_path: 'graphics/SanJuanWaterDistrict-2045_optimization_p-20_n-21_1692375737.png'
+  },
+  {
+    contractor: 'City of Coalinga',
+    error: 'None',
+    X_optim: [1.9330408844357013e-05, 5.917185282076487e-05, 1.736818862015633e-05, 7.878733219394206e-05, 8.262701568130872e-05, 5.919885219970618e-05, 174.1868823140317, 3.783008523329629e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 174.1868823140317, 0],
+    F_optim: 6471593.210924674,
+    F_zero: 6471592.595650298,
+    execution_time: '0:01:32',
+    viz_path: 'graphics/CityofCoalinga-2045_optimization_p-20_n-21_1692375830.png'
+  },
+  {
+    contractor: 'City of Fresno',
+    error: 'None',
+    X_optim: [9.999005971750859e-05, 6.567024828449329e-05, 3.509654125030083e-05, 5.4436704642521285e-05, 3.974333064097467e-05, 1.2575233330286943e-07, 1.2844652735378082e-05, 4.339727397365374e-06],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 165821440.72069225,
+    F_zero: 165821440.4881584,
+    execution_time: '0:01:32',
+    viz_path: 'graphics/CityofFresno-2045_optimization_p-20_n-21_1692375923.png'
+  },
+  {
+    contractor: 'City of Tracy',
+    error: 'None',
+    X_optim: [4.7546071757101927e-07, 9.730958308306322e-05, 3.618253889787376e-05, 6.124739645405693e-05, 2171.8025219092997, 8.189820059631898e-05, 7498.793657604777, 3.807537718301921e-05],
+    X_zero: [0, 0, 0, 0, 2171.8025219092997, 0, 7498.793657604777, 0],
+    F_optim: 47063415.82063108,
+    F_zero: 47063415.35489839,
+    execution_time: '0:01:39',
+    viz_path: 'graphics/CityofTracy-2045_optimization_p-20_n-21_1692376016.png'
+  },
+  {
+    contractor: 'Stockton-East Water District',
+    error: 'None',
+    X_optim: [5.525862397145588e-05, 6.63242046727663e-05, 0.06287837853908113, 5.20487808822041e-05, 1.4681058206087711e-05, 9.215656226862134e-05, 0.00023748734953303656, 3.193122451722422e-06],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 1.932179151740949,
+    F_zero: 0.0,
+    execution_time: '0:01:37',
+    viz_path: 'graphics/Stockton-EastWaterDistrict-2045_optimization_p-20_n-21_1692376116.png'
+  },
+  {
+    contractor: 'Alameda County Flood Control and Water Conservation District, Zone 7',
+    error: 'None',
+    X_optim: [7.393774698855157e-05, 1.9821696321876592e-05, 3.7901943594757494e-05, 0.000129027080237931, 5.3081539484468805e-05, 8.713489192693765e-07, 1.762900168604201e-08, 3.613191203749971e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 41613502.98334726,
+    F_zero: 41613502.46119893,
+    execution_time: '0:01:37',
+    viz_path: 'graphics/AlamedaCountyFloodControlandWaterConservationDistrict,Zone7-2045_optimization_p-20_n-21_1692376213.png'
+  },
+  {
+    contractor: 'Alameda County Water District',
+    error: 'None',
+    X_optim: [1615.4659266534206, 3.652125655507692e-05, 8.772729467616113e-05, 3.1862209599579684e-05, 176.96071100961248, 137.35524868862638, 9.477276809829271e-05, 5.359518405203885e-05],
+    X_zero: [1615.4659266534206, 0, 0, 0, 176.96071100961248, 137.35524868862638, 0, 0],
+    F_optim: nan,
+    F_zero: nan,
+    execution_time: '0:02:28',
+    viz_path: 'graphics/AlamedaCountyWaterDistrict-2045_optimization_p-20_n-21_1692376311.png'
+  },
+  {
+    contractor: 'Contra Costa Water District',
+    error: 'None',
+    X_optim: [9.999993467060375e-05, 9.99975454490743e-05, 9.999885570844547e-05, 9.999994527505962e-05, 9.99999287908338e-05, 9.999993821826637e-05, 9.999990125317157e-05, 9.999999527304936e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 18345562619.326836,
+    F_zero: 18345563274.066093,
+    execution_time: '0:02:29',
+    viz_path: 'graphics/ContraCostaWaterDistrict-2045_optimization_p-20_n-21_1692376460.png'
+  },
+  {
+    contractor: 'East Bay Municipal Utilities District',
+    error: 'None',
+    X_optim: [8.685300680932368e-05, 3.652125655507692e-05, 8.772729467616113e-05, 3.1862209599579684e-05, 7.078428440384499e-06, 5.494209947545055e-06, 9.477276809829271e-05, 5.359518405203885e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: nan,
+    F_zero: nan,
+    execution_time: '0:02:03',
+    viz_path: 'graphics/EastBayMunicipalUtilitiesDistrict-2045_optimization_p-20_n-21_1692376610.png'
+  },
+  {
+    contractor: 'San Benito County Water District, Zone 6',
+    error: 'None',
+    X_optim: [6.93164294015702e-05, 5.9691498562194304e-05, 0.2730839540313869, 8.433123596894113e-05, 4.34598946102272e-05, 7.67119766540386e-05, 1.5955903743635767e-05, 6.436934385554709e-07],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 5787315.580016199,
+    F_zero: 5787338.915640113,
+    execution_time: '0:01:50',
+    viz_path: 'graphics/SanBenitoCountyWaterDistrict,Zone6-2045_optimization_p-20_n-21_1692376734.png'
+  },
+  {
+    contractor: 'Santa Clara Valley Water District',
+    error: 'None',
+    X_optim: [5.2420972087299325e-06, 9.045581725173524e-05, 4.3748587381826855e-05, 5.9641137887444085e-05, 1.182234098230522e-05, 8.315651412705019e-07, 0.0024544667151906066, 7.79053995992589e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 252023447.11016148,
+    F_zero: 252023445.0676363,
+    execution_time: '0:01:34',
+    viz_path: 'graphics/SantaClaraValleyWaterDistrict-2045_optimization_p-20_n-21_1692376845.png'
+  },
+  {
+    contractor: 'San Luis Obispo County Flood Control & Water Conservation District',
+    error: 'None',
+    X_optim: [9.999983653289247e-05, 5.798653772577872e-05, 4.0420220833029e-05, 8.395234527338148e-10, 2.1289564620708492e-10, 2.6699255027164023e-10, 2.4976863215593132e-09, 7.04995042025464e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 6183871.636347034,
+    F_zero: 6183871.709655196,
+    execution_time: '0:01:33',
+    viz_path: 'graphics/SanLuisObispoCountyFloodControl&WaterConservationDistrict-2045_optimization_p-20_n-21_1692376939.png'
+  },
+  {
+    contractor: 'Antelope Valley-East Kern Water Agency',
+    error: 'None',
+    X_optim: [8.685300680932368e-05, 3.652125655507692e-05, 8.772729467616113e-05, 3.1862209599579684e-05, 7.078428440384499e-06, 5.494209947545055e-06, 9.477276809829271e-05, 5.359518405203885e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: nan,
+    F_zero: nan,
+    execution_time: '0:02:02',
+    viz_path: 'graphics/AntelopeValley-EastKernWaterAgency-2045_optimization_p-20_n-21_1692377033.png'
+  },
+  {
+    contractor: 'Santa Clarita Water Division',
+    error: 'None',
+    X_optim: [9.999993467060375e-05, 9.99975454490743e-05, 9.999885570844547e-05, 9.999994527505962e-05, 9.99999287908338e-05, 9.999993821826637e-05, 9.999990125317157e-05, 9.999999527304936e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 205956260268.96622,
+    F_zero: 205956269956.94687,
+    execution_time: '0:03:57',
+    viz_path: 'graphics/SantaClaritaWaterDivision-2045_optimization_p-20_n-21_1692377156.png'
+  },
+  {
+    contractor: 'Metropolitan Water District of Southern California',
+    error: 'None',
+    X_optim: [7.959394072591235e-05, 6.261824651253857e-05, 2.6828872109411663, 8202.678944498683, 1351.6333170551304, 79975.80939974103, 3488.9886544251276, 2.067512392983986e-06],
+    X_zero: [0, 0, 2.6828872109411663, 8202.678944498683, 1351.6333170551304, 79975.80939974103, 3488.9886544251276, 0],
+    F_optim: 3771148688.913731,
+    F_zero: 3771148688.9963098,
+    execution_time: '0:01:33',
+    viz_path: 'graphics/MetropolitanWaterDistrictofSouthernCalifornia-2045_optimization_p-20_n-21_1692377394.png'
+  },
+  {
+    contractor: 'Mojave Water Agency',
+    error: 'None',
+    X_optim: [2.784321768501786e-05, 9.981322613079503e-05, 3.2401265979337334e-05, 5.361355490481788e-05, 6.114866482855324e-05, 9.975740178642946e-05, 4.516555496655615e-06, 5.92366725352995e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 102899293.24319072,
+    F_zero: 102899292.65175512,
+    execution_time: '0:01:34',
+    viz_path: 'graphics/MojaveWaterAgency-2045_optimization_p-20_n-21_1692377488.png'
+  },
+  {
+    contractor: 'Palmdale Water District & Littlerock Creek Irrigation District',
+    error: 'None',
+    X_optim: [9.98235153081081e-05, 5.6484301580825535e-05, 8.78263387292292e-05, 4.3093194075907205e-10, 7.501212331872335e-09, 2.9347886868165346e-11, 1.3447272571305623e-09, 7.692175895310798e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
+    F_optim: 25354506.642632153,
+    F_zero: 25354506.75545757,
+    execution_time: '0:01:38',
+    viz_path: 'graphics/PalmdaleWaterDistrict&LittlerockCreekIrrigationDistrict-2045_optimization_p-20_n-21_1692377582.png'
+  },
+  {
+    contractor: 'San Bernardino Valley Municipal Water District',
+    error: 'None',
+    X_optim: [8.685300680932368e-05, 3.652125655507692e-05, 25890.07920482867, 3.1862209599579684e-05, 7.078428440384499e-06, 5.494209947545055e-06, 9.477276809829271e-05, 5.359518405203885e-05],
+    X_zero: [0, 0, 25890.07920482867, 0, 0, 0, 0, 0],
+    F_optim: nan,
+    F_zero: nan,
+    execution_time: '0:02:01',
+    viz_path: 'graphics/SanBernardinoValleyMunicipalWaterDistrict-2045_optimization_p-20_n-21_1692377681.png'
+  },
+  {
+    contractor: 'San Gorgonio Pass Water Agency',
+    error: 'None',
+    X_optim: [5.4150328463985443e-05, 4.152077246718173e-05, 9.752443727189579e-05, 4.241346659846148e-05, 4.4395559761397523e-05, 9.013440636361363e-05, 999.9999991850767, 1.9464351613059813e-05],
+    X_zero: [0, 0, 0, 0, 0, 0, 999.9999991850767, 0],
+    F_optim: 322895850.35918444,
+    F_zero: 322895984.412905,
+    execution_time: '0:01:45',
+    viz_path: 'graphics/SanGorgonioPassWaterAgency-2045_optimization_p-20_n-21_1692377803.png'
+  }
+}
+---
+Optimization loop complete!
+Excel file outputs: ['ModelOutputs_Optimal.xlsx', 'QAQCResults_Optimal.xlsx', 'ModelOutputs_Best.xlsx', 'QAQCResults_Best.xlsx']
+End Datetime: 2023-08-18 09:58:34.558663
+Operation Complete!

@@ -19,6 +19,11 @@ sklearn = "^0.0.post1"
 pymoo = "^0.6.0.1"
 pyproj = "^3.5.0"
 shapely = "^1.7.0"
+openpyxl = "^3.1.2"
+scikit-learn = "^1.3.0"
+logging = "^0.4.9.6"
+datetime = "^5.2"
+argparse = "^1.4.0"
 
 
 [build-system]
