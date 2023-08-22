@@ -35,11 +35,6 @@ class EconomicLossByUseType:
 
         if totalShortage_Contractor[self.contingentWMOsinput.i] > 0:
             self.calculateEconomicLossByUseType()
-            # print("singleFamilyEconomicLoss_Contractor: ", self.singleFamilyEconomicLoss_Contractor)
-            # print("multiFamilyEconomicLoss_Contractor: ", self.multiFamilyEconomicLoss_Contractor)
-            # print("industrialEconomicLoss_Contractor: ", self.industrialEconomicLoss_Contractor)
-            # print("commAndGovEconomicLoss_Contractor: ", self.commAndGovEconomicLoss_Contractor)
-            # print("landscapeEconomicLoss_Contractor: ", self.landscapeEconomicLoss_Contractor)
 
             self.totalEconomicLoss_Contractor.append( self.singleFamilyEconomicLoss_Contractor
                                                     + self.multiFamilyEconomicLoss_Contractor

@@ -1,4 +1,4 @@
-import pdb
+#import pdb
 import pandas as pd #TODO only import functionalities needed?
 import numpy as np
 from src.modelLogic.inputData import InputData
@@ -18,12 +18,6 @@ class ModelLogic:
         self.contingencyWMOs = ContingencyWMOs(inputData)
         self.outputHandler = OutputHandler(inputData)
         
-        
-    #def optimizeForAllContractors(self):
-        # Loop through model calculations for each contractor. All variables in this loop end with "_Contractor"
-        #for self.contractor in self.inputData.contractorsList:
-            # self.execute(x) #TODO change to optimization function
-        #self.outputHandler.writeToSystemwideOutputDataframes()
     
     
     def execute(self, x, optimize=True):
