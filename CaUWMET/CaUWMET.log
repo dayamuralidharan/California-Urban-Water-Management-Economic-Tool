@@ -1,32 +1,8 @@
 CaUWMET Optimization Logs
-Start Datetime: 2023-08-21 18:24:37.097487
+Start Datetime: 2023-08-22 08:22:52.615181
 ModelLogic - OK
 Begin optimization loop through 2 Contractors
 ---
 {
   {
     contractor: 'City of Coalinga',
-    error: 'None',
-    X_optim: [4.468305433465676e-05, 3.671472273188328e-05, 2.3321301933166106e-06, 5.936497480617872e-05, 9.258441684848374e-05, 7.796846940652656e-05, 174.20426821147765, 9.785443632424806e-05],
-    X_zero: [0, 0, 0, 0, 0, 0, 174.20426821147765, 0],
-    F_optim: 6455804.831639544,
-    F_zero: 6455804.214922932,
-    execution_time: '0:00:52',
-    viz_path: 'graphics/CityofCoalinga-2045_optimization_p-20_n-21_1692667477.png'
-  },
-  {
-    contractor: 'City of Tracy',
-    error: 'None',
-    X_optim: [2.7087749128514348e-05, 5.930136571630912e-05, 5.172388301140893e-05, 8.314396049612496e-05, 1337.1123012202006, 8.073398313356551e-05, 7499.131743992478, 1.0132842141688448e-05],
-    X_zero: [0, 0, 0, 0, 1337.1123012202006, 0, 7499.131743992478, 0],
-    F_optim: 45106460.64676684,
-    F_zero: 45106460.120284595,
-    execution_time: '0:00:55',
-    viz_path: 'graphics/CityofTracy-2045_optimization_p-20_n-21_1692667531.png'
-  }
-}
----
-Optimization loop complete!
-Excel file outputs: ['ModelOutputs_Optimal.xlsx', 'QAQCResults_Optimal.xlsx', 'ModelOutputs_Best.xlsx', 'QAQCResults_Best.xlsx']
-End Datetime: 2023-08-21 18:26:28.720105
-Operation Complete!
