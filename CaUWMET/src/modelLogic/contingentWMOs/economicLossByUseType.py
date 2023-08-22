@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from src.modelLogic.inputData import InputData
 from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
 from src.modelLogic.contingentWMOs.shortageByUseType import ShortageByUseType
@@ -34,6 +35,7 @@ class EconomicLossByUseType:
 
         if totalShortage_Contractor[self.contingentWMOsinput.i] > 0:
             self.calculateEconomicLossByUseType()
+
             self.totalEconomicLoss_Contractor.append( self.singleFamilyEconomicLoss_Contractor
                                                     + self.multiFamilyEconomicLoss_Contractor
                                                     + self.industrialEconomicLoss_Contractor
@@ -45,16 +47,33 @@ class EconomicLossByUseType:
 
 
     def calculateEconomicLossByUseType(self):
-        self.singleFamilyEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.singleFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_singleFamily, self.singleFamilyUse_Contractor, self.constantOfIntegration_SF)
-        self.multiFamilyEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.multiFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.multiFamilyShortagePortionOfMultiFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_multiFamily, self.multiFamilyUse_Contractor, self.constantOfIntegration_MF)
-        self.industrialEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.industrialShortage_Contractor, self.contingencyWMOs.shortageByUseType.industrialShortagePortionOfIndustrialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_industrial, self.industrialUse_Contractor, self.constantOfIntegration_IND)
-        self.commAndGovEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor, self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_commAndGov, self.commAndGovUse_Contractor, self.constantOfIntegration_COM)
-        self.landscapeEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor, self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_landscape, self.landscapeUse_Contractor, self.constantOfIntegration_LAND)
-
+        if self.singleFamilyUse_Contractor.loc[self.contingentWMOsinput.contractor] == 0:
+            self.singleFamilyEconomicLoss_Contractor = 0
+        else:
+            self.singleFamilyEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.singleFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.singleFamilyShortagePortionOfSingleFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_singleFamily, self.singleFamilyUse_Contractor, self.constantOfIntegration_SF)
+        
+        if self.multiFamilyUse_Contractor.loc[self.contingentWMOsinput.contractor] == 0:
+            self.multiFamilyEconomicLoss_Contractor = 0
+        else:
+            self.multiFamilyEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.multiFamilyShortage_Contractor, self.contingencyWMOs.shortageByUseType.multiFamilyShortagePortionOfMultiFamilyUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_multiFamily, self.multiFamilyUse_Contractor, self.constantOfIntegration_MF)
+        
+        if self.industrialUse_Contractor.loc[self.contingentWMOsinput.contractor] == 0:
+            self.industrialEconomicLoss_Contractor = 0
+        else:
+            self.industrialEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.industrialShortage_Contractor, self.contingencyWMOs.shortageByUseType.industrialShortagePortionOfIndustrialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_industrial, self.industrialUse_Contractor, self.constantOfIntegration_IND)
+        
+        if self.commAndGovUse_Contractor.loc[self.contingentWMOsinput.contractor] == 0:
+            self.commAndGovEconomicLoss_Contractor = 0
+        else:
+            self.commAndGovEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.commercialShortage_Contractor, self.contingencyWMOs.shortageByUseType.commercialShortagePortionOfCommercialUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_commAndGov, self.commAndGovUse_Contractor, self.constantOfIntegration_COM)
+        
+        if self.landscapeUse_Contractor.loc[self.contingentWMOsinput.contractor] == 0:
+            self.landscapeEconomicLoss_Contractor = 0
+        else:
+            self.landscapeEconomicLoss_Contractor = self.economicLossFunction(self.contingencyWMOs.shortageByUseType.landscapeShortage_Contractor, self.contingencyWMOs.shortageByUseType.landscapeShortagePortionOfLandscapeUse_Contractor, self.inputData.lowerLossBoundary, self.inputData.elasticityOfDemand_landscape, self.landscapeUse_Contractor, self.constantOfIntegration_LAND)
     
     def economicLossFunction(self, shortageByUseType, shortagePortionOfUse, lowerLossBoundary, elasticityOfDemand, volumeByUseType, constantOfIntegration):
         if shortagePortionOfUse < lowerLossBoundary.loc[self.contingentWMOsinput.contractor]:
-            #TODO simplify functions in if statement to look like the last "else" statement
 
             a = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType
             exponent1 = (np.log(volumeByUseType / constantOfIntegration)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
@@ -63,7 +82,7 @@ class EconomicLossByUseType:
             d = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * (volumeByUseType *(1 - self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor]))
             e = np.log((volumeByUseType * (1 - self.inputData.lowerLossBoundary.loc[self.contingentWMOsinput.contractor])) / constantOfIntegration)
             f = np.exp(e / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
-
+            
             economicLoss = c - (d * f)
             
         elif shortagePortionOfUse > self.inputData.upperLossBoundary.loc[self.contingentWMOsinput.contractor]:
@@ -76,6 +95,7 @@ class EconomicLossByUseType:
             f = np.exp(e / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]) / (elasticityOfDemand.loc[self.contingentWMOsinput.contractor] + 1)
             
             economicLoss = c - (d * f)
+
         else:
             a = elasticityOfDemand.loc[self.contingentWMOsinput.contractor] * volumeByUseType
             exponent1 = (np.log(volumeByUseType / constantOfIntegration)) / elasticityOfDemand.loc[self.contingentWMOsinput.contractor]
