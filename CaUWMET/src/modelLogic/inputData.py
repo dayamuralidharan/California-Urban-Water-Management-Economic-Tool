@@ -38,8 +38,8 @@ class InputData:
         self.landscapeUsePortion = self.demandAssumptions.landscapeUsePortion
         
         #### Get Supply Input Assumptions
-        #TODO: add groundwater supply as a variable here, needed for calculating groundwater reduction
         self.totalLocalSupply = self.supplyAssumptions.totalLocalSupply
+        self.groundwaterLocalSupply = self.supplyAssumptions.groundwaterLocalSupply
         self.swpCVPSupply = self.supplyAssumptions.swpCVPSupply
         
         #### Get System Operations Input Assumptions

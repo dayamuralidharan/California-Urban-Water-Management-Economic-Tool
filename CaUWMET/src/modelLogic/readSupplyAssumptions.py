@@ -96,5 +96,3 @@ class SupplyAssumptions:
 
             self.totalLocalSupply = pd.DataFrame(self.totalLocalSupply)
             self.groundwaterLocalSupply = pd.DataFrame(self.groundwaterLocalSupply)
-            print("totalLocalSupply: ", self.totalLocalSupply)
-            print("groundwaterLocalSupply: ", self.groundwaterLocalSupply)

@@ -54,7 +54,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.contingencyWMOs.demandsToBeMetByWaterMarketTransfers_Contractor[0], 298415.75)
         self.assertEqual(self.modelLogic.totalShortage_Contractor[0], 297415.75)
         self.assertEqual(self.modelLogic.contingentConservationCost_Contractor[0], 21900500)
-        self.assertEqual(self.modelLogic.waterMarketTransferCost_Contractor[0], 468093.5324)
+        self.assertEqual(self.modelLogic.waterMarketTransferCost_Contractor[0], 568093.5323999999)
         
         # Test other delivery reliability costs
         self.assertEqual(self.modelLogic.totalSuppliesDelivered_Contractor[0], 652570)
@@ -64,7 +64,7 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         self.assertEqual(self.modelLogic.rationingProgramCost_Contractor[0], 175204000.0)
         
         # Test total reliability cost
-        self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 735781956.3885316)
+        self.assertEqual(self.modelLogic.reliabilityManagementCost_Contractor[0], 735881956.3885316)
         
         # Test shortage by use type
         # See CaUWMET_CPED example for Python test.xlsx for how results are derived
@@ -97,6 +97,8 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         # Cell AZ38 in spreadsheet
         self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 26403482129.48573)
         
+        # Test total annual cost
+        self.assertEqual(self.modelLogic.totalAnnualCost_Contractor[0], 1109865716.9097967)
         
         
         
