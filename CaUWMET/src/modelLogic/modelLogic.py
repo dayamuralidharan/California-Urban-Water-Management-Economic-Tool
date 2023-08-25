@@ -256,6 +256,7 @@ class ModelLogic:
         self.wastewaterTreatmentFraction_Contractor = self.inputData.wastewaterTreatmentFraction.loc[self.contractor][self.inputData.futureYear] / 100
         
         self.waterMarketTransferUnitCost_Contractor = self.inputData.waterMarketTransferCost[self.contractor][self.i]
+        self.waterMarketLossFactor_Contractor = 1 + (self.inputData.waterMarketLossFactor.loc[self.contractor][self.inputData.futureYear] / 100)
         self.contingentConservationUnitCost_Contractor = self.inputData.contingentConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.costForRationingProgram_Contractor = float(self.inputData.costForRationingProgram.loc[self.contractor])
         self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
@@ -288,7 +289,7 @@ class ModelLogic:
         self.distributionCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.distributionUnitCost_Contractor)
         self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.wastewaterTreatmentUnitCost_Contractor)
         
-        self.waterMarketTransferCost_Contractor.append(self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i] * (self.waterMarketTransferUnitCost_Contractor + self.swpCVPDeliveryUnitCost_Contractor))
+        self.waterMarketTransferCost_Contractor.append((self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketLossFactor_Contractor) * (self.waterMarketTransferUnitCost_Contractor + self.swpCVPDeliveryUnitCost_Contractor))
         
         if self.contingencyWMOs.contingentConservationUseReductionVolume_Contractor[self.i] > 0:
             self.contingentConservationCost_Contractor.append(self.contingentConservationUnitCost_Contractor * self.urbanPopulation_Contractor)

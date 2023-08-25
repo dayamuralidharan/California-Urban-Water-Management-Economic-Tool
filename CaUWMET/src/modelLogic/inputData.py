@@ -67,6 +67,7 @@ class InputData:
         self.shortageThresholdForWaterMarketTransfers = self.contingentWMOsAssumptions.shortageThresholdForWaterMarketTransfers
         self.transferLimit = self.contingentWMOsAssumptions.transferLimit 
         self.waterMarketTransferCost = self.contingentWMOsAssumptions.waterMarketTransferCost
+        self.waterMarketLossFactor = self.contingentWMOsAssumptions.waterMarketLossFactor
     
         # Get Rationing Program Assumptions
         self.demandHardeningFactor = self.contingentWMOsAssumptions.demandHardeningFactor
