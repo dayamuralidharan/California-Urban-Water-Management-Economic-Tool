@@ -32,7 +32,7 @@ class ContingentWMOsAssumptions:
         waterMarketTransfersInputData.set_index('Contractor', inplace = True)
         
         self.shortageThresholdForWaterMarketTransfers = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
-        waterMarketLossFactor = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Water Market Transfer Loss Factor (%)']
+        self.waterMarketLossFactor = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Water Market Transfer Loss Factor (%)']
 
         transferLimit_NormalOrBetterYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Normal or Better Years (AFY)']
         transferLimit_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Dry Years (AFY)']
@@ -43,7 +43,6 @@ class ContingentWMOsAssumptions:
         waterMarketTransferCost_BelowNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
         waterMarketTransferCost_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
         waterMarketTransferCost_CriticallyDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Critically Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-
 
         transferLimit_NormalOrBetterYears.drop('Variable', axis=1, inplace=True)
         transferLimit_DryYears.drop('Variable', axis=1, inplace=True)
@@ -110,6 +109,5 @@ class ContingentWMOsAssumptions:
         self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Commercial and Governmental']['Value']
         self.elasticityOfDemand_landscape = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Landscape']['Value']
         
-        #TODO set up by use type
         self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']['Value']
         self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']['Value']

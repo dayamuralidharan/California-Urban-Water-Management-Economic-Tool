@@ -54,7 +54,6 @@ class ModelLogic:
         self.averageTotalAnnualCost_Contractor = sum(self.outputHandler.totalAnnualCost[self.contractor]) / len(self.outputHandler.totalAnnualCost[self.contractor])
         self.outputHandler.averageTotalAnnualCost[self.contractor] = self.averageTotalAnnualCost_Contractor
 
-        #TODO move to outside contractor loop
         self.outputHandler.writeToSystemwideOutputDataframes()
         
         if optimize:
@@ -189,9 +188,8 @@ class ModelLogic:
         # If switch is set to reduce groundwater pumping and there is excess supply, reduce groundwater pumping and do not implement storage operations
         elif storageInputAssumptions_Contractor['excessSupplySwitch_Contractor'] == "Reduce Groundwater Pumping":
             
-            #TODO groundwater pumping reduction should be set to min of excess supply and local groundwater supplies
             self.doNotImplementStorageOperations(storageInputAssumptions_Contractor)
-            self.groundwaterPumpingReduction_Contractor.append(self.excessSupply_Contractor[self.i])
+            self.groundwaterPumpingReduction_Contractor.append(min(self.excessSupply_Contractor[self.i], self.inputData.groundwaterLocalSupply[self.contractor][self.i]))
             self.demandsToBeMetByContingentOptions_Contractor.append(self.demandsToBeMetByStorage_Contractor[self.i])
         
         # If switch is set to turn back pool and there is excess supply, send to turn back pool and do not implement any storage operations
@@ -258,6 +256,7 @@ class ModelLogic:
         self.wastewaterTreatmentFraction_Contractor = self.inputData.wastewaterTreatmentFraction.loc[self.contractor][self.inputData.futureYear] / 100
         
         self.waterMarketTransferUnitCost_Contractor = self.inputData.waterMarketTransferCost[self.contractor][self.i]
+        self.waterMarketLossFactor_Contractor = 1 + (self.inputData.waterMarketLossFactor.loc[self.contractor][self.inputData.futureYear] / 100)
         self.contingentConservationUnitCost_Contractor = self.inputData.contingentConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
         self.costForRationingProgram_Contractor = float(self.inputData.costForRationingProgram.loc[self.contractor])
         self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
@@ -290,7 +289,7 @@ class ModelLogic:
         self.distributionCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.distributionUnitCost_Contractor)
         self.wastewaterTreatmentCost_Contractor.append(self.totalSuppliesDelivered_Contractor[self.i] * self.wastewaterTreatmentFraction_Contractor * self.wastewaterTreatmentUnitCost_Contractor)
         
-        self.waterMarketTransferCost_Contractor.append(self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketTransferUnitCost_Contractor)
+        self.waterMarketTransferCost_Contractor.append((self.contingencyWMOs.waterMarketTransferDeliveries_Contractor[self.i] * self.waterMarketLossFactor_Contractor) * (self.waterMarketTransferUnitCost_Contractor + self.swpCVPDeliveryUnitCost_Contractor))
         
         if self.contingencyWMOs.contingentConservationUseReductionVolume_Contractor[self.i] > 0:
             self.contingentConservationCost_Contractor.append(self.contingentConservationUnitCost_Contractor * self.urbanPopulation_Contractor)

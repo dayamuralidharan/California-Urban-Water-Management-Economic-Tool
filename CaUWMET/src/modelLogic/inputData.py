@@ -38,8 +38,8 @@ class InputData:
         self.landscapeUsePortion = self.demandAssumptions.landscapeUsePortion
         
         #### Get Supply Input Assumptions
-        #TODO: add groundwater supply as a variable here, needed for calculating groundwater reduction
         self.totalLocalSupply = self.supplyAssumptions.totalLocalSupply
+        self.groundwaterLocalSupply = self.supplyAssumptions.groundwaterLocalSupply
         self.swpCVPSupply = self.supplyAssumptions.swpCVPSupply
         
         #### Get System Operations Input Assumptions
@@ -67,6 +67,7 @@ class InputData:
         self.shortageThresholdForWaterMarketTransfers = self.contingentWMOsAssumptions.shortageThresholdForWaterMarketTransfers
         self.transferLimit = self.contingentWMOsAssumptions.transferLimit 
         self.waterMarketTransferCost = self.contingentWMOsAssumptions.waterMarketTransferCost
+        self.waterMarketLossFactor = self.contingentWMOsAssumptions.waterMarketLossFactor
     
         # Get Rationing Program Assumptions
         self.demandHardeningFactor = self.contingentWMOsAssumptions.demandHardeningFactor
