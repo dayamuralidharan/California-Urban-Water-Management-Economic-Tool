@@ -20,7 +20,7 @@ class InputDataLocationsForTesting:
         self.supplyRecycledTimeseriesInput = "tests/inputDataForTests/supplyInput_recycledTimeSeries.csv"
         self.supplySurfaceTimeseriesInput = "tests/inputDataForTests/supplyInput_surfaceTimeSeries.csv"
         self.supplyExchangesTimeseriesInput = "tests/inputDataForTests/supplyInput_transfersAndExchangesTimeSeries.csv"
-        self.swpCVPSupplyDataInput = "tests/inputDataForTests/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv"
+        self.swpCVPSupplyDataInput = "tests/inputDataForTests/supplyInput_SWPCVP.csv"
         
         self.storageDataInput = "tests/inputDataForTests/systemOperationsInput_Storage.csv"
         self.excessWaterSwitchDataInput = "tests/inputDataForTests/systemOperationsInput_ExcessWaterSwitch.csv"
