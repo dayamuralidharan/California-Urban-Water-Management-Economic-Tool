@@ -12,7 +12,7 @@ def displaySummaryPlotsTotalDemandScenarios():
 
     # Set up total demand variables for summary poster plots
     # demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor']]
-    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
+    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', st.session_state.futurePlanningYear]]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     demandVars = ['Normal or Better Demands (AFY)', 'Single Dry-Year Demands (AFY)','Multiple Dry-Year Demands (AFY)']

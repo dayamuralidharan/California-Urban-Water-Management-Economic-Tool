@@ -32,9 +32,10 @@ class opt_echo:
         traceback.extract_stack = self.orig_extract_stack
 
 
-
+# def fetch_data(inputDataFile, sheetName, skipRows, nRows, useCols):
 def fetch_data(inputDataLocation):
-    data = pd.read_csv(inputDataLocation)
+    data = pd.read_csv(inputDataLocation) # replace line with line below
+    # data = pd.read_excel(inputDataFile = inputDataFile, sheet_name = sheetName, skiprows = skipRows, nrows = nRows, usecols = useCols)
     return pd.DataFrame(data)
 
 
