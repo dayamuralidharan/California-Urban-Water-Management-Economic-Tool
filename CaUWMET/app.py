@@ -36,16 +36,19 @@ page.app()
 #TODO include this on side bar for every page. Make future planning year list dynamic based on input data.
 st.sidebar.write("")
 futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
-futurePlanningYear = st.sidebar.selectbox('Select future planning horizon to view.', futurePlanningYearsList, key = 'futurePlanningYear')
+futurePlanningYear = '2045'
+
+if 'futurePlanningYear' not in st.session_state:
+    st.session_state['futurePlanningYear'] = futurePlanningYear
 
 
 
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
+inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
 inputDataTotalDemands = fetch_data("src/inputData/demandsInput_totalDemands.csv")
 inputDataDemandByUseType = fetch_data("src/inputData/demandsInput_useByTypeData.csv")
-inputDataIntExtDemandsByUseType = fetch_data("src/inputData/demandsInput_intAndExtUseByTypeData.csv")
 inputDataBaseLongTermConservation = fetch_data("src/inputData/demandsInput_baseLongTermConservationData.csv")
 
 if 'totalDemandsdf' not in st.session_state:
@@ -54,8 +57,6 @@ if 'totalDemandsdf' not in st.session_state:
 if 'useByTypedf' not in st.session_state:
     st.session_state['useByTypedf'] = inputDataDemandByUseType
 
-if 'intExtUseByTypedf' not in st.session_state:
-    st.session_state['intExtUseByTypedf'] = inputDataIntExtDemandsByUseType
 
 if 'baseLongTermConservationdf' not in st.session_state:
     st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation

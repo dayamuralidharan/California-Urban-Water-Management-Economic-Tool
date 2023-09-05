@@ -140,7 +140,8 @@ class ModelLogic:
                 
         
     def deliverLocalSuppliesAndImplementPlannedConservation(self):
-        self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][self.inputData.futureYear].values[0]
+        #TODO reconnect future year in next line: self.inputData.futureYear
+        self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][2045].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor - self.longtermWMOConservation_Contractor))
         self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i] - self.totalLongtermWMOSupplyIncrementalVolume_Contractor))
 

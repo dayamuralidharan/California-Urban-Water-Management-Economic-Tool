@@ -9,10 +9,17 @@ class DemandAssumptions:
         inputETAWAdjustmentsFile = inputDataLocations.inputETAWAdjustmentsFile
         inputUseByTypeFile = inputDataLocations.inputUseByTypeFile
         
-        demandsData = pd.read_csv(inputDemandsFile)
-        self.plannedLongTermConservation = pd.read_csv(inputPlannedConservationFile)
+        #TODO reconnect future year to global assumptions which we'll have to make an integer, right now its a string which doesn't work for the functions here
+        futureYear = 2045 #globalAssumptions.futureYear
+        inputData_totalDemands = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:G')
+        inputData_useByType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:G')
+        inputData_plannedConservation = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:G')
+        
+
+        demandsData = inputData_totalDemands
+        useByTypeData = inputData_useByType
+        self.plannedLongTermConservation = inputData_plannedConservation
         ETAWAdjustments = pd.read_csv(inputETAWAdjustmentsFile).set_index('Year')
-        useByTypeData = pd.read_csv(inputUseByTypeFile)
         
         demandsData.set_index('Contractor', inplace = True)
         useByTypeData.set_index('Contractor', inplace = True)
@@ -23,11 +30,9 @@ class DemandAssumptions:
 
         # Set up total demand time series based on hydrologic year type.
         for contractor in globalAssumptions.contractorsList:
-            #TODO remove lookup function, not needed.
-            contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
             contractorYearType = globalAssumptions.reclassYearType[contractor]
             totalDemandsInput = demandsData.loc[contractor]
-            totalDemandsInput = totalDemandsInput[['Variable', globalAssumptions.futureYear]]
+            totalDemandsInput = totalDemandsInput[['Variable', futureYear]]
             contractorDemands = []
             
             mapYearType = {
@@ -39,27 +44,27 @@ class DemandAssumptions:
                 for i, Year in enumerate(globalAssumptions.historicHydrologyYears):
                     contractorDemands.append(
                         ETAWAdjustments[contractor][Year] *
-                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType['NB']][globalAssumptions.futureYear].values[0]
+                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType['NB']][futureYear].values[0]
                     )
             elif totalDemandScenarioRadioButtonIndex == 0: #Apply UWMP
                 for i in range(len(globalAssumptions.historicHydrologyYears)):
                     contractorDemands.append(
-                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[contractorYearType[i]]][globalAssumptions.futureYear].values[0]
+                        totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[contractorYearType[i]]][futureYear].values[0]
                     )
             self.totalDemands[contractor] = contractorDemands
 
         self.totalDemands = pd.DataFrame(self.totalDemands)
         
         # Set up Use by Type variables and Interior/Exterior Use by Type Variables
-        self.singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (AFY)'][globalAssumptions.futureYear]
-        self.multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (AFY)'][globalAssumptions.futureYear]
-        self.industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (AFY)'][globalAssumptions.futureYear]
-        self.commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (AFY)'][globalAssumptions.futureYear]
-        agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (AFY)'][globalAssumptions.futureYear]
-        self.landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (AFY)'][globalAssumptions.futureYear]
-        otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (AFY)'][globalAssumptions.futureYear]
+        self.singleFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Single Family Residential Use (AFY)'][futureYear]
+        self.multiFamilyUse = useByTypeData[useByTypeData['Variable'] == 'Multi-Family Residential Use (AFY)'][futureYear]
+        self.industrialUse = useByTypeData[useByTypeData['Variable'] == 'Industrial Use (AFY)'][futureYear]
+        self.commAndGovUse = useByTypeData[useByTypeData['Variable'] == 'Commercial and Governmental Use (AFY)'][futureYear]
+        agUse = useByTypeData[useByTypeData['Variable'] == 'Agricultural Use (AFY)'][futureYear]
+        self.landscapeUse = useByTypeData[useByTypeData['Variable'] == 'Landscape Use (AFY)'][futureYear]
+        otherUse = useByTypeData[useByTypeData['Variable'] == 'Other Use (AFY)'][futureYear]
 
-        normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (AFY)'][globalAssumptions.futureYear]
+        normalYearDemands = demandsData[demandsData['Variable'] == 'Normal or Better Demands (AFY)'][futureYear]
         
 
         self.singleFamilyUsePortion = self.singleFamilyUse / normalYearDemands

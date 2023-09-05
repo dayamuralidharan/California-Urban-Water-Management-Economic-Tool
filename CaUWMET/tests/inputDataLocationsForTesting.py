@@ -1,9 +1,11 @@
 class InputDataLocationsForTesting:
     def __init__(self):
+        self.inputDataFile = "tests/inputDataForTests/CaUWMETInputData_forTest.xlsx"
+
+        #TODO move year to input spreadsheet
         self.futureYearInput = '2045'
         self.hydroYearTypeInput = "tests/inputDataForTests/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "tests/inputDataForTests/contractorInput_contractorInfo.csv"
-        self.wmoSupplyVolumeIncrement = 0.1
         
         self.inputDemandsFile = "tests/inputDataForTests/demandsInput_totalDemands.csv"
         self.inputPlannedConservationFile = "tests/inputDataForTests/demandsInput_baseLongTermConservationData.csv"
@@ -20,7 +22,7 @@ class InputDataLocationsForTesting:
         self.supplyRecycledTimeseriesInput = "tests/inputDataForTests/supplyInput_recycledTimeSeries.csv"
         self.supplySurfaceTimeseriesInput = "tests/inputDataForTests/supplyInput_surfaceTimeSeries.csv"
         self.supplyExchangesTimeseriesInput = "tests/inputDataForTests/supplyInput_transfersAndExchangesTimeSeries.csv"
-        self.swpCVPSupplyDataInput = "tests/inputDataForTests/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv"
+        self.swpCVPSupplyDataInput = "tests/inputDataForTests/supplyInput_SWPCVP.csv"
         
         self.storageDataInput = "tests/inputDataForTests/systemOperationsInput_Storage.csv"
         self.excessWaterSwitchDataInput = "tests/inputDataForTests/systemOperationsInput_ExcessWaterSwitch.csv"
