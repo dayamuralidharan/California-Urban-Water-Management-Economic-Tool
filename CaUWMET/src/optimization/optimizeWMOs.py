@@ -103,6 +103,19 @@ class OptimizeWMOs:
         self.F = self.modelLogic.execute(self.X)
         if result: 
             return self.X, self.F
+
+
+    def reportZero(self, result=False):
+        '''
+        This method 0's out all the X values, then recomputes the new F value.
+        These values are then reported if result = True.
+        Note: 
+            Must be run after .optimize method!
+        '''
+        self.X = [0]*len(self.X)
+        self.F = self.modelLogic.execute(self.X)
+        if result: 
+            return self.X, self.F
     
     
     def exportResults(self):
