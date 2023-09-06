@@ -31,8 +31,10 @@ class OptimizeWMOs:
                  wmoFloor=None,
                  wmoCeiling=None,
                  lowerBounds=[0]*8,
-                 upperBounds='longtermWMOVolumeLimits'):
+                 upperBounds='longtermWMOVolumeLimits',
+                 zero_threshold=1):
         self.verbose = verbose
+        self.zero_threshold = zero_threshold
         self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
         self.wmoFloor = wmoFloor
@@ -59,7 +61,8 @@ class OptimizeWMOs:
         problem = CostProblem(
             modelLogic=self.modelLogic,
             wmoFloor=self.wmoFloor, wmoCeiling=self.wmoCeiling, 
-            lowerBounds=self.lowerBounds, upperBounds=self.upperBounds
+            lowerBounds=self.lowerBounds, upperBounds=self.upperBounds,
+            zero_threshold=self.zero_threshold
         )
         
         # parameterize algorithm
@@ -82,8 +85,10 @@ class OptimizeWMOs:
             save_history=True
         )
         
-        self.X = self.res.X
-        self.F = self.res.F
+        # zero the X values below the zero_threshold
+        # because this is what is happening at CostProblem._evaluate()
+        self.X = [ 0 if x < self.zero_threshold else x for x in self.res.X ]
+        self.F = self.modelLogic.execute(self.X)
 
         print("Best solution found: \nX = %s\nF = %s" % (self.X, self.F))
         print(f"Execution time: {round(self.res.exec_time)} seconds")
@@ -92,30 +97,24 @@ class OptimizeWMOs:
             return self.res
     
     
-    def reportBest(self, zero_threshold=1, result=False):
+    def reportBest(self):
         '''
-        This method 0's out the X values below the zero_threshold, then recomputes the new F value.
-        These values are then reported if result = True.
+        This method reports the X values, 0'd below the zero_threshold, and the new F value.
         Note: 
             Must be run after .optimize method!
         '''
-        self.X = [ 0 if x < zero_threshold else x for x in self.X ]
-        self.F = self.modelLogic.execute(self.X)
-        if result: 
-            return self.X, self.F
+        return self.X, self.F
 
 
-    def reportZero(self, result=False):
+    def reportZero(self):
         '''
         This method 0's out all the X values, then recomputes the new F value.
-        These values are then reported if result = True.
         Note: 
             Must be run after .optimize method!
         '''
         self.X = [0]*len(self.X)
         self.F = self.modelLogic.execute(self.X)
-        if result: 
-            return self.X, self.F
+        return self.X, self.F
     
     
     def exportResults(self):

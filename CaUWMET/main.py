@@ -82,7 +82,8 @@ def main():
                 wmoFloor=wmoFloor,
                 wmoCeiling=wmoCeiling,
                 lowerBounds=lowerBounds,
-                upperBounds=upperBounds
+                upperBounds=upperBounds,
+                zero_threshold=1
             )
             print('Optimizer ready')
         except Exception as e:
@@ -97,7 +98,7 @@ def main():
         print("Optimize model...")
         try:
             result = optimizeWMOs.optimize(result=True)
-            X_optim, F_optim = optimizeWMOs.reportBest(zero_threshold=1,result=True)
+            X_optim, F_optim = optimizeWMOs.reportBest()
             exec_time = timedelta(seconds = round(result.exec_time))
             print("Model optimized")
         except Exception as e:
@@ -126,7 +127,7 @@ def main():
 
         print("Compute zeroed result...")
         try:
-            X_zero, F_zero = optimizeWMOs.reportZero(result=True)
+            X_zero, F_zero = optimizeWMOs.reportZero()
             print("Zeroed result computed")
         except Exception as e:
             logger.info(f"    error: '{e}'")
