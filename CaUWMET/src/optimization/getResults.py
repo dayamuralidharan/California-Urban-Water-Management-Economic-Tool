@@ -62,6 +62,4 @@ class GetResults():
                     out_df = pd.concat([historicHydrologyYear_df,df],axis=1)
                     out_df.to_excel(writer, sheet_name=k, index_label=k)
 
-            writer.close()
-
 

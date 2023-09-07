@@ -22,8 +22,8 @@ class CostProblem(ElementwiseProblem):
     https://pymoo.org/
     '''
     def __init__(self, 
-                 lowerBounds: list,          # lower bound of each longtermWMO type for a given scenario - len(list)=8
-                 upperBounds: list,          # upper bound of each longtermWMO type for a given scenario - len(list)=8
+                 lowerBounds: list,          # lower bound of each longtermWMO - len(list)=8
+                 upperBounds: list,          # upper bound of each longtermWMO - len(list)=8
                  modelLogic: ModelLogic,     # prepared ModelLogic object with InputData and StorageUtilities
                  wmoFloor=None,              # how low are we constraining the sum longtermWMOs?
                  wmoCeiling=None,            # how high are we constraining the sum longtermWMOs?
@@ -42,7 +42,7 @@ class CostProblem(ElementwiseProblem):
         self.wmoCeiling = wmoCeiling if wmoCeiling is not None else None
         self.n_ieq_constr = sum([ i != None for i in [self.wmoFloor, self.wmoCeiling] ]) #TODO: Recommend making name clearer
         self.lowerBounds = lowerBounds
-        self.upperBounds = [ ub if ub>0 else 0.00001 for ub in upperBounds ]  #TODO: refine how the upper bound 0 vals are handled
+        self.upperBounds = [ ub if ub>0 else self.zero_threshold for ub in upperBounds ]
         self.objectiveFunction = modelLogic.execute
         
         # parameterize the objective function
@@ -66,8 +66,8 @@ class CostProblem(ElementwiseProblem):
         x = [ xi if xi>self.zero_threshold else 0 for xi in x ]
         if self.n_ieq_constr > 0:
             out["F"] = self.objectiveFunction(x)
-            G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None       # np.sum(x) >= self.wmoFloor
-            G2 = np.sum(x) - self.wmoCeiling if self.wmoCeiling is not None else None  # self.wmoCeiling >= np.sum(x)
+            G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None  # np.sum(x)>=self.wmoFloor
+            G2 = np.sum(x) - self.wmoCeiling if self.wmoCeiling is not None else None  # self.wmoCeiling>=np.sum(x)
             out["G"] = [ g for g in [G1,G2] if g is not None ]
         else:
             out["F"] = self.objectiveFunction(x)
