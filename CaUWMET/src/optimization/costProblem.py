@@ -22,11 +22,12 @@ class CostProblem(ElementwiseProblem):
     https://pymoo.org/
     '''
     def __init__(self, 
-                 lowerBounds: list,          # lower bound of each longtermWMO type for a given scenario - len(list)=8
-                 upperBounds: list,          # upper bound of each longtermWMO type for a given scenario - len(list)=8
+                 lowerBounds: list,          # lower bound of each longtermWMO - len(list)=8
+                 upperBounds: list,          # upper bound of each longtermWMO - len(list)=8
                  modelLogic: ModelLogic,     # prepared ModelLogic object with InputData and StorageUtilities
                  wmoFloor=None,              # how low are we constraining the sum longtermWMOs?
                  wmoCeiling=None,            # how high are we constraining the sum longtermWMOs?
+                 zero_threshold=1,           # the zero_threshold minimizes all values below it to 0
                  **kwargs):    
         '''
         Initializing the CostProblem class requires parameterizing a CaUWMET model for a given contractor.
@@ -34,12 +35,14 @@ class CostProblem(ElementwiseProblem):
             wmoFloor/wmoCeiling :: number > 0, max sum of the longtermWMO allocations
             lowerBounds/upperBounds :: list of numbers, length 8
             modelLogic :: ModelLogic object loaded with InputData, StorageUtilities, and Contractor
+            zero_threshold :: number to send all values below to 0
         '''
+        self.zero_threshold = zero_threshold
         self.wmoFloor = wmoFloor if wmoFloor is not None else None
         self.wmoCeiling = wmoCeiling if wmoCeiling is not None else None
         self.n_ieq_constr = sum([ i != None for i in [self.wmoFloor, self.wmoCeiling] ]) #TODO: Recommend making name clearer
         self.lowerBounds = lowerBounds
-        self.upperBounds = [ ub if ub>0 else 0.0001 for ub in upperBounds ]  #TODO: refine how the upper bound 0 vals are handled
+        self.upperBounds = [ ub if ub>0 else self.zero_threshold for ub in upperBounds ]
         self.objectiveFunction = modelLogic.execute
         
         # parameterize the objective function
@@ -56,11 +59,15 @@ class CostProblem(ElementwiseProblem):
            x :: list of numbers, length 8
         Returns objective function f(x)
         Returns inequality constraints g(x)
+        The zero_threshold 0s out the values below it in the X vector.
+        This is also reflected in the OPtimizeWMOs.optimize() method.
+        This is done as a workaround to Nonetype errors when pymoo args xl and xu are both 0.
         '''
+        x = [ xi if xi>self.zero_threshold else 0 for xi in x ]
         if self.n_ieq_constr > 0:
             out["F"] = self.objectiveFunction(x)
-            G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None       # np.sum(x) >= self.wmoFloor
-            G2 = np.sum(x) - self.wmoCeiling if self.wmoCeiling is not None else None  # self.wmoCeiling >= np.sum(x)
+            G1 = self.wmoFloor - np.sum(x) if self.wmoFloor is not None else None  # np.sum(x)>=self.wmoFloor
+            G2 = np.sum(x) - self.wmoCeiling if self.wmoCeiling is not None else None  # self.wmoCeiling>=np.sum(x)
             out["G"] = [ g for g in [G1,G2] if g is not None ]
         else:
             out["F"] = self.objectiveFunction(x)

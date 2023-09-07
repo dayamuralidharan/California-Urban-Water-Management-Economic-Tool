@@ -22,9 +22,11 @@ def main():
         prog='CaUWMET Model Optimization',
         description='This program loops through contractors\nto report CaUWMET model optimization results.'
     )
-    parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose mode")
-    # TODO: Add more arguments like run for individual contractor, selecting outputs
-    verbose = parser.parse_args()
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="Enable verbose mode")
+    parser.add_argument("-c", "--contractors", nargs='+', type=str,
+                        help="Specify one or more contractors to run the model on")
+    args = parser.parse_args()
 
     # setup log file
     try:  # WARNING! this clears the log file if one already exists....
@@ -42,7 +44,7 @@ def main():
     print("Prepare model logic...")
     try:
         modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
-        contractors = modelLogic.inputData.contractorsList  #[:2]  # WARNING: remove index reference for prod - this for development only!
+        contractors = args.contractors if args.contractors is not None else modelLogic.inputData.contractorsList
         logger.info("ModelLogic - OK")
         print("Model logic prepared")
     except Exception as e:
@@ -74,13 +76,14 @@ def main():
         print(f"\nInstantiate optimizer for {contractor}...")
         try:
             optimizeWMOs = OptimizeWMOs(
-                verbose=verbose,
+                verbose=args.verbose,
                 modelLogic=modelLogic,
                 contractor=contractor,
                 wmoFloor=wmoFloor,
                 wmoCeiling=wmoCeiling,
                 lowerBounds=lowerBounds,
-                upperBounds=upperBounds
+                upperBounds=upperBounds,
+                zero_threshold=1
             )
             print('Optimizer ready')
         except Exception as e:
@@ -95,8 +98,7 @@ def main():
         print("Optimize model...")
         try:
             result = optimizeWMOs.optimize(result=True)
-            X_optim = list(result.X)
-            F_optim = result.F[0]
+            X_optim, F_optim = optimizeWMOs.reportBest()
             exec_time = timedelta(seconds = round(result.exec_time))
             print("Model optimized")
         except Exception as e:
@@ -123,29 +125,29 @@ def main():
         if error:
             continue
 
-        print("Compute best result...")
+        print("Compute zeroed result...")
         try:
-            X_zero, F_zero = optimizeWMOs.reportBest(zero_threshold=1, result=True)
-            print("Best result computed")
+            X_zero, F_zero = optimizeWMOs.reportZero()
+            print("Zeroed result computed")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
-            print("Best result computation failure! See CaUWMET.log for details....")
+            print("Zeroed result computation failure! See CaUWMET.log for details....")
             error = True
             pass
         if error:
             continue
         
-        print("Export best results...")
+        print("Export zeroed results...")
         try:
             modelOutputsZero, qaqcResultsZero = optimizeWMOs.exportResults()
             modelOutputsZeroAll.appendResults(modelOutputsZero)
             qaqcResultsZeroAll.appendResults(qaqcResultsZero)
-            print("Best results exported")
+            print("Zeroed results exported")
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
-            print("Export best results failure! See CaUWMET.log for details....")
+            print("Export zeroed results failure! See CaUWMET.log for details....")
             error = True
             pass
         if error:
@@ -185,8 +187,8 @@ def main():
         filenames = [
             'ModelOutputs_Optimal.xlsx',
             'QAQCResults_Optimal.xlsx',
-            'ModelOutputs_Best.xlsx',
-            'QAQCResults_Best.xlsx'
+            'ModelOutputs_Zero.xlsx',
+            'QAQCResults_Zero.xlsx'
         ]
         modelOutputsOptimAll.writeResults(filenames[0])
         qaqcResultsOptimAll.writeResults(filenames[1])

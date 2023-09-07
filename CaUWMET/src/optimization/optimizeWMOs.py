@@ -31,8 +31,11 @@ class OptimizeWMOs:
                  wmoFloor=None,
                  wmoCeiling=None,
                  lowerBounds=[0]*8,
-                 upperBounds='longtermWMOVolumeLimits'):
+                 upperBounds='longtermWMOVolumeLimits',
+                 zero_threshold=1):
         self.verbose = verbose
+        self.zero_threshold = zero_threshold
+        self.X_zero = None
         self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
         self.wmoFloor = wmoFloor
@@ -59,7 +62,8 @@ class OptimizeWMOs:
         problem = CostProblem(
             modelLogic=self.modelLogic,
             wmoFloor=self.wmoFloor, wmoCeiling=self.wmoCeiling, 
-            lowerBounds=self.lowerBounds, upperBounds=self.upperBounds
+            lowerBounds=self.lowerBounds, upperBounds=self.upperBounds,
+            zero_threshold=self.zero_threshold
         )
         
         # parameterize algorithm
@@ -82,8 +86,10 @@ class OptimizeWMOs:
             save_history=True
         )
         
-        self.X = self.res.X
-        self.F = self.res.F
+        # zero the X values below the zero_threshold
+        # because this is what is happening at CostProblem._evaluate()
+        self.X = [ xi if xi>self.zero_threshold else 0 for xi in self.res.X ]
+        self.F = self.modelLogic.execute(self.X)
 
         print("Best solution found: \nX = %s\nF = %s" % (self.X, self.F))
         print(f"Execution time: {round(self.res.exec_time)} seconds")
@@ -92,17 +98,24 @@ class OptimizeWMOs:
             return self.res
     
     
-    def reportBest(self, zero_threshold=1, result=False):
+    def reportBest(self):
         '''
-        This method 0's out the X values below the zero_threshold, then recomputes the new F value.
-        These values are then reported if result = True.
+        This method reports the X values, 0'd below the zero_threshold, and the new F value.
         Note: 
             Must be run after .optimize method!
         '''
-        self.X = [ 0 if x < zero_threshold else x for x in self.X ]
-        self.F = self.modelLogic.execute(self.X)
-        if result: 
-            return self.X, self.F
+        return self.X, self.F
+
+
+    def reportZero(self):
+        '''
+        This method 0's out all the X values, then recomputes the new F value.
+        Note: 
+            Must be run after .optimize method!
+        '''
+        self.X_zero = [0]*len(self.X)
+        self.F_zero = self.modelLogic.execute(self.X_zero)
+        return self.X_zero, self.F_zero
     
     
     def exportResults(self):
@@ -113,10 +126,10 @@ class OptimizeWMOs:
         '''
         modelOutputs = {
             'longtermWMOVolumeLimits': pd.DataFrame(data={
-                self.modelLogic.contractor: self.upperBounds
+                self.modelLogic.contractor: self.upperBounds if self.X_zero is None else self.X_zero
             }),
             'longtermWMOOptimizedVolumes': pd.DataFrame(data={
-                self.modelLogic.contractor: self.X
+                self.modelLogic.contractor: self.X if self.X_zero is None else self.X_zero
             }),
 
         # Outputs
@@ -182,7 +195,7 @@ class OptimizeWMOs:
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
         Note: 
-            Must be run after .optimize method!
+            Must be run after .reportZero method!
         '''
         # get the particles 
         # TODO: this could be its own method...
@@ -238,9 +251,15 @@ class OptimizeWMOs:
         
         # plot the best result in red 
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red', marker="o")
-        ## TODO: fix - this one doesn't show on the log-x plots and messes up the y axis....
-        #ax.scatter(x=sum(self.X_zero), y=self.F_zero, c='red', marker="*", edgecolors='red')
-        
+#        ax.text(s=f'Fmin = {int(self.res.F)}',
+#                x=sum(self.res.X),y=(self.res.F*10**-6)-2,
+#                c='red',size=8)
+        ax.hlines(y=self.F_zero*10**-6, xmin=min(TAF), xmax=max(TAF),
+                  color='red', linestyle='--', label='F([O]*8)')
+#        ax.text(s=f'F0 = {int(self.F_zero)}',
+#                x=min(TAF)*1.05,y=(self.F_zero*10**-6)+1,
+#                c='red',size=8)
+
         if save:
             population = self.res.algorithm.pop_size
             n_iter = self.res.algorithm.n_iter
@@ -248,7 +267,8 @@ class OptimizeWMOs:
             contractor = self.modelLogic.contractor.replace(" ", "")
             year = self.modelLogic.inputData.futureYear
             figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
-            plt.savefig(figname) # TODO: configure png so it doesn't cut off data for some plots
+            plt.tight_layout()
+            plt.savefig(figname, bbox_inches='tight') # TODO: configure png so it doesn't cut off data for some plots
             return figname
         else: 
             plt.show()
