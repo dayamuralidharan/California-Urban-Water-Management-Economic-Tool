@@ -251,14 +251,14 @@ class OptimizeWMOs:
         
         # plot the best result in red 
         ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red', marker="o")
-        ax.text(s=f'Fmin = {int(self.res.F)}',
-                x=sum(self.res.X),y=(self.res.F*10**-6)-2,
-                c='red',size=8)
+#        ax.text(s=f'Fmin = {int(self.res.F)}',
+#                x=sum(self.res.X),y=(self.res.F*10**-6)-2,
+#                c='red',size=8)
         ax.hlines(y=self.F_zero*10**-6, xmin=min(TAF), xmax=max(TAF),
                   color='red', linestyle='--', label='F([O]*8)')
-        ax.text(s=f'F0 = {int(self.F_zero)}',
-                x=min(TAF)*1.05,y=(self.F_zero*10**-6)+1,
-                c='red',size=8)
+#        ax.text(s=f'F0 = {int(self.F_zero)}',
+#                x=min(TAF)*1.05,y=(self.F_zero*10**-6)+1,
+#                c='red',size=8)
 
         if save:
             population = self.res.algorithm.pop_size
@@ -268,7 +268,7 @@ class OptimizeWMOs:
             year = self.modelLogic.inputData.futureYear
             figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
             plt.tight_layout()
-            plt.savefig(figname) # TODO: configure png so it doesn't cut off data for some plots
+            plt.savefig(figname, bbox_inches='tight') # TODO: configure png so it doesn't cut off data for some plots
             return figname
         else: 
             plt.show()
