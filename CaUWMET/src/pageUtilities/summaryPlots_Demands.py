@@ -12,8 +12,8 @@ def displaySummaryPlotsTotalDemandScenarios():
 
     # Set up total demand variables for summary poster plots
     # demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor']]
-    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor', st.session_state.futurePlanningYear]]
-    demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor','Study Region'])
+    demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     demandVars = ['Normal or Better Demands (AFY)', 'Single Dry-Year Demands (AFY)','Multiple Dry-Year Demands (AFY)']
 
@@ -40,7 +40,7 @@ def displaySummaryPlotsWaterUseByType():
     st.write(useByTypeExplainationText)
 
     # Set up variables for summary poster plots
-    useByTypePlotInputData = st.session_state.useByTypedf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
+    useByTypePlotInputData = st.session_state.useByTypedf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     useByTypePlotInputData = pd.melt(useByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     useByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     useByTypeVars = [
@@ -80,7 +80,7 @@ def displaySummaryPlotsIntExtUseByType():
     st.write(intExtUseByTypeExplainationText)
 
     # Set up variables for summary poster plots
-    intExtUseByTypePlotInputData = st.session_state.intExtUseByTypedf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
+    intExtUseByTypePlotInputData = st.session_state.intExtUseByTypedf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     intExtUseByTypePlotInputData = pd.melt(intExtUseByTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
     intExtUseByTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     intExtUseByTypeVars = [
@@ -114,7 +114,7 @@ def displaySummaryPlotsBaseLongTermConservation():
     st.write(baseLongTermConservationText)
 
     # Set up variables for summary poster plots
-    baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf[['Variable', 'Study Region','Contractor', '2025', '2030', '2035', '2040', '2045']]
+    baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     baseLongTermConservationPlotInputData = pd.melt(baseLongTermConservationPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     baseLongTermConservationPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     baseLongTermConservationVars = [
