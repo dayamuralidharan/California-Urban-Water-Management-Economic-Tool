@@ -41,15 +41,13 @@ futurePlanningYear = '2045'
 if 'futurePlanningYear' not in st.session_state:
     st.session_state['futurePlanningYear'] = futurePlanningYear
 
-
-
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
 inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
-inputDataTotalDemands = fetch_data("src/inputData/demandsInput_totalDemands.csv")
-inputDataDemandByUseType = fetch_data("src/inputData/demandsInput_useByTypeData.csv")
-inputDataBaseLongTermConservation = fetch_data("src/inputData/demandsInput_baseLongTermConservationData.csv")
+inputDataTotalDemands = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 19, nRows = 135, useCols = 'A:H')
+inputDataDemandByUseType = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 257, nRows = 319, useCols = 'A:H')
+inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 582, nRows = 44, useCols = 'A:H')
 
 if 'totalDemandsdf' not in st.session_state:
     st.session_state['totalDemandsdf'] = inputDataTotalDemands
@@ -57,56 +55,55 @@ if 'totalDemandsdf' not in st.session_state:
 if 'useByTypedf' not in st.session_state:
     st.session_state['useByTypedf'] = inputDataDemandByUseType
 
-
 if 'baseLongTermConservationdf' not in st.session_state:
     st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation
-    
+
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
-inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
-# Initialize radio button indices with default values
-if 'localSuppliesRadioButtonIndex' not in st.session_state:
-    st.session_state['localSuppliesRadioButtonIndex'] = 0
+# inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
+# inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
+# # Initialize radio button indices with default values
+# if 'localSuppliesRadioButtonIndex' not in st.session_state:
+#     st.session_state['localSuppliesRadioButtonIndex'] = 0
 
-if 'swpCVPRadioButtonIndex' not in st.session_state:
-    st.session_state['swpCVPRadioButtonIndex'] = 0
+# if 'swpCVPRadioButtonIndex' not in st.session_state:
+#     st.session_state['swpCVPRadioButtonIndex'] = 0
 
-if 'costBySupplyTypeRadioButtonIndex' not in st.session_state:
-    st.session_state['costBySupplyTypeRadioButtonIndex'] = 0
+# if 'costBySupplyTypeRadioButtonIndex' not in st.session_state:
+#     st.session_state['costBySupplyTypeRadioButtonIndex'] = 0
 
-if 'supplyPriorityRadioButtonIndex' not in st.session_state:
-    st.session_state['supplyPriorityRadioButtonIndex'] = 0
+# if 'supplyPriorityRadioButtonIndex' not in st.session_state:
+#     st.session_state['supplyPriorityRadioButtonIndex'] = 0
 
-#### Initialize input datasets with default values 
-if 'localSuppliesdf' not in st.session_state:
-    st.session_state['localSuppliesdf'] = inputDataLocalSupplies
+# #### Initialize input datasets with default values 
+# if 'localSuppliesdf' not in st.session_state:
+#     st.session_state['localSuppliesdf'] = inputDataLocalSupplies
 
-if 'swpCVPSuppliesdf' not in st.session_state:
-    st.session_state['swpCVPSuppliesdf'] = inputDataSWPCVP
+# if 'swpCVPSuppliesdf' not in st.session_state:
+#     st.session_state['swpCVPSuppliesdf'] = inputDataSWPCVP
 
 
 #---------------------------------------------------------------#
 # INITIALIZE SYSTEM OPERATIONS ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
-# Initialize radio button indices with default values
-if 'excessWaterSwitchRadioButtonIndex' not in st.session_state:
-    st.session_state['excessWaterSwitchRadioButtonIndex'] = 0
+# inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
+# # Initialize radio button indices with default values
+# if 'excessWaterSwitchRadioButtonIndex' not in st.session_state:
+#     st.session_state['excessWaterSwitchRadioButtonIndex'] = 0
 
-if 'carryoverStorageRadioButtonIndex' not in st.session_state:
-    st.session_state['carryoverStorageRadioButtonIndex'] = 0
+# if 'carryoverStorageRadioButtonIndex' not in st.session_state:
+#     st.session_state['carryoverStorageRadioButtonIndex'] = 0
 
-if 'carryoverStorageCostRadioButtonIndex' not in st.session_state:
-    st.session_state['carryoverStorageCostRadioButtonIndex'] = 0
+# if 'carryoverStorageCostRadioButtonIndex' not in st.session_state:
+#     st.session_state['carryoverStorageCostRadioButtonIndex'] = 0
 
-if 'transfersRadioButtonIndex' not in st.session_state:
-    st.session_state['transfersRadioButtonIndex'] = 0
+# if 'transfersRadioButtonIndex' not in st.session_state:
+#     st.session_state['transfersRadioButtonIndex'] = 0
 
-if 'transfersCostRadioButtonIndex' not in st.session_state:
-    st.session_state['transfersCostRadioButtonIndex'] = 0
+# if 'transfersCostRadioButtonIndex' not in st.session_state:
+#     st.session_state['transfersCostRadioButtonIndex'] = 0
 
-#### Initialize input datasets with default values 
-if 'excessWaterSwitchdf' not in st.session_state:
-    st.session_state['excessWaterSwitchdf'] = inputDataExcessWaterSwitch
+# #### Initialize input datasets with default values 
+# if 'excessWaterSwitchdf' not in st.session_state:
+#     st.session_state['excessWaterSwitchdf'] = inputDataExcessWaterSwitch
