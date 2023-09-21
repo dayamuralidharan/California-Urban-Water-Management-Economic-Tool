@@ -39,12 +39,16 @@ def app():
         """
 
         st.markdown(hide, unsafe_allow_html=True)
-
+        plotDropDownMenuVars = ["All Contractors", "Contractor 1 name", "Contractor 2 name..."] # Note Kensey will help set up contractor list to make this dynamic based on input data file
         with st.expander("Total Demand Scenarios"):
+            # plotChoice = st.selectbox('', lotDropDownMenuVars, )
+            # if plotChoice = 'All Contractors':
             displaySummaryPlotsTotalDemandScenarios()
             data = st.session_state.totalDemandsdf.filter(items=['Variable','Study Region','Contractor',int(st.session_state.futurePlanningYear)])
             data[int(st.session_state.futurePlanningYear)] = data[int(st.session_state.futurePlanningYear)].apply(roundValues)
             st.table(data = data)
+            # else:
+                # Create new displaySummaryPlotForOneContractor(ContractorName)
         with st.expander("Water Use By Type"):
             displaySummaryPlotsWaterUseByType()
             data = st.session_state.useByTypedf.filter(items=['Variable','Study Region','Contractor',int(st.session_state.futurePlanningYear)])

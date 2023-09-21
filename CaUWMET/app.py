@@ -41,10 +41,19 @@ futurePlanningYear = '2045'
 if 'futurePlanningYear' not in st.session_state:
     st.session_state['futurePlanningYear'] = futurePlanningYear
 
+inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
+
+#---------------------------------------------------------------#
+# INITIALIZE CONTRACTOR ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+# Nira: update fetch data to get contractor table into a dataframe - please update skipRows = 19, nRows = 135, useCols = 'A:H'
+# inputDataContractorInfo = fetch_data(inputDataFile, sheetName = 'Contractor Assumptions', skipRows = 19, nRows = 135, useCols = 'A:H')
+if 'contractorInfo' not in st.session_state:
+    st.session_state['contractorInfo'] = [1, 2]
+
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
 inputDataTotalDemands = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 19, nRows = 135, useCols = 'A:H')
 inputDataDemandByUseType = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 257, nRows = 319, useCols = 'A:H')
 inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 582, nRows = 44, useCols = 'A:H')
