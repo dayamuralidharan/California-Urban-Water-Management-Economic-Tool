@@ -1,9 +1,8 @@
-import pandas as pd
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
 import streamlit as st
+#contractorList = st.session_state.contractorInfo
 
-colors = ['black',]*27
+numberOfContractors = 27
+colors = ['black',]*numberOfContractors
 colors[0] = '#EF553B'
 colors[1] = '#EF553B'
 colors[2] = '#636EFA'
