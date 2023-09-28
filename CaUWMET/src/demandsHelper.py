@@ -72,14 +72,14 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                         #plot_bgcolor = '#0E1117',#'black',
                         font_family= 'Times New Roman',#"Helvetica",
                         width=1100,
-                        height=700,
+                        height=900,
                         template = 'plotly_dark',
                         legend=dict(title="", orientation = 'h', y = -0.15,
                                     font=dict(size = 10),
                                     bordercolor = 'LightGrey',
                                     borderwidth=0.5),
                         font=dict(size=12),
-                        margin = dict(l = 0, t = 40, r = 40, b = 40)
+                        margin = dict(l = 0, t = 40, r = 40, b = 40, pad = 0.1)
                     )
 
     return fig
