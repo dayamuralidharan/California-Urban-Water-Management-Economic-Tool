@@ -11,9 +11,9 @@ class DemandAssumptions:
         
         #TODO reconnect future year to global assumptions which we'll have to make an integer, right now its a string which doesn't work for the functions here
         futureYear = 2045 #globalAssumptions.futureYear
-        inputData_totalDemands = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:G')
-        inputData_useByType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:G')
-        inputData_plannedConservation = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:G')
+        inputData_totalDemands = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:H')
+        inputData_useByType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:H')
+        inputData_plannedConservation = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:H')
         
 
         demandsData = inputData_totalDemands
