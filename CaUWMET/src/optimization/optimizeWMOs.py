@@ -32,9 +32,13 @@ class OptimizeWMOs:
                  wmoCeiling=None,
                  lowerBounds=[0]*8,
                  upperBounds='longtermWMOVolumeLimits',
-                 zero_threshold=1):
+                 zero_threshold=1,
+                 n_gen=20,
+                 pop_size=20):
         self.verbose = verbose
         self.zero_threshold = zero_threshold
+        self.pop_size = pop_size
+        self.n_gen = n_gen
         self.X_zero = None
         self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
@@ -68,13 +72,13 @@ class OptimizeWMOs:
         
         # parameterize algorithm
         algorithm = PSO(  # TODO: enable users to play with hyperparameters????
-            pop_size=20,
+            pop_size=self.pop_size,
             w=0.8, c1=10.0, c2=1.0,
             adaptive=True,
             max_velocity_rate=0.3
         )
         # parameterize the termination criteria
-        termination = get_termination("n_gen", 20)  # TODO: enable ftol termination
+        termination = get_termination("n_gen", self.n_gen)  # TODO: enable ftol termination
         
         # execute optimization
         self.res = minimize(
@@ -190,7 +194,7 @@ class OptimizeWMOs:
         return modelOutputs, qaqcResults
 
 
-    def visualization_a(self, save=False):
+    def visualization_a(self, save=False, test=False):
         '''
         This method can be called after the self.res object has been created by the optimize() method. 
         Accessing the optimization history in self.res allows for plotting of the optimization search results.
@@ -259,18 +263,20 @@ class OptimizeWMOs:
 #        ax.text(s=f'F0 = {int(self.F_zero)}',
 #                x=min(TAF)*1.05,y=(self.F_zero*10**-6)+1,
 #                c='red',size=8)
-
-        if save:
-            population = self.res.algorithm.pop_size
-            n_iter = self.res.algorithm.n_iter
-            start_time = round(self.res.algorithm.start_time)
-            contractor = self.modelLogic.contractor.replace(" ", "")
-            year = self.modelLogic.inputData.futureYear
-            figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
-            plt.tight_layout()
-            plt.savefig(figname, bbox_inches='tight') # TODO: configure png so it doesn't cut off data for some plots
-            return figname
-        else: 
-            plt.show()
+        if test: 
+            plt.savefig('tests/test_graphic.png', bbox_inches='tight')
+        else:
+            if save:
+                population = self.res.algorithm.pop_size
+                n_iter = self.res.algorithm.n_iter
+                start_time = round(self.res.algorithm.start_time)
+                contractor = self.modelLogic.contractor.replace(" ", "")
+                year = self.modelLogic.inputData.futureYear
+                figname = f'graphics/{contractor}-{year}_optimization_p-{population}_n-{n_iter}_{start_time}.png'
+                plt.tight_layout()
+                plt.savefig(figname, bbox_inches='tight') # TODO: configure png so it doesn't cut off data for some plots
+                return figname
+            else: 
+                plt.show()
 
 

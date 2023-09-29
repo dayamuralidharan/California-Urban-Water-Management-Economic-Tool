@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime
 from datetime import timedelta
 import logging
+import traceback
 
 from src.modelLogic.modelLogic import ModelLogic
 from src.modelLogic.inputData import InputData
@@ -49,7 +50,8 @@ def main():
         print("Model logic prepared")
     except Exception as e:
         logger.info('ModelLogic Failure!')
-        logger.info(f"#### START ERROR LOG ####\n{e}\n####  END ERROR LOG  ####")
+        logger.info(f"#### START ERROR LOG ####\n{e}")
+        logger.info(f"{traceback.format_exc()}\n####  END ERROR LOG  ####")
         print("ModelLogic failure! See CaUWMET.log for details....")
     
     logger.info(f"Begin optimization loop through {len(contractors)} Contractors")
@@ -83,12 +85,15 @@ def main():
                 wmoCeiling=wmoCeiling,
                 lowerBounds=lowerBounds,
                 upperBounds=upperBounds,
-                zero_threshold=1
+                zero_threshold=1,
+                n_gen=20,
+                pop_size=20
             )
             print('Optimizer ready')
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            logger.info(f"Traceback:\n{traceback.format_exc()}")
             print("OptimizeWMOs failure! See CaUWMET.log for details....")
             error = True
             pass
@@ -104,6 +109,7 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            logger.info(f"Traceback:\n{traceback.format_exc()}")
             print("Optimization failure! See CaUWMET.log for details....")
             error = True
             pass
@@ -119,6 +125,7 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            logger.info(f"Traceback:\n{traceback.format_exc()}")
             print("Export optimized results failure! See CaUWMET.log for details....")
             error = True
             pass
@@ -132,6 +139,7 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            logger.info(f"Traceback:\n{traceback.format_exc()}")
             print("Zeroed result computation failure! See CaUWMET.log for details....")
             error = True
             pass
@@ -147,6 +155,7 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            logger.info(f"Traceback:\n{traceback.format_exc()}")
             print("Export zeroed results failure! See CaUWMET.log for details....")
             error = True
             pass
@@ -160,6 +169,7 @@ def main():
         except Exception as e:
             logger.info(f"    error: '{e}'")
             logger.info("  },") if contractor != contractors[-1] else logger.info("  }")
+            logger.info(f"Traceback:\n{traceback.format_exc()}")
             print("Visualization failure! See CaUWMET.log for details....")
             error = True
             pass
@@ -198,7 +208,8 @@ def main():
         print('Outputs written to excel files')
     except Exception as e:
         logger.info('Write outputs to excel Failure!')
-        logger.info(f"#### START ERROR LOG ####\n{e}\n####  END ERROR LOG  ####")
+        logger.info(f"#### START ERROR LOG ####\n{e}")
+        logger.info(f"{traceback.format_exc()}\n####  END ERROR LOG  ####")
         print("Write outputs to excel failure! See CaUWMET.log for details....")
         pass
 
