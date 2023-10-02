@@ -9,9 +9,9 @@ import pandas as pd
 def displaySummaryPlotsTotalDemandScenarios():
     st.subheader("Total Demand Scenarios")
     st.write(demandsExplainationText)
+    st.markdown("#### **Select Variable to Display in Plot Below:**")
 
     # Set up total demand variables for summary poster plots
-    # demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor']]
     demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
@@ -29,7 +29,12 @@ def displaySummaryPlotsTotalDemandScenarios():
     demandsBarPlotXAxisLabel = "Demands (acre-feet/year)"
     demandsColors = ['#F63366', '#2BB1BB', '#22466B']
 
-    displayPieAndBarPlots(demandVars, demandVarsForLabel, demandsNumberOfVars, demandsPlotInputData, demandsSelectBoxKey, demandsPiePlotLabel, demandsBarPlotLabel, demandsBarPlotXAxisLabel,demandsColors)
+    plotDropDownMenuVars = ["All Contractors", "Contractor 1 name", "Contractor 2 name..."] # TODO set up contractor list to make this dynamic based on input data file
+    plotTypeChoice_totalDemands = st.selectbox('', plotDropDownMenuVars, )
+    if plotTypeChoice_totalDemands == 'All Contractors':
+        displayPieAndBarPlots(demandVars, demandVarsForLabel, demandsNumberOfVars, demandsPlotInputData, demandsSelectBoxKey, demandsPiePlotLabel, demandsBarPlotLabel, demandsBarPlotXAxisLabel,demandsColors)
+    else:
+        st.markdown("Hello") #TODO: update with plots by contractor
 
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR TOTAL USE BY TYPE
@@ -38,6 +43,7 @@ def displaySummaryPlotsTotalDemandScenarios():
 def displaySummaryPlotsWaterUseByType():
     st.subheader("Water Use By Type")
     st.write(useByTypeExplainationText)
+    st.markdown("#### **Select Variable to Display in Plot Below:**")
 
     # Set up variables for summary poster plots
     useByTypePlotInputData = st.session_state.useByTypedf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
@@ -78,6 +84,7 @@ def displaySummaryPlotsWaterUseByType():
 def displaySummaryPlotsIntExtUseByType(): 
     st.subheader("Interior and Exterior Use By Type")
     st.write(intExtUseByTypeExplainationText)
+    st.markdown("#### **Select Variable to Display in Plot Below:**")
 
     # Set up variables for summary poster plots
     intExtUseByTypePlotInputData = st.session_state.intExtUseByTypedf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
@@ -112,6 +119,7 @@ def displaySummaryPlotsIntExtUseByType():
 def displaySummaryPlotsBaseLongTermConservation():    
     st.subheader("Planned Long-term Conservation")
     st.write(baseLongTermConservationText)
+    st.markdown("#### **Select Variable to Display in Plot Below:**")
 
     # Set up variables for summary poster plots
     baseLongTermConservationPlotInputData = st.session_state.baseLongTermConservationdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
