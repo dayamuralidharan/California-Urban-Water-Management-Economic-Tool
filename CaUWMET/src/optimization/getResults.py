@@ -40,6 +40,7 @@ class GetResults():
             Must be run after .appendResults method!
         '''
         historicHydrologyYear_df = pd.DataFrame(data={'Year': self.modelLogic.inputData.historicHydrologyYears})
+        
         longtermWMO_df = pd.DataFrame(data={'LongtermWMO':[
             'Conservation', 
             'Surface', 
@@ -51,8 +52,18 @@ class GetResults():
             'Other'
         ]})
 
-        with pd.ExcelWriter(filename) as writer:
-            self.modelLogic.inputData.hydroYearType.to_excel(writer, sheet_name = "HydroYearType", index_label = "Hydrologic Year Type")
+        shortenSheetNames = {
+            'transfersAndExchangesLongTermWMOCost': 'XfersAndXchangesLongTermWMOCost',
+            'demandsToBeMetByContingentOptions': 'demandsToBeMetByContingentOpts',
+            'contingentConservationReductionVolume': 'contingentConservationReductVol'
+        }
+
+        with pd.ExcelWriter(path=filename, engine='openpyxl') as writer:
+            self.modelLogic.inputData.hydroYearType.to_excel(
+                writer, 
+                sheet_name="HydroYearType", 
+                index_label="Hydrologic Year Type"
+            )
             for k, df in self.aggregatedOutputs.items():
                 if len(df)==len(longtermWMO_df):
                     # TODO: re-index by ltWMO name to remove numbered column names
@@ -60,6 +71,12 @@ class GetResults():
                     out_df.to_excel(writer, sheet_name=k, index_label=k)
                 elif len(df)==len(historicHydrologyYear_df):
                     out_df = pd.concat([historicHydrologyYear_df,df],axis=1)
-                    out_df.to_excel(writer, sheet_name=k, index_label=k)
-
+                    if k in shortenSheetNames.keys():
+                        out_df.to_excel(
+                            writer, 
+                            sheet_name=shortenSheetNames[k], 
+                            index_label=k
+                        )
+                    else:
+                        out_df.to_excel(writer, sheet_name=k, index_label=k)
 
