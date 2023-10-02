@@ -92,8 +92,6 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
 
     col1, col2 = st.columns(2)
     with col1:
-        
-        
         vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
 
         selectVariable = []

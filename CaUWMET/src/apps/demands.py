@@ -4,8 +4,6 @@ from src.globalUtilities import opt_echo
 from src.pageUtilities.summaryPlots_Demands import displaySummaryPlotsTotalDemandScenarios, displaySummaryPlotsWaterUseByType, displaySummaryPlotsIntExtUseByType, displaySummaryPlotsBaseLongTermConservation
 from src.colors import colors
 
-#TODO Review the color_map_df in demandsHelper file. I don't really understand the labeling. Also, why are colors input here but also declared in line ~129?
-
 def app():
     
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
