@@ -39,27 +39,11 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Total Demand Scenarios"):
-            
             displaySummaryPlotsTotalDemandScenarios()
-            data = st.session_state.totalDemandsdf.filter(items=['Variable','Study Region','Contractor',int(st.session_state.futurePlanningYear)])
-            data[int(st.session_state.futurePlanningYear)] = data[int(st.session_state.futurePlanningYear)].apply(roundValues)
-            st.table(data = data)
             
         with st.expander("Water Use By Type"):
             displaySummaryPlotsWaterUseByType()
-            data = st.session_state.useByTypedf.filter(items=['Variable','Study Region','Contractor',int(st.session_state.futurePlanningYear)])
-            data[int(st.session_state.futurePlanningYear)] = data[int(st.session_state.futurePlanningYear)].apply(roundValues)
-            st.table(data = data)
+
         with st.expander("Planned Long-term Conservation"):
             displaySummaryPlotsBaseLongTermConservation()
-            data = st.session_state.baseLongTermConservationdf.filter(items=['Variable','Study Region','Contractor',int(st.session_state.futurePlanningYear)])
-            data[int(st.session_state.futurePlanningYear)] = data[int(st.session_state.futurePlanningYear)].apply(roundValues)
-            st.table(data = data)
-
-def roundValues(value): 
-    try: 
-        value = round(float(str(value)))
-        return f"{value:,d}"
-    except ValueError: 
-        return str(value) 
 

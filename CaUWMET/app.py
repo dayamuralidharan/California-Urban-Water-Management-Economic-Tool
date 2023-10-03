@@ -67,13 +67,13 @@ inputDataDemandByUseType = fetch_data(inputDataFile, sheetName = 'Demand Assumpt
 inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 582, nRows = 44, useCols = 'A:H')
 
 if 'totalDemandsdf' not in st.session_state:
-    st.session_state['totalDemandsdf'] = inputDataTotalDemands
+    st.session_state['totalDemandsdf'] = inputDataTotalDemands[inputDataTotalDemands['Contractor'].isin(st.session_state.contractorList)]
 
 if 'useByTypedf' not in st.session_state:
-    st.session_state['useByTypedf'] = inputDataDemandByUseType
+    st.session_state['useByTypedf'] = inputDataDemandByUseType[inputDataDemandByUseType['Contractor'].isin(st.session_state.contractorList)]
 
 if 'baseLongTermConservationdf' not in st.session_state:
-    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation
+    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation[inputDataBaseLongTermConservation['Contractor'].isin(st.session_state.contractorList)]
 
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES

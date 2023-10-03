@@ -36,4 +36,11 @@ def fetch_data(inputDataFile, sheetName, skipRows, nRows, useCols):
 def selectSpecifiedRows(df, selectionColumn, selectionCriteria):
     return df.loc[df[selectionColumn] == selectionCriteria]
 
+def roundValues(value): 
+    try: 
+        value = round(float(str(value)))
+        return f"{value:,d}"
+    except ValueError: 
+        return str(value) 
+
 
