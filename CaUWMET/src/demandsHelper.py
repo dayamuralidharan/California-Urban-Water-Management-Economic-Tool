@@ -4,6 +4,7 @@ from plotly.subplots import make_subplots
 import streamlit as st
 import numpy as np
 from src.colors import colors
+from src.globalUtilities import roundValues
 
 def load_data(filename):
     df = pd.read_csv(filename, index_col=0)
@@ -92,20 +93,34 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("#### **Select Variable to Display in Plot Below:**")
-        
         vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
 
         selectVariable = []
         selectVariable.append(st.selectbox('', vars, key= selectBoxKey, help="Select variable to display in plots below."))
         
     plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
+    
         
     # Setting up color palette dict
     color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
     fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
     st.write(fig)
 
+    #Display table
+    tableData = plotInputData[plotInputData['Type'].isin(selectVariable)]
+    tableData = tableData.drop(columns = ['k_labels', 'colors', 'Year'])
+    tableData['Value'] = tableData['Value'].apply(roundValues)
+    st.table(data = tableData)
+
+def displayDataForOneContractor(contractorName, dataFrameToDisplay):
+    filteredDataToOneContractor = dataFrameToDisplay[dataFrameToDisplay['Contractor'].isin([contractorName])]
+    filteredDataToOneContractor['Value'] = filteredDataToOneContractor['Value'].apply(roundValues)
+    
+    # Add plot function here
+
+    st.table(filteredDataToOneContractor)
+
+    
 demandsExplainationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
 demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
 Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 

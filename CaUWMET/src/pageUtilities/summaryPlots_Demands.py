@@ -1,4 +1,4 @@
-from src.demandsHelper import displayPieAndBarPlots, demandsExplainationText, useByTypeExplainationText, intExtUseByTypeExplainationText, baseLongTermConservationText
+from src.demandsHelper import displayPieAndBarPlots, displayDataForOneContractor, demandsExplainationText, useByTypeExplainationText, intExtUseByTypeExplainationText, baseLongTermConservationText
 import streamlit as st
 import pandas as pd 
 
@@ -7,11 +7,9 @@ import pandas as pd
 #---------------------------------------------------------------#
 
 def displaySummaryPlotsTotalDemandScenarios():
-    st.subheader("Total Demand Scenarios")
     st.write(demandsExplainationText)
 
     # Set up total demand variables for summary poster plots
-    # demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region','Contractor']]
     demandsPlotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     demandsPlotInputData = pd.melt(demandsPlotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     demandsPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
@@ -29,14 +27,17 @@ def displaySummaryPlotsTotalDemandScenarios():
     demandsBarPlotXAxisLabel = "Demands (acre-feet/year)"
     demandsColors = ['#F63366', '#2BB1BB', '#22466B']
 
-    displayPieAndBarPlots(demandVars, demandVarsForLabel, demandsNumberOfVars, demandsPlotInputData, demandsSelectBoxKey, demandsPiePlotLabel, demandsBarPlotLabel, demandsBarPlotXAxisLabel,demandsColors)
+    plotTypeChoice_totalDemands = st.selectbox('View total demands data for:', st.session_state.dropDownMenuList, )
+    if plotTypeChoice_totalDemands == 'All Contractors':
+        displayPieAndBarPlots(demandVars, demandVarsForLabel, demandsNumberOfVars, demandsPlotInputData, demandsSelectBoxKey, demandsPiePlotLabel, demandsBarPlotLabel, demandsBarPlotXAxisLabel,demandsColors)
+    else:
+        displayDataForOneContractor(plotTypeChoice_totalDemands, demandsPlotInputData)
 
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR TOTAL USE BY TYPE
     #---------------------------------------------------------------#
 
 def displaySummaryPlotsWaterUseByType():
-    st.subheader("Water Use By Type")
     st.write(useByTypeExplainationText)
 
     # Set up variables for summary poster plots
@@ -69,14 +70,18 @@ def displaySummaryPlotsWaterUseByType():
     useByTypeBarPlotXAxisLabel = "Use By Type (acre-feet/year)"
     useByTypeColors = ['#FF7F50','#DFFF00', '#6495ED', '#CCCCFF', '#9FE2BF', 'FFBF00', '800000']
 
-    displayPieAndBarPlots(useByTypeVars, useByTypeVarsForLabel, useByTypeNumberOfVars, useByTypePlotInputData, useByTypeSelectBoxKey, useByTypePiePlotLabel, useByTypeBarPlotLabel, useByTypeBarPlotXAxisLabel, useByTypeColors)
+
+    plotTypeChoice_demandsByUseType = st.selectbox('View demands by use type data for:', st.session_state.dropDownMenuList, )
+    if plotTypeChoice_demandsByUseType == 'All Contractors':
+        displayPieAndBarPlots(useByTypeVars, useByTypeVarsForLabel, useByTypeNumberOfVars, useByTypePlotInputData, useByTypeSelectBoxKey, useByTypePiePlotLabel, useByTypeBarPlotLabel, useByTypeBarPlotXAxisLabel, useByTypeColors)
+    else:
+        st.markdown("Hello") #TODO: update with plots by contractor #displayDataForOneContractor(plotTypeChoice_demandsByUseType, useByTypePlotInputData)
 
     #---------------------------------------------------------------#
     # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY TYPE
     #---------------------------------------------------------------#
 
 def displaySummaryPlotsIntExtUseByType(): 
-    st.subheader("Interior and Exterior Use By Type")
     st.write(intExtUseByTypeExplainationText)
 
     # Set up variables for summary poster plots
@@ -110,7 +115,6 @@ def displaySummaryPlotsIntExtUseByType():
     #---------------------------------------------------------------#
 
 def displaySummaryPlotsBaseLongTermConservation():    
-    st.subheader("Planned Long-term Conservation")
     st.write(baseLongTermConservationText)
 
     # Set up variables for summary poster plots
@@ -131,4 +135,9 @@ def displaySummaryPlotsBaseLongTermConservation():
     baseLongTermConservationBarPlotXAxisLabel = "Planned Long-term Conservation (acre-feet/year)"
     baseLongTermConservationColors = ['#00FF00']
 
-    displayPieAndBarPlots(baseLongTermConservationVars, baseLongTermConservationVarsForLabel, baseLongTermConservationNumberOfVars, baseLongTermConservationPlotInputData, baseLongTermConservationSelectBoxKey, baseLongTermConservationPiePlotLabel, baseLongTermConservationBarPlotLabel, baseLongTermConservationBarPlotXAxisLabel, baseLongTermConservationColors)
+    plotTypeChoice_demandsByUseType = st.selectbox('View planned long-term conservation data for:', st.session_state.dropDownMenuList, )
+    if plotTypeChoice_demandsByUseType == 'All Contractors':
+        displayPieAndBarPlots(baseLongTermConservationVars, baseLongTermConservationVarsForLabel, baseLongTermConservationNumberOfVars, baseLongTermConservationPlotInputData, baseLongTermConservationSelectBoxKey, baseLongTermConservationPiePlotLabel, baseLongTermConservationBarPlotLabel, baseLongTermConservationBarPlotXAxisLabel, baseLongTermConservationColors)
+    else:
+        st.markdown("Hello") #TODO: update with plots by contractor
+    

@@ -2,8 +2,8 @@ import streamlit as st
 st.set_page_config(layout="wide")
 from src.multiapp import MultiApp
 # import your app modules here
-from src.apps import home, demands, modeloverview, contractorinformation, supplies, systemoperations, results, watermanagement
-from src.globalUtilities import fetch_data
+from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, results, watermanagement
+from src.globalUtilities import fetch_data, selectSpecifiedRows
 
 app = MultiApp()
 
@@ -20,7 +20,7 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Contractor Assumptions": contractorinformation,
+    "Global Assumptions": globalAssumptions,
     "Input Demand Assumptions": demands,
     "Input Supply Assumptions": supplies,
     "Input System Operation Assumptions": systemoperations,
@@ -33,23 +33,31 @@ selection = st.sidebar.radio("Go to",list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
 
-#TODO include this on side bar for every page. Make future planning year list dynamic based on input data.
+#TODO include this on side bar for every page. 
 st.sidebar.write("")
-futurePlanningYearsList = [2025, 2030, 2035, 2040, 2045]
-futurePlanningYear = '2045'
+inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
+
+#---------------------------------------------------------------#
+# INITIALIZE GLOBAL ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+futurePlanningYear = '2045' #TODO Make future planning year list dynamic based on input data.
 
 if 'futurePlanningYear' not in st.session_state:
     st.session_state['futurePlanningYear'] = futurePlanningYear
 
-inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
-
-#---------------------------------------------------------------#
-# INITIALIZE CONTRACTOR ASSUMPTION SESSION STATE VARIABLES
-#---------------------------------------------------------------#
-# Nira: update fetch data to get contractor table into a dataframe - please update skipRows = 19, nRows = 135, useCols = 'A:H'
-# inputDataContractorInfo = fetch_data(inputDataFile, sheetName = 'Contractor Assumptions', skipRows = 19, nRows = 135, useCols = 'A:H')
 if 'contractorInfo' not in st.session_state:
-    st.session_state['contractorInfo'] = [1, 2]
+    st.session_state['contractorInfo'] = fetch_data(inputDataFile, sheetName = 'Contractor Assumptions', skipRows = 4, nRows = 44, useCols = 'A:I')
+
+if 'hydrologyAssumptions' not in st.session_state:
+    st.session_state['hydrologyAssumptions'] = fetch_data(inputDataFile, sheetName = 'Hydrology Assumptions', skipRows = 3, nRows = 95, useCols = 'A:AR')
+
+if 'contractorList' not in st.session_state:
+    st.session_state['contractorList'] = selectSpecifiedRows(st.session_state.contractorInfo, 'Include in model', 'Yes')['Contractor']
+
+if 'dropDownMenuList' not in st.session_state: # Drop down menu used on various pages
+    st.session_state['dropDownMenuList'] = st.session_state.contractorList
+    st.session_state.dropDownMenuList.loc[0] = "All Contractors"
+    st.session_state.dropDownMenuList.sort_index(inplace=True)
 
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
@@ -59,13 +67,13 @@ inputDataDemandByUseType = fetch_data(inputDataFile, sheetName = 'Demand Assumpt
 inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 582, nRows = 44, useCols = 'A:H')
 
 if 'totalDemandsdf' not in st.session_state:
-    st.session_state['totalDemandsdf'] = inputDataTotalDemands
+    st.session_state['totalDemandsdf'] = inputDataTotalDemands[inputDataTotalDemands['Contractor'].isin(st.session_state.contractorList)]
 
 if 'useByTypedf' not in st.session_state:
-    st.session_state['useByTypedf'] = inputDataDemandByUseType
+    st.session_state['useByTypedf'] = inputDataDemandByUseType[inputDataDemandByUseType['Contractor'].isin(st.session_state.contractorList)]
 
 if 'baseLongTermConservationdf' not in st.session_state:
-    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation
+    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation[inputDataBaseLongTermConservation['Contractor'].isin(st.session_state.contractorList)]
 
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
