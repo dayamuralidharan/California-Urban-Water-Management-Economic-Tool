@@ -105,10 +105,20 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
     color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
     fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
     st.write(fig)
+
+    #Display table
     tableData = plotInputData[plotInputData['Type'].isin(selectVariable)]
     tableData = tableData.drop(columns = ['k_labels', 'colors', 'Year'])
     tableData['Value'] = tableData['Value'].apply(roundValues)
     st.table(data = tableData)
+
+def displayDataForOneContractor(contractorName, dataFrameToDisplay):
+    filteredDataToOneContractor = dataFrameToDisplay[dataFrameToDisplay['Contractor'].isin([contractorName])]
+    filteredDataToOneContractor['Value'] = filteredDataToOneContractor['Value'].apply(roundValues)
+    
+    # Add plot function here
+
+    st.table(filteredDataToOneContractor)
 
     
 demandsExplainationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 

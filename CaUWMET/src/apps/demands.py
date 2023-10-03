@@ -15,7 +15,7 @@ def app():
         st.title('Demand Assumptions Page')
         
         st.markdown("""<div><span class='font'>
-        There are three Demand input datasets including:</span></div>""", unsafe_allow_html=True)
+        There are three demand assumption datasets entered into CaUWMET including:</span></div>""", unsafe_allow_html=True)
         st.write("")
         st.markdown("""<div><span class='font'>
         1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types.</span></div>""", unsafe_allow_html=True)

@@ -1,4 +1,4 @@
-from src.demandsHelper import displayPieAndBarPlots, demandsExplainationText, useByTypeExplainationText, intExtUseByTypeExplainationText, baseLongTermConservationText
+from src.demandsHelper import displayPieAndBarPlots, displayDataForOneContractor, demandsExplainationText, useByTypeExplainationText, intExtUseByTypeExplainationText, baseLongTermConservationText
 import streamlit as st
 import pandas as pd 
 
@@ -31,7 +31,7 @@ def displaySummaryPlotsTotalDemandScenarios():
     if plotTypeChoice_totalDemands == 'All Contractors':
         displayPieAndBarPlots(demandVars, demandVarsForLabel, demandsNumberOfVars, demandsPlotInputData, demandsSelectBoxKey, demandsPiePlotLabel, demandsBarPlotLabel, demandsBarPlotXAxisLabel,demandsColors)
     else:
-        st.markdown("Hello") #TODO: update with plots by contractor
+        displayDataForOneContractor(plotTypeChoice_totalDemands, demandsPlotInputData)
 
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR TOTAL USE BY TYPE
@@ -75,7 +75,7 @@ def displaySummaryPlotsWaterUseByType():
     if plotTypeChoice_demandsByUseType == 'All Contractors':
         displayPieAndBarPlots(useByTypeVars, useByTypeVarsForLabel, useByTypeNumberOfVars, useByTypePlotInputData, useByTypeSelectBoxKey, useByTypePiePlotLabel, useByTypeBarPlotLabel, useByTypeBarPlotXAxisLabel, useByTypeColors)
     else:
-        st.markdown("Hello") #TODO: update with plots by contractor
+        st.markdown("Hello") #TODO: update with plots by contractor #displayDataForOneContractor(plotTypeChoice_demandsByUseType, useByTypePlotInputData)
 
     #---------------------------------------------------------------#
     # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY TYPE
