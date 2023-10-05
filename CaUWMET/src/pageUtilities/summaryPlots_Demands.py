@@ -75,7 +75,7 @@ def displaySummaryPlotsWaterUseByType():
     if plotTypeChoice_demandsByUseType == 'All Contractors':
         displayPieAndBarPlots(useByTypeVars, useByTypeVarsForLabel, useByTypeNumberOfVars, useByTypePlotInputData, useByTypeSelectBoxKey, useByTypePiePlotLabel, useByTypeBarPlotLabel, useByTypeBarPlotXAxisLabel, useByTypeColors)
     else:
-        st.markdown("Hello") #TODO: update with plots by contractor #displayDataForOneContractor(plotTypeChoice_demandsByUseType, useByTypePlotInputData)
+        displayDataForOneContractor(plotTypeChoice_demandsByUseType, useByTypePlotInputData)
 
     #---------------------------------------------------------------#
     # CREATE SUMMARY POSTER FOR INTERIOR AND EXTERIOR USE BY TYPE
@@ -139,5 +139,5 @@ def displaySummaryPlotsBaseLongTermConservation():
     if plotTypeChoice_demandsByUseType == 'All Contractors':
         displayPieAndBarPlots(baseLongTermConservationVars, baseLongTermConservationVarsForLabel, baseLongTermConservationNumberOfVars, baseLongTermConservationPlotInputData, baseLongTermConservationSelectBoxKey, baseLongTermConservationPiePlotLabel, baseLongTermConservationBarPlotLabel, baseLongTermConservationBarPlotXAxisLabel, baseLongTermConservationColors)
     else:
-        st.markdown("Hello") #TODO: update with plots by contractor
+        displayDataForOneContractor(plotTypeChoice_demandsByUseType, baseLongTermConservationPlotInputData)
     

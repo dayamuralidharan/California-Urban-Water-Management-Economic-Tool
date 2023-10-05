@@ -115,9 +115,16 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
 def displayDataForOneContractor(contractorName, dataFrameToDisplay):
     filteredDataToOneContractor = dataFrameToDisplay[dataFrameToDisplay['Contractor'].isin([contractorName])]
     filteredDataToOneContractor['Value'] = filteredDataToOneContractor['Value'].apply(roundValues)
-    
-    # Add plot function here
-
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=filteredDataToOneContractor['Type'],
+        y=filteredDataToOneContractor['Value'],
+    ))
+    fig.update_layout(title_text = contractorName, title_x=0.45, width = 700)
+    fig.update_traces(marker_color=['#EF553B', '#636EFA', '#AB63FA', '#00CC96', '#FFA15A', '#FF33E3', '#3336FF'])
+    fig.update_xaxes(title_text="Type")
+    fig.update_yaxes(title_text="Value")
+    st.write(fig)
     st.table(filteredDataToOneContractor)
 
     
