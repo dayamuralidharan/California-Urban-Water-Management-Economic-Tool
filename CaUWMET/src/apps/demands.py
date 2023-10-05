@@ -1,15 +1,14 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_Demands import displaySummaryPlotsTotalDemandScenarios, displaySummaryPlotsWaterUseByType, displaySummaryPlotsIntExtUseByType, displaySummaryPlotsBaseLongTermConservation
-from src.colors import colors
+from src.pageUtilities.summaryPlots_Demands import displaySummaryPlotsTotalDemandScenarios, displaySummaryPlotsWaterUseByType, displaySummaryPlotsBaseLongTermConservation
 
 def app():
     
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
 
-        #Set font styling (currently used for green text)
+        #Set font styling (used for green text)
         local_css("src/style.css")
 
         st.title('Demand Assumptions Page')

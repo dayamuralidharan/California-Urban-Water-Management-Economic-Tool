@@ -1,19 +1,16 @@
-from src.suppliesHelper import displayPieAndBarPlots, localSuppliesExplanationText,  swpCVPExplanationText, costBySupplyTypeExplanationText, supplyPriorityTypeExplanationText
+from src.summaryPlots_Helper import displayPieAndBarPlots, displayDataForOneContractor
 import streamlit as st
 import pandas as pd
 
-def displaySummaryPlots(): 
-    st.header("Supply Assumptions Overview")
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR LOCAL SUPPLIES
-    #---------------------------------------------------------------#
+#---------------------------------------------------------------#
+# SUMMARY POSTER FOR LOCAL AND REGIONAL SUPPLIES
+#---------------------------------------------------------------#
 
-    st.subheader("Local Supply Scenarios")
+def displaySummaryPlotsLocalAndRegionalSupplies(): 
     st.write(localSuppliesExplanationText)
 
     # Set up total demand variables for summary poster plots
-    localSuppliesPlotInputData = st.session_state.localSuppliesdf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
+    localSuppliesPlotInputData = st.session_state.localSuppliesdf[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
     localSuppliesPlotInputData = pd.melt(localSuppliesPlotInputData, id_vars=['Variable','Contractor','Study Region'])
     localSuppliesPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     localSuppliesVars = ['Surface for Normal or Better Years (acre-feet/year)',
@@ -69,8 +66,11 @@ def displaySummaryPlots():
     localSuppliesBarPlotXAxisLabel = "Supplies (acre-feet/year)"
     localSuppliesColors = ['#F63366', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#22466B', '#22466B']
 
-    displayPieAndBarPlots(localSuppliesVars, localSuppliesVarsForLabel, localSuppliesNumberOfVars, localSuppliesPlotInputData, localSuppliesBoxKey, localSuppliesPiePlotLabel, localSuppliesBarPlotLabel, localSuppliesBarPlotXAxisLabel, localSuppliesColors)
-    
+    plotTypeChoice_localRegionalSupplies = st.selectbox('View local and regional supply data for:', st.session_state.dropDownMenuList, )
+    if plotTypeChoice_localRegionalSupplies == 'All Contractors':
+        displayPieAndBarPlots(localSuppliesVars, localSuppliesVarsForLabel, localSuppliesNumberOfVars, localSuppliesPlotInputData, localSuppliesBoxKey, localSuppliesPiePlotLabel, localSuppliesBarPlotLabel, localSuppliesBarPlotXAxisLabel, localSuppliesColors)
+    else:
+        displayDataForOneContractor(plotTypeChoice_localRegionalSupplies, localSuppliesPlotInputData)
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR SWP CVP SUPPLIES
     #---------------------------------------------------------------#
@@ -95,53 +95,23 @@ def displaySummaryPlots():
     # swpCVPColors = ['#F63366']
 
     # displayPieAndBarPlots(swpCVPVars, swpCVPVarsForLabel, swpCVPNumberOfVars, swpCVPPlotInputData, swpCVPBoxKey, swpCVPPiePlotLabel, swpCVPBarPlotLabel, swpCVPBarPlotXAxisLabel, swpCVPColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR COST BY SUPPLY TYPE
-    #---------------------------------------------------------------#
 
-    st.subheader("Cost by Supply Type")
-    st.write(costBySupplyTypeExplanationText)
 
-    # Set up total demand variables for summary poster plots
-    # costBySupplyTypePlotInputData = st.session_state.costBySupplyTypedf[['Year', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    # costBySupplyTypePlotInputData = pd.melt(costBySupplyTypePlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    # costBySupplyTypePlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    # costBySupplyTypeVars = ['Cost by Supply Type']
+localSuppliesExplanationText = ("""Local supply data includes all existing and planned sources of water available for 
+                                each supplier excluding supplies sourced from the State Water and Central Valley Projects (SWP and CVP). 
+                                SWP and CVP supplies are input separately via the second variable on this page. Local supplies are input for
+                                anticipated availability under a normal or better water year, single dry, and multiple dry year conditions. Local supplies
+                                are input separately by type to account for the varying costs associated with each supply type. 
+                                Default data was developed utilizing information reported in each supplier's 2020 Urban Water Management Plan.
+                                Local supplies reported on this page should only include verified supplies. Any local supplies that are still 
+                                conceptual should be input in the Water Management Options Assumptions page.""")
 
-    # costBySupplyTypeVarsForLabel = [
-    #     costBySupplyTypePlotInputData['Type'] == costBySupplyTypeVars[0],
-    #     ]
-    # costBySupplyTypeNumberOfVars = [0]
-    # costBySupplyTypeBoxKey = "Cost by Supply Type Selectbox"
-    # costBySupplyTypePiePlotLabel = "Cost by Supply Type by Study Region"
-    # costBySupplyTypeBarPlotLabel = "Cost by Supply Type by Contractor"
-    # costBySupplyTypeBarPlotXAxisLabel = "Cost by Supply Type ($/acre-feet-year)"
-    # costBySupplyTypeColors = ['#F63366']
-
-    # displayPieAndBarPlots(costBySupplyTypeVars, costBySupplyTypeVarsForLabel, costBySupplyTypeNumberOfVars, costBySupplyTypePlotInputData, costBySupplyTypeBoxKey, costBySupplyTypePiePlotLabel, costBySupplyTypeBarPlotLabel, costBySupplyTypeBarPlotXAxisLabel, costBySupplyTypeColors)
-    
-    #---------------------------------------------------------------#
-    # SUMMARY POSTER FOR SUPPLY PRIORITY
-    #---------------------------------------------------------------#
-
-    st.subheader("Supply Priorities")
-    st.write(supplyPriorityTypeExplanationText)
-
-    # # Set up total demand variables for summary poster plots
-    # supplyPriorityPlotInputData = st.session_state.supplyPrioritydf[['Variable', 'Study Region','Contractor', str(st.session_state.futurePlanningYear)]]
-    # supplyPriorityPlotInputData = pd.melt(supplyPriorityPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    # supplyPriorityPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    # supplyPriorityVars = ['Supply Priority By Type']
-
-    # supplyPriorityVarsForLabel = [
-    #     supplyPriorityPlotInputData['Type'] == supplyPriorityVars[0],
-    #     ]
-    # supplyPriorityNumberOfVars = [0]
-    # supplyPriorityBoxKey = "Supply Priority Selectbox"
-    # supplyPriorityPiePlotLabel = "Supply Priority by Study Region"
-    # supplyPriorityBarPlotLabel = "Supply Priority by Contractor"
-    # supplyPriorityBarPlotXAxisLabel = "Supply Priority"
-    # supplyPriorityColors = ['#F63366']
-
-    # displayPieAndBarPlots(supplyPriorityVars, supplyPriorityVarsForLabel, supplyPriorityNumberOfVars, supplyPriorityPlotInputData, supplyPriorityBoxKey, supplyPriorityPiePlotLabel, supplyPriorityBarPlotLabel, supplyPriorityBarPlotXAxisLabel, supplyPriorityColors)
+swpCVPExplanationText = ("""State Water Project (SWP) and Central Valley Project (CVP) sourced supplies are input separately from the local supplies to account for
+                         variation that occurs from year to year as it is influenced by annual weather and hydrology, as well as demand by other users, operational and regulatory factors. 
+                         The SWP water input through this variable includes long-term water supply contracts including Table A amounts, transfer and exchange of Table A water, carryover water, Turb-Back Pools A and B water, Multiyar Water Pool Program water, 
+                         and Article 21 water. Default data for these supplies were developed from CA DWR and U.S. Bureau of Reclamation's Calsim II 
+                         and Calsim 3 water resources planning models. These models simulate operations of the SWP and CVP and much of the water resources infrastructure in the Central 
+                         Valley of California and the Sacramento-San Joaquin Delta regions. The default Calsim II dataset was developed from the U.S. Bureau's 2020 Benchmark study
+                         which simulated delivery capabilities under 1922 - 2003 historic hydrologic conditions. The default Calsim 3 dataset was developed from DWR's <TBD> study
+                         which simulated delivery capabilities under 1922 - 2015 historic hydrologic conditions. More details on these Calsim models and associated studies can be found
+                         in Section X of the model documentation.""")

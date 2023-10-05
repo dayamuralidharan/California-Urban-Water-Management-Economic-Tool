@@ -46,15 +46,15 @@ if 'futurePlanningYear' not in st.session_state:
     st.session_state['futurePlanningYear'] = futurePlanningYear
 
 if 'contractorInfo' not in st.session_state:
-    st.session_state['contractorInfo'] = fetch_data(inputDataFile, sheetName = 'Contractor Assumptions', skipRows = 4, nRows = 44, useCols = 'A:I')
+    st.session_state['contractorInfo'] = fetch_data(inputDataFile, sheetname = 'Contractor Assumptions', skiprows = 4, nrows = 44, usecols = 'A:I')
 
 if 'hydrologyAssumptions' not in st.session_state:
-    st.session_state['hydrologyAssumptions'] = fetch_data(inputDataFile, sheetName = 'Hydrology Assumptions', skipRows = 3, nRows = 95, useCols = 'A:AR')
+    st.session_state['hydrologyAssumptions'] = fetch_data(inputDataFile, sheetname = 'Hydrology Assumptions', skiprows = 3, nrows = 95, usecols = 'A:AR')
 
 if 'contractorList' not in st.session_state:
     st.session_state['contractorList'] = selectSpecifiedRows(st.session_state.contractorInfo, 'Include in model', 'Yes')['Contractor']
 
-if 'dropDownMenuList' not in st.session_state: # Drop down menu used on various pages
+if 'dropDownMenuList' not in st.session_state: # Drop down menu used on all pages
     st.session_state['dropDownMenuList'] = st.session_state.contractorList
     st.session_state.dropDownMenuList.loc[0] = "All Contractors"
     st.session_state.dropDownMenuList.sort_index(inplace=True)
@@ -62,9 +62,9 @@ if 'dropDownMenuList' not in st.session_state: # Drop down menu used on various 
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputDataTotalDemands = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 19, nRows = 135, useCols = 'A:H')
-inputDataDemandByUseType = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 257, nRows = 319, useCols = 'A:H')
-inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetName = 'Demand Assumptions', skipRows = 582, nRows = 44, useCols = 'A:H')
+inputDataTotalDemands = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:H')
+inputDataDemandByUseType = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:H')
+inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:H')
 
 if 'totalDemandsdf' not in st.session_state:
     st.session_state['totalDemandsdf'] = inputDataTotalDemands[inputDataTotalDemands['Contractor'].isin(st.session_state.contractorList)]
@@ -78,27 +78,15 @@ if 'baseLongTermConservationdf' not in st.session_state:
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-# inputDataLocalSupplies = fetch_data("src/inputData/supplyInput_localSupplies.csv")
-# inputDataSWPCVP = fetch_data("src/inputData/supplyInput_SWPCVPCalsimII2020BenchmarkStudy.csv")
-# # Initialize radio button indices with default values
-# if 'localSuppliesRadioButtonIndex' not in st.session_state:
-#     st.session_state['localSuppliesRadioButtonIndex'] = 0
+inputDataLocalSupplies = fetch_data(inputDataFile, sheetname = 'Supply Assumptions', skiprows = 11, nrows = 965, usecols = 'A:I')
+inputDataSWPCVP = fetch_data(inputDataFile, sheetname = 'Supply Assumptions', skiprows = 984, nrows = 95, usecols = 'A:AR')
 
-# if 'swpCVPRadioButtonIndex' not in st.session_state:
-#     st.session_state['swpCVPRadioButtonIndex'] = 0
+#### Initialize input datasets with default values 
+if 'localSuppliesdf' not in st.session_state:
+    st.session_state['localSuppliesdf'] = inputDataLocalSupplies[inputDataLocalSupplies['Contractor'].isin(st.session_state.contractorList)]
 
-# if 'costBySupplyTypeRadioButtonIndex' not in st.session_state:
-#     st.session_state['costBySupplyTypeRadioButtonIndex'] = 0
-
-# if 'supplyPriorityRadioButtonIndex' not in st.session_state:
-#     st.session_state['supplyPriorityRadioButtonIndex'] = 0
-
-# #### Initialize input datasets with default values 
-# if 'localSuppliesdf' not in st.session_state:
-#     st.session_state['localSuppliesdf'] = inputDataLocalSupplies
-
-# if 'swpCVPSuppliesdf' not in st.session_state:
-#     st.session_state['swpCVPSuppliesdf'] = inputDataSWPCVP
+if 'swpCVPSuppliesdf' not in st.session_state:
+    st.session_state['swpCVPSuppliesdf'] = inputDataSWPCVP
 
 
 #---------------------------------------------------------------#
