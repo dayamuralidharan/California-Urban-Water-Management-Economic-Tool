@@ -33,7 +33,6 @@ selection = st.sidebar.radio("Go to",list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
 
-#TODO include this on side bar for every page. 
 st.sidebar.write("")
 inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
 
@@ -62,53 +61,59 @@ if 'dropDownMenuList' not in st.session_state: # Drop down menu used on all page
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputDataTotalDemands = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:H')
-inputDataDemandByUseType = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:H')
-inputDataBaseLongTermConservation = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:H')
+inputData_TotalDemands = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:H')
+inputData_DemandByUseType = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:H')
+inputData_BaseLongTermConservation = fetch_data(inputDataFile, sheetname = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:H')
 
+# #### Initialize input datasets with input data 
 if 'totalDemandsdf' not in st.session_state:
-    st.session_state['totalDemandsdf'] = inputDataTotalDemands[inputDataTotalDemands['Contractor'].isin(st.session_state.contractorList)]
+    st.session_state['totalDemandsdf'] = inputData_TotalDemands[inputData_TotalDemands['Contractor'].isin(st.session_state.contractorList)]
 
 if 'useByTypedf' not in st.session_state:
-    st.session_state['useByTypedf'] = inputDataDemandByUseType[inputDataDemandByUseType['Contractor'].isin(st.session_state.contractorList)]
+    st.session_state['useByTypedf'] = inputData_DemandByUseType[inputData_DemandByUseType['Contractor'].isin(st.session_state.contractorList)]
 
 if 'baseLongTermConservationdf' not in st.session_state:
-    st.session_state['baseLongTermConservationdf'] = inputDataBaseLongTermConservation[inputDataBaseLongTermConservation['Contractor'].isin(st.session_state.contractorList)]
+    st.session_state['baseLongTermConservationdf'] = inputData_BaseLongTermConservation[inputData_BaseLongTermConservation['Contractor'].isin(st.session_state.contractorList)]
 
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputDataLocalSupplies = fetch_data(inputDataFile, sheetname = 'Supply Assumptions', skiprows = 11, nrows = 965, usecols = 'A:I')
-inputDataSWPCVP = fetch_data(inputDataFile, sheetname = 'Supply Assumptions', skiprows = 984, nrows = 95, usecols = 'A:AR')
+inputData_LocalSupplies = fetch_data(inputDataFile, sheetname = 'Supply Assumptions', skiprows = 11, nrows = 965, usecols = 'A:I')
+inputData_SWPCVP = fetch_data(inputDataFile, sheetname = 'Supply Assumptions', skiprows = 984, nrows = 95, usecols = 'A:AR')
 
-#### Initialize input datasets with default values 
+# #### Initialize input datasets with input data 
 if 'localSuppliesdf' not in st.session_state:
-    st.session_state['localSuppliesdf'] = inputDataLocalSupplies[inputDataLocalSupplies['Contractor'].isin(st.session_state.contractorList)]
+    st.session_state['localSuppliesdf'] = inputData_LocalSupplies[inputData_LocalSupplies['Contractor'].isin(st.session_state.contractorList)]
 
 if 'swpCVPSuppliesdf' not in st.session_state:
-    st.session_state['swpCVPSuppliesdf'] = inputDataSWPCVP
+    st.session_state['swpCVPSuppliesdf'] = inputData_SWPCVP
 
 
 #---------------------------------------------------------------#
 # INITIALIZE SYSTEM OPERATIONS ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-# inputDataExcessWaterSwitch = fetch_data("src/inputData/systemOperationsInput_ExcessWaterSwitch.csv")
-# # Initialize radio button indices with default values
-# if 'excessWaterSwitchRadioButtonIndex' not in st.session_state:
-#     st.session_state['excessWaterSwitchRadioButtonIndex'] = 0
+inputData_excessWaterSwitch = fetch_data(inputDataFile, sheetname = 'System Operations Assumptions', skiprows = 6, nrows = 44, usecols = 'A:E')
+inputData_surfaceCarryover = fetch_data(inputDataFile, sheetname = 'System Operations Assumptions', skiprows = 55, nrows = 229, usecols = 'A:I')
+inputData_groundwaterBank = fetch_data(inputDataFile, sheetname = 'System Operations Assumptions', skiprows = 289, nrows = 227, usecols = 'A:I')
+inputData_storageHedging = fetch_data(inputDataFile, sheetname = 'System Operations Assumptions', skiprows = 522, nrows = 181, usecols = 'A:E')
+inputData_storageCosts = fetch_data(inputDataFile, sheetname = 'System Operations Assumptions', skiprows = 709, nrows = 89, usecols = 'A:I')
+inputData_deliveryCosts = fetch_data(inputDataFile, sheetname = 'System Operations Assumptions', skiprows = 804, nrows = 319, usecols = 'A:I')
 
-# if 'carryoverStorageRadioButtonIndex' not in st.session_state:
-#     st.session_state['carryoverStorageRadioButtonIndex'] = 0
+# #### Initialize input datasets with input data 
+if 'excessWaterSwitch' not in st.session_state:
+    st.session_state['excessWaterSwitch'] = inputData_excessWaterSwitch[inputData_excessWaterSwitch['Contractor'].isin(st.session_state.contractorList)]
 
-# if 'carryoverStorageCostRadioButtonIndex' not in st.session_state:
-#     st.session_state['carryoverStorageCostRadioButtonIndex'] = 0
+if 'surfaceCarryover' not in st.session_state:
+    st.session_state['surfaceCarryover'] = inputData_surfaceCarryover[inputData_surfaceCarryover['Contractor'].isin(st.session_state.contractorList)]
 
-# if 'transfersRadioButtonIndex' not in st.session_state:
-#     st.session_state['transfersRadioButtonIndex'] = 0
+if 'groundwaterBank' not in st.session_state:
+    st.session_state['groundwaterBank'] = inputData_groundwaterBank[inputData_groundwaterBank['Contractor'].isin(st.session_state.contractorList)]
 
-# if 'transfersCostRadioButtonIndex' not in st.session_state:
-#     st.session_state['transfersCostRadioButtonIndex'] = 0
+if 'storageHedging' not in st.session_state:
+    st.session_state['storageHedging'] = inputData_storageHedging[inputData_storageHedging['Contractor'].isin(st.session_state.contractorList)]
 
-# #### Initialize input datasets with default values 
-# if 'excessWaterSwitchdf' not in st.session_state:
-#     st.session_state['excessWaterSwitchdf'] = inputDataExcessWaterSwitch
+if 'storageCosts' not in st.session_state:
+    st.session_state['storageCosts'] = inputData_storageCosts[inputData_storageCosts['Contractor'].isin(st.session_state.contractorList)]
+
+if 'deliveryCosts' not in st.session_state:
+    st.session_state['deliveryCosts'] = inputData_deliveryCosts[inputData_deliveryCosts['Contractor'].isin(st.session_state.contractorList)]

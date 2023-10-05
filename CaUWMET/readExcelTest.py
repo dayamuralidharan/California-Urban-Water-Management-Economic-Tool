@@ -1,7 +1,7 @@
 import pandas as pd
 
 inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
-inputData_X = pd.read_excel(inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 984, nrows = 95, usecols = 'A:AR')
+inputData_X = pd.read_excel(inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 804, nrows = 319, usecols = 'A:I')
 #inputData_X.set_index('Contractor', inplace = True)
 #futureYear = 2045
 

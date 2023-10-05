@@ -6,7 +6,7 @@ import pandas as pd
 # SUMMARY POSTER FOR LOCAL AND REGIONAL SUPPLIES
 #---------------------------------------------------------------#
 
-def displaySummaryPlotsLocalAndRegionalSupplies(): 
+def displaySummaryPlots_localAndRegionalSupplies(): 
     st.write(localSuppliesExplanationText)
 
     # Set up total demand variables for summary poster plots
@@ -77,24 +77,6 @@ def displaySummaryPlotsLocalAndRegionalSupplies():
 
     st.subheader("SWP and CVP Supply Scenarios")
     st.write(swpCVPExplanationText)
-
-    # Set up total demand variables for summary poster plots
-    # swpCVPPlotInputData = st.session_state.swpCVPSuppliesdf[['Variable', contractorsList]]
-    # swpCVPPlotInputData = pd.melt(swpCVPPlotInputData, id_vars=['Variable','Contractor','Study Region'])
-    # swpCVPPlotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    # swpCVPVars = ['SWP CVP']
-
-    # swpCVPVarsForLabel = [
-    #     swpCVPPlotInputData['Type'] == swpCVPVars[0],
-    #     ]
-    # swpCVPNumberOfVars = [0]
-    # swpCVPBoxKey = "SWP CVP Supplies Selectbox"
-    # swpCVPPiePlotLabel = "SWP CVP Supplies by Study Region"
-    # swpCVPBarPlotLabel = "SWP CVP Supplies by Contractor"
-    # swpCVPBarPlotXAxisLabel = "SWP CVP Supplies (acre-feet/year)"
-    # swpCVPColors = ['#F63366']
-
-    # displayPieAndBarPlots(swpCVPVars, swpCVPVarsForLabel, swpCVPNumberOfVars, swpCVPPlotInputData, swpCVPBoxKey, swpCVPPiePlotLabel, swpCVPBarPlotLabel, swpCVPBarPlotXAxisLabel, swpCVPColors)
 
 
 localSuppliesExplanationText = ("""Local supply data includes all existing and planned sources of water available for 
