@@ -1,7 +1,7 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_SystemOperations import displaySummaryPlots_excessSupplySwitch, displaySummaryPlots_carryoverStorage, displaySummaryPlots_groundwaterBank
+from src.pageUtilities.summaryPlots_SystemOperations import displaySummaryPlots_excessSupplySwitch, displaySummaryPlots_carryoverStorage, displaySummaryPlots_groundwaterBank, displaySummaryPlots_StorageHedgingStrategy
 
 
 def app():
@@ -57,10 +57,10 @@ def app():
         
         with st.expander("Groundwater banking storage operations"):
             displaySummaryPlots_groundwaterBank()
-            st.write("Hello")
         
         with st.expander("Storage hedging strategy"):
             st.write("Hello")
+            displaySummaryPlots_StorageHedgingStrategy()
         
         with st.expander("Storage operations costs"):
             st.write("Hello")

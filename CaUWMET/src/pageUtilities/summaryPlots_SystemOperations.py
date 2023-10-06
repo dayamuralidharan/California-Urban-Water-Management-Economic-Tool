@@ -3,7 +3,9 @@ import streamlit as st
 import pandas as pd
 
 
-
+    #---------------------------------------------------------------#
+    # SUMMARY POSTER FOR EXCESS WATER MANAGEMENT SWITCH OPERATIONS
+    #---------------------------------------------------------------#
 
 def displaySummaryPlots_excessSupplySwitch(): 
     st.write(excessWaterSwitchExplanationText)
@@ -85,6 +87,14 @@ def displaySummaryPlots_groundwaterBank():
         displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel, plotColors)
     else:
         displayDataForOneContractor(plotTypeChoice_surfaceCarryover, plotInputData)
+
+    #---------------------------------------------------------------#
+    # SUMMARY POSTER FOR EXCESS WATER MANAGEMENT SWITCH OPERATIONS
+    #---------------------------------------------------------------#
+
+def displaySummaryPlots_StorageHedgingStrategy():
+    st.write(storageHedgingStrategyExplanationText)
+    st.table(st.session_state.storageHedging)
 
 
 excessWaterSwitchExplanationText = ''  
