@@ -1,17 +1,4 @@
-import streamlit as st
-from src.globalUtilities import opt_echo
-import streamlit.components.v1 as components
-#https://docs.streamlit.io/library/components/components-api#render-an-html-string
-
-def app():
-    with opt_echo():      
-        st.title('CaUWMET Results Page')
-
-        st.markdown("""<div><span class='font'>
-        There are ### results output by CaUWMET including:</span></div>""", unsafe_allow_html=True)
-        st.write("")
-
-        html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -71,5 +58,4 @@ def app():
       })();
     </script>
   </body>
-</html>"""
-        components.html(html)
+</html>

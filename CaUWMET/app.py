@@ -2,7 +2,7 @@ import streamlit as st
 st.set_page_config(layout="wide")
 from src.multiapp import MultiApp
 # import your app modules here
-from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, results, watermanagement
+from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, contingentWatermanagementOptions, longtermWatermanagementOptions, results
 from src.globalUtilities import fetch_data, selectSpecifiedRows
 
 app = MultiApp()
@@ -15,7 +15,7 @@ with col1:
     """)
 
 with col2: 
-    st.image('src/dwrlogo.jpg', width=90)
+    st.image('src/pageUtilities/dwrlogo.jpg', width=90)
 
 PAGES = {
     "Home": home,
@@ -24,7 +24,8 @@ PAGES = {
     "Input Demand Assumptions": demands,
     "Input Supply Assumptions": supplies,
     "Input System Operation Assumptions": systemoperations,
-    "Input Water Management Options Assumptions": watermanagement,
+    "Input Contingent Water Management Options Assumptions": contingentWatermanagementOptions,
+    "Input Long-term Water Management Options Assumptions": longtermWatermanagementOptions,
     "View Results": results,
 }
 
@@ -117,3 +118,18 @@ if 'storageCosts' not in st.session_state:
 
 if 'deliveryCosts' not in st.session_state:
     st.session_state['deliveryCosts'] = inputData_deliveryCosts[inputData_deliveryCosts['Contractor'].isin(st.session_state.contractorList)]
+
+
+#---------------------------------------------------------------#
+# INITIALIZE CONTINGENT WMO ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+inputData_contingencyConservation = fetch_data(inputDataFile, sheetname = 'Contingent WMOs Assumptions', skiprows = 5, nrows = 183, usecols = 'A:I')
+inputData_waterMarketTransfers = fetch_data(inputDataFile, sheetname = 'Contingent WMOs Assumptions', skiprows = 192, nrows = 458, usecols = 'A:I')
+inputData_rationingProgram = fetch_data(inputDataFile, sheetname = 'Contingent WMOs Assumptions', skiprows = 655, nrows = 183, usecols = 'A:I')
+
+
+#---------------------------------------------------------------#
+# INITIALIZE LONG-TERM WMO ASSUMPTION SESSION STATE VARIABLES
+#---------------------------------------------------------------#
+inputData_longermWMOVolumes = fetch_data(inputDataFile, sheetname = 'Long-term WMOs Assumptions', skiprows = 7, nrows = 366, usecols = 'A:I')
+inputData_longtermWMOCosts = fetch_data(inputDataFile, sheetname = 'Long-term WMOs Assumptions', skiprows = 378, nrows = 734, usecols = 'A:J')
