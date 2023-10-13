@@ -31,7 +31,7 @@ def displaySummaryPlotsTotalDemandScenarios():
     if plotTypeChoice_totalDemands == 'All Contractors':
         displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel,colors)
     else:
-        displayDataForOneContractor(plotTypeChoice_totalDemands, demandsPlotInputData)
+        displayDataForOneContractor(plotTypeChoice_totalDemands, plotInputData)
 
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR TOTAL USE BY TYPE
