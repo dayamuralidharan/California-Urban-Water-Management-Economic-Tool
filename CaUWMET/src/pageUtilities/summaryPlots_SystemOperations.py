@@ -7,19 +7,19 @@ import pandas as pd
     # SUMMARY POSTER FOR EXCESS WATER MANAGEMENT SWITCH OPERATIONS
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_excessSupplySwitch(): 
-    st.write(excessWaterSwitchExplanationText)
-    st.table(st.session_state.excessWaterSwitch)
+def displaySummaryPlots_excessSupplySwitch(df, explanationText): 
+    st.write(explanationText)
+    st.table(df)
 
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR CARRYOVER STORAGE SYSTEM OPERATIONS
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_carryoverStorage(): 
-    st.write(carryoverStorageExplanationText)
+def displaySummaryPlots_carryoverStorage(df, explanationText): 
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.surfaceCarryover[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = ['Surface max storage capacity (acre-feet)',
@@ -50,11 +50,11 @@ def displaySummaryPlots_carryoverStorage():
     # SUMMARY POSTER FOR GROUNDWATER BANKING SYSTEM OPERATIONS
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_groundwaterBank(): 
-    st.write(groundwaterBankExplanationText)
+def displaySummaryPlots_groundwaterBank(df, explanationText): 
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.groundwaterBank[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = ['Groundwater Max Storage Capacity (acre-feet)',
@@ -84,20 +84,20 @@ def displaySummaryPlots_groundwaterBank():
     # SUMMARY POSTER FOR EXCESS WATER MANAGEMENT SWITCH OPERATIONS
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_StorageHedgingStrategy():
-    st.write(storageHedgingStrategyExplanationText)
-    st.table(st.session_state.storageHedging)
+def displaySummaryPlots_StorageHedgingStrategy(df, explanationText):
+    st.write(explanationText)
+    st.table(df)
 
 
     #---------------------------------------------------------------#
     # SUMMARY POSTER FOR STORAGE OPERATIONS COSTS
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_storageOperationsCosts(): 
-    st.write(storageCostsExplanationText)
+def displaySummaryPlots_storageOperationsCosts(df, explanationText): 
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.storageCosts[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = ['Groundwater bank put cost ($/acre-feet)',
@@ -123,11 +123,11 @@ def displaySummaryPlots_storageOperationsCosts():
     # SUMMARY POSTER FOR Delivery Costs
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_deliveryCosts(): 
-    st.write(deliveryCostsExplanationText)
+def displaySummaryPlots_deliveryCosts(df, explanationText): 
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.deliveryCosts[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region','Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = ['Groundwater Pumping (Single Dry or Better Year Types)',
@@ -157,12 +157,3 @@ def displaySummaryPlots_deliveryCosts():
     else:
         displayDataForOneContractor(plotTypeChoice_deliveryCosts, plotInputData)
     
-
-
-
-excessWaterSwitchExplanationText = ''  
-carryoverStorageExplanationText = '' 
-groundwaterBankExplanationText = '' 
-storageHedgingStrategyExplanationText = '' 
-storageCostsExplanationText = '' 
-deliveryCostsExplanationText = '' 

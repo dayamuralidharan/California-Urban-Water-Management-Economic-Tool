@@ -50,21 +50,28 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Excess project supply management strategy"):
-            displaySummaryPlots_excessSupplySwitch()
+            displaySummaryPlots_excessSupplySwitch(st.session_state.excessWaterSwitch, excessWaterSwitchExplanationText)
         
         with st.expander("Surface carryover storage operations"):
-            displaySummaryPlots_carryoverStorage()
+            displaySummaryPlots_carryoverStorage(st.session_state.surfaceCarryover, carryoverStorageExplanationText)
         
         with st.expander("Groundwater banking storage operations"):
-            displaySummaryPlots_groundwaterBank()
+            displaySummaryPlots_groundwaterBank(st.session_state.groundwaterBank, groundwaterBankExplanationText)
         
         with st.expander("Storage hedging strategy"):
-            displaySummaryPlots_StorageHedgingStrategy()
+            displaySummaryPlots_StorageHedgingStrategy(st.session_state.storageHedging, storageHedgingStrategyExplanationText)
         
         with st.expander("Storage operations costs"):
-            displaySummaryPlots_storageOperationsCosts()
+            displaySummaryPlots_storageOperationsCosts(st.session_state.storageCosts, storageCostsExplanationText)
         
         with st.expander("Delivery costs"):
-            displaySummaryPlots_deliveryCosts()
+            displaySummaryPlots_deliveryCosts(st.session_state.deliveryCosts, deliveryCostsExplanationText)
+
+excessWaterSwitchExplanationText = ''  
+carryoverStorageExplanationText = '' 
+groundwaterBankExplanationText = '' 
+storageHedgingStrategyExplanationText = '' 
+storageCostsExplanationText = '' 
+deliveryCostsExplanationText = '' 
         
         

@@ -22,7 +22,11 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Long-term Water Management Option Available Supply Volumes"):
-            displaySummaryPlots_longtermWMOVolumes()
+            displaySummaryPlots_longtermWMOVolumes(st.session_state.longermWMOVolumes, longtermWMOVolumeExplanationText)
         
         with st.expander("Long-term Water Management Option Costs"):
-            displaySummaryPlots_longtermWMOCosts()
+            displaySummaryPlots_longtermWMOCosts(st.session_state.longtermWMOCosts, longtermWMOCostExplanationText)
+
+longtermWMOVolumeExplanationText = ("""X""")
+
+longtermWMOCostExplanationText = ("""X""")

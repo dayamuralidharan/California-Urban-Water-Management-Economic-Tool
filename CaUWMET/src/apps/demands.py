@@ -38,11 +38,36 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Total Demand Scenarios"):
-            displaySummaryPlotsTotalDemandScenarios()
+            displaySummaryPlotsTotalDemandScenarios(st.session_state.totalDemandsdf, demandsExplanationText)
             
         with st.expander("Water Use By Type"):
-            displaySummaryPlotsWaterUseByType()
+            displaySummaryPlotsWaterUseByType(st.session_state.useByTypedf, useByTypeExplanationText)
 
         with st.expander("Planned Long-term Conservation"):
-            displaySummaryPlotsBaseLongTermConservation()
+            displaySummaryPlotsBaseLongTermConservation(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText)
 
+demandsExplanationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
+demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
+Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 
+uses such as car washing, surface cleaning and similar activities. Industrial water use consists of a wide range of uses including product processing, equipment cooling, 
+air conditioning, etc. Commercial water use are associated with the operation of a business or institution including drinking, sanitation and landscape irrigation. 
+Commercial water users include service industries, car washes, laundries, and golf courses. Governmental use includes infrastructure uses such as fire suppression, 
+street cleaning, line flushing, construction meters, conveyance losses, etc. Agriculture use represents the agricultural related demands within a contractor's service area, such as irrigation. 
+Landscape irrigation includes nonresidential irrigation for areas such as schools and parks, but excludes golf courses which are incorporated in the commercial use sector. More information can 
+be found in the model documentation."""
+
+useByTypeExplanationText = ("""Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
+demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
+Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 
+uses such as car washing, surface cleaning and similar activities. Industrial water use consists of a wide range of uses including product processing, equipment cooling, 
+air conditioning, etc. Commercial water use are associated with the operation of a business or institution including drinking, sanitation and landscape irrigation. 
+Commercial water users include service industries, car washes, laundries, and golf courses. Governmental use includes infrastructure uses such as fire suppression, 
+street cleaning, line flushing, construction meters, conveyance losses, etc. Agriculture use represents the agricultural related demands within a contractor's service area, such as irrigation. 
+Landscape irrigation includes nonresidential irrigation for areas such as schools and parks, but excludes golf courses which are incorporated in the commercial use sector. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
+
+
+baseLongTermConservationExplanationText = ("""Long-term conservation is incorporated into the model as it is an important component of each contractor's long-term strategy to increase 
+their water supply reliability. These demand reductions typically include programs that target water use efficiency in each sector, turf replacement programs, 
+conservation outreach and communications, reducing conveyance losses, and more. Long-term demand management measures that are adopted by water users can 
+have a demand hardening effect. Although they can increase reliability by reducing the size, frequency and duration of shortage events, they can make these 
+events relatively more costly when they do occur.  A hardening factor can be set to simulate this effect.>""")

@@ -6,11 +6,11 @@ import pandas as pd
 # SUMMARY POSTER FOR TOTAL DEMAND SCENARIOS
 #---------------------------------------------------------------#
 
-def displaySummaryPlotsTotalDemandScenarios():
-    st.write(demandsExplanationText)
+def displaySummaryPlotsTotalDemandScenarios(df, explanationText):
+    st.write(explanationText)
 
     # Set up total demand variables for summary poster plots
-    plotInputData = st.session_state.totalDemandsdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = ['Normal or Better Demands (AFY)', 'Single Dry-Year Demands (AFY)','Multiple Dry-Year Demands (AFY)']
@@ -33,11 +33,11 @@ def displaySummaryPlotsTotalDemandScenarios():
     # SUMMARY POSTER FOR TOTAL USE BY TYPE
     #---------------------------------------------------------------#
 
-def displaySummaryPlotsWaterUseByType():
-    st.write(useByTypeExplanationText)
+def displaySummaryPlotsWaterUseByType(df, explanationText):
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.useByTypedf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = [
@@ -72,11 +72,11 @@ def displaySummaryPlotsWaterUseByType():
     # CREATE SUMMARY POSTER FOR BASE LONG-TERM CONSERVATION
     #---------------------------------------------------------------#
 
-def displaySummaryPlotsBaseLongTermConservation():    
-    st.write(baseLongTermConservationExplanationText)
+def displaySummaryPlotsBaseLongTermConservation(df, explanationText):    
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.baseLongTermConservationdf[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = [
@@ -94,30 +94,3 @@ def displaySummaryPlotsBaseLongTermConservation():
         displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_demandsByUseType, plotInputData)
-    
-
-demandsExplanationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
-demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
-Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 
-uses such as car washing, surface cleaning and similar activities. Industrial water use consists of a wide range of uses including product processing, equipment cooling, 
-air conditioning, etc. Commercial water use are associated with the operation of a business or institution including drinking, sanitation and landscape irrigation. 
-Commercial water users include service industries, car washes, laundries, and golf courses. Governmental use includes infrastructure uses such as fire suppression, 
-street cleaning, line flushing, construction meters, conveyance losses, etc. Agriculture use represents the agricultural related demands within a contractor's service area, such as irrigation. 
-Landscape irrigation includes nonresidential irrigation for areas such as schools and parks, but excludes golf courses which are incorporated in the commercial use sector. More information can 
-be found in the model documentation."""
-
-useByTypeExplanationText = ("""Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
-demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
-Most residential indoor use includes sanitation, bathing, laundry, cooking and drinking. Most residential outdoor use includes landscape irrigation with other minor outdoor 
-uses such as car washing, surface cleaning and similar activities. Industrial water use consists of a wide range of uses including product processing, equipment cooling, 
-air conditioning, etc. Commercial water use are associated with the operation of a business or institution including drinking, sanitation and landscape irrigation. 
-Commercial water users include service industries, car washes, laundries, and golf courses. Governmental use includes infrastructure uses such as fire suppression, 
-street cleaning, line flushing, construction meters, conveyance losses, etc. Agriculture use represents the agricultural related demands within a contractor's service area, such as irrigation. 
-Landscape irrigation includes nonresidential irrigation for areas such as schools and parks, but excludes golf courses which are incorporated in the commercial use sector. More information can be found in the model documentation <add hyperlink to interior and exterior use section of model documentation.>""")
-
-
-baseLongTermConservationExplanationText = ("""Long-term conservation is incorporated into the model as it is an important component of each contractor's long-term strategy to increase 
-their water supply reliability. These demand reductions typically include programs that target water use efficiency in each sector, turf replacement programs, 
-conservation outreach and communications, reducing conveyance losses, and more. Long-term demand management measures that are adopted by water users can 
-have a demand hardening effect. Although they can increase reliability by reducing the size, frequency and duration of shortage events, they can make these 
-events relatively more costly when they do occur.  A hardening factor can be set to simulate this effect.>""")

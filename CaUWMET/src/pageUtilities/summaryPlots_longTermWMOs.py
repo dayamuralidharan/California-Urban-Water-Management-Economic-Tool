@@ -6,11 +6,11 @@ import pandas as pd
 # SUMMARY POSTER FOR LONG-TERM WMO AVAILABLE SUPPLY VOLUMES
 #---------------------------------------------------------------#
 
-def displaySummaryPlots_longtermWMOVolumes():
-    st.write(longtermWMOVolumeExplanationText)
+def displaySummaryPlots_longtermWMOVolumes(df, explanationText):
+    st.write(explanationText)
 
     # Set up total demand variables for summary poster plots
-    plotInputData = st.session_state.longermWMOVolumes[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = ['Surface Water Supply Volume (acre-feet/year)', 
@@ -46,11 +46,11 @@ def displaySummaryPlots_longtermWMOVolumes():
     # SUMMARY POSTER FOR LONG-TERM WMO COSTS
     #---------------------------------------------------------------#
 
-def displaySummaryPlots_longtermWMOCosts():
-    st.write(longtermWMOCostExplanationText)
+def displaySummaryPlots_longtermWMOCosts(df, explanationText):
+    st.write(explanationText)
 
     # Set up variables for summary poster plots
-    plotInputData = st.session_state.longtermWMOCosts[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor','Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
     vars = [
@@ -99,9 +99,3 @@ def displaySummaryPlots_longtermWMOCosts():
         displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_longtermWMOCosts, plotInputData)
-
-
-
-longtermWMOVolumeExplanationText = ("""X""")
-
-longtermWMOCostExplanationText = ("""X""")
