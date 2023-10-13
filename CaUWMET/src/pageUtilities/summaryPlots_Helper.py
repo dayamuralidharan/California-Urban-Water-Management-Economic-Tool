@@ -6,6 +6,33 @@ import numpy as np
 from src.colors import colors
 from src.globalUtilities import roundValues, load_CSV_data
 
+
+#---------------------------------------------------------------#
+# SUMMARY POSTER FOR VARIABLES INPUT BY PLANNING HORIZON YEAR
+#---------------------------------------------------------------#
+
+def displaySummaryPlots(df, explanationText, dataset):
+    st.write(explanationText)
+
+    # Set up total demand variables for summary poster plots
+    plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
+    plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor', 'Study Region'])
+    plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
+    vars = df['Variable'].unique()
+
+    varsCount = df['Variable'].nunique()
+    numberOfVars = list(range(varsCount))
+    selectBoxKey = dataset + " Selectbox"
+
+    allOrSingleContractorSelector = st.selectbox('View ' + dataset + ' data for:', st.session_state.dropDownMenuList, )
+    if allOrSingleContractorSelector == 'All Contractors':
+        displayPieAndBarPlots(vars, numberOfVars, plotInputData, selectBoxKey)
+    else:
+        displayDataForOneContractor(allOrSingleContractorSelector, plotInputData)
+
+
+
+
 # Functions to create the plots for all the input assumption pages
 
 def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisTitle):
@@ -82,9 +109,8 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
 
     return fig
 
-def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey):
+def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey):
     color_map_df = load_CSV_data("src/inputData/color_map_df.csv")
-    plotInputData['k_labels'] = np.select(varsForLabel, k_labelValues)
     
     col1, col2 = st.columns(2)
     with col1:
@@ -106,7 +132,7 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
 
     #Display table
     tableData = plotInputData[plotInputData['Type'].isin(selectVariable)]
-    tableData = tableData.drop(columns = ['k_labels', 'Year'])
+    tableData = tableData.drop(columns = ['Year'])
     tableData['Value'] = tableData['Value'].apply(roundValues)
     st.table(data = tableData)
 

@@ -1,7 +1,7 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_ContingencyWMOs import displaySummaryPlotsContingencyConservationCampaign, displaySummaryPlotsWaterMarketTransfers, displaySummaryPlotsRationingPrograms
+from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 def app():
 
@@ -22,13 +22,13 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Contingency Conservation Campaigns"):
-            displaySummaryPlotsContingencyConservationCampaign(st.session_state.contingencyConservation, contingencyConservationExplanationText, "Contingency Conservation Campaigns")
+            displaySummaryPlots(st.session_state.contingencyConservation, contingencyConservationExplanationText, "Contingency Conservation Campaigns")
         
         with st.expander("Water Market Transfers"):
-            displaySummaryPlotsWaterMarketTransfers(st.session_state.waterMarketTransfers, waterMarketTransfersExplanationText)
+            displaySummaryPlots(st.session_state.waterMarketTransfers, waterMarketTransfersExplanationText, "Water Market Transfers")
 
         with st.expander("Rationing Programs"):
-            displaySummaryPlotsRationingPrograms(st.session_state.rationingPrograms, rationingProgramExplanationText)
+            displaySummaryPlots(st.session_state.rationingPrograms, rationingProgramExplanationText, "Rationing Programs")
 
 contingencyConservationExplanationText = """The model assumes contingency conservation campaigns are initiated whenever there is a 
 shortage in available water supplies compared to current quantity demanded or in response to low carryover storage availability. 

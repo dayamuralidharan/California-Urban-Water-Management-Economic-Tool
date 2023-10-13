@@ -1,7 +1,7 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_longTermWMOs import displaySummaryPlots_longtermWMOVolumes, displaySummaryPlots_longtermWMOCosts
+from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 def app():
 
@@ -22,10 +22,10 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Long-term Water Management Option Available Supply Volumes"):
-            displaySummaryPlots_longtermWMOVolumes(st.session_state.longermWMOVolumes, longtermWMOVolumeExplanationText)
+            displaySummaryPlots(st.session_state.longermWMOVolumes, longtermWMOVolumeExplanationText, "Long-term Water Management Option Volumes")
         
         with st.expander("Long-term Water Management Option Costs"):
-            displaySummaryPlots_longtermWMOCosts(st.session_state.longtermWMOCosts, longtermWMOCostExplanationText)
+            displaySummaryPlots(st.session_state.longtermWMOCosts, longtermWMOCostExplanationText, "Long-term Water Management Option Costs")
 
 longtermWMOVolumeExplanationText = ("""X""")
 

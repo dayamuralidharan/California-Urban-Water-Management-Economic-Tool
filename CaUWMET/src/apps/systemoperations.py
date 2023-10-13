@@ -1,7 +1,7 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_SystemOperations import displaySummaryPlots_excessSupplySwitch, displaySummaryPlots_carryoverStorage, displaySummaryPlots_groundwaterBank, displaySummaryPlots_StorageHedgingStrategy, displaySummaryPlots_storageOperationsCosts, displaySummaryPlots_deliveryCosts
+from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 
 def app():
@@ -50,22 +50,24 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Excess project supply management strategy"):
-            displaySummaryPlots_excessSupplySwitch(st.session_state.excessWaterSwitch, excessWaterSwitchExplanationText)
+            st.write(excessWaterSwitchExplanationText)
+            st.table(st.session_state.excessWaterSwitch)
         
         with st.expander("Surface carryover storage operations"):
-            displaySummaryPlots_carryoverStorage(st.session_state.surfaceCarryover, carryoverStorageExplanationText)
+            displaySummaryPlots(st.session_state.surfaceCarryover, carryoverStorageExplanationText, "Surface Carryover")
         
         with st.expander("Groundwater banking storage operations"):
-            displaySummaryPlots_groundwaterBank(st.session_state.groundwaterBank, groundwaterBankExplanationText)
+            displaySummaryPlots(st.session_state.groundwaterBank, groundwaterBankExplanationText, "Groundwater Banking")
         
         with st.expander("Storage hedging strategy"):
-            displaySummaryPlots_StorageHedgingStrategy(st.session_state.storageHedging, storageHedgingStrategyExplanationText)
+            st.write(storageHedgingStrategyExplanationText)
+            st.table(st.session_state.storageHedging)
         
-        with st.expander("Storage operations costs"):
-            displaySummaryPlots_storageOperationsCosts(st.session_state.storageCosts, storageCostsExplanationText)
+        with st.expander("Storage Operations Costs"):
+            displaySummaryPlots(st.session_state.storageCosts, storageCostsExplanationText, "Storage Operations Costs")
         
-        with st.expander("Delivery costs"):
-            displaySummaryPlots_deliveryCosts(st.session_state.deliveryCosts, deliveryCostsExplanationText)
+        with st.expander("Delivery Costs"):
+            displaySummaryPlots(st.session_state.deliveryCosts, deliveryCostsExplanationText, "Delivery Costs")
 
 excessWaterSwitchExplanationText = ''  
 carryoverStorageExplanationText = '' 

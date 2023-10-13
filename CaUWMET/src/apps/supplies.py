@@ -1,7 +1,7 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_Supplies import displaySummaryPlots_localAndRegionalSupplies
+from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 
 def app():
@@ -43,7 +43,7 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Local and Regional Base Water Supplies"):
-            displaySummaryPlots_localAndRegionalSupplies(st.session_state.localSuppliesdf, localSuppliesExplanationText)
+            displaySummaryPlots(st.session_state.localSuppliesdf, localSuppliesExplanationText, "Local and Regional Supply Volumes")
         
         with st.expander("State Water Project and Central Valley Project Base Water Supplies"):
             st.markdown('Hello')

@@ -1,7 +1,7 @@
 import streamlit as st
 from src.load_css import local_css
 from src.globalUtilities import opt_echo
-from src.pageUtilities.summaryPlots_Demands import displaySummaryPlotsTotalDemandScenarios, displaySummaryPlotsWaterUseByType, displaySummaryPlotsBaseLongTermConservation
+from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 def app():
     
@@ -38,13 +38,13 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Total Demand Scenarios"):
-            displaySummaryPlotsTotalDemandScenarios(st.session_state.totalDemandsdf, demandsExplanationText)
+            displaySummaryPlots(st.session_state.totalDemandsdf, demandsExplanationText, "Total Demand Scenarios")
             
         with st.expander("Water Use By Type"):
-            displaySummaryPlotsWaterUseByType(st.session_state.useByTypedf, useByTypeExplanationText)
+            displaySummaryPlots(st.session_state.useByTypedf, useByTypeExplanationText, "Water Use By Type")
 
         with st.expander("Planned Long-term Conservation"):
-            displaySummaryPlotsBaseLongTermConservation(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText)
+            displaySummaryPlots(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText, "Planned Long-term Conservation")
 
 demandsExplanationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
 demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.
