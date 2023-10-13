@@ -59,16 +59,12 @@ def displaySummaryPlots_localAndRegionalSupplies():
         localSuppliesPlotInputData['Type'] == localSuppliesVars[19],
         localSuppliesPlotInputData['Type'] == localSuppliesVars[20],
         ]
-    localSuppliesNumberOfVars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    localSuppliesBoxKey = "Supplies Selectbox"
-    localSuppliesPiePlotLabel = "Supplies by Study Region"
-    localSuppliesBarPlotLabel = "Supplies by Contractor"
-    localSuppliesBarPlotXAxisLabel = "Supplies (acre-feet/year)"
-    localSuppliesColors = ['#F63366', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#22466B', '#22466B']
+    numberOfVars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    boxKey = "Supplies Selectbox"
 
     plotTypeChoice_localRegionalSupplies = st.selectbox('View local and regional supply data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_localRegionalSupplies == 'All Contractors':
-        displayPieAndBarPlots(localSuppliesVars, localSuppliesVarsForLabel, localSuppliesNumberOfVars, localSuppliesPlotInputData, localSuppliesBoxKey, localSuppliesPiePlotLabel, localSuppliesBarPlotLabel, localSuppliesBarPlotXAxisLabel, localSuppliesColors)
+        displayPieAndBarPlots(localSuppliesVars, localSuppliesVarsForLabel, numberOfVars, localSuppliesPlotInputData, boxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_localRegionalSupplies, localSuppliesPlotInputData)
     #---------------------------------------------------------------#

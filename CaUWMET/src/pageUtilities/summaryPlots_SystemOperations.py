@@ -38,14 +38,10 @@ def displaySummaryPlots_carryoverStorage():
         ]
     numberOfVars = [0, 1, 2, 3, 4]
     boxKey = "Surface Carryover Storage Selectbox"
-    piePlotLabel = "Surface Carryover Storage by Study Region"
-    barPlotLabel = "Surface Carryover Storage by Contractor"
-    barPlotXAxisLabel = "Surface Carryover Storage (acre-feet/year)"
-    plotColors = ['#F63366', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B']
 
     plotTypeChoice_surfaceCarryover = st.selectbox('View surface carryover storage data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_surfaceCarryover == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel, plotColors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_surfaceCarryover, plotInputData)
     
@@ -77,14 +73,10 @@ def displaySummaryPlots_groundwaterBank():
         ]
     numberOfVars = [0, 1, 2, 3, 4]
     boxKey = "Groundwater Bank Storage Selectbox"
-    piePlotLabel = "Groundwater Bank Storage by Study Region"
-    barPlotLabel = "Groundwater Bank Storage by Contractor"
-    barPlotXAxisLabel = "Groundwater Bank Storage (acre-feet/year)"
-    plotColors = ['#F63366', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B']
 
     plotTypeChoice_surfaceCarryover = st.selectbox('View groundwater bank storage data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_surfaceCarryover == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel, plotColors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_surfaceCarryover, plotInputData)
 
@@ -118,14 +110,10 @@ def displaySummaryPlots_storageOperationsCosts():
         ]
     numberOfVars = [0, 1]
     boxKey = "Storage Operations Costs Selectbox"
-    piePlotLabel = "Costs by Study Region"
-    barPlotLabel = "Costs by Contractor"
-    barPlotXAxisLabel = "Cost ($/acre-feet)"
-    plotColors = ['#F63366', '#2BB1BB']
 
     plotTypeChoice_storageCosts = st.selectbox('View storage cost data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_storageCosts == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel, plotColors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_storageCosts, plotInputData)
 
@@ -162,14 +150,10 @@ def displaySummaryPlots_deliveryCosts():
         ]
     numberOfVars = [0, 1, 2, 3, 4, 5, 6]
     boxKey = "Delivery Cost Selectbox"
-    piePlotLabel = "Delivery Cost by Study Region"
-    barPlotLabel = "Delivery Cost by Contractor"
-    barPlotXAxisLabel = "Delivery Cost ($/acre-foot)"
-    plotColors = ['#F63366', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B', '#2BB1BB', '#22466B']
 
     plotTypeChoice_deliveryCosts = st.selectbox('View delivery cost data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_deliveryCosts == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel, plotColors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, boxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_deliveryCosts, plotInputData)
     

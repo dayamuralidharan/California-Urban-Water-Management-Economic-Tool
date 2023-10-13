@@ -23,14 +23,10 @@ def displaySummaryPlotsContingencyConservationCampaign():
         ]
     numberOfVars = [0, 1, 2, 3]
     selectBoxKey = "Contingency Conservation Selectbox"
-    piePlotLabel = "Contingency Conservation Assumptions by Region"
-    barPlotLabel = "Contingency Conservation Assumptions by Contractor"
-    barPlotXAxisLabel = "Contingency Conservation Assumption"
-    colors = ['#F63366', '#2BB1BB', '#22466B', '800000']
 
     plotTypeChoice_contingencyConservation = st.selectbox('View total demands data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_contingencyConservation == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel,colors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_contingencyConservation, plotInputData)
   
@@ -70,14 +66,10 @@ def displaySummaryPlotsWaterMarketTransfers():
         ]
     numberOfVars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     selectBoxKey = "Water Market Transfers Selectbox"
-    piePlotLabel = "Water Market Transfers Assumptions by Region"
-    barPlotLabel = "Water Market Transfers Assumptions by Contractor"
-    barPlotXAxisLabel = "Water Market Transfers Assumption"
-    colors = ['#F63366', '#2BB1BB', '#22466B', '800000', '800000','800000','800000','800000','800000', '800000']
 
     plotTypeChoice_waterMarketTransfers = st.selectbox('View water market transfers data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_waterMarketTransfers == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel,colors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_waterMarketTransfers, plotInputData)
 
@@ -111,14 +103,10 @@ def displaySummaryPlotsRationingPrograms():
         ]
     numberOfVars = [0, 1, 2, 3, 4, 5]
     selectBoxKey = "Rationing Programs Selectbox"
-    piePlotLabel = "Rationing Program Assumptions by Region"
-    barPlotLabel = "Rationing Program Assumptions by Contractor"
-    barPlotXAxisLabel = "Rationing Programs Assumption"
-    colors = ['#F63366', '#2BB1BB', '#22466B', '800000', '800000','800000']
 
     plotTypeChoice_rationingProgram = st.selectbox('View rationing program assumptions for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_rationingProgram == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel,colors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_rationingProgram, plotInputData)
 

@@ -35,14 +35,10 @@ def displaySummaryPlots_longtermWMOVolumes():
         ]
     numberOfVars = [0, 1, 2, 3, 4, 5, 6, 7]
     selectBoxKey = "Long-term WMOs Selectbox"
-    piePlotLabel = "Long-term WMOs by Study Region"
-    barPlotLabel = "Long-term WMOs by Contractor"
-    barPlotXAxisLabel = "Long-term WMO Available Supply (acre-feet/year)"
-    colors = ['#22466B', '#22466B', '#22466B', '#22466B', '#22466B', '#22466B', '#22466B', '#22466B']
 
     plotTypeChoice_longtermWMOVolumes = st.selectbox('View long-term WMO volume data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_longtermWMOVolumes == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel,colors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_longtermWMOVolumes, plotInputData)
 
@@ -96,15 +92,11 @@ def displaySummaryPlots_longtermWMOCosts():
         ]
     numberOfVars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     selectBoxKey = "Long-term WMO Costs Selectbox"
-    piePlotLabel = "Long-term WMO Costs by Study Region"
-    barPlotLabel = "Long-term WMO Costs by Contractor"
-    barPlotXAxisLabel = "Use By Type (acre-feet/year)"
-    colors = ['#FF7F50','#DFFF00', '#6495ED', '#CCCCFF', '#9FE2BF', 'FFBF00', '800000', '#FF7F50','#DFFF00', '#6495ED', '#CCCCFF', '#9FE2BF', 'FFBF00', '800000', 'FFBF00', '800000']
 
 
     plotTypeChoice_longtermWMOCosts = st.selectbox('View long-term WMO costs data for:', st.session_state.dropDownMenuList, )
     if plotTypeChoice_longtermWMOCosts == 'All Contractors':
-        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey, piePlotLabel, barPlotLabel, barPlotXAxisLabel, colors)
+        displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
         displayDataForOneContractor(plotTypeChoice_longtermWMOCosts, plotInputData)
 

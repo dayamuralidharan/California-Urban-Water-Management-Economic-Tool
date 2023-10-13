@@ -82,12 +82,10 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
 
     return fig
 
-def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey, piePlotTitle, barPlotTitle, barPlotXAxisLabel, colors):
+def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, selectBoxKey):
     color_map_df = load_CSV_data("src/inputData/color_map_df.csv")
     plotInputData['k_labels'] = np.select(varsForLabel, k_labelValues)
     
-    plotInputData['colors'] = np.select(varsForLabel, colors) 
-
     col1, col2 = st.columns(2)
     with col1:
         vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
@@ -96,6 +94,9 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
         selectVariable.append(st.selectbox('', vars, key= selectBoxKey, help="Select variable to display in plots below."))
         
     plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
+    barPlotTitle = 'By Contractor'
+    piePlotTitle = 'By Study Region'
+    barPlotXAxisLabel = str(selectVariable[0])
     
         
     # Setting up color palette dict
@@ -105,7 +106,7 @@ def displayPieAndBarPlots(vars, varsForLabel, k_labelValues, plotInputData, sele
 
     #Display table
     tableData = plotInputData[plotInputData['Type'].isin(selectVariable)]
-    tableData = tableData.drop(columns = ['k_labels', 'colors', 'Year'])
+    tableData = tableData.drop(columns = ['k_labels', 'Year'])
     tableData['Value'] = tableData['Value'].apply(roundValues)
     st.table(data = tableData)
 
