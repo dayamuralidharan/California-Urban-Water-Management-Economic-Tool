@@ -22,7 +22,7 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Contingency Conservation Campaigns"):
-            displaySummaryPlotsContingencyConservationCampaign(st.session_state.contingencyConservation, contingencyConservationExplanationText)
+            displaySummaryPlotsContingencyConservationCampaign(st.session_state.contingencyConservation, contingencyConservationExplanationText, "Contingency Conservation Campaigns")
         
         with st.expander("Water Market Transfers"):
             displaySummaryPlotsWaterMarketTransfers(st.session_state.waterMarketTransfers, waterMarketTransfersExplanationText)

@@ -6,14 +6,14 @@ import pandas as pd
 # SUMMARY POSTER FOR CONTINGENCY CONSERVATION CAMPAIGNS
 #---------------------------------------------------------------#
 
-def displaySummaryPlotsContingencyConservationCampaign(df, explanationText):
+def displaySummaryPlotsContingencyConservationCampaign(df, explanationText, dataset):
     st.write(explanationText)
 
     # Set up total demand variables for summary poster plots
     plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
-    vars = ['Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)', 'Contingency Conservation Publicity Campaign Cost ($/capita)','Urban Population (thousands)', 'Storage Volume Trigger for Contingency Conservation (AF)']
+    vars = df['Variable'].unique()
 
     varsForLabel = [
         plotInputData['Type'] == vars[0],
@@ -21,14 +21,16 @@ def displaySummaryPlotsContingencyConservationCampaign(df, explanationText):
         plotInputData['Type'] == vars[2],
         plotInputData['Type'] == vars[3],
         ]
-    numberOfVars = [0, 1, 2, 3]
-    selectBoxKey = "Contingency Conservation Selectbox"
+    
+    varsCount = df['Variable'].nunique()
+    numberOfVars = list(range(varsCount))
+    selectBoxKey = dataset + " Selectbox"
 
-    plotTypeChoice_contingencyConservation = st.selectbox('View total demands data for:', st.session_state.dropDownMenuList, )
-    if plotTypeChoice_contingencyConservation == 'All Contractors':
+    dataset = st.selectbox('View total demands data for:', st.session_state.dropDownMenuList, )
+    if dataset == 'All Contractors':
         displayPieAndBarPlots(vars, varsForLabel, numberOfVars, plotInputData, selectBoxKey)
     else:
-        displayDataForOneContractor(plotTypeChoice_contingencyConservation, plotInputData)
+        displayDataForOneContractor(dataset, plotInputData)
   
 #---------------------------------------------------------------#
 # SUMMARY POSTER FOR WATER MARKET TRANSFERS
