@@ -29,9 +29,13 @@ class opt_echo:
         traceback.extract_stack = self.orig_extract_stack
 
 
-def fetch_data(inputDataFile, sheetName, skipRows, nRows, useCols):
-    data = pd.read_excel(io = inputDataFile, sheet_name = sheetName, skiprows = skipRows, nrows = nRows, usecols = useCols)
+def fetch_data(inputdatafile, sheetname, skiprows, nrows, usecols):
+    data = pd.read_excel(io = inputdatafile, sheet_name = sheetname, skiprows = skiprows, nrows = nrows, usecols = usecols)
     return pd.DataFrame(data)
+
+def load_CSV_data(filename):
+    df = pd.read_csv(filename, index_col=0)
+    return df
 
 def selectSpecifiedRows(df, selectionColumn, selectionCriteria):
     return df.loc[df[selectionColumn] == selectionCriteria]
