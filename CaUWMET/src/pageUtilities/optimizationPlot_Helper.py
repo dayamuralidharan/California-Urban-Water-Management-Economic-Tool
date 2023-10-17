@@ -69,9 +69,9 @@ def use_file_for_bokeh(chart: figure, height=800, width=600):
     """
     Streamlit 1.27 only works with Bokeh 2.4.3, so this is used for compatibility.
     """
-    output_file('bokeh_graph.html')
+    output_file('optimization_plot.html')
     save(chart)
-    with open("bokeh_graph.html", 'r', encoding='utf-8') as f:
+    with open("optimization_plot.html", 'r', encoding='utf-8') as f:
         html = f.read()
     components.html(html, height=height, width=width)
 
