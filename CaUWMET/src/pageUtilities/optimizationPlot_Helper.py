@@ -54,8 +54,13 @@ def optimizationPlot(source: ColumnDataSource):
     hover = HoverTool(renderers=[scatter], tooltips=tooltips)
     p.add_tools(hover)
 
-    color_bar = ColorBar(color_mapper=mapper['transform'], width=8, location=(0,0))
+    color_bar = ColorBar(color_mapper=mapper['transform'], width=8, location=(0,0),
+                         title='Optimizer Iteration')
     p.add_layout(color_bar, 'right')
+
+    p.yaxis.axis_label = 'Total Economic Loss ($)'
+    p.xaxis.axis_label = 'Sum of Longterm Water Management Option Allocations'
+
 
     return p
 
@@ -80,7 +85,7 @@ def displayOptimizationPlot(df: DataFrame):
     contractor = st.selectbox('View Optimization Results for:', st.session_state.dropDownMenuList, )
     st.bokeh_chart = use_file_for_bokeh
     if contractor == 'All Contractors':
-        p = "<div>Select a contractor...</div>"
+        p = "Select a contractor from the dropdown..."
         st.write(p)
     else:
         source = ColumnDataSource(data=df[df['contractor']==contractor])
