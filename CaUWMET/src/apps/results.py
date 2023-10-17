@@ -18,4 +18,4 @@ def app():
         """
         st.markdown(hide, unsafe_allow_html=True)
 
-        with st.expander("Optimization Plots"): displayOptimizationPlot(data=st.session_state.optimizationPlotData)
+        with st.expander("Optimization Plots"): displayOptimizationPlot(df=st.session_state.optimizationPlotData)

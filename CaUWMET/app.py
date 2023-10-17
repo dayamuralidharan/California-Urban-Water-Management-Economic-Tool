@@ -1,9 +1,10 @@
-import streamlit as st
-st.set_page_config(layout="wide")
 from src.multiapp import MultiApp
-# import your app modules here
 from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, contingencyWatermanagementOptions, longtermWatermanagementOptions, results
 from src.globalUtilities import fetch_data, selectSpecifiedRows
+
+import streamlit as st
+
+st.set_page_config(layout="wide")
 
 app = MultiApp()
 
@@ -152,7 +153,7 @@ if 'longtermWMOCosts' not in st.session_state:
 #---------------------------------------------------------------#
 # INITIALIZE OPTIMIZATION OUTPUT SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputData_optimizationPlotData = fetch_data(inputDataFile, sheet_name = 'plotData', usecols = 'A:M')
+inputData_optimizationPlotData = fetch_data(inputDataFile, sheet_name='plotData', usecols='A:M')
 
 if 'optimizationPlotData' not in st.session_state:
     st.session_state['optimizationPlotData'] = inputData_optimizationPlotData[inputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]

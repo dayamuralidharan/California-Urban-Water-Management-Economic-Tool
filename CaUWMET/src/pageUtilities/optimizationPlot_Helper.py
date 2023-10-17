@@ -1,10 +1,13 @@
-from bokeh.plotting import figure
+from bokeh.plotting import figure, save
 from bokeh.models import ColumnDataSource, ColorBar, HoverTool, Label, Div
 from bokeh.transform import linear_cmap
 from bokeh.palettes import Viridis256
+from bokeh.io import output_file
 
 from pandas import DataFrame
 import streamlit as st
+import streamlit.components.v1 as components
+
 
 def optimizationPlot(source: ColumnDataSource):
     """
@@ -12,7 +15,7 @@ def optimizationPlot(source: ColumnDataSource):
     Takes the ColumnSourceData from the optPlotData as the source argument
     """
     # https://github.com/bokeh/bokeh/issues/9087
-    TOOLTIPS = """
+    tooltips = """
     <div>
     Conservation: @conservation <br>
     Surfacewater: @surface <br>
@@ -48,13 +51,24 @@ def optimizationPlot(source: ColumnDataSource):
                   x_offset=-15, y_offset=-20)
     p.add_layout(label)
 
-    hover = HoverTool(renderers=[scatter], tooltips=TOOLTIPS)
+    hover = HoverTool(renderers=[scatter], tooltips=tooltips)
     p.add_tools(hover)
 
     color_bar = ColorBar(color_mapper=mapper['transform'], width=8, location=(0,0))
     p.add_layout(color_bar, 'right')
 
     return p
+
+# https://github.com/streamlit/streamlit/issues/5858
+def use_file_for_bokeh(chart: figure, height=800, width=600):
+    """
+    Streamlit 1.27 only works with Bokeh 2.4.3, so this is used for compatibility.
+    """
+    output_file('bokeh_graph.html')
+    save(chart)
+    with open("bokeh_graph.html", 'r', encoding='utf-8') as f:
+        html = f.read()
+    components.html(html, height=height, width=width)
 
 
 def displayOptimizationPlot(df: DataFrame):
@@ -64,12 +78,12 @@ def displayOptimizationPlot(df: DataFrame):
     https://docs.streamlit.io/library/api-reference/charts/st.bokeh_chart
     """
     contractor = st.selectbox('View Optimization Results for:', st.session_state.dropDownMenuList, )
+    st.bokeh_chart = use_file_for_bokeh
     if contractor == 'All Contractors':
-        p = Div(text="Select a contractor...", width=400, height=50)
-        st.bokeh_chart(p)
+        p = "<div>Select a contractor...</div>"
+        st.write(p)
     else:
-        source = ColumnDataSource(data=df)
+        source = ColumnDataSource(data=df[df['contractor']==contractor])
         p = optimizationPlot(source)
-        source.data['contractor'] = source.data[contractor]
         st.bokeh_chart(p)
 
