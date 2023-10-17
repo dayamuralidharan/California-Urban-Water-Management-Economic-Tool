@@ -8,7 +8,7 @@ altair
 multiapp
 scikit_learn
 openpyxl
-bokeh==2.4.3
+bokeh
 pymoo
 
 ###### Requirements with version specifiers ######
