@@ -29,8 +29,8 @@ class opt_echo:
         traceback.extract_stack = self.orig_extract_stack
 
 
-def fetch_data(inputdatafile, sheetname, skiprows, nrows, usecols):
-    data = pd.read_excel(io = inputdatafile, sheet_name = sheetname, skiprows = skiprows, nrows = nrows, usecols = usecols)
+def fetch_data(inputdatafile, **kwargs):
+    data = pd.read_excel(io = inputdatafile, **kwargs)
     return pd.DataFrame(data)
 
 def load_CSV_data(filename):
