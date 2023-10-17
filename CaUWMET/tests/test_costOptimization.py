@@ -63,17 +63,17 @@ class costOptimizationTest(TestCase):
         self.assertEqual(len(self.optimizeWMOs.res.pop), 1)
 
         # test outputs
-        self.assertEqual(len(self.modelOutputsOptim), 30)
+        self.assertEqual(len(self.modelOutputsOptim), 31)
         self.assertEqual(len(self.qaqcResultsOptim), 11)
-        self.assertEqual(len(self.modelOutputsZero), 30)
+        self.assertEqual(len(self.modelOutputsZero), 31)
         self.assertEqual(len(self.qaqcResultsZero), 11)
 
-        self.assertTrue(all(isinstance(x, pd.DataFrame) for x in list(self.modelOutputsOptim.values())[:2]))
-        self.assertTrue(all(isinstance(x, pd.Series) for x in list(self.modelOutputsOptim.values())[2:]))
+        self.assertTrue(all(isinstance(x, pd.DataFrame) for x in list(self.modelOutputsOptim.values())[-1:2]))
+        self.assertTrue(all(isinstance(x, pd.Series) for x in list(self.modelOutputsOptim.values())[2:-1]))
         self.assertTrue(all(isinstance(x, pd.Series) for x in list(self.qaqcResultsOptim.values())))
 
-        self.assertTrue(all(isinstance(x, pd.DataFrame) for x in list(self.modelOutputsZero.values())[:2]))
-        self.assertTrue(all(isinstance(x, pd.Series) for x in list(self.modelOutputsZero.values())[2:]))
+        self.assertTrue(all(isinstance(x, pd.DataFrame) for x in list(self.modelOutputsZero.values())[-1:2]))
+        self.assertTrue(all(isinstance(x, pd.Series) for x in list(self.modelOutputsZero.values())[2:-1]))
         self.assertTrue(all(isinstance(x, pd.Series) for x in list(self.qaqcResultsZero.values())))
 
         # test aggregate outputs
@@ -82,9 +82,9 @@ class costOptimizationTest(TestCase):
         self.modelOutputsZeroAll.appendResults(self.modelOutputsZero)
         self.qaqcResultsZeroAll.appendResults(self.qaqcResultsZero)
 
-        self.assertEqual(len(self.modelOutputsOptimAll.aggregatedOutputs), 30)
+        self.assertEqual(len(self.modelOutputsOptimAll.aggregatedOutputs), 31)
         self.assertEqual(len(self.qaqcResultsOptimAll.aggregatedOutputs), 11)
-        self.assertEqual(len(self.modelOutputsZeroAll.aggregatedOutputs), 30)
+        self.assertEqual(len(self.modelOutputsZeroAll.aggregatedOutputs), 31)
         self.assertEqual(len(self.qaqcResultsZeroAll.aggregatedOutputs), 11)
 
         self.assertTrue(all(isinstance(x, pd.DataFrame) for x in list(self.modelOutputsOptimAll.aggregatedOutputs.values())))

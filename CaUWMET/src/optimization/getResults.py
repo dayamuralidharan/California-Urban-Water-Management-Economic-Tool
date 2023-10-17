@@ -18,6 +18,68 @@ class GetResults():
     def __init__(self, modelLogic=ModelLogic):
         self.aggregatedOutputs = {}
         self.modelLogic = modelLogic
+        self.longtermWMO_df = pd.DataFrame(data={'LongtermWMO':[
+            'Conservation', 
+            'Surface', 
+            'Groundwater', 
+            'Desalination',
+            'Recycled', 
+            'Potable Reuse', 
+            'Transfers and Exchanges', 
+            'Other'
+        ]})
+
+        self.shortenSheetNames = {
+            'transfersAndExchangesLongTermWMOCost': 'XfersAndXchangesLongTermWMOCost',
+            'demandsToBeMetByContingentOptions': 'demandsToBeMetByContingentOpts',
+            'contingentConservationReductionVolume': 'contingentConservationReductVol'
+        }
+
+        self.indexLabelUnits = {
+            'SWPCVPSupplyDelivery': 'acre-feet/year',
+            'excessSupply': 'acre-feet/year',
+            'unallocatedSWPCVPDeliveries': 'acre-feet/year',
+            'putSurface': 'acre-feet/year',
+            'putGroundwater': 'acre-feet/year',
+            'volumeSurfaceCarryover': 'acre-feet',
+            'volumeGroundwaterBank': 'acre-feet',
+            'waterMarketTransferDeliveries': '$',
+            'totalShortage': 'acre-feet/year',
+            # Total Costs
+            'totalAnnualCost': '$',
+            'totalEconomicLoss': '$',
+            'totalReliabilityMgmtCost': '$',
+            # WMO Costs
+            'waterMarketTransferCost': '$',
+            'surfaceLongTermWMOCost': '$',
+            'groundwaterLongTermWMOCost': '$',
+            'desalinationLongTermWMOCost': '$',
+            'recycledLongTermWMOCost': '$',
+            'potableReuseLongTermWMOCost': '$',
+            'transfersAndExchangesLongTermWMOCost': '$',
+            'otherSupplyLongTermWMOCost': '$',
+            'conservationLongTermWMOCost': '$',
+            # System operations costs
+            'swpCVPDeliveryCost': '$',
+            'putGroundwaterBankCost': '$',
+            'takeGroundwaterBankCost': '$',
+            'groundwaterPumpingSavings': '$',
+            'waterTreatmentCost': '$',
+            'distributionCost': '$',
+            'wastewaterTreatmentCost': '$',
+            # QAQC data
+            'totalAnnualCost': '$',
+            'totalEconomicLoss': '$',
+            'appliedDemands': 'acre-feet/year',
+            'demandsToBeMetByStorage': 'acre-feet/year',
+            'volumeGroundwaterBank': 'acre-feet/year',
+            'takeGroundwater': 'acre-feet/year',
+            'putGroundwater': 'acre-feet/year',
+            'demandsToBeMetByContingentOptions': 'acre-feet/year',
+            'contingentConservationReductionVolume': 'acre-feet/year',
+            'waterMarketTransferDeliveries': 'acre-feet/year',
+            'totalShortage': 'acre-feet/year',
+        }
 
 
     def appendResults(self, output=dict):
@@ -29,7 +91,10 @@ class GetResults():
             self.aggregatedOutputs = { k: pd.DataFrame() for k in output.keys() }
         
         for k in self.aggregatedOutputs.keys():
-            self.aggregatedOutputs[k] = pd.concat([self.aggregatedOutputs[k],output[k]],axis=1)
+            if k == 'plotData':
+                self.aggregatedOutputs[k] = pd.concat([self.aggregatedOutputs[k],output[k]],axis=0)
+            else:
+                self.aggregatedOutputs[k] = pd.concat([self.aggregatedOutputs[k],output[k]],axis=1)
 
 
     def writeResults(self, filename=str):
@@ -41,23 +106,6 @@ class GetResults():
         '''
         historicHydrologyYear_df = pd.DataFrame(data={'Year': self.modelLogic.inputData.historicHydrologyYears})
         
-        longtermWMO_df = pd.DataFrame(data={'LongtermWMO':[
-            'Conservation', 
-            'Surface', 
-            'Groundwater', 
-            'Desalination',
-            'Recycled', 
-            'Potable Reuse', 
-            'Transfers and Exchanges', 
-            'Other'
-        ]})
-
-        shortenSheetNames = {
-            'transfersAndExchangesLongTermWMOCost': 'XfersAndXchangesLongTermWMOCost',
-            'demandsToBeMetByContingentOptions': 'demandsToBeMetByContingentOpts',
-            'contingentConservationReductionVolume': 'contingentConservationReductVol'
-        }
-
         with pd.ExcelWriter(path=filename, engine='openpyxl') as writer:
             self.modelLogic.inputData.hydroYearType.to_excel(
                 writer, 
@@ -65,18 +113,19 @@ class GetResults():
                 index_label="Hydrologic Year Type"
             )
             for k, df in self.aggregatedOutputs.items():
-                if len(df)==len(longtermWMO_df):
+                if len(df)==len(self.longtermWMO_df):
                     # TODO: re-index by ltWMO name to remove numbered column names
-                    out_df = pd.concat([longtermWMO_df,df],axis=1).transpose()
+                    out_df = pd.concat([self.longtermWMO_df,df],axis=1).transpose()
                     out_df.to_excel(writer, sheet_name=k, index_label=k)
                 elif len(df)==len(historicHydrologyYear_df):
                     out_df = pd.concat([historicHydrologyYear_df,df],axis=1)
-                    if k in shortenSheetNames.keys():
+                    if k in self.shortenSheetNames.keys():
                         out_df.to_excel(
                             writer, 
-                            sheet_name=shortenSheetNames[k], 
-                            index_label=k
+                            sheet_name=self.shortenSheetNames[k], 
+                            index_label=k+f" ({self.indexLabelUnits[k]})"
                         )
                     else:
-                        out_df.to_excel(writer, sheet_name=k, index_label=k)
-
+                        out_df.to_excel(writer, sheet_name=k, index_label=k+f" ({self.indexLabelUnits[k]})")
+                elif k=='plotData':
+                    df.to_excel(writer, sheet_name=k, index=None)
