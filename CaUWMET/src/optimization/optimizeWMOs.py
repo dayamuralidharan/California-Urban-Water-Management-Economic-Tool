@@ -7,7 +7,7 @@ import pandas as pd
 import warnings
 
 from pymoo.algorithms.soo.nonconvex.pso import PSO
-from pymoo.termination import get_termination
+from pymoo.termination.default import DefaultMultiObjectiveTermination
 from pymoo.optimize import minimize
 
 from src.modelLogic.modelLogic import ModelLogic
@@ -33,7 +33,7 @@ class OptimizeWMOs:
                  lowerBounds=[0]*8,
                  upperBounds='longtermWMOVolumeLimits',
                  zero_threshold=1,
-                 n_gen=20,
+                 n_gen=100,
                  pop_size=20):
         self.verbose = verbose
         self.zero_threshold = zero_threshold
@@ -74,11 +74,20 @@ class OptimizeWMOs:
         algorithm = PSO(  # TODO: enable users to play with hyperparameters????
             pop_size=self.pop_size,
             w=0.8, c1=10.0, c2=1.0,
+            # w=1.5, c1=15.0, c2=1.0,
             adaptive=True,
             max_velocity_rate=0.3
         )
+        
         # parameterize the termination criteria
-        termination = get_termination("n_gen", self.n_gen)  # TODO: enable ftol termination
+        termination = DefaultMultiObjectiveTermination(
+            xtol=1e-8,
+            cvtol=1e-6,
+            ftol=0.0025,
+            period=10,
+            n_max_gen=self.n_gen,
+            n_max_evals=100000
+        )
         
         # execute optimization
         self.res = minimize(

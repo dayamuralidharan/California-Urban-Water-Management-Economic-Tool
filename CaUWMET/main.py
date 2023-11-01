@@ -86,7 +86,7 @@ def main():
                 lowerBounds=lowerBounds,
                 upperBounds=upperBounds,
                 zero_threshold=1,
-                n_gen=20,
+                n_gen=100,
                 pop_size=20
             )
             print('Optimizer ready')
