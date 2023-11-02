@@ -25,20 +25,22 @@ class OptimizeWMOs:
     The other inputs are used to execute the PyMoo optimization. Results are stored and accessed for visualization methods. 
     '''
     def __init__(self, 
-                 verbose=False,
                  modelLogic=ModelLogic,
                  contractor='City of Tracy',
                  wmoFloor=None,
                  wmoCeiling=None,
                  lowerBounds=[0]*8,
                  upperBounds='longtermWMOVolumeLimits',
+                 verbose=False,
                  zero_threshold=1,
                  n_gen=100,
-                 pop_size=20):
+                 pop_size=20,
+                 period=10):
         self.verbose = verbose
         self.zero_threshold = zero_threshold
-        self.pop_size = pop_size
         self.n_gen = n_gen
+        self.pop_size = pop_size
+        self.period = period
         self.X_zero = None
         self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
@@ -84,7 +86,7 @@ class OptimizeWMOs:
             xtol=1e-8,
             cvtol=1e-6,
             ftol=0.0025,
-            period=10,
+            period=self.period,
             n_max_gen=self.n_gen,
             n_max_evals=100000
         )
@@ -134,6 +136,7 @@ class OptimizeWMOs:
             TAF = np.sum(Xp,axis=1)  # sum of longtermWMOSupply variables
             ltwmolist = [ list(arr) for arr in zip(*Xp) ]  #results for each ltwmo
             y_millions = [ f[0]*10**-6 for f in Fp ]  # F in millions
+            f_zero = [self.modelLogic.execute([0,0,0,0,0,0,0,0])] * len(ltwmolist[0])
             plotData = {
                 'contractor': self.modelLogic.contractor,
                 'x': TAF,
@@ -147,7 +150,8 @@ class OptimizeWMOs:
                 'recycled': [ round(ltwmo,1) for ltwmo in ltwmolist[4] ],
                 'potable_reuse': [ round(ltwmo,1) for ltwmo in ltwmolist[5] ],
                 'transfers_exchanges': [ round(ltwmo,1) for ltwmo in ltwmolist[6] ],
-                'other': [ round(ltwmo,1) for ltwmo in ltwmolist[7] ]
+                'other': [ round(ltwmo,1) for ltwmo in ltwmolist[7] ], 
+                'f_zero': f_zero
             }
             self.plotData = pd.DataFrame(data=plotData)
         except: 

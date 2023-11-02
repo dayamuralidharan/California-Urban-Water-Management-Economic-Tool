@@ -78,16 +78,17 @@ def main():
         print(f"\nInstantiate optimizer for {contractor}...")
         try:
             optimizeWMOs = OptimizeWMOs(
-                verbose=args.verbose,
                 modelLogic=modelLogic,
                 contractor=contractor,
                 wmoFloor=wmoFloor,
                 wmoCeiling=wmoCeiling,
                 lowerBounds=lowerBounds,
                 upperBounds=upperBounds,
+                verbose=args.verbose,
                 zero_threshold=1,
                 n_gen=100,
-                pop_size=20
+                pop_size=20, 
+                period=10
             )
             print('Optimizer ready')
         except Exception as e:
@@ -195,10 +196,10 @@ def main():
     print('Write outputs to excel files...')
     try:
         filenames = [
-            'ModelOutputs_Optimal.xlsx',
-            'QAQCResults_Optimal.xlsx',
-            'ModelOutputs_Zero.xlsx',
-            'QAQCResults_Zero.xlsx'
+            'src/outputData/ModelOutputs_Optimal.xlsx',
+            'src/outputData/QAQCResults_Optimal.xlsx',
+            'src/outputData/ModelOutputs_Zero.xlsx',
+            'src/outputData/QAQCResults_Zero.xlsx'
         ]
         modelOutputsOptimAll.writeResults(filenames[0])
         qaqcResultsOptimAll.writeResults(filenames[1])

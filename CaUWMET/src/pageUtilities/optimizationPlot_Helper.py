@@ -35,21 +35,37 @@ def optimizationPlot(source: ColumnDataSource):
     colors = source._property_values['data']['colors']
     optx = source._property_values['data']['x'][-1]
     opty = source._property_values['data']['y'][-1]
+    
+    xmin = min(data['x'])*0.1
+    xmax = max(data['x'])*1.5
+    f_zero = max(source._property_values['data']['f_zero'])
+    
     mapper = linear_cmap(field_name='colors', palette=Viridis256, low=min(colors), high=max(colors))
+    
     p = figure(tools="pan,zoom_in,zoom_out,box_zoom,reset,save", 
                toolbar_location="below", toolbar_sticky=False,
-               x_axis_type='log', y_axis_type='log')
-
+               x_axis_type='log', x_range=(xmin, xmax)
+               y_axis_type='log')
+    
+    hline = Span(location=f_zero, dimension='width',
+                 line_color='red', line_width=2, line_alpha=0.5)
+    p.add_layout(hline)
+    
     scatter = p.scatter(x='x', y='y', size=10, source=source, 
                         fill_color=mapper, line_color='black', line_width=0.5)
 
     scatter2 = p.scatter(x=optx, y=opty, size=11,
-                        fill_color='red', line_color='black', line_width=0.5)
+                         fill_color='red', line_color='black', line_width=0.5)
 
-    label = Label(x=optx, y=opty, 
-                  text="Optimized", text_font_size="12pt", 
-                  x_offset=-15, y_offset=-20)
-    p.add_layout(label)
+    optlabel = Label(x=data['x'][-1], y=data['y'][-1], 
+                     text="Optimized", text_font_size="10pt", 
+                     x_offset=0, y_offset=-20)
+    p.add_layout(optlabel)
+    
+    zerolabel = Label(x=xmin, y=f_zero, 
+                      text="Cost of 0 LTWMOs", text_font_size="10pt", 
+                      x_offset=0, y_offset=0)
+    p.add_layout(zerolabel)
 
     hover = HoverTool(renderers=[scatter], tooltips=tooltips)
     p.add_tools(hover)
@@ -61,17 +77,17 @@ def optimizationPlot(source: ColumnDataSource):
     p.yaxis.axis_label = 'Total Economic Loss ($)'
     p.xaxis.axis_label = 'Sum of Longterm Water Management Option Allocations'
 
-
     return p
+
 
 # https://github.com/streamlit/streamlit/issues/5858
 def use_file_for_bokeh(chart: figure, height=800, width=600):
     """
     Streamlit 1.27 only works with Bokeh 2.4.3, so this is used for compatibility.
     """
-    output_file('optimization_plot.html')
+    output_file('graphics/optimization_plot.html')
     save(chart)
-    with open("optimization_plot.html", 'r', encoding='utf-8') as f:
+    with open("graphics/optimization_plot.html", 'r', encoding='utf-8') as f:
         html = f.read()
     components.html(html, height=height, width=width)
 

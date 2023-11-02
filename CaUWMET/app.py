@@ -37,6 +37,7 @@ page.app()
 
 st.sidebar.write("")
 inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
+outputDataFile = "src/outputData/ModelOutputs_Optimal.xlsx"
 
 #---------------------------------------------------------------#
 # INITIALIZE GLOBAL ASSUMPTION SESSION STATE VARIABLES
@@ -153,7 +154,7 @@ if 'longtermWMOCosts' not in st.session_state:
 #---------------------------------------------------------------#
 # INITIALIZE OPTIMIZATION OUTPUT SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputData_optimizationPlotData = fetch_data(inputDataFile, sheet_name='plotData', usecols='A:M')
+outputData_optimizationPlotData = fetch_data(outputDataFile, sheet_name='plotData', usecols='A:N')
 
 if 'optimizationPlotData' not in st.session_state:
-    st.session_state['optimizationPlotData'] = inputData_optimizationPlotData[inputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]
+    st.session_state['optimizationPlotData'] = inputData_optimizationPlotData[outputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]
