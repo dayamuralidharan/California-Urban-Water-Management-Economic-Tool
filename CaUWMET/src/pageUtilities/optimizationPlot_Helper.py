@@ -1,5 +1,5 @@
 from bokeh.plotting import figure, save
-from bokeh.models import ColumnDataSource, ColorBar, HoverTool, Label, Div
+from bokeh.models import ColumnDataSource, ColorBar, HoverTool, Label, Div, Span
 from bokeh.transform import linear_cmap
 from bokeh.palettes import Viridis256
 from bokeh.io import output_file
@@ -32,19 +32,20 @@ def optimizationPlot(source: ColumnDataSource):
     } 
     </style>
     """
-    colors = source._property_values['data']['colors']
-    optx = source._property_values['data']['x'][-1]
-    opty = source._property_values['data']['y'][-1]
+    df = source._property_values['data'] 
+    colors = df['colors']
+    optx = df['x'][-1]
+    opty = df['y'][-1]
     
-    xmin = min(data['x'])*0.1
-    xmax = max(data['x'])*1.5
-    f_zero = max(source._property_values['data']['f_zero'])
+    xmin = min(df['x'])*0.1
+    xmax = max(df['x'])*1.5
+    f_zero = max(df['f_zero'])
     
     mapper = linear_cmap(field_name='colors', palette=Viridis256, low=min(colors), high=max(colors))
     
     p = figure(tools="pan,zoom_in,zoom_out,box_zoom,reset,save", 
                toolbar_location="below", toolbar_sticky=False,
-               x_axis_type='log', x_range=(xmin, xmax)
+               x_axis_type='log', x_range=(xmin, xmax),
                y_axis_type='log')
     
     hline = Span(location=f_zero, dimension='width',
@@ -57,7 +58,7 @@ def optimizationPlot(source: ColumnDataSource):
     scatter2 = p.scatter(x=optx, y=opty, size=11,
                          fill_color='red', line_color='black', line_width=0.5)
 
-    optlabel = Label(x=data['x'][-1], y=data['y'][-1], 
+    optlabel = Label(x=optx, y=opty, 
                      text="Optimized", text_font_size="10pt", 
                      x_offset=0, y_offset=-20)
     p.add_layout(optlabel)

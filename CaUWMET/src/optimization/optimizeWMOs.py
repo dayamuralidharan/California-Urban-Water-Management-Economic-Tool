@@ -153,7 +153,9 @@ class OptimizeWMOs:
                 'other': [ round(ltwmo,1) for ltwmo in ltwmolist[7] ], 
                 'f_zero': f_zero
             }
-            self.plotData = pd.DataFrame(data=plotData)
+            self.plotData = pd.DataFrame(data=plotData).sort_values(
+                by='y', ascending=False
+            )
         except: 
             print("Couldn't get plot data! Aborting plot data preparation....")
             self.plotData = pd.DataFrame(data={})

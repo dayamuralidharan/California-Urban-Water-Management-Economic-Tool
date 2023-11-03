@@ -157,4 +157,4 @@ if 'longtermWMOCosts' not in st.session_state:
 outputData_optimizationPlotData = fetch_data(outputDataFile, sheet_name='plotData', usecols='A:N')
 
 if 'optimizationPlotData' not in st.session_state:
-    st.session_state['optimizationPlotData'] = inputData_optimizationPlotData[outputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]
+    st.session_state['optimizationPlotData'] = outputData_optimizationPlotData[outputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]
