@@ -7,7 +7,7 @@ numpy
 altair
 multiapp
 scikit_learn
-openpyxl
+openpyxl==3.1.0
 bokeh
 pymoo
 
