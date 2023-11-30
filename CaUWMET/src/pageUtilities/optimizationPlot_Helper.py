@@ -184,7 +184,7 @@ def optimizationPlot(source: ColumnDataSource):
         <tr>
           <td>Other Sources</td>
           <td>
-            <div style="background-color: brown; width: @{other}{0.2f}px">
+            <div style="background-color: brown; width: @{other_bar}{0.2f}px">
               <strong style="color: black;">@{other}{0.2f}</strong>
             </div>
           </td>
