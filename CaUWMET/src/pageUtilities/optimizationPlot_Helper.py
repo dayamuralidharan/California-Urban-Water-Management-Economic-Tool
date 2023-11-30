@@ -123,12 +123,13 @@ def optimizationPlot(source: ColumnDataSource):
     # tooltips as bars
     tooltips = """
     <body>
+      <h2>Total Cost: @{cost}</h2>
       <table>
         <tr>
           <td>Conservation</td>
           <td>
-            <div style="background-color: steelblue; width: @{conservation_bar}px">
-              @{conservation}{0.2f}
+            <div style="background-color: lightblue; width: @{conservation_bar}px">
+              <strong style="color: black;">@{conservation}{0.2f}</strong>
             </div>
           </td>
         </tr>
@@ -136,47 +137,47 @@ def optimizationPlot(source: ColumnDataSource):
           <td>Surfacewater</td>
           <td>
             <div style="background-color: darkorange; width: @{surface_bar}px">
-              @{surface}{0.2f}
+              <strong style="color: black;">@{surface}{0.2f}</strong>
             </div>
           </td>
         </tr>
         <tr>
           <td>Groundwater</td>
           <td>
-            <div style="background-color: green; width: @{groundwater_bar}px">
-              @{groundwater}{0.2f}
+            <div style="background-color: lightgreen; width: @{groundwater_bar}px">
+              <strong style="color: black;">@{groundwater}{0.2f}</strong>
             </div>
           </td>
         </tr>
         <tr>
           <td>Desalination</td>
           <td>
-            <div style="background-color: purple; width: @{desalination_bar}px">
-              @{desalination}{0.2f}
+            <div style="background-color: violet; width: @{desalination_bar}px">
+              <strong style="color: black;">@{desalination}{0.2f}</strong>
             </div>
           </td>
         </tr>
         <tr>
           <td>Recycled</td>
           <td>
-            <div style="background-color: red; width: @{recycled_bar}px">
-              @{recycled}{0.2f}
+            <div style="background-color: cyan; width: @{recycled_bar}px">
+              <strong style="color: black;">@{recycled}{0.2f}</strong>
             </div>
           </td>
         </tr>
         <tr>
           <td>Potable Reuse</td>
           <td>
-            <div style="background-color: blue; width: @{potable_reuse_bar}px">
-              @{potable_reuse}{0.2f}
+            <div style="background-color: pink; width: @{potable_reuse_bar}px">
+              <strong style="color: black;">@{potable_reuse}{0.2f}</strong>
             </div>
           </td>
         </tr>
         <tr>
           <td>Transfers and Exchanges</td>
           <td>
-            <div style="background-color: yellow; width: @{transfers_exchanges_bar}px">
-              @{transfers_exchanges}{0.2f}
+            <div style="background-color: gray; width: @{transfers_exchanges_bar}px">
+              <strong style="color: black;">@{transfers_exchanges}{0.2f}</strong>
             </div>
           </td>
         </tr>
@@ -184,7 +185,7 @@ def optimizationPlot(source: ColumnDataSource):
           <td>Other Sources</td>
           <td>
             <div style="background-color: brown; width: @{other}{0.2f}px">
-              @{other}{0.2f}
+              <strong style="color: black;">@{other}{0.2f}</strong>
             </div>
           </td>
         </tr>
@@ -265,7 +266,9 @@ def displayOptimizationPlot(df: DataFrame):
 
         source.data['colors'][-1] = -1
         
-        # scale y values
+        # get cost and scale y values
+
+        source.data['cost'] = [f"${value:,.0f}" for value in source.data['y']]
         source.data['y'] = [value / 1000000 for value in source.data['y']]
         source.data['f_zero'] = [value / 1000000 for value in source.data['f_zero']]
 
