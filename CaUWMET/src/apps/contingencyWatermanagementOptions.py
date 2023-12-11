@@ -27,13 +27,13 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Contingency Conservation Campaigns"):
-            displaySummaryPlots(st.session_state.contingencyConservation, contingencyConservationExplanationText, "Contingency Conservation Campaigns")
+            displaySummaryPlots(st.session_state.contingencyConservation, contingencyConservationExplanationText, "Contingency Conservation Campaigns", "average")
         
         with st.expander("Water Market Transfers"):
-            displaySummaryPlots(st.session_state.waterMarketTransfers, waterMarketTransfersExplanationText, "Water Market Transfers")
+            displaySummaryPlots(st.session_state.waterMarketTransfers, waterMarketTransfersExplanationText, "Water Market Transfers", "average")
 
         with st.expander("Rationing Programs"):
-            displaySummaryPlots(st.session_state.rationingPrograms, rationingProgramExplanationText, "Rationing Programs")
+            displaySummaryPlots(st.session_state.rationingPrograms, rationingProgramExplanationText, "Rationing Programs", "average")
 
 contingencyConservationExplanationText = """The model assumes contingency conservation campaigns are initiated whenever there is a 
 shortage in available water supplies compared to current quantity demanded or in response to low carryover storage availability. 

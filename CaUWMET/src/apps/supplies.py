@@ -31,7 +31,7 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Local and Regional Base Water Supplies"):
-            displaySummaryPlots(st.session_state.localSuppliesdf, localSuppliesExplanationText, "Local and Regional Supply Volumes")
+            displaySummaryPlots(st.session_state.localSuppliesdf, localSuppliesExplanationText, "Local and Regional Supply Volumes", "total")
         
         with st.expander("State Water Project and Central Valley Project Base Water Supplies"):
             st.markdown(swpCVPExplanationText)
@@ -40,7 +40,7 @@ def app():
             fig = px.line(st.session_state.swpCVPSuppliesdf, x= "Year", y = contractorView)
             fig.update_layout(yaxis_title = "Annual SWP and/or CVP Supply (acre-feet)")
             st.write(fig)
-            st.session_state.swpCVPSuppliesdf['City of Folsom'] = st.session_state.swpCVPSuppliesdf['City of Folsom'].map('{:,.0f}'.format)
+            #st.session_state.swpCVPSuppliesdf['City of Folsom'] = st.session_state.swpCVPSuppliesdf['City of Folsom'].map('{:,.0f}'.format)
             st.table(st.session_state.swpCVPSuppliesdf)
 
 localSuppliesExplanationText = ("""Local supply data includes all existing and planned sources of water available for 

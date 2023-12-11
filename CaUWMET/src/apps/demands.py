@@ -30,13 +30,13 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Total Demand Scenarios"):
-            displaySummaryPlots(st.session_state.totalDemandsdf, demandsExplanationText, "Total Demand Scenarios")
+            displaySummaryPlots(st.session_state.totalDemandsdf, demandsExplanationText, "Total Demand Scenarios", "total")
             
         with st.expander("Water Use By Type"):
-            displaySummaryPlots(st.session_state.useByTypedf, useByTypeExplanationText, "Water Use By Type")
+            displaySummaryPlots(st.session_state.useByTypedf, useByTypeExplanationText, "Water Use By Type", "total")
 
         with st.expander("Planned Long-term Conservation"):
-            displaySummaryPlots(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText, "Planned Long-term Conservation")
+            displaySummaryPlots(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText, "Planned Long-term Conservation", "total")
 
 demandsExplanationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
 demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.

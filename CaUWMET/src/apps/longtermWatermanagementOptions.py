@@ -26,10 +26,10 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Long-term Water Management Option Available Supply Volumes"):
-            displaySummaryPlots(st.session_state.longermWMOVolumes, longtermWMOVolumeExplanationText, "Long-term Water Management Option Volumes")
+            displaySummaryPlots(st.session_state.longermWMOVolumes, longtermWMOVolumeExplanationText, "Long-term Water Management Option Volumes", "total")
         
         with st.expander("Long-term Water Management Option Costs"):
-            displaySummaryPlots(st.session_state.longtermWMOCosts, longtermWMOCostExplanationText, "Long-term Water Management Option Costs")
+            displaySummaryPlots(st.session_state.longtermWMOCosts, longtermWMOCostExplanationText, "Long-term Water Management Option Costs", "average")
 
 longtermWMOVolumeExplanationText = (""" Here the user can enter information for potential cost-effective long-term conservation or local supply augmentation. These options are assumed to provide a fixed level of supply enhancement or demand reduction, or combination of both each year. The model iterates through WMO volumes incrementally, up to the allowable volume input here.""")
 

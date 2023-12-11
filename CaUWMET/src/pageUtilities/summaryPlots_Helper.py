@@ -11,7 +11,7 @@ from src.globalUtilities import roundValues, load_CSV_data
 # SUMMARY POSTER FOR VARIABLES INPUT BY PLANNING HORIZON YEAR
 #---------------------------------------------------------------#
 
-def displaySummaryPlots(df, explanationText, dataset):
+def displaySummaryPlots(df, explanationText, dataset, datasetType):
     st.write(explanationText)
 
     # Set up total demand variables for summary poster plots
@@ -26,13 +26,13 @@ def displaySummaryPlots(df, explanationText, dataset):
 
     allOrSingleContractorSelector = st.selectbox('View ' + dataset + ' data for:', st.session_state.dropDownMenuList, )
     if allOrSingleContractorSelector == 'All Contractors':
-        displayPieAndBarPlots(vars, numberOfVars, plotInputData, selectBoxKey)
+        displayPieAndBarPlots(vars, numberOfVars, plotInputData, selectBoxKey, datasetType)
     else:
         displayDataForOneContractor(allOrSingleContractorSelector, plotInputData)
 
 
 
-def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey):
+def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
     color_map_df = load_CSV_data("src/inputData/color_map_df.csv")
     
     col1, col2 = st.columns(2)
@@ -44,13 +44,16 @@ def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey):
         
     plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
     barPlotTitle = 'By Contractor'
-    piePlotTitle = 'By Study Region'
+    if datasetType == "total":
+        piePlotTitle = 'Total by Study Region'
+    else:
+        piePlotTitle = "Average by Study Region"
     barPlotXAxisLabel = str(selectVariable[0])
     
         
     # Setting up color palette dict
     color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-    fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
+    fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel, datasetType)
     st.write(fig)
 
     #Display table
@@ -76,7 +79,7 @@ def displayDataForOneContractor(contractorName, dataFrameToDisplay):
 
 # Functions to create the plots for all the input assumption pages
 
-def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisTitle):
+def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisTitle, datasetType):
     #MAKE SUBPLOTS
     fig = make_subplots(
         rows=1, cols=2, 
@@ -92,7 +95,10 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
 
     #PIE
     #data for pie
-    pie_data = contractor_df.groupby('Study Region')['Value'].sum().astype(int)
+    if datasetType == "total":
+        pie_data = contractor_df.groupby('Study Region')['Value'].sum().astype(int)
+    else:
+        pie_data = contractor_df.groupby('Study Region')['Value'].mean().astype(int)
 
     fig.add_trace(go.Pie(labels = pie_data.index,
                             values = pie_data.values,
@@ -122,7 +128,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                                 name = label_name,
                                 marker_color = colors,
                                 legendgroup = 'grp2',
-                                showlegend=True),
+                                showlegend=False),
                                 row = 1, col = 2)
     fig.update_xaxes(title_text = barPlotXAxisTitle, linecolor = 'grey', mirror = True, 
                         title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1,
