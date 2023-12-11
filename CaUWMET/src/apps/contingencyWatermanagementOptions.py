@@ -1,16 +1,21 @@
 import streamlit as st
-from src.load_css import local_css
 from src.globalUtilities import opt_echo
 from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 def app():
 
     with opt_echo():
-        st.title('Water Management Options Assumptions')
-        st.write("")
-        st.write("<Description of Water Management Options Assumptions and Steps to use this page to be added.>")
-        st.write("")
 
+        st.title('Water Management Options Assumptions')
+        st.markdown("""
+        :green[There are three groups of contingency water management option assumptions entered into CaUWMET including:  
+                    1) Contingency conservation campaigns  
+                    2) Water market transfers  
+                    3)  Rationing programs]""", unsafe_allow_html=True)
+        st.write("")
+        st.markdown("""
+        :green[A detailed description of each of variable is provided in each expandable section below and Section 3.6.2 of the model documentation.]""", unsafe_allow_html=True)
+        
         #HIDE EXPANDER BORDERS
         hide = """
         <style>

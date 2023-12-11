@@ -92,7 +92,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
 
     #PIE
     #data for pie
-    pie_data = contractor_df.groupby('Study Region')['Value'].sum()
+    pie_data = contractor_df.groupby('Study Region')['Value'].sum().astype(int)
 
     fig.add_trace(go.Pie(labels = pie_data.index,
                             values = pie_data.values,

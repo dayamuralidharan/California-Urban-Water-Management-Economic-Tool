@@ -1,28 +1,19 @@
 import streamlit as st
 from src.globalUtilities import opt_echo
-from src.load_css import local_css
 
 def app():
 
     with opt_echo():
         st.title('Global Assumption Inputs')
 
-        local_css("src/style.css")
-
-        st.markdown("""<div><span class='font'>
-        There are three input datasets including:</span></div>""", unsafe_allow_html=True)
+        st.markdown("""
+        :green[There are three groups of global assumptions entered into CaUWMET including:  
+                    1) The time parameters including the future planning horizon year and hydrologic period applied in the simulation  
+                    2) The list of contractors that are included in the model simulation, their study regions, additional details, and Calsim delivery arcs  
+                    3)  The hydrology assumptions for each contractor]""", unsafe_allow_html=True)
         st.write("")
-        st.markdown("""<div><span class='font'>
-        1) The time parameters including the future planning horizon year and hydrologic period applied in the simulation.</span></div>""", unsafe_allow_html=True)
-        st.markdown("""<div><span class='font'>
-        2) The list of contractors that are included in the model simulation, their study regions, additional details, and Calsim delivery arcs.</span></div>""", unsafe_allow_html=True)
-        st.markdown("""<div><span class='font'>
-        3) The hydrology assumptions for each contractor.</span></div>""", unsafe_allow_html=True)
-
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        A detailed description of each of variable is provided in each expandable section below.</span></div>""", unsafe_allow_html=True)
-
+        st.markdown("""
+        :green[A detailed description of each of variable is provided in each expandable section below and Sections 3.1 and 3.2 of the model documentation.]""", unsafe_allow_html=True)
 
         #HIDE EXPANDER BORDERS
         hide = """

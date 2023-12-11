@@ -1,5 +1,4 @@
 import streamlit as st
-from src.load_css import local_css
 from src.globalUtilities import opt_echo
 from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
@@ -9,35 +8,20 @@ def app():
     with opt_echo():
 
         #Set font styling (currently used for green text)
-        local_css("src/style.css")
 
         st.title('System Operations Assumptions Page')
 
-        st.markdown("""<div><span class='font'>
-        There are six system operations assumption datasets entered into CaUWMET for each contractor, including:</span></div>""", unsafe_allow_html=True)
+        st.markdown("""
+        :green[There are six groups of system operations assumptions entered into CaUWMET including:  
+                    1) Excess project supply management strategy  
+                    2) Surface carryover storage operations  
+                    3) Groundwater banking storage operations  
+                    4) Storage hedging strategy  
+                    5) Storage operations costs  
+                    6) Delivery costs]""", unsafe_allow_html=True)
         st.write("")
-        st.markdown("""<div><span class='font'>
-        1) Excess project supply management strategy
-                    </span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        2) Surface carryover storage operations</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        3) Groundwater banking storage operations</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        4) Storage hedging strategy</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        5) Storage operations costs</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        6) Delivery costs</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        A detailed description of each of variable is provided in each expandable section below.</span></div>""", unsafe_allow_html=True)
-
+        st.markdown("""
+        :green[A detailed description of each of variable is provided in each expandable section below and Sections 3.5 of the model documentation.]""", unsafe_allow_html=True)
 
         #HIDE EXPANDER BORDERS
         hide = """
