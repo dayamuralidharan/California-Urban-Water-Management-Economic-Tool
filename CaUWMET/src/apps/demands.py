@@ -11,7 +11,7 @@ def app():
         #Set font styling (used for green text)
         local_css("src/style.css")
 
-        st.title('Demand Assumptions Page')
+        st.title('Demand Assumption Inputs')
         
         st.markdown("""<div><span class='font'>
         There are three demand assumption datasets entered into CaUWMET including:</span></div>""", unsafe_allow_html=True)

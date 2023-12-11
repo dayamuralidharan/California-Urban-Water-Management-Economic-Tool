@@ -1,10 +1,14 @@
 import streamlit as st
 from src.globalUtilities import opt_echo
+from src.load_css import local_css
 
 def app():
 
     with opt_echo():
-        st.title('Global Assumptions')
+        st.title('Global Assumption Inputs')
+
+        local_css("src/style.css")
+
         st.markdown("""<div><span class='font'>
         There are three input datasets including:</span></div>""", unsafe_allow_html=True)
         st.write("")
@@ -29,7 +33,11 @@ def app():
         """
 
         st.markdown(hide, unsafe_allow_html=True)
-        #TODO add time parameters
+
+        with st.expander("Simulation Settings"):
+            st.write("Planning Horizon: " + st.session_state.futurePlanningYear)
+            st.write("Hydrologic reference period: " + str(st.session_state.hydrologicReferencePeriodStartYear) + " - " + str(st.session_state.hydrologicReferencePeriodEndYear))
+
         with st.expander("Contractor Assumptions"):
             data1 = st.session_state.contractorInfo
             #TODO format table

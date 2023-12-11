@@ -32,6 +32,47 @@ def displaySummaryPlots(df, explanationText, dataset):
 
 
 
+def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey):
+    color_map_df = load_CSV_data("src/inputData/color_map_df.csv")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
+
+        selectVariable = []
+        selectVariable.append(st.selectbox('', vars, key= selectBoxKey, help="Select variable to display in plots below."))
+        
+    plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
+    barPlotTitle = 'By Contractor'
+    piePlotTitle = 'By Study Region'
+    barPlotXAxisLabel = str(selectVariable[0])
+    
+        
+    # Setting up color palette dict
+    color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
+    fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
+    st.write(fig)
+
+    #Display table
+    tableData = plotInputData[plotInputData['Type'].isin(selectVariable)]
+    tableData = tableData.drop(columns = ['Year'])
+    tableData['Value'] = tableData['Value'].apply(roundValues)
+    st.table(data = tableData)
+
+def displayDataForOneContractor(contractorName, dataFrameToDisplay):
+    filteredDataToOneContractor = dataFrameToDisplay[dataFrameToDisplay['Contractor'].isin([contractorName])]
+    filteredDataToOneContractor['Value'] = filteredDataToOneContractor['Value'].apply(roundValues)
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=filteredDataToOneContractor['Type'],
+        y=filteredDataToOneContractor['Value'],
+    ))
+    fig.update_layout(title_text = contractorName, title_x=0.45, width = 700)
+    fig.update_traces(marker_color=['#EF553B', '#636EFA', '#AB63FA', '#00CC96', '#FFA15A', '#FF33E3', '#3336FF'])
+    fig.update_xaxes(title_text="Type")
+    fig.update_yaxes(title_text="Value")
+    st.write(fig)
+    st.table(filteredDataToOneContractor)
 
 # Functions to create the plots for all the input assumption pages
 
@@ -108,45 +149,3 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                     )
 
     return fig
-
-def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey):
-    color_map_df = load_CSV_data("src/inputData/color_map_df.csv")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
-
-        selectVariable = []
-        selectVariable.append(st.selectbox('', vars, key= selectBoxKey, help="Select variable to display in plots below."))
-        
-    plot_df = plotInputData[plotInputData['Type'].isin(selectVariable)]
-    barPlotTitle = 'By Contractor'
-    piePlotTitle = 'By Study Region'
-    barPlotXAxisLabel = str(selectVariable[0])
-    
-        
-    # Setting up color palette dict
-    color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
-    fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel)
-    st.write(fig)
-
-    #Display table
-    tableData = plotInputData[plotInputData['Type'].isin(selectVariable)]
-    tableData = tableData.drop(columns = ['Year'])
-    tableData['Value'] = tableData['Value'].apply(roundValues)
-    st.table(data = tableData)
-
-def displayDataForOneContractor(contractorName, dataFrameToDisplay):
-    filteredDataToOneContractor = dataFrameToDisplay[dataFrameToDisplay['Contractor'].isin([contractorName])]
-    filteredDataToOneContractor['Value'] = filteredDataToOneContractor['Value'].apply(roundValues)
-    fig = go.Figure()
-    fig.add_trace(go.Bar(
-        x=filteredDataToOneContractor['Type'],
-        y=filteredDataToOneContractor['Value'],
-    ))
-    fig.update_layout(title_text = contractorName, title_x=0.45, width = 700)
-    fig.update_traces(marker_color=['#EF553B', '#636EFA', '#AB63FA', '#00CC96', '#FFA15A', '#FF33E3', '#3336FF'])
-    fig.update_xaxes(title_text="Type")
-    fig.update_yaxes(title_text="Value")
-    st.write(fig)
-    st.table(filteredDataToOneContractor)
