@@ -38,7 +38,7 @@ class SystemOperationsAssumptions:
         self.groundwaterPumpingUnitCost = {'Year': globalAssumptions.historicHydrologyYears}
 
         for contractor in globalAssumptions.contractorsList:
-            contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Hydro. Region')
+            contractorRegion = lookupCorrespondingValue(globalAssumptions.contractorDf, contractor, colA='Contractor', colB='Study Region')
             contractorYearType = globalAssumptions.UWMPhydrologicYearType[contractor]
             contractorGroundwaterPumpingUnitCost = []
 

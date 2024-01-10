@@ -2,17 +2,8 @@ class InputDataLocationsForTesting:
     def __init__(self):
         self.inputDataFile = "tests/inputDataForTests/CaUWMETInputData_forTest.xlsx"
 
-        #TODO move year to input spreadsheet
-        self.futureYearInput = '2045'
-        self.hydroYearTypeInput = "tests/inputDataForTests/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "tests/inputDataForTests/contractorInput_contractorInfo.csv"
-        
-        self.inputDemandsFile = "tests/inputDataForTests/demandsInput_totalDemands.csv"
-        self.inputPlannedConservationFile = "tests/inputDataForTests/demandsInput_baseLongTermConservationData.csv"
-        self.inputETAWAdjustmentsFile = "tests/inputDataForTests/demandsInput_ETAWAdjustments.csv"
-        self.inputUseByTypeFile = "tests/inputDataForTests/demandsInput_useByTypeData.csv"
-        
-        self.totalDemandScenarioRadioButtonIndex = 0
+
         
         self.localSuppliesDataInput = "tests/inputDataForTests/supplyInput_localSupplies.csv"
         self.supplyDesalinationTimeseriesInput = "tests/inputDataForTests/supplyInput_desalinationTimeSeries.csv"

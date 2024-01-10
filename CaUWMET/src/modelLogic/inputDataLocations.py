@@ -2,15 +2,7 @@ class InputDataLocations:
     def __init__(self):
         self.inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
         
-        self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
-        
-        self.totalDemandScenarioRadioButtonIndex = 0 ##TODO - rename, this should be an input for user to choose time series or UWMP demand data
-        
-        self.inputDemandsFile = "src/inputData/demandsInput_totalDemands.csv"
-        self.inputPlannedConservationFile = "src/inputData/demandsInput_baseLongTermConservationData.csv"
-        self.inputETAWAdjustmentsFile = "src/inputData/demandsInput_ETAWAdjustments.csv"
-        self.inputUseByTypeFile = "src/inputData/demandsInput_useByTypeData.csv"
         
         self.localSuppliesDataInput = "src/inputData/supplyInput_localSupplies.csv"
         self.supplyDesalinationTimeseriesInput = "src/inputData/supplyInput_desalinationTimeSeries.csv"
