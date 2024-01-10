@@ -11,8 +11,9 @@ class GlobalAssumptions:
         self.hydroYearType = pd.read_csv(hydroYearTypeInput)
         self.contractorInformation = pd.read_csv(contractorInformationInput)
 
-        self.futureYear = inputDataLocations.futureYearInput
-        futureYearTest = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Simulation Settings', skiprows = 1, nrows = 1, usecols = 'B')
+        futureYearInput = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Simulation Settings', skiprows = 0, nrows = 1, usecols = 'B')
+        self.futureYear = futureYearInput.columns
+        self.futureYear = str(self.futureYear[0])
 
         # Set up time series of hydrological year type based on Sacramento and SJ CDEC data, and reclassify to UWMP data classifications of Normal or Better, Single Dry, or Multi-Dry
         self.contractorDf = self.contractorInformation[['Contractor', 'Hydro. Region']]

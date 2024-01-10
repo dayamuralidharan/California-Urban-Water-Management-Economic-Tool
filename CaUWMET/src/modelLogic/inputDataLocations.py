@@ -2,8 +2,6 @@ class InputDataLocations:
     def __init__(self):
         self.inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
         
-        self.futureYearInput = '2045' #TODO this should be in user input file
-        
         self.hydroYearTypeInput = "src/inputData/contractorInput_hydrologyAssumptions.csv"
         self.contractorInformationInput = "src/inputData/contractorInput_contractorInfo.csv"
         
