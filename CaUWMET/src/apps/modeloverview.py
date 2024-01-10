@@ -1,89 +1,57 @@
 import streamlit as st
-import json
-#import geopandas as gpd
-#import geoviews as gv
-import plotly.graph_objs as go
-import traceback
+from src.globalUtilities import opt_echo
 
 def app():
-    class opt_echo:
-        def __init__(self):
-            self.checkbox = st.sidebar.checkbox("Show source code", key = "1")
-
-            self.orig_extract_stack = traceback.extract_stack
-
-            if self.checkbox:
-                traceback.extract_stack = lambda: self.orig_extract_stack()[:-2]
-                self.echo = st.echo()
-
-        def __enter__(self):
-            if self.checkbox:
-                return self.echo.__enter__()
-
-        def __exit__(self, type, value, traceback):
-            if self.checkbox:
-                self.echo.__exit__(type, value, traceback)
-
-            # For some reason I need to import this again.
-            import traceback
-
-            traceback.extract_stack = self.orig_extract_stack
-
+    
     with opt_echo():
+
         st.title('Model Overview')
-        st.markdown('To add: Overview of model logic, map of contractors with summary information on their supplies.')
-
-        # reading in the polygon shapefile
-        #polygon = gpd.read_file("inputData/geospatial/ModelContractorsPolygon.shp")
-
-        # project geopandas dataframe
-        #map_df = polygon
-        #map_df.to_crs(pyproj.CRS.from_epsg(3857), inplace=True)
-
-        #reading in the points shapefile
-        #points = gpd.read_file("inputData/geospatial/ModelContractorsPoints.shp")
-
-        #project geopandas dataframe
-        #points.to_crs(pyproj.CRS.from_epsg(4326), inplace=True)
-
-        # define lat, long for points
-        #Lat = points['Lat']
-        #Long = points['Long']
-
-        # leases to geojson
-        #path = "reference/geojson.json"
-
-        # map_df.to_file(path, driver = "GeoJSON")
-        # with open(path) as geofile:
-        #     j_file = json.load(geofile)
-
-        #index geojson
-        # i=1
-        # for feature in j_file["features"]:
-        #     feature ['id'] = str(i).zfill(2)
-        #     i += 1
+        st.markdown("""State Water Project (SWP) and Central Valley Project (CVP) water contractors (contractors) 
+                    are often required to evaluate alternative local, regional, statewide, and federal water management 
+                    strategies during water supply planning efforts. 
+                    Economic impacts of changes in water service reliability are also generally required as part of an environmental 
+                    impact study. 
+                    
+CaUWMET was developed to leverage major advancements made in open-source optimization methods. The tool 
+includes analyses at the contractor level with a primary goal of being publicly available, free, open-source, 
+and user friendly so that contractors can tailor the tool for their specific study needs. Its objective is to 
+determine the economically optimal urban water management strategy using the least-cost planning criterion. 
+This criterion is theoretically described on the bar plot figure below, which shows how two inversely related cost components 
+are evaluated by the model: the cost of adding reliability enhancement measures and the expected costs and 
+losses without the addition of the enhancements. The objective function minimizes the total of these two costs 
+to determine the most economically efficient level of reliability enhancement and level of costs and losses to 
+accept from shortage. """)
         
-        # mapbox token
-        #token = "pk.eyJ1IjoibmlyYS0xOCIsImEiOiJja21remVtbXExNjg2Mm9xbXF2MDhxbHFhIn0.E9OSgsFY-ziqkJkayUpZ8w"
+        st.image('src/pageUtilities/CaUWMETObjectiveFunctionGraphic.png', width=650)
 
-        # define layers and plot map
-        # choro = go.Choroplethmapbox(z=map_df['STFIPS'], locations = map_df.index, colorscale = 'magma', geojson = j_file, text = map_df['AGENCYNAME'], marker_line_width=0.1)
-            # Your choropleth data here
-        #choro = go.Polygons(map_df['STFIPS'], map_df.index, colorscale = 'magma', geojson = j_file, text = map_df['AGENCYNAME'], marker_line_width=0.1)
+        st.markdown("""A high-level overview of the water balance and cost simulation and its linkage to the 
+                    optimization tool is summarized in the figure below. The water balance starts with a contractor’s total 
+                    demands, which are first met by available base conservation and supply assumptions (that is, existing 
+                    conservation and supply programs). Both the demand and supply assumptions vary year to year according to 
+                    the sequence of hydrologic conditions that are input for each contractor. Carryover and groundwater banking 
+                    storage operations are dynamically simulated as a part of the supplies available to meet demands, or for 
+                    storage of CVP/SWP supplies in years they are in excess of the volume needed to meet demands. If there is 
+                    still demand after supplies available from storage have been delivered, contingent options can be implemented, 
+                    including contingency conservation programs, water market transfers, and lastly, rationing programs.""")
 
-        #scatt = go.Scattermapbox(lat=Lat, lon=Long, text= map_df['AGENCYNAME'], mode='markers+text',below='False', marker=dict( size=12, color ='rgb(56, 44, 100)'))
-            # Your scatter data here
+        st.markdown("""Costs are estimated annually in constant 2022 dollars, as a function of the dynamic water balance simulation. Operational costs 
+                    are derived for variable cost components only, which are added to the capital and operational costs estimated
+                     for the implementation of the new WMOs to determine the total reliability management cost (refer to figure above). The other key cost 
+                    component is the economic loss associated with shortage, which is applied only if there is remaining shortage in any time step. 
+                    An economic loss function as a result of shortage occurrences is applied, derived from studies of urban price elasticities and 
+                    water agency retail rate, also in 2022 dollars. The reliability management cost is added to the economic loss to derive a total 
+                    annual cost. This total annual cost is averaged over the entire simulation period.""")
 
-        #layout = go.Layout(title_x =0.5, width=950, height=700,mapbox = dict(center= dict(lat=37, lon=-95),accesstoken= 'token', zoom=4,style="stamen-terrain"))
-        
+                    
+        st.markdown("""The optimization tool minimizes the total annual cost by iterating the water balance and cost simulation over various volume 
+                    quantities of the long-term WMOs. The WMO volumes are set by the optimization tool, bounded by a maximum volume
+                     assumption, then incorporated into the available base conservation and supply assumptions. The optimization 
+                    tool outputs the total cost and losses associated with each long-term WMO volume quantity in each iteration of
+                     the optimization space it explores, and ultimately the economically efficient level of reliability enhancement.
+""")
 
-        # streamlit multiselect widget
-        # layer1 = st.multiselect('Layer Selection', [choro, scatt], format_func=lambda x: 'Polygon' if x==choro else 'Points')
-        # layer1 = st.selectbox('Layer Selection', [scatt], format_func=lambda x: 'Points')
+        st.image('src/pageUtilities/CaUWMET Approach Overview.png', width=650)
 
-        #st.write('Layer 1:', layer1)
-        # fig = go.Figure(data=layer1, layout=layout)
-
-
-        # display streamlit
-        # st.plotly_chart(fig)
+        st.markdown("""The model is configured for all CVP and SWP contractors with urban (that is, municipal and industrial) uses, 
+                    shown in the figure below. Additional details on the contractors can be found in the Global Assumptions page.""")
+        st.image('src/pageUtilities/AgenciesInCaUWMET.png', width=650)

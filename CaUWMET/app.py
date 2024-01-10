@@ -1,6 +1,7 @@
 from src.multiapp import MultiApp
 from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, contingencyWatermanagementOptions, longtermWatermanagementOptions, results
 from src.globalUtilities import fetch_data, selectSpecifiedRows
+import copy
 
 import streamlit as st
 
@@ -42,10 +43,16 @@ outputDataFile = "src/outputData/ModelOutputs_Optimal.xlsx"
 #---------------------------------------------------------------#
 # INITIALIZE GLOBAL ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-futurePlanningYear = '2045' #TODO Make future planning year list dynamic based on input data.
+simulationSettings = fetch_data(inputDataFile, sheet_name = 'Simulation Settings', nrows = 3, usecols = 'B')
 
 if 'futurePlanningYear' not in st.session_state:
-    st.session_state['futurePlanningYear'] = futurePlanningYear
+    st.session_state['futurePlanningYear'] = str(simulationSettings.columns.values[0])
+
+if 'hydrologicReferencePeriodStartYear' not in st.session_state:
+    st.session_state['hydrologicReferencePeriodStartYear'] = simulationSettings[simulationSettings.columns.values[0]][0]
+
+if 'hydrologicReferencePeriodEndYear' not in st.session_state:
+    st.session_state['hydrologicReferencePeriodEndYear'] = simulationSettings[simulationSettings.columns.values[0]][1]
 
 if 'contractorInfo' not in st.session_state:
     st.session_state['contractorInfo'] = fetch_data(inputDataFile, sheet_name = 'Contractor Assumptions', skiprows = 4, nrows = 44, usecols = 'A:I')
@@ -57,7 +64,7 @@ if 'contractorList' not in st.session_state:
     st.session_state['contractorList'] = selectSpecifiedRows(st.session_state.contractorInfo, 'Include in model', 'Yes')['Contractor']
 
 if 'dropDownMenuList' not in st.session_state: # Drop down menu used on all pages
-    st.session_state['dropDownMenuList'] = st.session_state.contractorList
+    st.session_state['dropDownMenuList'] = copy.deepcopy(st.session_state.contractorList)
     st.session_state.dropDownMenuList.loc[0] = "All Contractors"
     st.session_state.dropDownMenuList.sort_index(inplace=True)
 
