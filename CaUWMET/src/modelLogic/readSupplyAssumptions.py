@@ -1,8 +1,10 @@
-
+import warnings
 import pandas as pd
 
 class SupplyAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
+        warnings.filterwarnings("ignore")
+        
         #Read input data from spreadsheet
         inputData_supplyInputType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 5, nrows = 1, usecols = 'A')
         
