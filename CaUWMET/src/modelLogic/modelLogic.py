@@ -274,14 +274,14 @@ class ModelLogic:
         longtermWMOOtherSupplyUnitCost_Contractor = self.inputData.longtermWMOOtherSupplyUnitCost.loc[self.contractor][self.inputData.futureYear]
         longtermWMOConservationUnitCost_Contractor = self.inputData.longtermWMOConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
         
-        longtermWMOSurfaceBaseCost_Contractor = self.inputData.longtermWMOSurfaceBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOGroundwaterBaseCost_Contractor = self.inputData.longtermWMOGroundwaterBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMODesalinationBaseCost_Contractor = self.inputData.longtermWMODesalinationBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMORecycledBaseCost_Contractor = self.inputData.longtermWMORecycledBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOPotableReuseBaseCost_Contractor = self.inputData.longtermWMOPotableReuseBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOTransfersExchangesBaseCost_Contractor = self.inputData.longtermWMOTransfersExchangesBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOOtherSupplyBaseCost_Contractor = self.inputData.longtermWMOOtherSupplyBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOConservationBaseCost_Contractor = self.inputData.longtermWMOConservationBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
+        longtermWMOSurfaceBaseCost_Contractor = self.inputData.longtermWMOSurfaceBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOGroundwaterBaseCost_Contractor = self.inputData.longtermWMOGroundwaterBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMODesalinationBaseCost_Contractor = self.inputData.longtermWMODesalinationBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMORecycledBaseCost_Contractor = self.inputData.longtermWMORecycledBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOPotableReuseBaseCost_Contractor = self.inputData.longtermWMOPotableReuseBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOTransfersExchangesBaseCost_Contractor = self.inputData.longtermWMOTransfersExchangesBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOOtherSupplyBaseCost_Contractor = self.inputData.longtermWMOOtherSupplyBaseCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOConservationBaseCost_Contractor = self.inputData.longtermWMOConservationBaseCost.loc[self.contractor][self.inputData.futureYear]
         
         #Get reliability management costs based on delivered volumes
         self.swpCVPDeliveryCost_Contractor.append((max(0, self.SWPCVPSupply_Contractor - self.excessSupply_Contractor[self.i])) * self.swpCVPDeliveryUnitCost_Contractor)
