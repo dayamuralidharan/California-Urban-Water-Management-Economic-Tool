@@ -3,33 +3,33 @@ import pandas as pd
 class LongTermWMOsAssumptions:
     def __init__(self, inputDataLocations):
         # Input Assumptions
-        longtermWMOSupplyVolumeInputData = inputDataLocations.longtermWMOSupplyVolumeInputData
         longtermWMOSupplyUnitCostsInputData = inputDataLocations.longtermWMOSupplyUnitCostsInputData
         longtermWMOSupplyBaseCostsInputData = inputDataLocations.longtermWMOSupplyBaseCostsInputData
 
-        longtermWMOSupplyVolumeData = pd.read_csv(longtermWMOSupplyVolumeInputData)
-        longtermWMOSupplyUnitCostsData = pd.read_csv(longtermWMOSupplyUnitCostsInputData)
+        longtermWMOSupplyVolumeData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Long-term WMOs Assumptions', skiprows = 7, nrows = 365, usecols = 'A:H')
+        longtermWMOSupplyUnitCostsData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Long-term WMOs Assumptions', skiprows = 378, nrows = 733, usecols = 'A:H')
         longtermWMOSupplyBaseCostsData = pd.read_csv(longtermWMOSupplyBaseCostsInputData)
 
 
         # Definition of Long-term WMO Supply Volume variables
-        self.longtermWMOSurfaceVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Surface Water Supply Volume (AFY)']
-        self.longtermWMOGroundwaterVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Groundwater Supply Volume (AFY)']
-        self.longtermWMODesalinationVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Desalination Supply Volume (AFY)']
-        self.longtermWMORecycledVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Recycled Supply Volume (AFY)']
-        self.longtermWMOPotableReuseVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Potable Reuse Supply Volume (AFY)']
-        self.longtermWMOTransfersExchangesVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Transfers and Exchanges Supply Volume (AFY)']
-        self.longtermWMOOtherSupplyVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Other Supply Volume (AFY)']
-        self.longtermWMOConservationVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Additional Conservation Volume (AFY)']
+        #TODO Confirm these listed here are being used in Marks code? If not...delete or use these instead of what he is using
+        self.longtermWMOSurfaceVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Surface Water Supply Volume (acre-feet/year)']
+        self.longtermWMOGroundwaterVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Groundwater Supply Volume (acre-feet/year)']
+        self.longtermWMODesalinationVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Desalination Supply Volume (acre-feet/year)']
+        self.longtermWMORecycledVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Recycled Supply Volume (acre-feet/year)']
+        self.longtermWMOPotableReuseVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Potable Reuse Supply Volume (acre-feet/year)']
+        self.longtermWMOTransfersExchangesVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Transfers and Exchanges Supply Volume (acre-feet/year)']
+        self.longtermWMOOtherSupplyVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Other Supply Volume (acre-feet/year)']
+        self.longtermWMOConservationVolumeLimit = longtermWMOSupplyVolumeData[longtermWMOSupplyVolumeData['Variable'] == 'Additional Conservation Volume (acre-feet/year)']
 
-        self.longtermWMOSurfaceUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Surface Water Supply Cost ($/AF)']
-        self.longtermWMOGroundwaterUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Groundwater Supply Cost ($/AF)']
-        self.longtermWMODesalinationUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Desalination Supply Cost ($/AF)']
-        self.longtermWMORecycledUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Recycled Supply Cost ($/AF)']
-        self.longtermWMOPotableReuseUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Potable Reuse Supply Cost ($/AF)']
-        self.longtermWMOTransfersExchangesUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Transfers and Exchanges Supply Cost ($/AF)']
-        self.longtermWMOOtherSupplyUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Other Supply Cost ($/AF)']
-        self.longtermWMOConservationUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Additional Conservation Cost ($/AF)']
+        self.longtermWMOSurfaceUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Surface Supply Incremental Cost ($/acre-foot)']
+        self.longtermWMOGroundwaterUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Groundwater Supply Incremental Cost ($/acre-foot)']
+        self.longtermWMODesalinationUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Desalination Supply Incremental Cost ($/acre-foot)']
+        self.longtermWMORecycledUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Recycled Supply Incremental Cost ($/acre-foot)']
+        self.longtermWMOPotableReuseUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Potable Reuse Supply Incremental Cost ($/acre-foot)']
+        self.longtermWMOTransfersExchangesUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Long-term Contracts for Transfers and Exchanges Supply Incremental Cost ($/acre-foot)']
+        self.longtermWMOOtherSupplyUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Other Supply Type Incremental Cost ($/acre-foot)']
+        self.longtermWMOConservationUnitCost = longtermWMOSupplyUnitCostsData[longtermWMOSupplyUnitCostsData['Variable'] == 'Additional Conservation Incremental Cost ($/acre-foot)']
 
         self.longtermWMOSurfaceBaseCost = longtermWMOSupplyBaseCostsData[longtermWMOSupplyBaseCostsData['Variable'] == 'Surface Water Supply Cost ($)']
         self.longtermWMOGroundwaterBaseCost = longtermWMOSupplyBaseCostsData[longtermWMOSupplyBaseCostsData['Variable'] == 'Groundwater Supply Cost ($)']

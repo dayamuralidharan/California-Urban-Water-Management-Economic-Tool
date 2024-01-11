@@ -19,12 +19,6 @@ class InputDataLocations:
         self.storageHedgingStrategyInput = "src/inputData/systemOperationsInput_StorageHedgingStrategy.csv"
         self.deliveryCostInput = "src/inputData/systemOperationsInput_DeliveryCosts.csv"
         
-        self.contingentConservationInputFile = "src/inputData/contingentWMOsInput_conservation.csv"
-        self.waterMarketTransfersInputFile = "src/inputData/contingentWMOsInput_WaterMarketTransfers.csv"
-        self.rationingProgramInputFile = "src/inputData/contingentWMOsInput_rationingProgram.csv"
-        self.cutRatioInputFile = "src/inputData/contingentWMOsInput_cutRatios.csv"
-        self.elasticityOfDemandInputFile = "src/inputData/contingentWMOsInput_elasticityofDemand.csv"
-        
         self.longtermWMOSupplyVolumeInputData = "src/inputData/longtermWMOsInput_supplyVolume.csv"
         self.longtermWMOSupplyUnitCostsInputData = "src/inputData/longtermWMOsInput_supplyUnitCosts.csv"
         self.longtermWMOSupplyBaseCostsInputData = "src/inputData/longtermWMOsInput_supplyBaseCosts.csv"

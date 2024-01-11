@@ -265,14 +265,14 @@ class ModelLogic:
         self.costForRationingProgram_Contractor = float(self.inputData.costForRationingProgram.loc[self.contractor])
         self.urbanPopulation_Contractor = self.inputData.urbanPopulation.loc[self.contractor][self.inputData.futureYear] * 1000
         
-        longtermWMOSurfaceUnitCost_Contractor = self.inputData.longtermWMOSurfaceUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOGroundwaterUnitCost_Contractor = self.inputData.longtermWMOGroundwaterUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMODesalinationUnitCost_Contractor = self.inputData.longtermWMODesalinationUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMORecycledUnitCost_Contractor = self.inputData.longtermWMORecycledUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOPotableReuseUnitCost_Contractor = self.inputData.longtermWMOPotableReuseUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOTransfersExchangesUnitCost_Contractor = self.inputData.longtermWMOTransfersExchangesUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOOtherSupplyUnitCost_Contractor = self.inputData.longtermWMOOtherSupplyUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
-        longtermWMOConservationUnitCost_Contractor = self.inputData.longtermWMOConservationUnitCost.loc[self.contractor][str(self.inputData.futureYear)]
+        longtermWMOSurfaceUnitCost_Contractor = self.inputData.longtermWMOSurfaceUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOGroundwaterUnitCost_Contractor = self.inputData.longtermWMOGroundwaterUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMODesalinationUnitCost_Contractor = self.inputData.longtermWMODesalinationUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMORecycledUnitCost_Contractor = self.inputData.longtermWMORecycledUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOPotableReuseUnitCost_Contractor = self.inputData.longtermWMOPotableReuseUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOTransfersExchangesUnitCost_Contractor = self.inputData.longtermWMOTransfersExchangesUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOOtherSupplyUnitCost_Contractor = self.inputData.longtermWMOOtherSupplyUnitCost.loc[self.contractor][self.inputData.futureYear]
+        longtermWMOConservationUnitCost_Contractor = self.inputData.longtermWMOConservationUnitCost.loc[self.contractor][self.inputData.futureYear]
         
         longtermWMOSurfaceBaseCost_Contractor = self.inputData.longtermWMOSurfaceBaseCost.loc[self.contractor][str(self.inputData.futureYear)]
         longtermWMOGroundwaterBaseCost_Contractor = self.inputData.longtermWMOGroundwaterBaseCost.loc[self.contractor][str(self.inputData.futureYear)]

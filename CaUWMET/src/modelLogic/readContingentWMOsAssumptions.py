@@ -6,8 +6,6 @@ class ContingentWMOsAssumptions:
         warnings.filterwarnings("ignore")
         
         # Input directories and filenames
-        elasticityOfDemandInputFile = inputDataLocations.elasticityOfDemandInputFile
-
         contingentConservationInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 5, nrows = 181, usecols = 'A:H')
         waterMarketTransfersInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 192, nrows = 457, usecols = 'A:H')
         rationingProgramInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 655, nrows = 272, usecols = 'A:H')
