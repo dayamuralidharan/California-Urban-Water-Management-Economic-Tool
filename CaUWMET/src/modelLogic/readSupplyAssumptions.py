@@ -5,11 +5,11 @@ class SupplyAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
         #Read input data from spreadsheet
         inputData_supplyInputType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 5, nrows = 1, usecols = 'A')
+        
         baseSupplyInputAsTimeSeries = inputData_supplyInputType.columns
         baseSupplyInputAsTimeSeries = baseSupplyInputAsTimeSeries[0]
         
         swpCVPSupplyDataInput = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 984, nrows = 94, usecols = 'A:AR')
-        print(swpCVPSupplyDataInput)
         self.swpCVPSupply = swpCVPSupplyDataInput
 
         if baseSupplyInputAsTimeSeries == "Use time series input":
