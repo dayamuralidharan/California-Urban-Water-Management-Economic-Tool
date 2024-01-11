@@ -12,7 +12,7 @@ class ContingentWMOsAssumptions:
         contingentConservationInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 5, nrows = 181, usecols = 'A:H')
         waterMarketTransfersInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 192, nrows = 457, usecols = 'A:H')
         rationingProgramInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 655, nrows = 272, usecols = 'A:H')
-        cutRatioInputData = pd.read_csv(cutRatioInputFile)
+        cutRatioInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 747, nrows = 44, usecols = 'A:H')
         elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
         
         cutRatioInputData.set_index('Contractor', inplace = True)
@@ -96,11 +96,11 @@ class ContingentWMOsAssumptions:
         self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Adjustment Factor (%)"] #TODO get just for future year here
         self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/acre-foot)"][int(globalAssumptions.futureYear)]
 
-        self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
-        self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
-        self.cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']['Cut Ratio']
-        self.cutRatio_commAndGov = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']['Cut Ratio']
-        self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']['Cut Ratio']
+        self.cutRatio_singleFamily = cutRatioInputData['Single Family']
+        self.cutRatio_multiFamily = cutRatioInputData['Multi-Family']
+        self.cutRatio_industrial = cutRatioInputData['Industrial']
+        self.cutRatio_commAndGov = cutRatioInputData['Commercial']
+        self.cutRatio_landscape = cutRatioInputData['Landscape']
 
         self.elasticityOfDemand_singleFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Single Family Residential']['Value']
         self.elasticityOfDemand_multiFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Multi-Family Residential']['Value']
