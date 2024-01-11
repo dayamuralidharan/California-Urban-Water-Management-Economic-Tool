@@ -6,14 +6,13 @@ class ContingentWMOsAssumptions:
         warnings.filterwarnings("ignore")
         
         # Input directories and filenames
-        cutRatioInputFile = inputDataLocations.cutRatioInputFile
         elasticityOfDemandInputFile = inputDataLocations.elasticityOfDemandInputFile
 
         contingentConservationInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 5, nrows = 181, usecols = 'A:H')
         waterMarketTransfersInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 192, nrows = 457, usecols = 'A:H')
         rationingProgramInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 655, nrows = 272, usecols = 'A:H')
         cutRatioInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 747, nrows = 44, usecols = 'A:H')
-        elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
+        elasticityOfDemandInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 838, nrows = 44, usecols = 'A:H')
         
         cutRatioInputData.set_index('Contractor', inplace = True)
         rationingProgramInputData.set_index('Contractor', inplace = True)
@@ -102,11 +101,11 @@ class ContingentWMOsAssumptions:
         self.cutRatio_commAndGov = cutRatioInputData['Commercial']
         self.cutRatio_landscape = cutRatioInputData['Landscape']
 
-        self.elasticityOfDemand_singleFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Single Family Residential']['Value']
-        self.elasticityOfDemand_multiFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Multi-Family Residential']['Value']
-        self.elasticityOfDemand_industrial = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Industrial']['Value']
-        self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Commercial and Governmental']['Value']
-        self.elasticityOfDemand_landscape = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Landscape']['Value']
+        self.elasticityOfDemand_singleFamily = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_multiFamily = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_industrial = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_landscape = elasticityOfDemandInputData['Elasticity']
         
-        self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']['Value']
-        self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']['Value']
+        self.lowerLossBoundary = elasticityOfDemandInputData['Lower Loss Boundary']
+        self.upperLossBoundary = elasticityOfDemandInputData['Upper Loss Boundary']
