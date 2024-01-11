@@ -6,13 +6,12 @@ class ContingentWMOsAssumptions:
         warnings.filterwarnings("ignore")
         
         # Input directories and filenames
-        rationingProgramInputFile = inputDataLocations.rationingProgramInputFile
         cutRatioInputFile = inputDataLocations.cutRatioInputFile
         elasticityOfDemandInputFile = inputDataLocations.elasticityOfDemandInputFile
 
         contingentConservationInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 5, nrows = 181, usecols = 'A:H')
         waterMarketTransfersInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 192, nrows = 457, usecols = 'A:H')
-        rationingProgramInputData = pd.read_csv(rationingProgramInputFile)
+        rationingProgramInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 655, nrows = 272, usecols = 'A:H')
         cutRatioInputData = pd.read_csv(cutRatioInputFile)
         elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
         
@@ -92,11 +91,10 @@ class ContingentWMOsAssumptions:
 
 
         # Set Rationing Program and Loss Function variables
-        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][globalAssumptions.futureYear]
-        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][globalAssumptions.futureYear]
-        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"] #TODO get just for future year here
-        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"][globalAssumptions.futureYear]
-        print(self.demandHardeningFactor.loc['Metropolitan Water District of Southern California'][str(2045)])
+        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][int(globalAssumptions.futureYear)]
+        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][int(globalAssumptions.futureYear)]
+        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Adjustment Factor (%)"] #TODO get just for future year here
+        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/acre-foot)"][int(globalAssumptions.futureYear)]
 
         self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
         self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
