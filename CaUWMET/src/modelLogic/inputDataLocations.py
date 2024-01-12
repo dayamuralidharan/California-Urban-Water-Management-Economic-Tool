@@ -14,12 +14,3 @@ class InputDataLocations:
         self.supplyExchangesTimeseriesInput = "src/inputData/supplyInput_transfersAndExchangesTimeSeries.csv"
         self.swpCVPSupplyDataInput = "src/inputData/supplyInput_SWPCVP.csv"
         
-        self.storageDataInput = "src/inputData/systemOperationsInput_Storage.csv"
-        self.excessWaterSwitchDataInput = "src/inputData/systemOperationsInput_ExcessWaterSwitch.csv"
-        self.storageHedgingStrategyInput = "src/inputData/systemOperationsInput_StorageHedgingStrategy.csv"
-        self.deliveryCostInput = "src/inputData/systemOperationsInput_DeliveryCosts.csv"
-        
-        self.longtermWMOSupplyVolumeInputData = "src/inputData/longtermWMOsInput_supplyVolume.csv"
-        self.longtermWMOSupplyUnitCostsInputData = "src/inputData/longtermWMOsInput_supplyUnitCosts.csv"
-        self.longtermWMOSupplyBaseCostsInputData = "src/inputData/longtermWMOsInput_supplyBaseCosts.csv"
-        

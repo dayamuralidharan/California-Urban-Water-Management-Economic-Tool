@@ -12,13 +12,3 @@ class InputDataLocationsForTesting:
         self.supplySurfaceTimeseriesInput = "tests/inputDataForTests/supplyInput_surfaceTimeSeries.csv"
         self.supplyExchangesTimeseriesInput = "tests/inputDataForTests/supplyInput_transfersAndExchangesTimeSeries.csv"
         self.swpCVPSupplyDataInput = "tests/inputDataForTests/supplyInput_SWPCVP.csv"
-        
-        self.storageDataInput = "tests/inputDataForTests/systemOperationsInput_Storage.csv"
-        self.excessWaterSwitchDataInput = "tests/inputDataForTests/systemOperationsInput_ExcessWaterSwitch.csv"
-        self.storageHedgingStrategyInput = "tests/inputDataForTests/systemOperationsInput_StorageHedgingStrategy.csv"
-        self.deliveryCostInput = "tests/inputDataForTests/systemOperationsInput_DeliveryCosts.csv"
-    
-        
-        self.longtermWMOSupplyVolumeInputData = "tests/inputDataForTests/longtermWMOsInput_supplyVolume.csv"
-        self.longtermWMOSupplyUnitCostsInputData = "tests/inputDataForTests/longtermWMOsInput_supplyUnitCosts.csv"
-        self.longtermWMOSupplyBaseCostsInputData = "tests/inputDataForTests/longtermWMOsInput_supplyBaseCosts.csv"

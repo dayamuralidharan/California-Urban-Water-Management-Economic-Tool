@@ -4,15 +4,13 @@ from src.modelLogic.modelUtilities import lookupCorrespondingValue
 class SystemOperationsAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
 
-        # Read in data from CSV and create Pandas Dataframes
-        storageDataInput = inputDataLocations.storageDataInput
-
-        self.storageData = pd.read_csv(storageDataInput)
         self.excessWaterSwitchData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 6, nrows = 44, usecols = 'A:E')
+        self.storageData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 55, nrows = 461, usecols = 'A:I')
         self.storageHedgingStrategyData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 522, nrows = 181, usecols = 'A:F')
         storageOperationsCosts = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 709, nrows = 90, usecols = 'A:H')
         deliveryCostData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 804, nrows = 319, usecols = 'A:I')
 
+    
         # Set 'Contractor' column as index
         self.storageData.set_index('Contractor', inplace=True)
         self.excessWaterSwitchData.set_index('Contractor', inplace=True)
