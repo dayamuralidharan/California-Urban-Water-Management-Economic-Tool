@@ -7,6 +7,7 @@ from src.modelLogic.outputHandler import OutputHandler
 from src.modelLogic.contingentWMOs.contingencyWMOsHandler import ContingencyWMOs
 from src.modelLogic.contingentWMOs.contingencyWMOsHandlerInput import ContingencyWMOsHandlerInput
 from src.modelLogic.contingentWMOs.economicLossByUseType import EconomicLossByUseType
+import warnings
 
 #TODO change all data frames with "['Contractor'] == contractor" to use Contractor column as index. See shortageThresholdForWaterMarketTransfers as example.
 
@@ -17,6 +18,8 @@ class ModelLogic:
         self.storageUtilities = storageUtilities
         self.contingencyWMOs = ContingencyWMOs(inputData)
         self.outputHandler = OutputHandler(inputData)
+
+        warnings.filterwarnings("ignore")
         
     
     
@@ -28,7 +31,8 @@ class ModelLogic:
         self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
         
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
-        excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
+        #TODO: Make self.excessSupplySwitch_Contractor and pass to line 3 in storageUtilies.py
+        excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Value'].loc[[self.contractor]].values[0]
     
         self.longtermWMOConservation_Contractor = x[0]
         self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = x[1] 
@@ -141,7 +145,7 @@ class ModelLogic:
         
     def deliverLocalSuppliesAndImplementPlannedConservation(self):
         #TODO reconnect future year in next line: self.inputData.futureYear
-        self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][2045].values[0]
+        self.plannedLongTermConservation_Contractor = self.inputData.plannedLongTermConservation[self.inputData.plannedLongTermConservation['Contractor'] == self.contractor][int(self.inputData.futureYear)].values[0]
         self.appliedDemand_Contractor.append(max(0, self.totalDemand_Contractor[self.i] - self.plannedLongTermConservation_Contractor - self.longtermWMOConservation_Contractor))
         self.demandsToBeMetBySWPCVP_Contractor.append(max(0, self.appliedDemand_Contractor[self.i] - self.inputData.totalLocalSupply[self.contractor][self.i] - self.totalLongtermWMOSupplyIncrementalVolume_Contractor))
 

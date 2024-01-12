@@ -17,7 +17,7 @@ class InputData:
         #### Get Global Assumptions
         self.contractorsList = self.globalAssumptions.contractorsList
         self.historicHydrologyYears = self.globalAssumptions.historicHydrologyYears
-        self.futureYear = self.globalAssumptions.futureYear
+        self.futureYear = int(self.globalAssumptions.futureYear)
         self.UWMPhydrologicYearType = self.globalAssumptions.UWMPhydrologicYearType
         self.hydroYearType = self.globalAssumptions.hydroYearTypeForSelectedContractors
         

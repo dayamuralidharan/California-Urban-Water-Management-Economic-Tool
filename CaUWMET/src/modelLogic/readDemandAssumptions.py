@@ -1,32 +1,26 @@
 import pandas as pd
-from src.modelLogic.modelUtilities import lookupCorrespondingValue
 
 class DemandAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
-        # Input directories and filenames
-        inputDemandsFile = inputDataLocations.inputDemandsFile
-        inputPlannedConservationFile = inputDataLocations.inputPlannedConservationFile
-        inputETAWAdjustmentsFile = inputDataLocations.inputETAWAdjustmentsFile
-        inputUseByTypeFile = inputDataLocations.inputUseByTypeFile
-        
-        #TODO reconnect future year to global assumptions which we'll have to make an integer, right now its a string which doesn't work for the functions here
-        futureYear = 2045 #globalAssumptions.futureYear
+        futureYear = int(globalAssumptions.futureYear)
+        inputData_demandInputType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 14, nrows = 1, usecols = 'A')
         inputData_totalDemands = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 19, nrows = 135, usecols = 'A:H')
         inputData_useByType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 257, nrows = 319, usecols = 'A:H')
         inputData_plannedConservation = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 582, nrows = 44, usecols = 'A:H')
-        
+        inputData_ETAWAdjustments = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Demand Assumptions', skiprows = 157, nrows = 94, usecols = 'A:AR')
 
         demandsData = inputData_totalDemands
         useByTypeData = inputData_useByType
         self.plannedLongTermConservation = inputData_plannedConservation
-        ETAWAdjustments = pd.read_csv(inputETAWAdjustmentsFile).set_index('Year')
+        ETAWAdjustments = inputData_ETAWAdjustments.set_index('Year')
         
         demandsData.set_index('Contractor', inplace = True)
         useByTypeData.set_index('Contractor', inplace = True)
 
         # Initialize variable as a time series
         self.totalDemands = {'Year': globalAssumptions.historicHydrologyYears}
-        totalDemandScenarioRadioButtonIndex = inputDataLocations.totalDemandScenarioRadioButtonIndex
+        totalDemandInputDataType = inputData_demandInputType.columns
+        totalDemandInputDataType = totalDemandInputDataType[0]
 
         # Set up total demand time series based on hydrologic year type.
         for contractor in globalAssumptions.contractorsList:
@@ -40,13 +34,13 @@ class DemandAssumptions:
                 'SD': 'Single Dry-Year Demands (AFY)',
                 'MD': 'Multiple Dry-Year Demands (AFY)',
             }
-            if totalDemandScenarioRadioButtonIndex == 1:   # Apply ETAW Adjustments to Normal or Better Demands
+            if totalDemandInputDataType == "Use ETAW adjusted input data":
                 for i, Year in enumerate(globalAssumptions.historicHydrologyYears):
                     contractorDemands.append(
                         ETAWAdjustments[contractor][Year] *
                         totalDemandsInput[totalDemandsInput['Variable'] == mapYearType['NB']][futureYear].values[0]
                     )
-            elif totalDemandScenarioRadioButtonIndex == 0: #Apply UWMP
+            elif totalDemandInputDataType == "Use input data by year type":
                 for i in range(len(globalAssumptions.historicHydrologyYears)):
                     contractorDemands.append(
                         totalDemandsInput[totalDemandsInput['Variable'] == mapYearType[contractorYearType[i]]][futureYear].values[0]

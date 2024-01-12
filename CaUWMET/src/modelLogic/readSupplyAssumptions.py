@@ -1,16 +1,20 @@
-
+import warnings
 import pandas as pd
 
 class SupplyAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
-        #TODO: Set up reading in supply data to read in time series if radio button below is set to 0
-        baseSupplyInputAsTimeSeries = False
+        warnings.filterwarnings("ignore")
+        
+        #Read input data from spreadsheet
+        inputData_supplyInputType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 5, nrows = 1, usecols = 'A')
+        
+        baseSupplyInputAsTimeSeries = inputData_supplyInputType.columns
+        baseSupplyInputAsTimeSeries = baseSupplyInputAsTimeSeries[0]
+        
+        swpCVPSupplyDataInput = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 984, nrows = 94, usecols = 'A:AR')
+        self.swpCVPSupply = swpCVPSupplyDataInput
 
-        # Read SWP/CVP delivery data from CSV
-        swpCVPSupplyDataInput = inputDataLocations.swpCVPSupplyDataInput
-        self.swpCVPSupply = pd.read_csv(swpCVPSupplyDataInput)
-
-        if baseSupplyInputAsTimeSeries:
+        if baseSupplyInputAsTimeSeries == "Use time series input":
             # Read in and set local base supplies timeseries dataframes
             surfaceSupply = pd.read_csv(inputDataLocations.supplySurfaceTimeseriesInput)
             groundwaterSupply = pd.read_csv(inputDataLocations.supplyGroundwaterTimeseriesInput)
@@ -26,7 +30,7 @@ class SupplyAssumptions:
             #TODO: Finish setting up total local supply from time series input
             self.totalLocalSupply['Year'] = surfaceSupply['Year']
         else:
-            # Read in tabular data from CSV
+            # Read in data by year type
             localSuppliesDataInput = inputDataLocations.localSuppliesDataInput
             localSuppliesByType = pd.read_csv(localSuppliesDataInput)
             localSuppliesByType.set_index('Contractor', inplace = True)
