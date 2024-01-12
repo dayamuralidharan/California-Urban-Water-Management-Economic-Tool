@@ -31,7 +31,8 @@ class ModelLogic:
         self.totalDemand_Contractor = self.inputData.totalDemands[self.contractor]
         
         storageInputAssumptions_Contractor = self.storageUtilities.getContractorStorageAssumptions(self.contractor, self.inputData.futureYear, self.inputData.excessWaterSwitchData, self.inputData.storageData, self.inputData.storageHedgingStrategyData)
-        excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Switch'].loc[[self.contractor]].values[0]
+        #TODO: Make self.excessSupplySwitch_Contractor and pass to line 3 in storageUtilies.py
+        excessSupplySwitch_Contractor = self.inputData.excessWaterSwitchData['Value'].loc[[self.contractor]].values[0]
     
         self.longtermWMOConservation_Contractor = x[0]
         self.longtermWMOSurfaceSupplyIncrementalVolume_Contractor = x[1] 

@@ -1,6 +1,6 @@
 class StorageUtilities:
     def getContractorStorageAssumptions(self, contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData):
-        excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
+        excessSupplySwitch_Contractor = excessWaterSwitchData['Value'].loc[[contractor]].values[0]
         storageInputDf_Contractor = storageData.loc[[contractor]]
         futureYear = str(futureYear)
         

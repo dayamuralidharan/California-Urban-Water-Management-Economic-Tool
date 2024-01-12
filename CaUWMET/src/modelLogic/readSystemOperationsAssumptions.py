@@ -6,12 +6,11 @@ class SystemOperationsAssumptions:
 
         # Read in data from CSV and create Pandas Dataframes
         storageDataInput = inputDataLocations.storageDataInput
-        excessWaterSwitchDataInput = inputDataLocations.excessWaterSwitchDataInput
         storageHedgingStrategyInput = inputDataLocations.storageHedgingStrategyInput
         deliveryCostInput = inputDataLocations.deliveryCostInput
 
         self.storageData = pd.read_csv(storageDataInput)
-        self.excessWaterSwitchData = pd.read_csv(excessWaterSwitchDataInput)
+        self.excessWaterSwitchData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'System Operations Assumptions', skiprows = 6, nrows = 44, usecols = 'A:E')
         self.storageHedgingStrategyData = pd.read_csv(storageHedgingStrategyInput)
         deliveryCostData = pd.read_csv(deliveryCostInput)
 
