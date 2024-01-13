@@ -1,46 +1,8 @@
 CaUWMET Optimization Logs
-Start Datetime: 2024-01-12 18:28:05.291273
+Start Datetime: 2024-01-13 14:09:54.526792
 ModelLogic - OK
 Begin optimization loop through 1 Contractors
 ---
 {
   {
     contractor: 'City of Tracy',
-    error: '0'
-  }
-Traceback:
-Traceback (most recent call last):
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3653, in get_loc
-    return self._engine.get_loc(casted_key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pandas\_libs\index.pyx", line 147, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\index.pyx", line 176, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\hashtable_class_helper.pxi", line 2606, in pandas._libs.hashtable.Int64HashTable.get_item
-  File "pandas\_libs\hashtable_class_helper.pxi", line 2630, in pandas._libs.hashtable.Int64HashTable.get_item
-KeyError: 0
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\main.py", line 80, in main
-    optimizeWMOs = OptimizeWMOs(
-                   ^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\optimization\optimizeWMOs.py", line 51, in __init__
-    self.modelLogic.inputData.longtermWMOConservationVolumeLimit[self.modelLogic.inputData.longtermWMOConservationVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\series.py", line 1007, in __getitem__
-    return self._get_value(key)
-           ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\series.py", line 1116, in _get_value
-    loc = self.index.get_loc(label)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3655, in get_loc
-    raise KeyError(key) from err
-KeyError: 0
-
-}
----
-Optimization loop complete!
-Excel file outputs: ['src/outputData/ModelOutputs_Optimal.xlsx', 'src/outputData/QAQCResults_Optimal.xlsx', 'src/outputData/ModelOutputs_Zero.xlsx', 'src/outputData/QAQCResults_Zero.xlsx']
-End Datetime: 2024-01-12 18:28:08.460639
-Operation Complete!
