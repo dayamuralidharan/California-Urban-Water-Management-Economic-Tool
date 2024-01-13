@@ -1,18 +1,17 @@
 CaUWMET Optimization Logs
-Start Datetime: 2024-01-10 12:28:21.051024
+Start Datetime: 2024-01-12 18:10:29.619034
 ModelLogic Failure!
 #### START ERROR LOG ####
-'Santa Clarita Water Division'
+'City of Folsom'
 Traceback (most recent call last):
   File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3653, in get_loc
     return self._engine.get_loc(casted_key)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "pandas\_libs\index.pyx", line 147, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\index.pyx", line 171, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\index.pyx", line 214, in pandas._libs.index.IndexEngine._get_loc_duplicates
-  File "pandas\_libs\index.pyx", line 222, in pandas._libs.index.IndexEngine._maybe_get_bool_indexer
-  File "pandas\_libs\index.pyx", line 114, in pandas._libs.index._unpack_bool_indexer
-KeyError: 'Santa Clarita Water Division'
+  File "pandas\_libs\index.pyx", line 176, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\_libs\hashtable_class_helper.pxi", line 7080, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\_libs\hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'City of Folsom'
 
 The above exception was the direct cause of the following exception:
 
@@ -20,12 +19,12 @@ Traceback (most recent call last):
   File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\main.py", line 47, in main
     modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\inputData.py", line 11, in __init__
-    self.demandAssumptions = DemandAssumptions(self.globalAssumptions, inputDataLocations)
-                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\readDemandAssumptions.py", line 29, in __init__
-    totalDemandsInput = demandsData.loc[contractor]
-                        ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\inputData.py", line 13, in __init__
+    self.systemOperationsAssumptions = SystemOperationsAssumptions(self.globalAssumptions, inputDataLocations)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\readSystemOperationsAssumptions.py", line 44, in __init__
+    contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
   File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1103, in __getitem__
     return self._getitem_axis(maybe_callable, axis=axis)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -40,6 +39,6 @@ Traceback (most recent call last):
           ^^^^^^^^^^^^^^^^^^
   File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3655, in get_loc
     raise KeyError(key) from err
-KeyError: 'Santa Clarita Water Division'
+KeyError: 'City of Folsom'
 
 ####  END ERROR LOG  ####
