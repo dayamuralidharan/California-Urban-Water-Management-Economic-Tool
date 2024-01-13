@@ -21,6 +21,7 @@ class SystemOperationsAssumptions:
 
         self.groundwaterBankPutUnitCost = storageOperationsCosts.loc[storageOperationsCosts['Variable'] == "Groundwater bank put cost ($/acre-feet)"]
         self.groundwaterBankTakeUnitCost = storageOperationsCosts.loc[storageOperationsCosts['Variable'] == "Groundwater bank take cost ($/acre-feet)"]
+        self.swpCVPDeliveryUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "SWP or CVP Delivery Costs ($/acre-foot)"]
         groundwaterPumpingUnitCostSingleDryOrBetterYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping (Single Dry or Better Year Types, $/acre-foot)"]
         groundwaterPumpingUnitCostMultiDryYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping (Multi-Dry Year Types, $/acre-foot)"]
         self.swpCVPDeliveryUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "SWP or CVP Delivery Costs ($/acre-foot)"]

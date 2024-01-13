@@ -1,44 +1,46 @@
 CaUWMET Optimization Logs
-Start Datetime: 2024-01-12 18:10:29.619034
-ModelLogic Failure!
-#### START ERROR LOG ####
-'City of Folsom'
+Start Datetime: 2024-01-12 18:28:05.291273
+ModelLogic - OK
+Begin optimization loop through 1 Contractors
+---
+{
+  {
+    contractor: 'City of Tracy',
+    error: '0'
+  }
+Traceback:
 Traceback (most recent call last):
   File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3653, in get_loc
     return self._engine.get_loc(casted_key)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "pandas\_libs\index.pyx", line 147, in pandas._libs.index.IndexEngine.get_loc
   File "pandas\_libs\index.pyx", line 176, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\hashtable_class_helper.pxi", line 7080, in pandas._libs.hashtable.PyObjectHashTable.get_item
-  File "pandas\_libs\hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
-KeyError: 'City of Folsom'
+  File "pandas\_libs\hashtable_class_helper.pxi", line 2606, in pandas._libs.hashtable.Int64HashTable.get_item
+  File "pandas\_libs\hashtable_class_helper.pxi", line 2630, in pandas._libs.hashtable.Int64HashTable.get_item
+KeyError: 0
 
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\main.py", line 47, in main
-    modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
-                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\inputData.py", line 13, in __init__
-    self.systemOperationsAssumptions = SystemOperationsAssumptions(self.globalAssumptions, inputDataLocations)
-                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\readSystemOperationsAssumptions.py", line 44, in __init__
-    contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
-                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1103, in __getitem__
-    return self._getitem_axis(maybe_callable, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1343, in _getitem_axis
-    return self._get_label(key, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1293, in _get_label
-    return self.obj.xs(label, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\generic.py", line 4095, in xs
-    loc = index.get_loc(key)
-          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\main.py", line 80, in main
+    optimizeWMOs = OptimizeWMOs(
+                   ^^^^^^^^^^^^^
+  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\optimization\optimizeWMOs.py", line 51, in __init__
+    self.modelLogic.inputData.longtermWMOConservationVolumeLimit[self.modelLogic.inputData.longtermWMOConservationVolumeLimit.index==contractor][self.modelLogic.inputData.futureYear][0],
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\series.py", line 1007, in __getitem__
+    return self._get_value(key)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\series.py", line 1116, in _get_value
+    loc = self.index.get_loc(label)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3655, in get_loc
     raise KeyError(key) from err
-KeyError: 'City of Folsom'
+KeyError: 0
 
-####  END ERROR LOG  ####
+}
+---
+Optimization loop complete!
+Excel file outputs: ['src/outputData/ModelOutputs_Optimal.xlsx', 'src/outputData/QAQCResults_Optimal.xlsx', 'src/outputData/ModelOutputs_Zero.xlsx', 'src/outputData/QAQCResults_Zero.xlsx']
+End Datetime: 2024-01-12 18:28:08.460639
+Operation Complete!
