@@ -1,8 +1,8 @@
 CaUWMET Optimization Logs
-Start Datetime: 2024-01-13 14:09:54.526792
+Start Datetime: 2024-01-13 17:15:48.328645
 ModelLogic - OK
-Begin optimization loop through 1 Contractors
+Begin optimization loop through 24 Contractors
 ---
 {
   {
-    contractor: 'City of Tracy',
+    contractor: 'City of Folsom',
