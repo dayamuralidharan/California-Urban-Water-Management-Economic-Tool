@@ -16,9 +16,11 @@ class GlobalAssumptions:
         self.futureYear = str(self.futureYear[0])
 
         # Set up time series of hydrological year type based on Sacramento and SJ CDEC data, and reclassify to UWMP data classifications of Normal or Better, Single Dry, or Multi-Dry
+        self.contractorInformation = self.contractorInformation[self.contractorInformation['Include in model'] == 'Yes']
         self.contractorDf = self.contractorInformation[['Contractor', 'Study Region']]
         self.contractorsList = list(self.contractorDf['Contractor'].values)
         self.contractorsList = [value for value in self.contractorsList if pd.notna(value)] # Remove blank values from contractor list if any
+        
         self.historicHydrologyYears = self.hydroYearType['Year'].values 
 
 

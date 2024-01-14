@@ -1,45 +1,8 @@
 CaUWMET Optimization Logs
-Start Datetime: 2024-01-10 12:28:21.051024
-ModelLogic Failure!
-#### START ERROR LOG ####
-'Santa Clarita Water Division'
-Traceback (most recent call last):
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3653, in get_loc
-    return self._engine.get_loc(casted_key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pandas\_libs\index.pyx", line 147, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\index.pyx", line 171, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas\_libs\index.pyx", line 214, in pandas._libs.index.IndexEngine._get_loc_duplicates
-  File "pandas\_libs\index.pyx", line 222, in pandas._libs.index.IndexEngine._maybe_get_bool_indexer
-  File "pandas\_libs\index.pyx", line 114, in pandas._libs.index._unpack_bool_indexer
-KeyError: 'Santa Clarita Water Division'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\main.py", line 47, in main
-    modelLogic = ModelLogic(InputData(InputDataLocations()),StorageUtilities())
-                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\inputData.py", line 11, in __init__
-    self.demandAssumptions = DemandAssumptions(self.globalAssumptions, inputDataLocations)
-                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\GitHub_Repos\California-Urban-Water-Management-Economic-Tool\CaUWMET\src\modelLogic\readDemandAssumptions.py", line 29, in __init__
-    totalDemandsInput = demandsData.loc[contractor]
-                        ~~~~~~~~~~~~~~~^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1103, in __getitem__
-    return self._getitem_axis(maybe_callable, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1343, in _getitem_axis
-    return self._get_label(key, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexing.py", line 1293, in _get_label
-    return self.obj.xs(label, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\generic.py", line 4095, in xs
-    loc = index.get_loc(key)
-          ^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KD012200\AppData\Local\Programs\Python\Python311\Lib\site-packages\pandas\core\indexes\base.py", line 3655, in get_loc
-    raise KeyError(key) from err
-KeyError: 'Santa Clarita Water Division'
-
-####  END ERROR LOG  ####
+Start Datetime: 2024-01-13 17:15:48.328645
+ModelLogic - OK
+Begin optimization loop through 24 Contractors
+---
+{
+  {
+    contractor: 'City of Folsom',
