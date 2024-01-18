@@ -59,13 +59,13 @@ def optimizationPlot(source: ColumnDataSource):
     p.add_layout(zerolabel)
 
     # hover tool via JS callback
-    with open("hover_callback.js", 'r') as file:
+    with open("src/pageUtilities/hover_callback.js", 'r') as file:
         hover_callback = file.read()
     
     # HTML tooltip insets
     # https://github.com/bokeh/bokeh/issues/9087
     # tooltips as bars
-    with open("tooltips.html", "r") as file:
+    with open("src/pageUtilities/tooltips.html", "r") as file:
         tooltips = file.read()
 
     hover = HoverTool(renderers=[scatter], tooltips=tooltips)

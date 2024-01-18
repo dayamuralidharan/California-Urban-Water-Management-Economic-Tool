@@ -127,12 +127,12 @@ class OptimizeWMOs:
                         if np.sum(p._X) < self.wmoCeiling:
                             Xp.append(p._X)
                             Fp.append(p._F)
-                            Sp.append(p.S)
+                            Sp.append(p.data['S'])
                             colors.append(c)
                     else: 
                         Xp.append(p._X)
                         Fp.append(p._F)
-                        Sp.append(p.S)
+                        Sp.append(p.data['S'])
                         colors.append(c)
                 c+=1
             # assign plot variables
@@ -304,14 +304,10 @@ class OptimizeWMOs:
             
             # plot the best result in red 
             ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red', marker="o")
-            # ax.text(s=f'Fmin = {int(self.res.F)}',
-            #         x=sum(self.res.X),y=(self.res.F*10**-6)-2,
-            #         c='red',size=8)
+
             ax.hlines(y=self.F_zero*10**-6, xmin=min(TAF), xmax=max(TAF),
                     color='red', linestyle='--', label='F([O]*8)')
-            # ax.text(s=f'F0 = {int(self.F_zero)}',
-            #         x=min(TAF)*1.05,y=(self.F_zero*10**-6)+1,
-            #         c='red',size=8)
+
             if test: 
                 plt.savefig('tests/test_graphic.png', bbox_inches='tight')
             else:
