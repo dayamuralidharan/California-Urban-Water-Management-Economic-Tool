@@ -1,5 +1,4 @@
 import streamlit as st
-from src.load_css import local_css
 from src.globalUtilities import opt_echo
 from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
@@ -8,24 +7,17 @@ def app():
 # "with" makes sure any memory resources used by this page gets closed so its not taking memory when the page is closed. 
     with opt_echo():
 
-        #Set font styling (used for green text)
-        local_css("src/style.css")
+        st.title('Demand Assumption Inputs')
 
-        st.title('Demand Assumptions Page')
+        st.markdown("""
+        :green[There are three groups of demand assumptions entered into CaUWMET including:  
+                    1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types  
+                    2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories  
+                    3)  Planned Long-term Conservation]""", unsafe_allow_html=True)
+        st.write("")
+        st.markdown("""
+        :green[A detailed description of each of variable is provided in each expandable section below and Section 3.3 of the model documentation.]""", unsafe_allow_html=True)
         
-        st.markdown("""<div><span class='font'>
-        There are three demand assumption datasets entered into CaUWMET including:</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types.</span></div>""", unsafe_allow_html=True)
-        st.markdown("""<div><span class='font'>
-        2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories.</span></div>""", unsafe_allow_html=True)
-        st.markdown("""<div><span class='font'>
-        3) Planned Long-term Conservation</span></div>""", unsafe_allow_html=True)
-        st.write("")
-        st.markdown("""<div><span class='font'>
-        A detailed description of each of variable is provided in each expandable section below.</span></div>""", unsafe_allow_html=True)
-
 
         #HIDE EXPANDER BORDERS
         hide = """
@@ -38,13 +30,13 @@ def app():
         st.markdown(hide, unsafe_allow_html=True)
         
         with st.expander("Total Demand Scenarios"):
-            displaySummaryPlots(st.session_state.totalDemandsdf, demandsExplanationText, "Total Demand Scenarios")
+            displaySummaryPlots(st.session_state.totalDemandsdf, demandsExplanationText, "Total Demand Scenarios", "total")
             
         with st.expander("Water Use By Type"):
-            displaySummaryPlots(st.session_state.useByTypedf, useByTypeExplanationText, "Water Use By Type")
+            displaySummaryPlots(st.session_state.useByTypedf, useByTypeExplanationText, "Water Use By Type", "total")
 
         with st.expander("Planned Long-term Conservation"):
-            displaySummaryPlots(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText, "Planned Long-term Conservation")
+            displaySummaryPlots(st.session_state.baseLongTermConservationdf, baseLongTermConservationExplanationText, "Planned Long-term Conservation", "total")
 
 demandsExplanationText = """Total demands reported here are by customer sector, including all interior and exterior consumption by sector. Demands are disaggregated by sector to account for 
 demand management actions (i.e. conservation and rationing) that target specific sectors, and to account for economic loss assumptions for each sector.

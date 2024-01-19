@@ -102,8 +102,9 @@ def displayOptimizationPlot(df: DataFrame):
     If All contractors, it displays a dummy plot prompting to choose a single contractor
     https://docs.streamlit.io/library/api-reference/charts/st.bokeh_chart
     """
-    contractor = st.selectbox('View Optimization Results for:', st.session_state.dropDownMenuList, )
+    contractor = st.selectbox('View Optimization Results for:', st.session_state.dropDownMenuList[1:], )
     st.bokeh_chart = use_file_for_bokeh
+
     if contractor == 'All Contractors':
         p = "Select a contractor from the dropdown..."
         st.write(p)
@@ -122,27 +123,26 @@ def displayOptimizationPlot(df: DataFrame):
         source.data['transfers_exchanges_bar'] = source.data['transfers_exchanges'] / bar_scale
         source.data['other_bar'] = source.data['other'] / bar_scale
 
-        # different default appearance for optimized value
-        alpha_vals = [0.25] * len(source.data['x'])
-        alpha_vals[-1] = 0.5
-        source.add(alpha_vals, 'alpha')
-        
-        marker_vals = ['circle'] * len(source.data['x'])
-        marker_vals[-1] = 'star'
-        source.add(marker_vals, 'marker')
+    # different default appearance for optimized value
+    alpha_vals = [0.25] * len(source.data['x'])
+    alpha_vals[-1] = 0.5
+    source.add(alpha_vals, 'alpha')
+    
+    marker_vals = ['circle'] * len(source.data['x'])
+    marker_vals[-1] = 'star'
+    source.add(marker_vals, 'marker')
 
-        size_vals = [10] * len(source.data['x'])
-        size_vals[-1] = 30
-        source.add(size_vals, 'size')
+    size_vals = [10] * len(source.data['x'])
+    size_vals[-1] = 30
+    source.add(size_vals, 'size')
 
-        source.data['colors'][-1] = -1
-        
-        # get cost and scale y values
+    source.data['colors'][-1] = -1
+    
+    # get cost and scale y values
+    source.data['cost'] = [f"${value:,.0f}" for value in source.data['y']]
+    source.data['y'] = [value / 1000000 for value in source.data['y']]
+    source.data['f_zero'] = [value / 1000000 for value in source.data['f_zero']]
 
-        source.data['cost'] = [f"${value:,.0f}" for value in source.data['y']]
-        source.data['y'] = [value / 1000000 for value in source.data['y']]
-        source.data['f_zero'] = [value / 1000000 for value in source.data['f_zero']]
-
-        p = optimizationPlot(source)
-        st.bokeh_chart(p)
+    p = optimizationPlot(source)
+    st.bokeh_chart(p)
 

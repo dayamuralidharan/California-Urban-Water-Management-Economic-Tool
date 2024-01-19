@@ -93,12 +93,12 @@ class waterBalanceLogicTests(TestCase): #this class is inheriting functionality 
         # Cell Y38 in spreadsheet
         self.assertEqual(self.modelLogic.economicLossByUseType.singleFamilyEconomicLoss_Contractor, 22386408078.124947)
         # Cell AF38 in spreadsheet
-        self.assertEqual(self.modelLogic.economicLossByUseType.multiFamilyEconomicLoss_Contractor, 2943474573.270937)
+        self.assertEqual(self.modelLogic.economicLossByUseType.multiFamilyEconomicLoss_Contractor, 761736871.3921258)
         # Cell AZ38 in spreadsheet
-        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 26403482129.48573)
+        self.assertEqual(self.modelLogic.economicLossByUseType.totalEconomicLoss_Contractor[93], 27784752608.754585)
         
         # Test total annual cost
-        self.assertEqual(self.modelLogic.totalAnnualCost_Contractor[0], 1109967973.7456288)
+        self.assertEqual(self.modelLogic.totalAnnualCost_Contractor[0], 1153487784.9727252)
         
         
         

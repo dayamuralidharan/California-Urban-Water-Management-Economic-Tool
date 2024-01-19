@@ -1,20 +1,22 @@
+import pandas as pd
+
 class StorageUtilities:
     def getContractorStorageAssumptions(self, contractor, futureYear, excessWaterSwitchData, storageData, storageHedgingStrategyData):
-        excessSupplySwitch_Contractor = excessWaterSwitchData['Switch'].loc[[contractor]].values[0]
+        excessSupplySwitch_Contractor = excessWaterSwitchData['Value'].loc[[contractor]].values[0]
         storageInputDf_Contractor = storageData.loc[[contractor]]
         
         initialSurfaceStorageVolume_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface initial storage (acre-feet)'][futureYear].values[0]
-        initialGroundwaterStorageVolume_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater initial storage (acre-feet)'][futureYear].values[0]
+        initialGroundwaterStorageVolume_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater Initial Storage Volume (acre-feet)'][futureYear]
         
-        groundwaterMaximumCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater max storage capacity (acre-feet)'][futureYear].values[0]
-        groundwaterMaximumPutCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater max put capacity (acre-feet)'][futureYear].values[0]
-        groundwaterMaximumTakeCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater max take capacity (acre-feet)'][futureYear].values[0]
-        rechargeEffectiveness_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Recharge Effectiveness (%)'][futureYear].values[0] / 100 # Converted from % into fraction
+        groundwaterMaximumCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater Max Storage Capacity (acre-feet)'][futureYear]
+        groundwaterMaximumPutCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater Max Put Capacity (AFY)'][futureYear]
+        groundwaterMaximumTakeCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Groundwater Max Take Capacity (AFY)'][futureYear]
+        rechargeEffectiveness_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Recharge Effectiveness (%)'][futureYear] / 100 # Converted from % into fraction
         
-        surfaceMaximumCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max storage capacity (acre-feet)'][futureYear].values[0]
-        surfaceMaximumPutCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max put capacity (acre-feet)'][futureYear].values[0]
-        surfaceMaximumTakeCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max take capacity (acre-feet)'][futureYear].values[0]
-        surfaceStorageAnnualLoss_Contractor = (storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface loss (AFY)'][futureYear].values[0])
+        surfaceMaximumCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max storage capacity (acre-feet)'][futureYear]
+        surfaceMaximumPutCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max put capacity (AFY)'][futureYear]
+        surfaceMaximumTakeCapacity_Contractor = storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface max take capacity (AFY)'][futureYear]
+        surfaceStorageAnnualLoss_Contractor = (storageInputDf_Contractor[storageInputDf_Contractor['Variable'] == 'Surface loss (AFY)'][futureYear])
         
         storageHedgingStrategyDf_Contractor = storageHedgingStrategyData.loc[[contractor]]
         storageHedgingStrategySwitch_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Storage Hedging Strategy Switch']['Value'].values[0]
@@ -24,15 +26,15 @@ class StorageUtilities:
         hedgingStorageCapacityFactor_Contractor = storageHedgingStrategyDf_Contractor[storageHedgingStrategyDf_Contractor['Variable'] == 'Hedging Storage/Capacity Factor']['Value'].values[0]
         return {'excessSupplySwitch_Contractor': excessSupplySwitch_Contractor, 
                 'initialSurfaceStorageVolume_Contractor': initialSurfaceStorageVolume_Contractor,
-                'initialGroundwaterStorageVolume_Contractor': initialGroundwaterStorageVolume_Contractor,
-                'groundwaterMaximumCapacity_Contractor': groundwaterMaximumCapacity_Contractor,
-                'groundwaterMaximumPutCapacity_Contractor': groundwaterMaximumPutCapacity_Contractor, 
-                'groundwaterMaximumTakeCapacity_Contractor': groundwaterMaximumTakeCapacity_Contractor,
-                'rechargeEffectiveness_Contractor': rechargeEffectiveness_Contractor,
-                'surfaceMaximumCapacity_Contractor': surfaceMaximumCapacity_Contractor,
-                'surfaceMaximumPutCapacity_Contractor': surfaceMaximumPutCapacity_Contractor,
-                'surfaceMaximumTakeCapacity_Contractor': surfaceMaximumTakeCapacity_Contractor,
-                'surfaceStorageAnnualLoss_Contractor': surfaceStorageAnnualLoss_Contractor,
+                'initialGroundwaterStorageVolume_Contractor': initialGroundwaterStorageVolume_Contractor[contractor],
+                'groundwaterMaximumCapacity_Contractor': groundwaterMaximumCapacity_Contractor[contractor],
+                'groundwaterMaximumPutCapacity_Contractor': groundwaterMaximumPutCapacity_Contractor[contractor], 
+                'groundwaterMaximumTakeCapacity_Contractor': groundwaterMaximumTakeCapacity_Contractor[contractor],
+                'rechargeEffectiveness_Contractor': rechargeEffectiveness_Contractor[contractor],
+                'surfaceMaximumCapacity_Contractor': surfaceMaximumCapacity_Contractor[contractor],
+                'surfaceMaximumPutCapacity_Contractor': surfaceMaximumPutCapacity_Contractor[contractor],
+                'surfaceMaximumTakeCapacity_Contractor': surfaceMaximumTakeCapacity_Contractor[contractor],
+                'surfaceStorageAnnualLoss_Contractor': surfaceStorageAnnualLoss_Contractor[contractor],
                 'storageHedgingStrategySwitch_Contractor': storageHedgingStrategySwitch_Contractor,
                 'hedgingPoint_Contractor': hedgingPoint_Contractor,
                 'hedgeCallStorageFactor_Contractor': hedgeCallStorageFactor_Contractor,
@@ -42,7 +44,8 @@ class StorageUtilities:
         putGroundwater_Contractor = int('0')
         putSurface_Contractor = int('0')
         
-        if excessSupplySwitch_Contractor == "Groundwater Bank and Carryover Storage": 
+        if excessSupplySwitch_Contractor == "Groundwater Bank and Carryover Storage":
+            
             putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), int('0'))
             rechargeLoss_Contractor = putGroundwater_Contractor - putGroundwater_Contractor * rechargeEffectiveness_Contractor
             putGroundwater_Contractor = putGroundwater_Contractor - rechargeLoss_Contractor
@@ -50,13 +53,11 @@ class StorageUtilities:
             excessAfterGroundwaterPut_Contractor = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
             putSurface_Contractor = max(min(excessAfterGroundwaterPut_Contractor, availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))
 
-            #excessSupply_Contractor[i] = max(0, excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor - putSurface_Contractor)
 
         elif excessSupplySwitch_Contractor == "Groundwater Bank":
             putGroundwater_Contractor = max(min(excessSupply_Contractor[i], availableGroundwaterCapacity_Contractor, groundwaterMaximumPutCapacity_Contractor), int('0'))
             rechargeLoss_Contractor = putGroundwater_Contractor - putGroundwater_Contractor * rechargeEffectiveness_Contractor
             putGroundwater_Contractor = putGroundwater_Contractor - rechargeLoss_Contractor
-            #excessSupply_Contractor[i] = excessSupply_Contractor[i] - putGroundwater_Contractor - rechargeLoss_Contractor
             
         elif excessSupplySwitch_Contractor == "Carryover Storage":
             putSurface_Contractor = max(min(excessSupply_Contractor[i], availableCapacitySurface_Contractor, surfaceMaximumPutCapacity_Contractor), int('0'))

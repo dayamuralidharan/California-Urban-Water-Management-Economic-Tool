@@ -1,19 +1,16 @@
 import pandas as pd
+import warnings
 
 class ContingentWMOsAssumptions:
     def __init__(self, globalAssumptions, inputDataLocations):
+        warnings.filterwarnings("ignore")
+        
         # Input directories and filenames
-        contingentConservationInputFile = inputDataLocations.contingentConservationInputFile
-        waterMarketTransfersInputFile = inputDataLocations.waterMarketTransfersInputFile
-        rationingProgramInputFile = inputDataLocations.rationingProgramInputFile
-        cutRatioInputFile = inputDataLocations.cutRatioInputFile
-        elasticityOfDemandInputFile = inputDataLocations.elasticityOfDemandInputFile
-
-        contingentConservationInputData = pd.read_csv(contingentConservationInputFile)
-        waterMarketTransfersInputData = pd.read_csv(waterMarketTransfersInputFile)
-        rationingProgramInputData = pd.read_csv(rationingProgramInputFile)
-        cutRatioInputData = pd.read_csv(cutRatioInputFile)
-        elasticityOfDemandInputData = pd.read_csv(elasticityOfDemandInputFile)
+        contingentConservationInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 5, nrows = 181, usecols = 'A:H')
+        waterMarketTransfersInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 192, nrows = 457, usecols = 'A:H')
+        rationingProgramInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 655, nrows = 272, usecols = 'A:H')
+        cutRatioInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 747, nrows = 44, usecols = 'A:H')
+        elasticityOfDemandInputData = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Contingent WMOs Assumptions', skiprows = 838, nrows = 44, usecols = 'A:H')
         
         cutRatioInputData.set_index('Contractor', inplace = True)
         rationingProgramInputData.set_index('Contractor', inplace = True)
@@ -34,15 +31,15 @@ class ContingentWMOsAssumptions:
         self.shortageThresholdForWaterMarketTransfers = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Shortage Threshold before Water Market Transfer Supplies are Delivered (% of Total Applied Use)']
         self.waterMarketLossFactor = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Water Market Transfer Loss Factor (%)']
 
-        transferLimit_NormalOrBetterYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Normal or Better Years (AFY)']
-        transferLimit_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Dry Years (AFY)']
+        transferLimit_NormalOrBetterYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Normal or Better Years (acre-feet/year)']
+        transferLimit_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for Dry Years (acre-feet/year)']
         transferLimitPortion_ConsecutiveDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Transfer Limit for 2 or More Consecutive Years (% of Dry-Year limit defined above)']
 
-        waterMarketTransferCost_WetYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-        waterMarketTransferCost_AboveNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-        waterMarketTransferCost_BelowNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-        waterMarketTransferCost_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
-        waterMarketTransferCost_CriticallyDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Critically Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/AF)']
+        waterMarketTransferCost_WetYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Wet Year Water Market Transfers and Exchanges Supply Unit Cost ($/acre-feet)']
+        waterMarketTransferCost_AboveNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Above Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/acre-feet)']
+        waterMarketTransferCost_BelowNormalYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Below Normal Year Water Market Transfers and Exchanges Supply Unit Cost ($/acre-feet)']
+        waterMarketTransferCost_DryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/acre-feet)']
+        waterMarketTransferCost_CriticallyDryYears = waterMarketTransfersInputData[waterMarketTransfersInputData['Variable'] == 'Critically Dry Year Water Market Transfers and Exchanges Supply Unit Cost ($/acre-feet)']
 
         transferLimit_NormalOrBetterYears.drop('Variable', axis=1, inplace=True)
         transferLimit_DryYears.drop('Variable', axis=1, inplace=True)
@@ -66,22 +63,22 @@ class ContingentWMOsAssumptions:
             for i in range(len(globalAssumptions.historicHydrologyYears)):
                 
                 if contractorYearType[i] == "W":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_WetYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_WetYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorYearType[i] == "AN":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_AboveNormalYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_AboveNormalYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorYearType[i] == "BN":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_BelowNormalYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_BelowNormalYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorYearType[i] == "D":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_DryYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_DryYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorYearType[i] == "C":
-                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_CriticallyDryYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorWaterMarketTransferCost.append(waterMarketTransferCost_CriticallyDryYears.loc[contractor][int(globalAssumptions.futureYear)])
                     
                 if contractorUWMPYearType[i] == 'NB':
-                    contractorTransferLimit.append(transferLimit_NormalOrBetterYears.loc[contractor][globalAssumptions.futureYear])
+                    contractorTransferLimit.append(transferLimit_NormalOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorUWMPYearType[i] == 'SD':
-                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][globalAssumptions.futureYear])  
+                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][int(globalAssumptions.futureYear)])  
                 elif contractorUWMPYearType[i] == 'MD':
-                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][globalAssumptions.futureYear] * (transferLimitPortion_ConsecutiveDryYears.loc[contractor][globalAssumptions.futureYear] / 100))
+                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][int(globalAssumptions.futureYear)] * (transferLimitPortion_ConsecutiveDryYears.loc[contractor][int(globalAssumptions.futureYear)] / 100))
             
             transferLimit[contractor] = contractorTransferLimit
             waterMarketTransferCost[contractor] = contractorWaterMarketTransferCost
@@ -91,23 +88,22 @@ class ContingentWMOsAssumptions:
 
 
         # Set Rationing Program and Loss Function variables
-        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][globalAssumptions.futureYear]
-        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][globalAssumptions.futureYear]
-        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Factor (%)"] #TODO get just for future year here
-        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/AF)"][globalAssumptions.futureYear]
+        self.storageVolumeTriggerForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Storage Volume Trigger for Rationing Programs (AF)"][int(globalAssumptions.futureYear)]
+        self.costForRationingProgram = rationingProgramInputData[rationingProgramInputData['Variable'] == "Cost for Rationing Program ($/capita)"][int(globalAssumptions.futureYear)]
+        self.demandHardeningFactor = rationingProgramInputData[rationingProgramInputData['Variable'] == "Demand Hardening Adjustment Factor (%)"] #TODO get just for future year here
+        self.retailPrice = rationingProgramInputData[rationingProgramInputData['Variable'] == "Retail Price ($/acre-foot)"][int(globalAssumptions.futureYear)]
 
+        self.cutRatio_singleFamily = cutRatioInputData['Single Family']
+        self.cutRatio_multiFamily = cutRatioInputData['Multi-Family']
+        self.cutRatio_industrial = cutRatioInputData['Industrial']
+        self.cutRatio_commAndGov = cutRatioInputData['Commercial']
+        self.cutRatio_landscape = cutRatioInputData['Landscape']
 
-        self.cutRatio_singleFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Single Family']['Cut Ratio']
-        self.cutRatio_multiFamily = cutRatioInputData[cutRatioInputData['Variable'] == 'Multi-Family']['Cut Ratio']
-        self.cutRatio_industrial = cutRatioInputData[cutRatioInputData['Variable'] == 'Industrial']['Cut Ratio']
-        self.cutRatio_commAndGov = cutRatioInputData[cutRatioInputData['Variable'] == 'Commercial']['Cut Ratio']
-        self.cutRatio_landscape = cutRatioInputData[cutRatioInputData['Variable'] == 'Landscape']['Cut Ratio']
-
-        self.elasticityOfDemand_singleFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Single Family Residential']['Value']
-        self.elasticityOfDemand_multiFamily = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Multi-Family Residential']['Value']
-        self.elasticityOfDemand_industrial = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Industrial']['Value']
-        self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Commercial and Governmental']['Value']
-        self.elasticityOfDemand_landscape = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Elasticity of Demand Landscape']['Value']
+        self.elasticityOfDemand_singleFamily = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_multiFamily = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_industrial = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_commAndGov = elasticityOfDemandInputData['Elasticity']
+        self.elasticityOfDemand_landscape = elasticityOfDemandInputData['Elasticity']
         
-        self.lowerLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Lower Loss Boundary']['Value']
-        self.upperLossBoundary = elasticityOfDemandInputData[elasticityOfDemandInputData['Variable'] == 'Upper Loss Boundary']['Value']
+        self.lowerLossBoundary = elasticityOfDemandInputData['Lower Loss Boundary']
+        self.upperLossBoundary = elasticityOfDemandInputData['Upper Loss Boundary']
