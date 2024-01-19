@@ -1,5 +1,5 @@
 CaUWMET Optimization Logs
-Start Datetime: 2023-11-02 22:35:01.112400
+Start Datetime: 2024-01-18 23:19:35.825000
 ModelLogic - OK
 Begin optimization loop through 27 Contractors
 ---
@@ -11,8 +11,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 14636493.277239436,
     F_zero: 14636493.277239436,
-    execution_time: '0:01:27',
-    viz_path: 'graphics/CityofFolsom-2045_optimization_p-20_n-17_1698964503.png'
+    execution_time: '0:01:29',
+    viz_path: 'graphics/CityofFolsom-2045_optimization_p-20_n-17_1705619979.png'
   },
   {
     contractor: 'City of Redding',
@@ -22,7 +22,7 @@ Begin optimization loop through 27 Contractors
     F_optim: 16558143.21763091,
     F_zero: 16558143.21763091,
     execution_time: '0:01:27',
-    viz_path: 'graphics/CityofRedding-2045_optimization_p-20_n-17_1698964593.png'
+    viz_path: 'graphics/CityofRedding-2045_optimization_p-20_n-17_1705620070.png'
   },
   {
     contractor: 'City of Roseville',
@@ -31,8 +31,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 36659878.64334242,
     F_zero: 36811881.658646405,
-    execution_time: '0:03:39',
-    viz_path: 'graphics/CityofRoseville-2045_optimization_p-20_n-41_1698964681.png'
+    execution_time: '0:03:29',
+    viz_path: 'graphics/CityofRoseville-2045_optimization_p-20_n-41_1705620158.png'
   },
   {
     contractor: 'City of West Sacramento',
@@ -41,8 +41,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 11989605.804434955,
     F_zero: 11989605.804434955,
-    execution_time: '0:01:27',
-    viz_path: 'graphics/CityofWestSacramento-2045_optimization_p-20_n-17_1698964902.png'
+    execution_time: '0:01:24',
+    viz_path: 'graphics/CityofWestSacramento-2045_optimization_p-20_n-17_1705620369.png'
   },
   {
     contractor: 'Yuba City',
@@ -51,8 +51,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 10464294.03129194,
     F_zero: 10464294.03129194,
-    execution_time: '0:01:27',
-    viz_path: 'graphics/YubaCity-2045_optimization_p-20_n-17_1698964991.png'
+    execution_time: '0:01:24',
+    viz_path: 'graphics/YubaCity-2045_optimization_p-20_n-17_1705620455.png'
   },
   {
     contractor: 'El Dorado Irrigation District',
@@ -61,8 +61,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 25461415.30979267,
     F_zero: 25461415.30979267,
-    execution_time: '0:01:28',
-    viz_path: 'graphics/ElDoradoIrrigationDistrict-2045_optimization_p-20_n-17_1698965080.png'
+    execution_time: '0:01:24',
+    viz_path: 'graphics/ElDoradoIrrigationDistrict-2045_optimization_p-20_n-17_1705620540.png'
   },
   {
     contractor: 'Placer County Water Agency',
@@ -71,8 +71,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 134302167.20484743,
     F_zero: 134302167.20484743,
-    execution_time: '0:02:09',
-    viz_path: 'graphics/PlacerCountyWaterAgency-2045_optimization_p-20_n-17_1698965170.png'
+    execution_time: '0:02:08',
+    viz_path: 'graphics/PlacerCountyWaterAgency-2045_optimization_p-20_n-17_1705620626.png'
   },
   {
     contractor: 'Sacramento County Water Agency',
@@ -81,8 +81,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 51246924.69003086,
     F_zero: 51246924.69003086,
-    execution_time: '0:01:28',
-    viz_path: 'graphics/SacramentoCountyWaterAgency-2045_optimization_p-20_n-17_1698965301.png'
+    execution_time: '0:01:24',
+    viz_path: 'graphics/SacramentoCountyWaterAgency-2045_optimization_p-20_n-17_1705620756.png'
   },
   {
     contractor: 'San Juan Water District',
@@ -91,8 +91,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 31575103.983015344,
     F_zero: 31575103.983015344,
-    execution_time: '0:01:28',
-    viz_path: 'graphics/SanJuanWaterDistrict-2045_optimization_p-20_n-17_1698965390.png'
+    execution_time: '0:01:24',
+    viz_path: 'graphics/SanJuanWaterDistrict-2045_optimization_p-20_n-17_1705620842.png'
   },
   {
     contractor: 'City of Coalinga',
@@ -101,8 +101,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 5420856.576744685,
     F_zero: 5506570.6897950955,
-    execution_time: '0:03:43',
-    viz_path: 'graphics/CityofCoalinga-2045_optimization_p-20_n-41_1698965480.png'
+    execution_time: '0:03:33',
+    viz_path: 'graphics/CityofCoalinga-2045_optimization_p-20_n-41_1705620928.png'
   },
   {
     contractor: 'City of Fresno',
@@ -111,8 +111,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 130097368.68185025,
     F_zero: 130097368.68185025,
-    execution_time: '0:01:32',
-    viz_path: 'graphics/CityofFresno-2045_optimization_p-20_n-17_1698965705.png'
+    execution_time: '0:01:23',
+    viz_path: 'graphics/CityofFresno-2045_optimization_p-20_n-17_1705621142.png'
   },
   {
     contractor: 'City of Tracy',
@@ -121,8 +121,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 39623346.92651413,
     F_zero: 158324001.11055103,
-    execution_time: '0:02:13',
-    viz_path: 'graphics/CityofTracy-2045_optimization_p-20_n-23_1698965799.png'
+    execution_time: '0:02:00',
+    viz_path: 'graphics/CityofTracy-2045_optimization_p-20_n-23_1705621227.png'
   },
   {
     contractor: 'Stockton-East Water District',
@@ -131,8 +131,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 0.0,
     F_zero: 0.0,
-    execution_time: '0:02:42',
-    viz_path: 'graphics/Stockton-EastWaterDistrict-2045_optimization_p-20_n-29_1698965937.png'
+    execution_time: '0:02:24',
+    viz_path: 'graphics/Stockton-EastWaterDistrict-2045_optimization_p-20_n-29_1705621350.png'
   },
   {
     contractor: 'Alameda County Flood Control and Water Conservation District, Zone 7',
@@ -141,8 +141,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 32490613.033079933,
     F_zero: 32490613.033079933,
-    execution_time: '0:02:08',
-    viz_path: 'graphics/AlamedaCountyFloodControlandWaterConservationDistrict,Zone7-2045_optimization_p-20_n-23_1698966101.png'
+    execution_time: '0:01:54',
+    viz_path: 'graphics/AlamedaCountyFloodControlandWaterConservationDistrict,Zone7-2045_optimization_p-20_n-23_1705621496.png'
   },
   {
     contractor: 'Alameda County Water District',
@@ -151,8 +151,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 50010730.490727946,
     F_zero: 54949179.379067264,
-    execution_time: '0:04:33',
-    viz_path: 'graphics/AlamedaCountyWaterDistrict-2045_optimization_p-20_n-48_1698966230.png'
+    execution_time: '0:04:08',
+    viz_path: 'graphics/AlamedaCountyWaterDistrict-2045_optimization_p-20_n-48_1705621612.png'
   },
   {
     contractor: 'Contra Costa Water District',
@@ -161,8 +161,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 160194695.3784655,
     F_zero: 167451842.31807095,
-    execution_time: '0:02:32',
-    viz_path: 'graphics/ContraCostaWaterDistrict-2045_optimization_p-20_n-29_1698966506.png'
+    execution_time: '0:02:26',
+    viz_path: 'graphics/ContraCostaWaterDistrict-2045_optimization_p-20_n-29_1705621862.png'
   },
   {
     contractor: 'East Bay Municipal Utilities District',
@@ -171,8 +171,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 147189707.12286213,
     F_zero: 147189707.12286213,
-    execution_time: '0:01:36',
-    viz_path: 'graphics/EastBayMunicipalUtilitiesDistrict-2045_optimization_p-20_n-17_1698966660.png'
+    execution_time: '0:01:29',
+    viz_path: 'graphics/EastBayMunicipalUtilitiesDistrict-2045_optimization_p-20_n-17_1705622010.png'
   },
   {
     contractor: 'San Benito County Water District, Zone 6',
@@ -181,8 +181,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 4454864.92013249,
     F_zero: 4454864.92013249,
-    execution_time: '0:01:44',
-    viz_path: 'graphics/SanBenitoCountyWaterDistrict,Zone6-2045_optimization_p-20_n-17_1698966758.png'
+    execution_time: '0:01:36',
+    viz_path: 'graphics/SanBenitoCountyWaterDistrict,Zone6-2045_optimization_p-20_n-17_1705622100.png'
   },
   {
     contractor: 'Santa Clara Valley Water District',
@@ -191,8 +191,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 197128605.13777518,
     F_zero: 197128605.13777518,
-    execution_time: '0:02:06',
-    viz_path: 'graphics/SantaClaraValleyWaterDistrict-2045_optimization_p-20_n-23_1698966864.png'
+    execution_time: '0:01:54',
+    viz_path: 'graphics/SantaClaraValleyWaterDistrict-2045_optimization_p-20_n-23_1705622197.png'
   },
   {
     contractor: 'San Luis Obispo County Flood Control & Water Conservation District',
@@ -201,8 +201,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 4847095.956281887,
     F_zero: 4847095.956281887,
-    execution_time: '0:01:30',
-    viz_path: 'graphics/SanLuisObispoCountyFloodControl&WaterConservationDistrict-2045_optimization_p-20_n-17_1698966992.png'
+    execution_time: '0:01:23',
+    viz_path: 'graphics/SanLuisObispoCountyFloodControl&WaterConservationDistrict-2045_optimization_p-20_n-17_1705622313.png'
   },
   {
     contractor: 'Antelope Valley-East Kern Water Agency',
@@ -211,8 +211,8 @@ Begin optimization loop through 27 Contractors
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 41377491.73622824,
     F_zero: 41377491.73622824,
-    execution_time: '0:01:32',
-    viz_path: 'graphics/AntelopeValley-EastKernWaterAgency-2045_optimization_p-20_n-17_1698967085.png'
+    execution_time: '0:01:23',
+    viz_path: 'graphics/AntelopeValley-EastKernWaterAgency-2045_optimization_p-20_n-17_1705622398.png'
   },
   {
     contractor: 'Santa Clarita Water Division',
@@ -220,39 +220,39 @@ Begin optimization loop through 27 Contractors
   },
 Traceback:
 Traceback (most recent call last):
-  File "/home/jovyan/California-Urban-Water-Management-Economic-Tool/CaUWMET/main.py", line 105, in main
-    try:
-  File "/home/jovyan/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/optimization/optimizeWMOs.py", line 95, in optimize
+  File "/workspaces/California-Urban-Water-Management-Economic-Tool/CaUWMET/main.py", line 106, in main
+    result = optimizeWMOs.optimize(result=True)
+  File "/workspaces/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/optimization/optimizeWMOs.py", line 95, in optimize
     self.res = minimize(
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/optimize.py", line 67, in minimize
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/optimize.py", line 67, in minimize
     res = algorithm.run()
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/algorithm.py", line 141, in run
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/algorithm.py", line 138, in run
     self.next()
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/algorithm.py", line 161, in next
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/algorithm.py", line 158, in next
     self.evaluator.eval(self.problem, infills, algorithm=self)
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/evaluator.py", line 69, in eval
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/evaluator.py", line 69, in eval
     self._eval(problem, pop[I], evaluate_values_of, **kwargs)
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/evaluator.py", line 90, in _eval
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/evaluator.py", line 90, in _eval
     out = problem.evaluate(X, return_values_of=evaluate_values_of, return_as_dictionary=True, **kwargs)
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/problem.py", line 187, in evaluate
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/problem.py", line 257, in evaluate
     _out = self.do(X, return_values_of, *args, **kwargs)
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/problem.py", line 227, in do
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/problem.py", line 297, in do
     self._evaluate_elementwise(X, out, *args, **kwargs)
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/problem.py", line 245, in _evaluate_elementwise
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/problem.py", line 315, in _evaluate_elementwise
     elems = self.elementwise_runner(f, X)
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/problem.py", line 27, in __call__
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/problem.py", line 32, in __call__
     return [f(x) for x in X]
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/problem.py", line 27, in <listcomp>
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/problem.py", line 32, in <listcomp>
     return [f(x) for x in X]
-  File "/opt/conda/lib/python3.10/site-packages/pymoo/core/problem.py", line 20, in __call__
+  File "/home/codespace/.local/lib/python3.10/site-packages/pymoo/core/problem.py", line 25, in __call__
     self.problem._evaluate(x, out, *self.args, **self.kwargs)
-  File "/home/jovyan/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/optimization/costProblem.py", line 73, in _evaluate
-    out["F"] = self.objectiveFunction(x)
-  File "/home/jovyan/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/modelLogic/modelLogic.py", line 52, in execute
+  File "/workspaces/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/optimization/costProblem.py", line 76, in _evaluate
+    out["F"] = self.modelLogic.execute(x)
+  File "/workspaces/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/modelLogic/modelLogic.py", line 52, in execute
     self.waterBalanceAndCostLogic(storageInputAssumptions_Contractor, excessSupplySwitch_Contractor)
-  File "/home/jovyan/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/modelLogic/modelLogic.py", line 80, in waterBalanceAndCostLogic
+  File "/workspaces/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/modelLogic/modelLogic.py", line 80, in waterBalanceAndCostLogic
     self.contingencyWMOs.implementContingencyWMOsIfNeeded(contingencyWMOsInput, self.contingentConservationUseReductionVolume_Contractor, self.waterMarketTransferDeliveries_Contractor, self.totalShortage_Contractor, self.demandsToBeMetByWaterMarketTransfers_Contractor)
-  File "/home/jovyan/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/modelLogic/contingentWMOs/contingencyWMOsHandler.py", line 19, in implementContingencyWMOsIfNeeded
+  File "/workspaces/California-Urban-Water-Management-Economic-Tool/CaUWMET/src/modelLogic/contingentWMOs/contingencyWMOsHandler.py", line 19, in implementContingencyWMOsIfNeeded
     contingentConservationStorageTrigger_Contractor = self.inputData.contingentConservationStorageTrigger[self.inputData.contingentConservationStorageTrigger['Contractor'] == self.contingentWMOsinput.contractor][self.inputData.futureYear].values[0]
 IndexError: index 0 is out of bounds for axis 0 with size 0
 
@@ -263,8 +263,8 @@ IndexError: index 0 is out of bounds for axis 0 with size 0
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 2966592215.687272,
     F_zero: 2966592215.687272,
-    execution_time: '0:02:36',
-    viz_path: 'graphics/MetropolitanWaterDistrictofSouthernCalifornia-2045_optimization_p-20_n-29_1698967178.png'
+    execution_time: '0:02:27',
+    viz_path: 'graphics/MetropolitanWaterDistrictofSouthernCalifornia-2045_optimization_p-20_n-29_1705622483.png'
   },
   {
     contractor: 'Mojave Water Agency',
@@ -274,7 +274,7 @@ IndexError: index 0 is out of bounds for axis 0 with size 0
     F_optim: 99490663.18544206,
     F_zero: 99490663.18544206,
     execution_time: '0:01:25',
-    viz_path: 'graphics/MojaveWaterAgency-2045_optimization_p-20_n-17_1698967336.png'
+    viz_path: 'graphics/MojaveWaterAgency-2045_optimization_p-20_n-17_1705622632.png'
   },
   {
     contractor: 'Palmdale Water District & Littlerock Creek Irrigation District',
@@ -283,8 +283,8 @@ IndexError: index 0 is out of bounds for axis 0 with size 0
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 19643754.20329596,
     F_zero: 19643754.20329596,
-    execution_time: '0:01:28',
-    viz_path: 'graphics/PalmdaleWaterDistrict&LittlerockCreekIrrigationDistrict-2045_optimization_p-20_n-17_1698967423.png'
+    execution_time: '0:01:26',
+    viz_path: 'graphics/PalmdaleWaterDistrict&LittlerockCreekIrrigationDistrict-2045_optimization_p-20_n-17_1705622718.png'
   },
   {
     contractor: 'San Bernardino Valley Municipal Water District',
@@ -293,8 +293,8 @@ IndexError: index 0 is out of bounds for axis 0 with size 0
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 228365286.34294268,
     F_zero: 228365286.34294268,
-    execution_time: '0:01:57',
-    viz_path: 'graphics/SanBernardinoValleyMunicipalWaterDistrict-2045_optimization_p-20_n-23_1698967512.png'
+    execution_time: '0:01:56',
+    viz_path: 'graphics/SanBernardinoValleyMunicipalWaterDistrict-2045_optimization_p-20_n-23_1705622806.png'
   },
   {
     contractor: 'San Gorgonio Pass Water Agency',
@@ -303,12 +303,12 @@ IndexError: index 0 is out of bounds for axis 0 with size 0
     X_zero: [0, 0, 0, 0, 0, 0, 0, 0],
     F_optim: 57625699.89800704,
     F_zero: 61684019.31914659,
-    execution_time: '0:05:38',
-    viz_path: 'graphics/SanGorgonioPassWaterAgency-2045_optimization_p-20_n-56_1698967631.png'
+    execution_time: '0:05:41',
+    viz_path: 'graphics/SanGorgonioPassWaterAgency-2045_optimization_p-20_n-56_1705622924.png'
   }
 }
 ---
 Optimization loop complete!
 Excel file outputs: ['src/outputData/ModelOutputs_Optimal.xlsx', 'src/outputData/QAQCResults_Optimal.xlsx', 'src/outputData/ModelOutputs_Zero.xlsx', 'src/outputData/QAQCResults_Zero.xlsx']
-End Datetime: 2023-11-02 23:33:01.898413
+End Datetime: 2024-01-19 00:14:42.675344
 Operation Complete!
