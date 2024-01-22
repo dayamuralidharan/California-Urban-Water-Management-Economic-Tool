@@ -1,0 +1,84 @@
+<!-- Tooltip Layout for hover callback on points of plot -->
+<!-- Shows the cost of a point as header, and a table with the ltWMO options of the particle -->
+<body>
+  <h2>Total Cost: @{cost}</h2>
+  <table>
+    <tr>
+      <td>Shortage</td>
+      <td>
+        <div style="background-color: red; width: @{shortage_bar}px">
+          <strong style="color: black;">@{shortage}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Conservation</td>
+      <td>
+        <div style="background-color: lightblue; width: @{conservation_bar}px">
+          <strong style="color: black;">@{conservation}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Surfacewater</td>
+      <td>
+        <div style="background-color: darkorange; width: @{surface_bar}px">
+          <strong style="color: black;">@{surface}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Groundwater</td>
+      <td>
+        <div style="background-color: lightgreen; width: @{groundwater_bar}px">
+          <strong style="color: black;">@{groundwater}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Desalination</td>
+      <td>
+        <div style="background-color: violet; width: @{desalination_bar}px">
+          <strong style="color: black;">@{desalination}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Recycled</td>
+      <td>
+        <div style="background-color: cyan; width: @{recycled_bar}px">
+          <strong style="color: black;">@{recycled}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Potable Reuse</td>
+      <td>
+        <div style="background-color: pink; width: @{potable_reuse_bar}px">
+          <strong style="color: black;">@{potable_reuse}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Transfers and Exchanges</td>
+      <td>
+        <div style="background-color: gray; width: @{transfers_exchanges_bar}px">
+          <strong style="color: black;">@{transfers_exchanges}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Other Sources</td>
+      <td>
+        <div style="background-color: brown; width: @{other_bar}{0.2f}px">
+          <strong style="color: black;">@{other}{0.2f}</strong>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>   
+<style>
+  div.bk-tooltip-content > div > div:not(:last-child) {
+    display:none !important;
+  } 
+</style>

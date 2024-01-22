@@ -1,5 +1,7 @@
+# Script defining functions to plot the optimization particles and final result
+
 from bokeh.plotting import figure, save
-from bokeh.models import ColumnDataSource, CustomJS, ColorBar, HoverTool, Label, Div, Span
+from bokeh.models import ColumnDataSource, CustomJS, ColorBar, HoverTool, Label, Span
 from bokeh.transform import linear_cmap
 from bokeh.palettes import Viridis256
 from bokeh.io import output_file
@@ -14,7 +16,6 @@ def optimizationPlot(source: ColumnDataSource):
     This function plots interactive plots of the optimization results in bokeh
     Takes the ColumnSourceData from the optPlotData as the source argument
     """
-
     # get variables and data source
     df = source._property_values['data'] 
     colors = df['colors'][:-1]
@@ -57,146 +58,15 @@ def optimizationPlot(source: ColumnDataSource):
                       x_offset=0, y_offset=0)
     p.add_layout(zerolabel)
 
-    # hover tool
-    # JS callback
-    hover_callback = """
-    var data = source.data;
-    var indices = cb_data.index.indices;
-    var alpha = data['alpha'];
-    var originalAlpha = data['original_alpha'];
-    var size = data['size'];
-    var originalSize = data['original_size'];
-
-    // Initialize originalAlpha if not already present
-    if (!originalAlpha) {
-        data['original_alpha'] = alpha.slice();
-        originalAlpha = data['original_alpha'];
-    }
-
-    // Reset alpha to original for all circles
-    for (var i = 0; i < alpha.length; i++) {
-        alpha[i] = originalAlpha[i];
-    }
-
-    // Initialize originalSize if not already present
-    if (!originalSize) {
-        data['original_size'] = size.slice(); 
-        originalSize = data['original_size'];
-    }
-
-    // Reset size to original for all circles
-    for (var i = 0; i < size.length; i++) {
-        size[i] = originalSize[i];
-    }
-
-    // Set alpha to 1 and size x2 for the top-most hovered circle
-    if (indices.length > 0) {
-        alpha[indices[0]] = 1.0;
-        size[indices[0]] = originalSize[indices[0]] * 2;
-    }
-
-    // Update the source data
-    source.change.emit();
-    """
+    # hover tool via JS callback
+    with open("src/pageUtilities/hover_callback.js", 'r') as file:
+        hover_callback = file.read()
     
     # HTML tooltip insets
     # https://github.com/bokeh/bokeh/issues/9087
-    # tooltips as text
-#    tooltips = """
-#    <div>
-#    Conservation: @{conservation}{0.2f} <br>
-#    Surfacewater: @{surface}{0.2f} <br>
-#    Groundwater: @{groundwater}{0.2f} <br>
-#    Desalination: @{desalination}{0.2f} <br>
-#    Recycled: @{recycled}{0.2f} <br>
-#    Potable Reuse: @{potable_reuse}{0.2f} <br>
-#    Transfers and Exchanges: @{transfers_exchanges}{0.2f} <br>
-#    Other Sources: @{other}{0.2f}
-#    </div>
-#    <style>
-#    div.bk-tooltip-content > div > div:not(:last-child) {
-#        display:none !important;
-#    } 
-#    </style>
-#    """
-
     # tooltips as bars
-    tooltips = """
-    <body>
-      <h2>Total Cost: @{cost}</h2>
-      <table>
-        <tr>
-          <td>Conservation</td>
-          <td>
-            <div style="background-color: lightblue; width: @{conservation_bar}px">
-              <strong style="color: black;">@{conservation}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Surfacewater</td>
-          <td>
-            <div style="background-color: darkorange; width: @{surface_bar}px">
-              <strong style="color: black;">@{surface}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Groundwater</td>
-          <td>
-            <div style="background-color: lightgreen; width: @{groundwater_bar}px">
-              <strong style="color: black;">@{groundwater}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Desalination</td>
-          <td>
-            <div style="background-color: violet; width: @{desalination_bar}px">
-              <strong style="color: black;">@{desalination}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Recycled</td>
-          <td>
-            <div style="background-color: cyan; width: @{recycled_bar}px">
-              <strong style="color: black;">@{recycled}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Potable Reuse</td>
-          <td>
-            <div style="background-color: pink; width: @{potable_reuse_bar}px">
-              <strong style="color: black;">@{potable_reuse}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Transfers and Exchanges</td>
-          <td>
-            <div style="background-color: gray; width: @{transfers_exchanges_bar}px">
-              <strong style="color: black;">@{transfers_exchanges}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Other Sources</td>
-          <td>
-            <div style="background-color: brown; width: @{other_bar}{0.2f}px">
-              <strong style="color: black;">@{other}{0.2f}</strong>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </body>   
-    <style>
-        div.bk-tooltip-content > div > div:not(:last-child) {
-            display:none !important;
-        } 
-    </style>
-    """
+    with open("src/pageUtilities/tooltips.html", "r") as file:
+        tooltips = file.read()
 
     hover = HoverTool(renderers=[scatter], tooltips=tooltips)
     hover.callback = CustomJS(args={'source': source}, code=hover_callback)
@@ -234,18 +104,24 @@ def displayOptimizationPlot(df: DataFrame):
     """
     contractor = st.selectbox('View Optimization Results for:', st.session_state.dropDownMenuList[1:], )
     st.bokeh_chart = use_file_for_bokeh
-    source = ColumnDataSource(data=df[df['contractor']==contractor])
-    
-    # shrink the inset bar sizes
-    bar_scale = 5
-    source.data['conservation_bar'] = source.data['conservation'] / bar_scale
-    source.data['surface_bar'] = source.data['surface'] / bar_scale
-    source.data['groundwater_bar'] = source.data['groundwater'] / bar_scale
-    source.data['desalination_bar'] = source.data['desalination'] / bar_scale
-    source.data['recycled_bar'] = source.data['recycled'] / bar_scale
-    source.data['potable_reuse_bar'] = source.data['potable_reuse'] / bar_scale
-    source.data['transfers_exchanges_bar'] = source.data['transfers_exchanges'] / bar_scale
-    source.data['other_bar'] = source.data['other'] / bar_scale
+
+    if contractor == 'All Contractors':
+        p = "Select a contractor from the dropdown..."
+        st.write(p)
+    else:
+        source = ColumnDataSource(data=df[df['contractor']==contractor])
+        
+        # shrink the inset bar sizes
+        bar_scale = 5
+        source.data['shortage_bar'] = source.data['shortage'] / bar_scale
+        source.data['conservation_bar'] = source.data['conservation'] / bar_scale
+        source.data['surface_bar'] = source.data['surface'] / bar_scale
+        source.data['groundwater_bar'] = source.data['groundwater'] / bar_scale
+        source.data['desalination_bar'] = source.data['desalination'] / bar_scale
+        source.data['recycled_bar'] = source.data['recycled'] / bar_scale
+        source.data['potable_reuse_bar'] = source.data['potable_reuse'] / bar_scale
+        source.data['transfers_exchanges_bar'] = source.data['transfers_exchanges'] / bar_scale
+        source.data['other_bar'] = source.data['other'] / bar_scale
 
     # different default appearance for optimized value
     alpha_vals = [0.25] * len(source.data['x'])
@@ -263,7 +139,6 @@ def displayOptimizationPlot(df: DataFrame):
     source.data['colors'][-1] = -1
     
     # get cost and scale y values
-
     source.data['cost'] = [f"${value:,.0f}" for value in source.data['y']]
     source.data['y'] = [value / 1000000 for value in source.data['y']]
     source.data['f_zero'] = [value / 1000000 for value in source.data['f_zero']]

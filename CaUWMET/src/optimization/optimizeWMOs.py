@@ -73,7 +73,7 @@ class OptimizeWMOs:
         )
         
         # parameterize algorithm
-        algorithm = PSO(  # TODO: enable users to play with hyperparameters????
+        algorithm = PSO(
             pop_size=self.pop_size,
             w=0.8, c1=10.0, c2=1.0,
             # w=1.5, c1=15.0, c2=1.0,
@@ -117,6 +117,7 @@ class OptimizeWMOs:
         # get the particles for plotting
         Xp = []
         Fp = []
+        Sp = []
         colors = []
         c = 0
         try:
@@ -126,16 +127,19 @@ class OptimizeWMOs:
                         if np.sum(p._X) < self.wmoCeiling:
                             Xp.append(p._X)
                             Fp.append(p._F)
+                            Sp.append(p.data['S'])
                             colors.append(c)
                     else: 
                         Xp.append(p._X)
                         Fp.append(p._F)
+                        Sp.append(p.data['S'])
                         colors.append(c)
                 c+=1
             # assign plot variables
-            TAF = np.sum(Xp,axis=1)  # sum of longtermWMOSupply variables
-            ltwmolist = [ list(arr) for arr in zip(*Xp) ]  #results for each ltwmo
+            TAF = np.sum(Xp, axis=1)  # sum of longtermWMOSupply variables
+            ltwmolist = [ list(arr) for arr in zip(*Xp) ]  # results for each ltwmo
             y_millions = [ f[0]*10**-6 for f in Fp ]  # F in millions
+            shortage = [ round(np.mean(s, axis=0)/1000, 3) for s in Sp ]  # average shortage
             f_zero = [self.modelLogic.execute([0,0,0,0,0,0,0,0])] * len(ltwmolist[0])
             plotData = {
                 'contractor': self.modelLogic.contractor,
@@ -143,6 +147,7 @@ class OptimizeWMOs:
                 'y': [ f[0] for f in Fp ],
                 'y_millions': y_millions,
                 'colors': colors,
+                'shortage': shortage,
                 'conservation':	[ round(ltwmo,1) for ltwmo in ltwmolist[0] ],
                 'surface': [ round(ltwmo,1) for ltwmo in ltwmolist[1] ],
                 'groundwater': [ round(ltwmo,1) for ltwmo in ltwmolist[2] ],
@@ -267,7 +272,7 @@ class OptimizeWMOs:
         '''
         try:
             # assign plot variables
-            TAF = self.plotData['x']
+            TAF = self.plotData['x']  # todo: update variable name
             loss_millions = self.plotData['y_millions']
             colors = self.plotData['colors']
 
@@ -299,14 +304,10 @@ class OptimizeWMOs:
             
             # plot the best result in red 
             ax.scatter(x=sum(self.res.X), y=self.res.F*10**-6, c='red', marker="o")
-            # ax.text(s=f'Fmin = {int(self.res.F)}',
-            #         x=sum(self.res.X),y=(self.res.F*10**-6)-2,
-            #         c='red',size=8)
+
             ax.hlines(y=self.F_zero*10**-6, xmin=min(TAF), xmax=max(TAF),
                     color='red', linestyle='--', label='F([O]*8)')
-            # ax.text(s=f'F0 = {int(self.F_zero)}',
-            #         x=min(TAF)*1.05,y=(self.F_zero*10**-6)+1,
-            #         c='red',size=8)
+
             if test: 
                 plt.savefig('tests/test_graphic.png', bbox_inches='tight')
             else:
@@ -325,5 +326,3 @@ class OptimizeWMOs:
         except Exception as e: 
             print("Couldn't plot. Aborting...")
             print(e)
-
-
