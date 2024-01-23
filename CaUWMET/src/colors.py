@@ -1,32 +1,27 @@
 import streamlit as st
-#contractorList = st.session_state.contractorInfo
+import pandas as pd
+from src.globalUtilities import selectSpecifiedRows
 
-numberOfContractors = 27
-colors = ['black',]*numberOfContractors
-colors[0] = '#EF553B'
-colors[1] = '#EF553B'
-colors[2] = '#636EFA'
-colors[3] = '#AB63FA'
-colors[4] = '#00CC96'
-colors[5] = '#AB63FA'
-colors[6] = '#00CC96'
-colors[7] = '#00CC96'
-colors[8] = '#AB63FA'
-colors[9] = '#00CC96'
-colors[10] = '#EF553B'
-colors[11] = '#EF553B'
-colors[12] = '#00CC96'
-colors[13] = '#636EFA'
-colors[14] = '#636EFA'
-colors[15] = '#636EFA'
-colors[16] = '#00CC96'
-colors[17] = '#00CC96'
-colors[18] = '#EF553B'
-colors[19] = '#636EFA'
-colors[20] = '#636EFA'
-colors[21] = '#00CC96'
-colors[22] = '#FFA15A'
-colors[23] = '#EF553B'
-colors[24] = '#636EFA'
-colors[25] = '#AB63FA'
-colors[26] = '#00CC96'
+
+def mapColorsByStudyRegion(contractorInfo):
+    # Get contractor dataframe
+    contractors_df = contractorInfo.copy()
+    contractors_df = selectSpecifiedRows(contractors_df, 'Include in model', 'Yes')[['Contractor', 'Study Region']]
+    # Get list of study regions to assign unique color to each
+    unique_regions = contractors_df['Study Region'].unique()
+
+    # Use color-blind friendly colors. Note this will only work for up to 10 unique study regions.
+    colors_data = {'Color': ["#D55E00", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#999999", "#CC79A7"]}
+    
+    # Map Study Regions to colors using the colors_data dictionary
+    colors_mapping = dict(zip(unique_regions, colors_data['Color']))
+    contractors_df['Color'] = contractors_df['Study Region'].map(colors_mapping)
+    contractorsSorted = contractors_df.sort_values(by='Contractor')
+
+    # Display the merged DataFrame
+    # test = contractors_df[['Contractor', 'Study Region', 'Color']]
+    # print(test)
+
+    colors = contractorsSorted['Color']
+    
+    return colors

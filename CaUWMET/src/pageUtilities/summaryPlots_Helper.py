@@ -2,8 +2,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
-import numpy as np
-from src.colors import colors
+from src.colors import mapColorsByStudyRegion
 from src.globalUtilities import roundValues, load_CSV_data
 
 
@@ -85,7 +84,6 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
         rows=1, cols=2, 
         column_widths=[0.35, 0.65],
         specs=[[{"type": "pie"}, {"type": "bar"}]],
-            # [ {"type":"scatter", "colspan": 2}, None]],
             subplot_titles=(piePlotTitle, 
                             barPlotTitle), 
             vertical_spacing=0.1, horizontal_spacing= 0.1)
@@ -123,6 +121,8 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
 
     for i, label_name in enumerate(labels):
         y = pivot_contractor_df.iloc[:,i].index
+        print("y: ", y)
+        colors = mapColorsByStudyRegion(st.session_state.contractorInfo)
         fig.add_trace(go.Bar(x = pivot_contractor_df.iloc[:,i], 
                                 y = y, orientation = 'h',
                                 name = label_name,
@@ -138,11 +138,9 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                      row = 1, col = 2)
 
     fig.update_layout( # customize font and margins
-                        # barmode = 'stack',
                         paper_bgcolor='rgba(0,0,0,0)',
                         plot_bgcolor='rgba(0,0,0,0)',
-                        #plot_bgcolor = '#0E1117',#'black',
-                        font_family= 'Times New Roman',#"Helvetica",
+                        font_family= 'Times New Roman',
                         width=1100,
                         height=900,
                         template = 'plotly_dark',
