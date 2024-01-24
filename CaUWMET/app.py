@@ -162,6 +162,10 @@ if 'longtermWMOCosts' not in st.session_state:
 # INITIALIZE OUTPUT SESSION STATE VARIABLES
 #---------------------------------------------------------------#
 outputData_optimizationPlotData = fetch_data(outputDataFile, sheet_name='plotData', usecols='A:O')
+outputData_optimizedWMOS = fetch_data(outputDataFile, sheet_name='longtermWMOOptimizedVolumes', usecols='A:I')
 
 if 'optimizationPlotData' not in st.session_state:
     st.session_state['optimizationPlotData'] = outputData_optimizationPlotData[outputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]
+
+if 'optimizedLongTermWMOs' not in st.session_state:
+    st.session_state['optimizedLongTermWMOs'] = outputData_optimizedWMOS
