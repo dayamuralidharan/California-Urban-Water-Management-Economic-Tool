@@ -159,7 +159,7 @@ if 'longtermWMOCosts' not in st.session_state:
     st.session_state['longtermWMOCosts'] = inputData_longtermWMOCosts[inputData_longtermWMOCosts['Contractor'].isin(st.session_state.contractorList)]
 
 #---------------------------------------------------------------#
-# INITIALIZE OPTIMIZATION OUTPUT SESSION STATE VARIABLES
+# INITIALIZE OUTPUT SESSION STATE VARIABLES
 #---------------------------------------------------------------#
 outputData_optimizationPlotData = fetch_data(outputDataFile, sheet_name='plotData', usecols='A:O')
 
