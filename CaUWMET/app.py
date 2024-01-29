@@ -38,7 +38,8 @@ page.app()
 
 st.sidebar.write("")
 inputDataFile = "src/inputData/CaUWMETInputData.xlsx"
-outputDataFile = "src/outputData/ModelOutputs_Optimal.xlsx"
+outputDataFile_optimizedLTWMOs = "src/outputData/ModelOutputs_Optimal.xlsx"
+outputDataFile_zeroedLTWMOS = "src/outputData/ModelOutputs_Zero.xlsx"
 
 #---------------------------------------------------------------#
 # INITIALIZE GLOBAL ASSUMPTION SESSION STATE VARIABLES
@@ -161,11 +162,39 @@ if 'longtermWMOCosts' not in st.session_state:
 #---------------------------------------------------------------#
 # INITIALIZE OUTPUT SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-outputData_optimizationPlotData = fetch_data(outputDataFile, sheet_name='plotData', usecols='A:O')
-outputData_optimizedWMOS = fetch_data(outputDataFile, sheet_name='longtermWMOOptimizedVolumes', usecols='A:I')
+outputData_optimizationPlotData = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='plotData', usecols='A:O')
+outputData_optimizedWMOS = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='longtermWMOOptimizedVolumes', usecols='A:I')
+
+longtermCostOutputs = ['surfaceLongTermWMOCost',
+                       'groundwaterLongTermWMOCost',
+                       'desalinationLongTermWMOCost', 
+                       'recycledLongTermWMOCost',
+                       'potableReuseLongTermWMOCost',
+                       'XfersAndXchangesLongTermWMOCost',
+                       'otherSupplyLongTermWMOCost',
+                       'conservationLongTermWMOCost'
+                       ]
+
+# Get long-term WMO Cost output data
+longTermCostOutputForName = {}
+for var in longtermCostOutputs:
+    varName = "outputData_" + var
+    longTermCostOutputForName[varName] = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name=var)
+    if var not in st.session_state:
+        st.session_state[var] = longTermCostOutputForName[varName]
 
 if 'optimizationPlotData' not in st.session_state:
     st.session_state['optimizationPlotData'] = outputData_optimizationPlotData[outputData_optimizationPlotData['contractor'].isin(st.session_state.contractorList)]
 
 if 'optimizedLongTermWMOs' not in st.session_state:
     st.session_state['optimizedLongTermWMOs'] = outputData_optimizedWMOS
+
+
+# Get Expected Losses output data
+outputData_zeroedLTWMOS = fetch_data(outputDataFile_zeroedLTWMOS, sheet_name='totalAnnualCost')
+if 'totalAnnualCost_zeroedLongTermWMOs' not in st.session_state:
+    st.session_state['totalAnnualCost_zeroedLongTermWMOs'] = outputData_zeroedLTWMOS
+
+outputData_optimizedLTWMOS = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='totalAnnualCost')
+if 'totalAnnualCost_optimizedLongTermWMOs' not in st.session_state:
+    st.session_state['totalAnnualCost_optimizedLongTermWMOs'] = outputData_optimizedLTWMOS

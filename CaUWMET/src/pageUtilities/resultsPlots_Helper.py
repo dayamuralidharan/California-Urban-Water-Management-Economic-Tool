@@ -5,7 +5,7 @@ import streamlit as st
 from src.colors import mapColorsByStudyRegion
 from src.globalUtilities import roundValues
 
-def formatLongTermWMOResults(df):
+def displayOptimizedLongTermWMOResults(df):
     #Format dataframe for display
     for i in range (df.shape[1]):
         df.iloc[:,i] = df.iloc[:,i].apply(roundValues)
@@ -16,7 +16,6 @@ def formatLongTermWMOResults(df):
     old_column_name = df.columns[0]
     df.rename(columns={old_column_name: 'Contractor'}, inplace=True)
     df = df.drop(0)
-    #df = pd.melt(df, id_vars='Contractor')
 
     # Define a color blind friendly color palette
     colors = ["#D55E00", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#999999", "#CC79A7"]
@@ -38,14 +37,19 @@ def formatLongTermWMOResults(df):
         title='Optimized Long-term Water Management Option by Contractor',
         xaxis=dict(title='Contractor'),
         yaxis=dict(title='Volume (acre-feet/year)'),
-        barmode='stack',  # Change to 'group' if you want grouped bars instead of stacked
+        barmode='stack',
         height=700
     )
 
-    # Show the plot
+    # Show the plot and table
     st.plotly_chart(fig)
     st.table(df)
 
-
-
-
+def displayExpectedLosses(df_optimizedLTWMOs, df_zeroedLTWMOs):
+    st.table(df_optimizedLTWMOs)
+    st.table(df_zeroedLTWMOs)
+    
+    optimizedAvoidedShortageLoss = df_optimizedLTWMOs.sub(df_zeroedLTWMOs)
+    st.table(optimizedAvoidedShortageLoss)
+    
+    #Format dataframe for display
