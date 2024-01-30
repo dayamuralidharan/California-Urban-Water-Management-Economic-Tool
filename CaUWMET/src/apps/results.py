@@ -1,7 +1,7 @@
 import streamlit as st
 from src.globalUtilities import opt_echo
 from src.pageUtilities.optimizationPlot_Helper import displayOptimizationPlot
-from src.pageUtilities.resultsPlots_Helper import displayOptimizedLongTermWMOResults, displayExpectedLosses
+from src.pageUtilities.resultsPlots_Helper import displayOptimizedLongTermWMOResults, displayExpectedLosses, displaySystemOpsAndWaterMarketTransferCosts
 from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 
 def app():
@@ -34,4 +34,12 @@ def app():
                                                st.session_state.conservationLongTermWMOCost)
 
         with st.expander("Expected Losses"):
-            displayExpectedLosses(st.session_state.totalAnnualCost_optimizedLongTermWMOs, st.session_state.totalAnnualCost_zeroedLongTermWMOs, st.session_state.totalEconomicLoss_optimizedLongTermWMOs)
+            displayExpectedLosses(st.session_state.totalAnnualCost_optimizedLongTermWMOs, 
+                                  st.session_state.totalAnnualCost_zeroedLongTermWMOs, 
+                                  st.session_state.totalEconomicLoss_optimizedLongTermWMOs)
+        
+        with st.expander("System Operation and Water Market Costs"):
+            displaySystemOpsAndWaterMarketTransferCosts(st.session_state.waterTreatmentCost, 
+                                                        st.session_state.distributionCost, 
+                                                        st.session_state.waterMarketTransferDeliveries, 
+                                                        st.session_state.waterMarketTransferCost)

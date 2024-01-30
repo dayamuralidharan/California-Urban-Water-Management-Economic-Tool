@@ -52,11 +52,11 @@ def displayOptimizedLongTermWMOResults(df_optimizedLTWMOVolumes,
     longtermWMOCostTableForDisplay = longtermWMOCostTableForDisplay.reset_index()
     longtermWMOCostTableForDisplay = longtermWMOCostTableForDisplay.rename(columns={'index': 'Long-term Water Management Option Annual Average Cost ($/acre-foot)'})
     
+    #TODO: make sure colors are the same for each supply source type in bar plot
     formatAndDisplayBarPlots(df_optimizedLTWMOVolumes, 'Optimized Long-term Water Management Option Volume (acre-feet/year)', 'Optimized Long-term Water Management Option Volume by Contractor', 'Volume (acre-feet/year)')
     formatAndDisplayBarPlots(longtermWMOCostTableForDisplay, 'Long-term Water Management Option Annual Average Cost ($/acre-foot)', 'Optimized Long-term Water Management Option Cost by Contractor', 'Cost ($/acre-foot)')
     st.table(df_optimizedLTWMOVolumes)
     st.table(longtermWMOCostTableForDisplay)
-
 
 
 
@@ -78,14 +78,40 @@ def displayExpectedLosses(df_optimizedLTWMOs_totalAnnualCost, df_zeroedLTWMOs_to
     st.table(tableForDisplay)
 
 
+def displaySystemOpsAndWaterMarketTransferCosts(dfwaterTreatmentCost,
+                                                dfdistributionCost, 
+                                                dfwaterMarketTransferDeliveries, 
+                                                dfwaterMarketTransferCost):
+    
+    systemOperationsCost = dfwaterTreatmentCost + dfdistributionCost
+    systemOperationsCost = systemOperationsCost.drop(['waterTreatmentCost ($)', 'distributionCost ($)'], axis =1)
+    average_systemOperationsCost = formatAverageTables(systemOperationsCost, 'skip', 'Average System Operations Cost')
+    st.table(average_systemOperationsCost)
+    
+    total_WaterMarketTransferDeliveries = formatTotalSumTables(dfwaterMarketTransferDeliveries, 'waterMarketTransferDeliveries (acre-feet/year)', 'Total Contingent Water Market Deliveries (acre-feet/year)')
+    average_WaterMarketTransferDeliveries = formatAverageTables(dfwaterMarketTransferDeliveries, 'waterMarketTransferDeliveries (acre-feet/year)', 'Average Contingent Water Market Deliveries (acre-feet/year)')
+    average_WaterMarketTransferCost = formatAverageTables(dfwaterMarketTransferCost, 'waterMarketTransferCost ($)', 'Average Annual Contingent Water Market Cost ($/year)')
+    
+    waterMarketTransfers_TableForDisplay = pd.concat([total_WaterMarketTransferDeliveries, average_WaterMarketTransferDeliveries, average_WaterMarketTransferCost], axis=1)
+    st.table(waterMarketTransfers_TableForDisplay)
+
+
 
 def formatAverageTables(df, oldTitle, newTitle):
-    df = df.drop(oldTitle, axis =1)
+    if oldTitle != 'skip':
+        df = df.drop(oldTitle, axis =1)
     df = pd.DataFrame(df.mean())
     df.columns = [newTitle]
     df[newTitle] = df[newTitle].apply(roundValues)
     return df
 
+def formatTotalSumTables(df, oldTitle, newTitle):
+    if oldTitle != 'skip':
+        df = df.drop(oldTitle, axis =1)
+    df = pd.DataFrame(df.sum())
+    df.columns = [newTitle]
+    df[newTitle] = df[newTitle].apply(roundValues)
+    return df
 
 def formatAndDisplayBarPlots(df, title1, title2, title3):
 

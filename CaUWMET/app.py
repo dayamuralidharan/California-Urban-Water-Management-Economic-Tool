@@ -5,6 +5,9 @@ import copy
 
 import streamlit as st
 
+## This file is the entry point for the Streamlit app
+## Streamlit pages and session state variables are defined here
+
 st.set_page_config(layout="wide")
 
 app = MultiApp()
@@ -206,3 +209,26 @@ outputData_optimizedLTWMOS = fetch_data(outputDataFile_optimizedLTWMOs, sheet_na
 outputData_optimizedLTWMOS.set_index('Year', inplace=True)
 if 'totalEconomicLoss_optimizedLongTermWMOs' not in st.session_state:
     st.session_state['totalEconomicLoss_optimizedLongTermWMOs'] = outputData_optimizedLTWMOS
+
+# Get System Operations and Water Market Transfers output data
+outputData_waterTreatmentCosts = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='waterTreatmentCost')
+outputData_distributionCosts = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='distributionCost')
+outputData_waterMarketTransferDeliveries = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='waterMarketTransferDeliveries')
+outputData_waterMarketTransferCost = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='waterMarketTransferCost')
+
+outputData_waterTreatmentCosts.set_index('Year', inplace=True)
+outputData_distributionCosts.set_index('Year', inplace=True)
+outputData_waterMarketTransferDeliveries.set_index('Year', inplace=True)
+outputData_waterMarketTransferCost.set_index('Year', inplace=True)
+
+if 'waterTreatmentCost' not in st.session_state:
+    st.session_state['waterTreatmentCost'] = outputData_waterTreatmentCosts
+
+if 'distributionCost' not in st.session_state:
+    st.session_state['distributionCost'] = outputData_distributionCosts
+
+if 'waterMarketTransferDeliveries' not in st.session_state:
+    st.session_state['waterMarketTransferDeliveries'] = outputData_waterMarketTransferDeliveries
+
+if 'waterMarketTransferCost' not in st.session_state:
+    st.session_state['waterMarketTransferCost'] = outputData_waterMarketTransferCost
