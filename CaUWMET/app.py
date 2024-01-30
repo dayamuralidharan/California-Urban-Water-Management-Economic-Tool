@@ -192,9 +192,16 @@ if 'optimizedLongTermWMOs' not in st.session_state:
 
 # Get Expected Losses output data
 outputData_zeroedLTWMOS = fetch_data(outputDataFile_zeroedLTWMOS, sheet_name='totalAnnualCost')
+outputData_zeroedLTWMOS.set_index('Year', inplace=True)
 if 'totalAnnualCost_zeroedLongTermWMOs' not in st.session_state:
     st.session_state['totalAnnualCost_zeroedLongTermWMOs'] = outputData_zeroedLTWMOS
 
 outputData_optimizedLTWMOS = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='totalAnnualCost')
+outputData_optimizedLTWMOS.set_index('Year', inplace=True)
 if 'totalAnnualCost_optimizedLongTermWMOs' not in st.session_state:
     st.session_state['totalAnnualCost_optimizedLongTermWMOs'] = outputData_optimizedLTWMOS
+
+outputData_optimizedLTWMOS = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='totalEconomicLoss')
+outputData_optimizedLTWMOS.set_index('Year', inplace=True)
+if 'totalEconomicLoss_optimizedLongTermWMOs' not in st.session_state:
+    st.session_state['totalEconomicLoss_optimizedLongTermWMOs'] = outputData_optimizedLTWMOS

@@ -45,11 +45,34 @@ def displayOptimizedLongTermWMOResults(df):
     st.plotly_chart(fig)
     st.table(df)
 
-def displayExpectedLosses(df_optimizedLTWMOs, df_zeroedLTWMOs):
-    st.table(df_optimizedLTWMOs)
-    st.table(df_zeroedLTWMOs)
+def displayExpectedLosses(df_optimizedLTWMOs_totalAnnualCost, df_zeroedLTWMOs_totalAnnualCost, df_totalEconomicLoss_optimizedLongTermWMOs):
+    #Format dataframes for display
     
-    optimizedAvoidedShortageLoss = df_optimizedLTWMOs.sub(df_zeroedLTWMOs)
-    st.table(optimizedAvoidedShortageLoss)
+    # Format Optimized Avoided Shortage Loss dataframe for display
+    optimizedAvoidedShortageLoss = df_optimizedLTWMOs_totalAnnualCost.sub(df_zeroedLTWMOs_totalAnnualCost)
+    average_optimizedAvoidedShortageLoss = optimizedAvoidedShortageLoss.mean()
+    average_optimizedAvoidedShortageLoss = average_optimizedAvoidedShortageLoss.drop("totalAnnualCost ($)", axis=0)
+    average_optimizedAvoidedShortageLoss = pd.DataFrame(average_optimizedAvoidedShortageLoss)
+    average_optimizedAvoidedShortageLoss.columns = ['Optimized Avoided Shortage Loss ($)']
+    average_optimizedAvoidedShortageLoss['Optimized Avoided Shortage Loss ($)'] = average_optimizedAvoidedShortageLoss['Optimized Avoided Shortage Loss ($)'].apply(roundValues)
+
+    # Format Optimized Total Cost dataframe for display
+    df_optimizedLTWMOs_totalAnnualCost = df_optimizedLTWMOs_totalAnnualCost.drop("totalAnnualCost ($)", axis=1)
+    df_optimizedLTWMOs_totalAnnualCost = df_optimizedLTWMOs_totalAnnualCost.mean()
+    df_optimizedLTWMOs_totalAnnualCost = pd.DataFrame(df_optimizedLTWMOs_totalAnnualCost)
+    df_optimizedLTWMOs_totalAnnualCost.columns = ['Optimized Total Cost ($)']
+    df_optimizedLTWMOs_totalAnnualCost['Optimized Total Cost ($)'] = df_optimizedLTWMOs_totalAnnualCost['Optimized Total Cost ($)'].apply(roundValues)
+
+    df_totalEconomicLoss_optimizedLongTermWMOs = df_totalEconomicLoss_optimizedLongTermWMOs.drop("totalEconomicLoss ($)", axis=1)
+    df_totalEconomicLoss_optimizedLongTermWMOs = df_totalEconomicLoss_optimizedLongTermWMOs.mean()
+    df_totalEconomicLoss_optimizedLongTermWMOs = pd.DataFrame(df_totalEconomicLoss_optimizedLongTermWMOs)
+    df_totalEconomicLoss_optimizedLongTermWMOs.columns = ['Optimized Economic Loss Due to Shortage']
+    df_totalEconomicLoss_optimizedLongTermWMOs['Optimized Economic Loss Due to Shortage'] = df_totalEconomicLoss_optimizedLongTermWMOs['Optimized Economic Loss Due to Shortage'].apply(roundValues)
+    #st.table(df_totalEconomicLoss_optimizedLongTermWMOs)
     
-    #Format dataframe for display
+    # Format Optimized Economic Loss due to Shortage dataframe for display
+    
+    tableForDisplay = pd.concat([average_optimizedAvoidedShortageLoss, df_optimizedLTWMOs_totalAnnualCost, df_totalEconomicLoss_optimizedLongTermWMOs], axis = 1)
+    st.table(tableForDisplay)
+
+    

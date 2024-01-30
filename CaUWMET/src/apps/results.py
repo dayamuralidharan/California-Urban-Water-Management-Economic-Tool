@@ -26,4 +26,4 @@ def app():
             displayOptimizedLongTermWMOResults(st.session_state.optimizedLongTermWMOs)
 
         with st.expander("Expected Losses"):
-            displayExpectedLosses(st.session_state.totalAnnualCost_optimizedLongTermWMOs, st.session_state.totalAnnualCost_zeroedLongTermWMOs)
+            displayExpectedLosses(st.session_state.totalAnnualCost_optimizedLongTermWMOs, st.session_state.totalAnnualCost_zeroedLongTermWMOs, st.session_state.totalEconomicLoss_optimizedLongTermWMOs)
