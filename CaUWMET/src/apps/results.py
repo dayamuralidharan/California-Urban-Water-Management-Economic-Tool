@@ -23,7 +23,15 @@ def app():
         with st.expander("Optimization Plots"): displayOptimizationPlot(df=st.session_state.optimizationPlotData)
 
         with st.expander("Long-term Water Management Options Summary"):
-            displayOptimizedLongTermWMOResults(st.session_state.optimizedLongTermWMOs)
+            displayOptimizedLongTermWMOResults(st.session_state.optimizedLongTermWMOs, 
+                                               st.session_state.surfaceLongTermWMOCost,
+                                               st.session_state.groundwaterLongTermWMOCost,
+                                               st.session_state.desalinationLongTermWMOCost,
+                                               st.session_state.recycledLongTermWMOCost,
+                                               st.session_state.potableReuseLongTermWMOCost,
+                                               st.session_state.XfersAndXchangesLongTermWMOCost,
+                                               st.session_state.otherSupplyLongTermWMOCost,
+                                               st.session_state.conservationLongTermWMOCost)
 
         with st.expander("Expected Losses"):
             displayExpectedLosses(st.session_state.totalAnnualCost_optimizedLongTermWMOs, st.session_state.totalAnnualCost_zeroedLongTermWMOs, st.session_state.totalEconomicLoss_optimizedLongTermWMOs)

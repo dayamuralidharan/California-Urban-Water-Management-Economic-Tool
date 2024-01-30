@@ -180,6 +180,7 @@ longTermCostOutputForName = {}
 for var in longtermCostOutputs:
     varName = "outputData_" + var
     longTermCostOutputForName[varName] = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name=var)
+    longTermCostOutputForName[varName].set_index('Year', inplace=True)
     if var not in st.session_state:
         st.session_state[var] = longTermCostOutputForName[varName]
 
