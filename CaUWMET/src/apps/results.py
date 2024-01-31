@@ -1,8 +1,7 @@
 import streamlit as st
 from src.globalUtilities import opt_echo
 from src.pageUtilities.optimizationPlot_Helper import displayOptimizationPlot
-from src.pageUtilities.resultsPlots_Helper import displayOptimizedLongTermWMOResults, displayExpectedLosses, displaySystemOpsAndWaterMarketTransferCosts
-from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
+from src.pageUtilities.resultsPlots_Helper import displayOptimizedLongTermWMOResults, displayExpectedLosses, displaySystemOpsAndWaterMarketTransferCosts, displayResultsByWaterYearType
 
 def app():
     with opt_echo():      
@@ -40,6 +39,19 @@ def app():
         
         with st.expander("System Operation and Water Market Costs"):
             displaySystemOpsAndWaterMarketTransferCosts(st.session_state.waterTreatmentCost, 
+                                                        st.session_state.wastewaterTreatmentCost,
                                                         st.session_state.distributionCost, 
                                                         st.session_state.waterMarketTransferDeliveries, 
                                                         st.session_state.waterMarketTransferCost)
+            
+        with st.expander("Results by Water Year Type"):
+            displayResultsByWaterYearType(st.session_state.SWPCVPSupplyDelivery,
+                                          st.session_state.excessSupply,
+                                          st.session_state.putSurface,
+                                          st.session_state.putGroundwater,
+                                          st.session_state.volumeSurfaceCarryover,
+                                          st.session_state.volumeGroundwaterBank,
+                                          st.session_state.waterMarketTransferDeliveries,
+                                          st.session_state.totalShortage,
+                                          st.session_state.hydrologyAssumptions,
+                                          st.session_state.totalAnnualCost_optimizedLongTermWMOs)

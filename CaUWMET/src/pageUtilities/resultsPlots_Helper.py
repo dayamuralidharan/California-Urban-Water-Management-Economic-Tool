@@ -79,27 +79,58 @@ def displayExpectedLosses(df_optimizedLTWMOs_totalAnnualCost, df_zeroedLTWMOs_to
 
 
 def displaySystemOpsAndWaterMarketTransferCosts(dfwaterTreatmentCost,
+                                                dfwastewaterTreatmentCost,
                                                 dfdistributionCost, 
                                                 dfwaterMarketTransferDeliveries, 
                                                 dfwaterMarketTransferCost):
     
-    systemOperationsCost = dfwaterTreatmentCost + dfdistributionCost
+    systemOperationsCost = dfwaterTreatmentCost + dfdistributionCost + dfwastewaterTreatmentCost
     systemOperationsCost = systemOperationsCost.drop(['waterTreatmentCost ($)', 'distributionCost ($)'], axis =1)
-    average_systemOperationsCost = formatAverageTables(systemOperationsCost, 'skip', 'Average System Operations Cost')
-    st.table(average_systemOperationsCost)
     
+    average_systemOperationsCost = formatAverageTables(systemOperationsCost, 'skip', 'Average System Operations Cost')
     total_WaterMarketTransferDeliveries = formatTotalSumTables(dfwaterMarketTransferDeliveries, 'waterMarketTransferDeliveries (acre-feet/year)', 'Total Contingent Water Market Deliveries (acre-feet/year)')
     average_WaterMarketTransferDeliveries = formatAverageTables(dfwaterMarketTransferDeliveries, 'waterMarketTransferDeliveries (acre-feet/year)', 'Average Contingent Water Market Deliveries (acre-feet/year)')
     average_WaterMarketTransferCost = formatAverageTables(dfwaterMarketTransferCost, 'waterMarketTransferCost ($)', 'Average Annual Contingent Water Market Cost ($/year)')
     
-    waterMarketTransfers_TableForDisplay = pd.concat([total_WaterMarketTransferDeliveries, average_WaterMarketTransferDeliveries, average_WaterMarketTransferCost], axis=1)
-    st.table(waterMarketTransfers_TableForDisplay)
+    tableForDisplay = pd.concat([average_systemOperationsCost, total_WaterMarketTransferDeliveries, average_WaterMarketTransferDeliveries, average_WaterMarketTransferCost], axis=1)
+    st.table(tableForDisplay)
 
+def displayResultsByWaterYearType(SWPCVPSupplyDelivery,
+                                  excessSupply,putSurface,
+                                  putGroundwater,
+                                  volumeSurfaceCarryover,
+                                  volumeGroundwaterBank,
+                                  waterMarketDeliveries,
+                                  totalShortage,
+                                  hydroYearType, 
+                                  totalCost):
+    # Calculate values by year type
+    AboveNormalOrWet_SWPCVPSupplyDelivery = formatVariablesByHydroYearType(SWPCVPSupplyDelivery, hydroYearType, 'SWPCVPSupplyDelivery (acre-feet/year)', ['AN', 'W'], 'SWP and/or CVP Delivery (acre-feet)')
+    AboveNormalOrWet_excessSupply = formatVariablesByHydroYearType(excessSupply, hydroYearType, 'excessSupply (acre-feet/year)', ['AN', 'W'], 'Excess SWP and/or CVP Supply (acre-feet)')
+    
+    totalStoragePuts = putSurface + putGroundwater
+    AboveNormalOrWet_storagePuts = formatVariablesByHydroYearType(totalStoragePuts, hydroYearType, 'skip', ['AN', 'W'], 'Puts to Storage (acre-feet)')
+    
+    AboveNormalOrWet_waterMarketDeliveries = formatVariablesByHydroYearType(waterMarketDeliveries, hydroYearType, 'skip', ['AN', 'W'], 'Water Market Transfer Deliveries (acre-feet)')
+    
+    #st.table(waterMarketDeliveries)
 
+    st.markdown("Annual Average for Above Normal or Wet Year Results")
+    tableForDisplay = pd.concat([AboveNormalOrWet_SWPCVPSupplyDelivery, AboveNormalOrWet_excessSupply, AboveNormalOrWet_storagePuts, AboveNormalOrWet_waterMarketDeliveries], axis=1)
+    st.table(tableForDisplay)
 
-def formatAverageTables(df, oldTitle, newTitle):
-    if oldTitle != 'skip':
-        df = df.drop(oldTitle, axis =1)
+def formatVariablesByHydroYearType(df, hydrodf, columnNameToDrop, hydroYearTypes, newColumnName):
+    if columnNameToDrop != 'skip':
+        df = df.drop(columnNameToDrop, axis=1)
+    dfByYearType = df[hydrodf.apply(lambda x: x.isin(hydroYearTypes))]
+    dfByYearType = dfByYearType.mean()
+    dfByYearType = pd.DataFrame(dfByYearType.apply(roundValues))
+    dfByYearType.rename(columns={dfByYearType.columns[0]: newColumnName}, inplace=True)
+    return dfByYearType
+
+def formatAverageTables(df, columnNameToDrop, newTitle):
+    if columnNameToDrop != 'skip':
+        df = df.drop(columnNameToDrop, axis =1)
     df = pd.DataFrame(df.mean())
     df.columns = [newTitle]
     df[newTitle] = df[newTitle].apply(roundValues)

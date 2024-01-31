@@ -25,7 +25,7 @@ with col2:
 PAGES = {
     "Home": home,
     "Model Overview": modeloverview,
-    "Global Assumptions": globalAssumptions,
+    "Input Global Assumptions": globalAssumptions,
     "Input Demand Assumptions": demands,
     "Input Supply Assumptions": supplies,
     "Input System Operation Assumptions": systemoperations,
@@ -61,16 +61,22 @@ if 'hydrologicReferencePeriodEndYear' not in st.session_state:
 if 'contractorInfo' not in st.session_state:
     st.session_state['contractorInfo'] = fetch_data(inputDataFile, sheet_name = 'Contractor Assumptions', skiprows = 4, nrows = 44, usecols = 'A:I')
 
-if 'hydrologyAssumptions' not in st.session_state:
-    st.session_state['hydrologyAssumptions'] = fetch_data(inputDataFile, sheet_name = 'Hydrology Assumptions', skiprows = 3, nrows = 95, usecols = 'A:AR')
-
+contractorList = selectSpecifiedRows(st.session_state.contractorInfo, 'Include in model', 'Yes')['Contractor']
 if 'contractorList' not in st.session_state:
-    st.session_state['contractorList'] = selectSpecifiedRows(st.session_state.contractorInfo, 'Include in model', 'Yes')['Contractor']
+    st.session_state['contractorList'] = contractorList
 
 if 'dropDownMenuList' not in st.session_state: # Drop down menu used on all pages
     st.session_state['dropDownMenuList'] = copy.deepcopy(st.session_state.contractorList)
     st.session_state.dropDownMenuList.loc[0] = "All Contractors"
     st.session_state.dropDownMenuList.sort_index(inplace=True)
+
+hydrologyAssumptions = fetch_data(inputDataFile, sheet_name = 'Hydrology Assumptions', skiprows = 3, nrows = 95, usecols = 'A:AR')
+hydrologyAssumptions.reset_index(inplace=True)
+hydrologyAssumptions.set_index('Year', inplace = True)
+hydrologyAssumptions = hydrologyAssumptions.loc[:, hydrologyAssumptions.columns.isin(contractorList)]
+
+if 'hydrologyAssumptions' not in st.session_state:
+    st.session_state['hydrologyAssumptions'] = hydrologyAssumptions
 
 #---------------------------------------------------------------#
 # INITIALIZE DEMAND ASSUMPTION SESSION STATE VARIABLES
@@ -212,17 +218,22 @@ if 'totalEconomicLoss_optimizedLongTermWMOs' not in st.session_state:
 
 # Get System Operations and Water Market Transfers output data
 outputData_waterTreatmentCosts = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='waterTreatmentCost')
+outputData_wastewaterTreatmentCosts = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='wastewaterTreatmentCost')
 outputData_distributionCosts = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='distributionCost')
 outputData_waterMarketTransferDeliveries = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='waterMarketTransferDeliveries')
 outputData_waterMarketTransferCost = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='waterMarketTransferCost')
 
 outputData_waterTreatmentCosts.set_index('Year', inplace=True)
+outputData_wastewaterTreatmentCosts.set_index('Year', inplace=True)
 outputData_distributionCosts.set_index('Year', inplace=True)
 outputData_waterMarketTransferDeliveries.set_index('Year', inplace=True)
 outputData_waterMarketTransferCost.set_index('Year', inplace=True)
 
 if 'waterTreatmentCost' not in st.session_state:
     st.session_state['waterTreatmentCost'] = outputData_waterTreatmentCosts
+
+if 'wastewaterTreatmentCost' not in st.session_state:
+    st.session_state['wastewaterTreatmentCost'] = outputData_wastewaterTreatmentCosts
 
 if 'distributionCost' not in st.session_state:
     st.session_state['distributionCost'] = outputData_distributionCosts
@@ -232,3 +243,41 @@ if 'waterMarketTransferDeliveries' not in st.session_state:
 
 if 'waterMarketTransferCost' not in st.session_state:
     st.session_state['waterMarketTransferCost'] = outputData_waterMarketTransferCost
+
+# Get results by water year type output data
+outputData_SWPCVPDeliveries = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='SWPCVPSupplyDelivery')
+outputData_excessSupply = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='excessSupply')
+outputData_putSurface = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='putSurface')
+outputData_putGroundwater = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='putGroundwater')
+outputData_volumeSurfaceCarryover = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='volumeSurfaceCarryover')
+outputData_volumeGroundwaterBank = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='volumeGroundwaterBank')
+outputData_totalShortage = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='totalShortage')
+
+outputData_SWPCVPDeliveries.set_index('Year', inplace=True)
+outputData_excessSupply.set_index('Year', inplace=True)
+outputData_putSurface.set_index('Year', inplace=True)
+outputData_putGroundwater.set_index('Year', inplace=True)
+outputData_volumeSurfaceCarryover.set_index('Year', inplace=True)
+outputData_volumeGroundwaterBank.set_index('Year', inplace=True)
+outputData_totalShortage.set_index('Year', inplace=True)
+
+if 'SWPCVPSupplyDelivery' not in st.session_state:
+    st.session_state['SWPCVPSupplyDelivery'] = outputData_SWPCVPDeliveries
+
+if 'excessSupply' not in st.session_state:
+    st.session_state['excessSupply'] = outputData_excessSupply
+
+if 'putSurface' not in st.session_state:
+    st.session_state['putSurface'] = outputData_putSurface
+
+if 'putGroundwater' not in st.session_state:
+    st.session_state['putGroundwater'] = outputData_putGroundwater
+
+if 'volumeSurfaceCarryover' not in st.session_state:
+    st.session_state['volumeSurfaceCarryover'] = outputData_volumeSurfaceCarryover
+
+if 'volumeGroundwaterBank' not in st.session_state:
+    st.session_state['volumeGroundwaterBank'] = outputData_volumeGroundwaterBank
+
+if 'totalShortage' not in st.session_state:
+    st.session_state['totalShortage'] = outputData_totalShortage
