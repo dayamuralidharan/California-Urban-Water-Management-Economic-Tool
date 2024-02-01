@@ -5,7 +5,7 @@ import streamlit as st
 from src.colors import mapColorsByStudyRegion
 from src.globalUtilities import roundValues
 
-colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
+
 
 #---------------------------------------------------------------#
 # SUMMARY POSTER FOR VARIABLES INPUT BY PLANNING HORIZON YEAR
@@ -33,6 +33,8 @@ def displaySummaryPlots(df, explanationText, dataset, datasetType):
 
 
 def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
+    colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
+
     col1, col2 = st.columns(2)
     with col1:
         vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
@@ -78,6 +80,7 @@ def displayDataForOneContractor(contractorName, dataFrameToDisplay):
 # Functions to create the plots for all the input assumption pages
 
 def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, barPlotXAxisTitle, datasetType):
+    colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
     #MAKE SUBPLOTS
     fig = make_subplots(
         rows=1, cols=2, 
