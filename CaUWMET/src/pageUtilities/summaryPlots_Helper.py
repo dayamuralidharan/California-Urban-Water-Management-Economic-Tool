@@ -2,9 +2,9 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import streamlit as st
-import numpy as np
-from src.colors import colors
-from src.globalUtilities import roundValues, load_CSV_data
+from src.colors import mapColorsByStudyRegion
+from src.globalUtilities import roundValues
+
 
 
 #---------------------------------------------------------------#
@@ -14,7 +14,7 @@ from src.globalUtilities import roundValues, load_CSV_data
 def displaySummaryPlots(df, explanationText, dataset, datasetType):
     st.write(explanationText)
 
-    # Set up total demand variables for summary poster plots
+    # Format variables for summary poster plots
     plotInputData = df[['Variable', 'Study Region', 'Contractor', int(st.session_state.futurePlanningYear)]]
     plotInputData = pd.melt(plotInputData, id_vars=['Variable','Contractor', 'Study Region'])
     plotInputData.rename(columns = {'variable': 'Year', 'Variable': 'Type', 'value': 'Value'}, inplace=True)
@@ -33,8 +33,8 @@ def displaySummaryPlots(df, explanationText, dataset, datasetType):
 
 
 def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
-    color_map_df = load_CSV_data("src/inputData/color_map_df.csv")
-    
+    colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
+
     col1, col2 = st.columns(2)
     with col1:
         vars = pd.DataFrame({'Type' : vars}, index = k_labelValues)
@@ -52,7 +52,7 @@ def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey, data
     
         
     # Setting up color palette dict
-    color_dict = dict(zip(color_map_df['Study Region'], color_map_df['colors']))
+    color_dict = list(colors_mapping)
     fig = summary_poster(plot_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisLabel, datasetType)
     st.write(fig)
 
@@ -71,7 +71,7 @@ def displayDataForOneContractor(contractorName, dataFrameToDisplay):
         y=filteredDataToOneContractor['Value'],
     ))
     fig.update_layout(title_text = contractorName, title_x=0.45, width = 700)
-    fig.update_traces(marker_color=['#EF553B', '#636EFA', '#AB63FA', '#00CC96', '#FFA15A', '#FF33E3', '#3336FF'])
+    fig.update_traces(marker_color=['#3336FF', '#3336FF', '#3336FF', '#3336FF', '#3336FF', '#3336FF', '#3336FF'])
     fig.update_xaxes(title_text="Type")
     fig.update_yaxes(title_text="Value")
     st.write(fig)
@@ -79,20 +79,20 @@ def displayDataForOneContractor(contractorName, dataFrameToDisplay):
 
 # Functions to create the plots for all the input assumption pages
 
-def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlotXAxisTitle, datasetType):
+def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, barPlotXAxisTitle, datasetType):
+    colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
     #MAKE SUBPLOTS
     fig = make_subplots(
         rows=1, cols=2, 
         column_widths=[0.35, 0.65],
         specs=[[{"type": "pie"}, {"type": "bar"}]],
-            # [ {"type":"scatter", "colspan": 2}, None]],
             subplot_titles=(piePlotTitle, 
                             barPlotTitle), 
             vertical_spacing=0.1, horizontal_spacing= 0.1)
 
     for i in fig['layout']['annotations']:
         i['font'] = dict(size=18, family="Times New Roman")
-
+    
     #PIE
     #data for pie
     if datasetType == "total":
@@ -106,12 +106,6 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                             legendgroup = 'grp1',
                             showlegend=True),
                 row = 1, col = 1)
-    fig.update_traces(hoverinfo = 'label+percent',
-                        textinfo = 'value+percent',
-                        textfont_color = 'white',
-                        marker = dict(colors = pie_data.index.map(color_dict),
-                                    line=dict(color='white', width=1)),
-                        row = 1, col = 1)
 
     #BAR
     pivot_contractor_df = contractor_df.groupby(['Contractor','Type'])['Value'].sum()
@@ -123,6 +117,7 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
 
     for i, label_name in enumerate(labels):
         y = pivot_contractor_df.iloc[:,i].index
+        
         fig.add_trace(go.Bar(x = pivot_contractor_df.iloc[:,i], 
                                 y = y, orientation = 'h',
                                 name = label_name,
@@ -138,11 +133,9 @@ def summary_poster(contractor_df, color_dict, piePlotTitle, barPlotTitle, barPlo
                      row = 1, col = 2)
 
     fig.update_layout( # customize font and margins
-                        # barmode = 'stack',
                         paper_bgcolor='rgba(0,0,0,0)',
                         plot_bgcolor='rgba(0,0,0,0)',
-                        #plot_bgcolor = '#0E1117',#'black',
-                        font_family= 'Times New Roman',#"Helvetica",
+                        font_family= 'Times New Roman',
                         width=1100,
                         height=900,
                         template = 'plotly_dark',

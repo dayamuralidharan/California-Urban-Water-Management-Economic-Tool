@@ -1,4 +1,3 @@
-import base64
 import streamlit as st
 import traceback
 import pandas as pd
@@ -33,9 +32,6 @@ def fetch_data(inputdatafile, **kwargs):
     data = pd.read_excel(io = inputdatafile, **kwargs)
     return pd.DataFrame(data)
 
-def load_CSV_data(filename):
-    df = pd.read_csv(filename, index_col=0)
-    return df
 
 def selectSpecifiedRows(df, selectionColumn, selectionCriteria):
     return df.loc[df[selectionColumn] == selectionCriteria]
