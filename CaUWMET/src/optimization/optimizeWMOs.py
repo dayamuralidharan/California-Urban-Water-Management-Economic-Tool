@@ -41,9 +41,13 @@ class OptimizeWMOs:
         self.n_gen = n_gen
         self.pop_size = pop_size
         self.period = period
-        self.X_zero = None
         self.modelLogic = modelLogic
         self.modelLogic.contractor = contractor
+        # this happens to get the F_zero value for the line on the plot
+        # run before optimization so that reportBest shows the optimized results
+        # and reportZero shows the zeroed results
+        self.X_zero = None
+        self.F_zero = self.modelLogic.execute([0]*8)
         self.wmoFloor = wmoFloor
         self.wmoCeiling = wmoCeiling
         self.lowerBounds = lowerBounds
@@ -140,7 +144,7 @@ class OptimizeWMOs:
             ltwmolist = [ list(arr) for arr in zip(*Xp) ]  # results for each ltwmo
             y_millions = [ f[0]*10**-6 for f in Fp ]  # F in millions
             shortage = [ round(np.mean(s, axis=0)/1000, 3) for s in Sp ]  # average shortage
-            f_zero = [self.modelLogic.execute([0,0,0,0,0,0,0,0])] * len(ltwmolist[0])
+            f_zero = [self.F_zero] * len(ltwmolist[0])
             plotData = {
                 'contractor': self.modelLogic.contractor,
                 'x': TAF,
@@ -182,7 +186,7 @@ class OptimizeWMOs:
         Note: 
             Must be run after .optimize method!
         '''
-        self.X_zero = [0]*len(self.X)
+        self.X_zero = [0]*8
         self.F_zero = self.modelLogic.execute(self.X_zero)
         return self.X_zero, self.F_zero
     
