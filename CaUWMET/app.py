@@ -247,6 +247,7 @@ if 'waterMarketTransferCost' not in st.session_state:
 # Get results by water year type output data
 outputData_SWPCVPDeliveries = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='SWPCVPSupplyDelivery')
 outputData_excessSupply = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='excessSupply')
+outputData_unallocatedSWPCVPDeliveries = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='unallocatedSWPCVPDeliveries')
 outputData_putSurface = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='putSurface')
 outputData_putGroundwater = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='putGroundwater')
 outputData_volumeSurfaceCarryover = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name='volumeSurfaceCarryover')
@@ -255,6 +256,7 @@ outputData_totalShortage = fetch_data(outputDataFile_optimizedLTWMOs, sheet_name
 
 outputData_SWPCVPDeliveries.set_index('Year', inplace=True)
 outputData_excessSupply.set_index('Year', inplace=True)
+outputData_unallocatedSWPCVPDeliveries.set_index('Year', inplace=True)
 outputData_putSurface.set_index('Year', inplace=True)
 outputData_putGroundwater.set_index('Year', inplace=True)
 outputData_volumeSurfaceCarryover.set_index('Year', inplace=True)
@@ -266,6 +268,9 @@ if 'SWPCVPSupplyDelivery' not in st.session_state:
 
 if 'excessSupply' not in st.session_state:
     st.session_state['excessSupply'] = outputData_excessSupply
+
+if 'unallocatedSWPCVPDeliveries' not in st.session_state:
+    st.session_state['unallocatedSWPCVPDeliveries'] = outputData_unallocatedSWPCVPDeliveries
 
 if 'putSurface' not in st.session_state:
     st.session_state['putSurface'] = outputData_putSurface
