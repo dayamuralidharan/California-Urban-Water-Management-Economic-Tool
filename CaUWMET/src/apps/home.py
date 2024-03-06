@@ -8,12 +8,6 @@ def app():
         st.subheader("Welcome to the California Urban Water Management Economics Tool")
 
         st.write("""
-        Urban water suppliers in California can face challenges in water service reliability as their systems are subjected 
-        to the impacts of changes in climate, regulations, infrastructure, or other stressors. Understanding the 
-        financial and economic implications of adopting reliability enhancement measures, determining which ones to adopt, 
-        and determining how much to adopt of each possible measure is a key component in water supply planning 
-        decision-making processes and environmental impact studies.
-        
         California Department of Water Resources (DWR) recognized the need for a robust open-source tool to provide a 
         quantitative methodology for evaluating the economically optimal portfolio of water supply reliability 
         alternatives for individual water agencies, and working collaboratively with a team of consultants, 
@@ -23,6 +17,17 @@ def app():
         platform that can be tailored to their specific study requirements. """)
         
         st.write("")
-        st.write("""Users can learn about the model approach, view model assumptions and review results by navigating through the pages in the navigation tree
-        to the left. If you would like to view or modify the source code, please visit the GitHub repository at: <repository link>.
+        st.write("""This dashboard tool was developed to visualize CaUWMET input and output data. Users can learn about CaUWMET
+        and review model input and output data by navigating through the pages in the navigation tree to the left. These pages include:""")
+        st.write("""- Model Overview: Provides a description of the model approach""")
+        st.write("""- Input Global Assumptions: Includes an overview of contractor details and hydrology assumptions""")
+        st.write("""- Input Demand Assumptions: Includes an overview of contractor total demand, water use by type, and conservation assumptions""")
+        st.write("""- Input Supply Assumptions: Includes an overview of local, regional, and State Water and Central Valley Project supply assumptions""")
+        st.write("""- Input System Operations Assumptions: Includes an overview of excess supply and storage management, as well as delivery cost assumptions""")
+        st.write("""- Input Contingency Water Management Options Assumptions: Includes an overview of contingency conservation campaigns, water market transfers, and rationing program assumptions""")
+        st.write("""- Input Long-term Water Management Options Assumptions: Includes an overview of new long-term supply and demand management options to explore with the model optimization method""")
+        st.write("""- Results: Review CaUWMET model results""")
+        
+        st.write("")
+        st.write("""If you would like to view or modify the source code, please visit the GitHub repository at: <repository link>.
         Additional information on the model approach, and documentation can be found in the Model Overview page.""")

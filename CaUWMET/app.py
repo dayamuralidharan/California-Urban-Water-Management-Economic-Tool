@@ -31,7 +31,7 @@ PAGES = {
     "Input System Operation Assumptions": systemoperations,
     "Input Contingency Water Management Options Assumptions": contingencyWatermanagementOptions,
     "Input Long-term Water Management Options Assumptions": longtermWatermanagementOptions,
-    "View Results": results,
+    "Results": results,
 }
 
 st.sidebar.title('Navigation')
