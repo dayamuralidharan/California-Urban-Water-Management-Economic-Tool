@@ -67,7 +67,7 @@ def displayExpectedLosses(df_optimizedLTWMOs_totalAnnualCost, df_zeroedLTWMOs_to
     #Format dataframes for display
     
     
-    optimizedAvoidedShortageLoss = df_optimizedLTWMOs_totalAnnualCost.sub(df_zeroedLTWMOs_totalAnnualCost)
+    optimizedAvoidedShortageLoss = df_zeroedLTWMOs_totalAnnualCost.sub(df_optimizedLTWMOs_totalAnnualCost)
     
     # Calculate simulation averages and format tables
     average_optimizedAvoidedShortageLoss = formatAverageTables(optimizedAvoidedShortageLoss, "totalAnnualCost ($)", 'Optimized Avoided Shortage Loss ($)')
