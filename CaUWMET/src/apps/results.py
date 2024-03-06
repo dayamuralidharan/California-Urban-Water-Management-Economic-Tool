@@ -37,16 +37,17 @@ def app():
                                   st.session_state.totalAnnualCost_zeroedLongTermWMOs, 
                                   st.session_state.totalEconomicLoss_optimizedLongTermWMOs)
         
-        with st.expander("System Operation and Water Market Costs"):
+        with st.expander("System Operations and Water Market Costs"):
             displaySystemOpsAndWaterMarketTransferCosts(st.session_state.waterTreatmentCost, 
                                                         st.session_state.wastewaterTreatmentCost,
                                                         st.session_state.distributionCost, 
                                                         st.session_state.waterMarketTransferDeliveries, 
                                                         st.session_state.waterMarketTransferCost)
             
-        with st.expander("Results by Water Year Type"):
+        with st.expander("Annual Average Results by Water Year Type"):
             displayResultsByWaterYearType(st.session_state.SWPCVPSupplyDelivery,
                                           st.session_state.excessSupply,
+                                          st.session_state.unallocatedSWPCVPDeliveries,
                                           st.session_state.putSurface,
                                           st.session_state.putGroundwater,
                                           st.session_state.volumeSurfaceCarryover,
