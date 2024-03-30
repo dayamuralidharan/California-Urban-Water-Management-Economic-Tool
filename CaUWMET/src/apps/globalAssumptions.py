@@ -11,7 +11,7 @@ def app():
         :green[There are three groups of global assumptions entered into CaUWMET including:  
                     1) Time settings including the future planning horizon year and hydrologic reference period applied in the simulation  
                     2) List of contractors that are included in the model simulation, their study regions, additional details, and Calsim delivery arcs  
-                    3) Hydrology assumptions for each contractor]""", unsafe_allow_html=True)
+                    3) Annual hydrology assumptions for each contractor]""", unsafe_allow_html=True)
         st.write("")
         st.markdown("""
         :green[A detailed description of each of variable is provided in each expandable section below and Sections 3.1 and 3.2 of the model documentation.]""", unsafe_allow_html=True)

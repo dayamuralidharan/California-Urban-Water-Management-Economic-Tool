@@ -26,13 +26,13 @@ def displaySummaryPlots(df, explanationText, dataset, datasetType):
 
     allOrSingleContractorSelector = st.selectbox('View ' + dataset + ' data for:', st.session_state.dropDownMenuList, )
     if allOrSingleContractorSelector == 'All Contractors':
-        displayPieAndBarPlots(vars, numberOfVars, plotInputData, selectBoxKey, datasetType)
+        displayPieAndBarPlotsForAllContractors(vars, numberOfVars, plotInputData, selectBoxKey, datasetType)
     else:
         displayDataForOneContractor(allOrSingleContractorSelector, plotInputData)
 
 
 
-def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
+def displayPieAndBarPlotsForAllContractors(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
     colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
 
     col1, col2 = st.columns(2)
@@ -96,9 +96,9 @@ def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, ba
     #PIE
     #data for pie
     if datasetType == "total":
-        pie_data = contractor_df.groupby('Study Region')['Value'].sum().astype(int)
+        pie_data = contractor_df.groupby('Study Region')['Value'].sum()
     else:
-        pie_data = contractor_df.groupby('Study Region')['Value'].mean().astype(int)
+        pie_data = contractor_df.groupby('Study Region')['Value'].mean()
 
     fig.add_trace(go.Pie(labels = pie_data.index,
                             values = pie_data.values,

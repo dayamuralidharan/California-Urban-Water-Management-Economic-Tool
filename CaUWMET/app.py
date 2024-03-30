@@ -286,3 +286,7 @@ if 'volumeGroundwaterBank' not in st.session_state:
 
 if 'totalShortage' not in st.session_state:
     st.session_state['totalShortage'] = outputData_totalShortage
+
+
+image = 'src/pageUtilities/Jacobs_logo.png'
+st.image(image, width=90)
