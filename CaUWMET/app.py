@@ -2,8 +2,8 @@ from src.multiapp import MultiApp
 from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, contingencyWatermanagementOptions, longtermWatermanagementOptions, results
 from src.globalUtilities import fetch_data, selectSpecifiedRows
 import copy
-
 import streamlit as st
+
 
 ## This file is the entry point for the Streamlit app
 ## Streamlit pages and session state variables are defined here

@@ -38,7 +38,7 @@ def selectSpecifiedRows(df, selectionColumn, selectionCriteria):
 
 def roundValues(value):
     try:
-        if value > 1:
+        if int(value) > 1:
             value = round(float(str(value)))
         else:
             value = value
