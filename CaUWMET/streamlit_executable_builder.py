@@ -1,6 +1,8 @@
 import subprocess
+import logging
 
 def run_streamlit():
+    logging.basicConfig(filename = 'logfile.log', filemode = 'w', level = logging.INFO)
     command = "streamlit run app.py"
     
     try:
