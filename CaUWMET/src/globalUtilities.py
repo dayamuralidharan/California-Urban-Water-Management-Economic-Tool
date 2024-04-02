@@ -36,9 +36,12 @@ def fetch_data(inputdatafile, **kwargs):
 def selectSpecifiedRows(df, selectionColumn, selectionCriteria):
     return df.loc[df[selectionColumn] == selectionCriteria]
 
-def roundValues(value): 
-    try: 
-        value = round(float(str(value)))
+def roundValues(value):
+    try:
+        if int(value) > 1:
+            value = round(float(str(value)))
+        else:
+            value = value
         return f"{value:,d}"
     except ValueError: 
         return str(value) 

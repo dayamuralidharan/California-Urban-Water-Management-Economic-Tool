@@ -26,13 +26,13 @@ def displaySummaryPlots(df, explanationText, dataset, datasetType):
 
     allOrSingleContractorSelector = st.selectbox('View ' + dataset + ' data for:', st.session_state.dropDownMenuList, )
     if allOrSingleContractorSelector == 'All Contractors':
-        displayPieAndBarPlots(vars, numberOfVars, plotInputData, selectBoxKey, datasetType)
+        displayPieAndBarPlotsForAllContractors(vars, numberOfVars, plotInputData, selectBoxKey, datasetType)
     else:
         displayDataForOneContractor(allOrSingleContractorSelector, plotInputData)
 
 
 
-def displayPieAndBarPlots(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
+def displayPieAndBarPlotsForAllContractors(vars, k_labelValues, plotInputData, selectBoxKey, datasetType):
     colors, colors_mapping = mapColorsByStudyRegion(st.session_state.contractorInfo)
 
     col1, col2 = st.columns(2)
@@ -96,9 +96,9 @@ def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, ba
     #PIE
     #data for pie
     if datasetType == "total":
-        pie_data = contractor_df.groupby('Study Region')['Value'].sum().astype(int)
+        pie_data = contractor_df.groupby('Study Region')['Value'].sum()
     else:
-        pie_data = contractor_df.groupby('Study Region')['Value'].mean().astype(int)
+        pie_data = contractor_df.groupby('Study Region')['Value'].mean()
 
     fig.add_trace(go.Pie(labels = pie_data.index,
                             values = pie_data.values,
@@ -117,7 +117,6 @@ def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, ba
 
     for i, label_name in enumerate(labels):
         y = pivot_contractor_df.iloc[:,i].index
-        
         fig.add_trace(go.Bar(x = pivot_contractor_df.iloc[:,i], 
                                 y = y, orientation = 'h',
                                 name = label_name,
@@ -125,6 +124,7 @@ def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, ba
                                 legendgroup = 'grp2',
                                 showlegend=False),
                                 row = 1, col = 2)
+    
     fig.update_xaxes(title_text = barPlotXAxisTitle, linecolor = 'grey', mirror = True, 
                         title_standoff = 0, gridcolor = 'grey', gridwidth = 0.1,
                         zeroline = False, 
@@ -144,7 +144,10 @@ def summary_poster(contractor_df, colors_mapping, piePlotTitle, barPlotTitle, ba
                                     bordercolor = 'LightGrey',
                                     borderwidth=0.5),
                         font=dict(size=12),
-                        margin = dict(l = 0, t = 40, r = 40, b = 40, pad = 0.1)
+                        margin = dict(l = 0, t = 40, r = 40, b = 40, pad = 0.1)                        
                     )
 
+    if datasetType == "total": ## Put on log-scale if total is being used
+        fig.update_layout(xaxis=dict(type='log'))
+    
     return fig

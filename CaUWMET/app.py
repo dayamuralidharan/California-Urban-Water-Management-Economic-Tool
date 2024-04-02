@@ -2,8 +2,8 @@ from src.multiapp import MultiApp
 from src.apps import home, demands, modeloverview, globalAssumptions, supplies, systemoperations, contingencyWatermanagementOptions, longtermWatermanagementOptions, results
 from src.globalUtilities import fetch_data, selectSpecifiedRows
 import copy
-
 import streamlit as st
+
 
 ## This file is the entry point for the Streamlit app
 ## Streamlit pages and session state variables are defined here
@@ -31,7 +31,7 @@ PAGES = {
     "Input System Operation Assumptions": systemoperations,
     "Input Contingency Water Management Options Assumptions": contingencyWatermanagementOptions,
     "Input Long-term Water Management Options Assumptions": longtermWatermanagementOptions,
-    "View Results": results,
+    "Results": results,
 }
 
 st.sidebar.title('Navigation')
@@ -286,3 +286,7 @@ if 'volumeGroundwaterBank' not in st.session_state:
 
 if 'totalShortage' not in st.session_state:
     st.session_state['totalShortage'] = outputData_totalShortage
+
+
+image = 'src/pageUtilities/Jacobs_logo.png'
+st.image(image, width=90)

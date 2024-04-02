@@ -6,7 +6,7 @@ def app():
 
     with opt_echo():
 
-        st.title('Water Management Options Assumptions')
+        st.title('Contingency Water Management Options Assumptions')
         st.markdown("""
         :green[There are three groups of contingency water management option assumptions entered into CaUWMET including:  
                     1) Contingency conservation campaigns  

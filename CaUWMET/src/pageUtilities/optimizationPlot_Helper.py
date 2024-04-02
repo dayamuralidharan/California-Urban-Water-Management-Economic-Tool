@@ -79,7 +79,7 @@ def optimizationPlot(source: ColumnDataSource):
 
     # axis labels
     p.yaxis.axis_label = 'Expected Costs and Losses ($ Millions)'
-    p.xaxis.axis_label = 'Sum of Longterm Water Management Option Fixed Yield Augmentation (acre-feet/year)'
+    p.xaxis.axis_label = 'Sum of Long-term Water Management Option Fixed Yield Augmentation (acre-feet/year)'
 
     return p
 

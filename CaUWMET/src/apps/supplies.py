@@ -2,6 +2,7 @@ import streamlit as st
 from src.globalUtilities import opt_echo
 from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 import plotly.express as px
+from src.globalUtilities import roundValues
 
 
 
@@ -40,7 +41,12 @@ def app():
             fig = px.line(st.session_state.swpCVPSuppliesdf, x= "Year", y = contractorView)
             fig.update_layout(yaxis_title = "Annual SWP and/or CVP Supply (acre-feet)")
             st.write(fig)
+            #tableData['Value'] = tableData['Value'].apply(roundValues)
             #st.session_state.swpCVPSuppliesdf['City of Folsom'] = st.session_state.swpCVPSuppliesdf['City of Folsom'].map('{:,.0f}'.format)
+            for column in st.session_state.swpCVPSuppliesdf.columns:
+                if column == 'Year':
+                    continue ## Skip reformatting of "Year" column
+                st.session_state.swpCVPSuppliesdf[column] = st.session_state.swpCVPSuppliesdf[column].apply(roundValues)
             st.table(st.session_state.swpCVPSuppliesdf)
 
 localSuppliesExplanationText = ("""Local supply data includes all existing and planned sources of water available for 
