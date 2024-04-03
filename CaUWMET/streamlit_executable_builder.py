@@ -1,21 +1,26 @@
-import subprocess
 import logging
+import traceback
+import streamlit
+import streamlit.web.cli as stcli
+import os, sys
 
-def run_streamlit():
-    logging.basicConfig(filename = 'logfile.log', filemode = 'w', level = logging.INFO)
-    command = "streamlit run app.py"
-    
-    try:
-        # Run the command and capture the output
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        
-        # Print the output of the command
-        print("Command output:", result.stdout)
-        
-    except subprocess.CalledProcessError as e:
-        # Handle errors if the command fails
-        print("Error running command:", e)
-        print("Command output (if any):", e.output)
+
+def resolve_path(path):
+    resolved_path = os.path.abspath(os.path.join(os.getcwd(), path))
+    return resolved_path
+
 
 if __name__ == "__main__":
-    run_streamlit()
+    try:
+        logging.basicConfig(filename = 'logfile.log', filemode = 'w', level = logging.INFO)
+
+        logging.info("Running streamlit app....")
+        sys.argv = [
+            "streamlit",
+            "run",
+            resolve_path("app.py"),
+            "--global.developmentMode=false",
+        ]
+        sys.exit(stcli.main())
+    except Exception as exception:
+        logging.error(traceback.format_exc())
