@@ -130,4 +130,4 @@ dmypy.json
 .pyre/
 
 # Executable files
-.exe
+*.exe
