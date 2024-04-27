@@ -4,4 +4,7 @@ California Department of Water Resources Urban Water Management Economics Tool [
 License file:
 License information.
 
-
+## Create executable using spec file
+```sh
+pyinstaller .\streamlit_executable_builder.spec --clean
+```
