@@ -16,7 +16,6 @@ a = Analysis(
     datas=datas,
     hiddenimports=['pyarrow.vendored.version'],
     hookspath=["./hooks"],
-    hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     win_no_prefer_redirects=False,
@@ -32,7 +31,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='streamlit_executable_builder',
+    name='Visualize_CaUWMET',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -45,4 +44,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=["Icon.ico"]
 )
