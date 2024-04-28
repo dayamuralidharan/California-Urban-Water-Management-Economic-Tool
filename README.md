@@ -4,6 +4,17 @@ California Department of Water Resources Urban Water Management Economics Tool [
 License file:
 License information.
 
+## Create the executable file for the model
+- Update CaUWMET/main.spec if needed to configure how the executable is created. 
+- Then run the following command from the root directory to create distribution.zip which contains the .exe file and its dependencies.
+```sh
+.\create-cauwmet-model-executable.ps1
+```
+
+## Run the model as a .exe file
+- Open File Explorer and unzip distribution.zip into a directory of your choosing.
+- Double click the CaUWMET_v{VERSION_NUMBER}.exe to start the model.
+
 ## Create the executable file for the Streamlit app
 - Update CaUWMET/streamlit_executable_builder.spec if needed to configure how the executable is created. 
 - Then run the following command from the root directory to create distribution.zip which contains the .exe file and its dependencies.
@@ -13,5 +24,5 @@ License information.
 
 ## Run the Streamlit app as a .exe file
 - Open File Explorer and unzip distribution.zip into a directory of your choosing.
-- Double click the streamlit_executable_builder.exe to start the app.
+- Double click the Visualize_CaUWMET.exe to start the app.
 - If you see an error related to socket permissions, try changing the port by setting the CAUWMET_PORT environment variable.
