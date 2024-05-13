@@ -1,0 +1,43 @@
+# packages in environment at C:\Users\KD012200\AppData\Local\miniconda3\envs\calsim:
+#
+# Name                    Version                   Build  Channel
+altgraph                  0.17.3           py37haa95532_0
+blas                      1.0                         mkl
+bottleneck                1.3.5            py37h080aedc_0
+ca-certificates           2024.3.11            haa95532_0
+certifi                   2022.12.7        py37haa95532_0
+et_xmlfile                1.1.0            py37haa95532_0
+flit-core                 3.6.0              pyhd3eb1b0_0
+future                    0.18.3           py37haa95532_0
+importlib-metadata        4.11.3           py37haa95532_0
+intel-openmp              2021.4.0          haa95532_3556
+mkl                       2021.4.0           haa95532_640
+mkl-service               2.4.0            py37h2bbff1b_0
+mkl_fft                   1.3.1            py37h277e83a_0
+mkl_random                1.2.2            py37hf11a4ad_0
+numexpr                   2.8.4            py37h5b0cc5e_0
+numpy                     1.21.5           py37h7a0a035_3
+numpy-base                1.21.5           py37hca35cd5_3
+openpyxl                  3.1.2                    pypi_0    pypi
+openssl                   3.0.13               h2bbff1b_1
+packaging                 22.0             py37haa95532_0
+pandas                    1.3.5            py37h6214cd6_0
+pefile                    2022.5.30        py37haa95532_0
+pip                       22.3.1           py37haa95532_0
+pyhecdss                  1.1.6                    py37_0    cadwr-dms
+pyinstaller               5.6.2            py37h2bbff1b_0
+pyinstaller-hooks-contrib 2022.14          py37haa95532_0
+python                    3.7.1                h33f27b4_4
+python-dateutil           2.8.2              pyhd3eb1b0_0
+pytz                      2022.7           py37haa95532_0
+pywin32                   305              py37h2bbff1b_0
+pywin32-ctypes            0.2.0                 py37_1001
+setuptools                65.6.3           py37haa95532_0
+six                       1.16.0             pyhd3eb1b0_1
+sqlite                    3.45.3               h2bbff1b_0
+typing_extensions         4.4.0            py37haa95532_0
+vc                        14.2                 h21ff451_1
+vs2015_runtime            14.27.29016          h5e58377_2
+wheel                     0.38.4           py37haa95532_0
+wincertstore              0.2              py37haa95532_2
+zipp                      3.11.0           py37haa95532_0
