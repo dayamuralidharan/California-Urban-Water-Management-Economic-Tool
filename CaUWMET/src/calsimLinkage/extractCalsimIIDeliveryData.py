@@ -72,7 +72,7 @@ try:
     nodePathnames = []
     # Looping through each contractor
     for i, item in enumerate(formula):
-        print("Looping through each contractor")
+        logging.info("Looping through each contractor")
         # Exceptions as of now. TODO: Fix these when possible.
         if (
                 ("min" in item.lower()) or
@@ -93,10 +93,10 @@ try:
         
         # Looping through individual nodes, retrieving timeseries and executing expressions
         for j, an_item in enumerate(splitFormula):
-            #print("j: " + str(j))
-            #print("an_item: " + an_item)
+            #logging.info("j: " + str(j))
+            #logging.info("an_item: " + an_item)
             if an_item in partB:
-                #print(an_item + " is in " + partB)
+                #logging.info(an_item + " is in " + partB)
                 fNodes.append(an_item)
                 allNodes.append(an_item)
                 fdf3=catdf[(catdf.B==an_item)]  # & ('FLOW' in catdf.C)]
@@ -112,25 +112,27 @@ try:
                     # Keep data only for required years
                     dfr3 = dfr2[(dfr2.index.year >= 1921) & (dfr2.index.year <= 2003)]
                 var.append(dfr3[dfr3.columns[0]].values)
-                #print("var: " + str(var_counter))
+                #logging.info("var: " + str(var_counter))
                 copyExpression[j] = "var[%d]" % var_counter
                 var_counter += 1
             else:
                 None
-                #print(an_item + " is not in " + partB)
+                #logging.info(an_item + " is not in " + partB)
 
         finalExpressions.append("".join(copyExpression))
-        #print("Copy expression: " + "".join(copyExpression))
+        #logging.info("Copy expression: " + "".join(copyExpression))
         flowData[i] = eval("".join(copyExpression))
         fData[i] = flowData[i]
-        print("Finished processing copy expression " + "".join(copyExpression))
+        logging.info("Finished processing copy expression " + "".join(copyExpression))
 
     # Create data frame and align contractor names to yearly timeseries data
     flowDataDf = pd.DataFrame(fData, index=dfr3.index)
     flowDataDf.rename(columns=dict(zip(flowDataDf.columns, nodeMappingDf['Contractor'].values)), inplace=True)
 
+    logging.info('Writing data to output file')
     # Write data to output file
-    flowDataDf.to_csv(outputFile)
+    flowDataDf.to_csv(outputFileName)
+    logging.info("Data written to output file")
 
 except Exception as exception:
     logging.error(traceback.format_exc())
