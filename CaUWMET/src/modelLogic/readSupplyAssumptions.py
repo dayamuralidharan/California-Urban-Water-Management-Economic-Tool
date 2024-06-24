@@ -13,23 +13,37 @@ class SupplyAssumptions:
         swpCVPSupplyDataInput = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 984, nrows = 94, usecols = 'A:AR')
         self.swpCVPSupply = swpCVPSupplyDataInput
 
-        if baseSupplyInputAsTimeSeries == "Use time series input":
+
+        if baseSupplyInputAsTimeSeries == "Use time series input data":
+            self.totalLocalSupply = pd.DataFrame(index=range(len(globalAssumptions.historicHydrologyYears)))
+            self.groundwaterLocalSupply = pd.DataFrame(index=range(len(globalAssumptions.historicHydrologyYears)))
+
             # Read in and set local base supplies timeseries dataframes
-            surfaceSupply = pd.read_csv(inputDataLocations.supplySurfaceTimeseriesInput)
-            groundwaterSupply = pd.read_csv(inputDataLocations.supplyGroundwaterTimeseriesInput)
-            recycleSupply = pd.read_csv(inputDataLocations.supplyRecycledTimeseriesInput)
-            potableSupply = pd.read_csv(inputDataLocations.supplyPotableTimeseriesInput)
-            desalinationSupply = pd.read_csv(inputDataLocations.supplyDesalinationTimeseriesInput)
-            exchangesSupply = pd.read_csv(inputDataLocations.supplyExchangesTimeseriesInput)
-            otherSupply = pd.read_csv(inputDataLocations.supplyOtherTimeseriesInput)
-            self.totalLocalSupply = (
-                surfaceSupply + groundwaterSupply + recycleSupply + potableSupply +
-                desalinationSupply + exchangesSupply + otherSupply
-            )
-            #TODO: Finish setting up total local supply from time series input
-            self.totalLocalSupply['Year'] = surfaceSupply['Year']
-        else:
-            # Read in data by year type
+            sheets = ['supplyTimeSeriesInput_surface', 
+                      'supplyTimeSeries_groundwater', 
+                      'supplyTimeSeries_desalination', 
+                      'supplyTimeSeries_recycled', 
+                      'supplyTimeSeries_potableReuse', 
+                      'supplyTimeSeries_potableReuse', 
+                      'supplyTimeSeries_other']
+            for sheet in sheets:
+                 data = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = sheet, skiprows = 1, nrows = 94, usecols = 'A:AR')
+                 if self.totalLocalSupply.empty:
+                      self.totalLocalSupply = data
+                 else:
+                      self.totalLocalSupply += data
+                 
+                 if sheet == 'supplyTimeSeries_groundwater':
+                      self.groundwaterLocalSupply = data
+            
+            self.totalLocalSupply['Year'] = globalAssumptions.historicHydrologyYears 
+
+        else: # Read in data by year type
+
+            # Initiate Total Local Supply and groundwater local supply time series variables
+            self.totalLocalSupply = {'Year': globalAssumptions.historicHydrologyYears}
+            self.groundwaterLocalSupply = {'Year': globalAssumptions.historicHydrologyYears}
+
             localSuppliesByType = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 11, nrows = 965, usecols = 'A:H')
             pd.DataFrame(localSuppliesByType.set_index('Contractor', inplace = True))
             
@@ -79,17 +93,13 @@ class SupplyAssumptions:
             self.totalLocalSupplyMultiDryYear =  filteredMultiDryYearSupplies[int(globalAssumptions.futureYear)].groupby(['Contractor']).sum()
             groundwaterSupplyMultiDryYear.drop('Variable', axis=1, inplace=True)
 
-            # Create Total Local Supply time series based on local contractor hydrologic year type
-            self.totalLocalSupply = {'Year': globalAssumptions.historicHydrologyYears}
-            # Create groundwater local supply time series to constrain groundwater pumping reduction
-            self.groundwaterLocalSupply = {'Year': globalAssumptions.historicHydrologyYears}
 
             for contractor in globalAssumptions.contractorsList:
                 self.contractorYearType = globalAssumptions.UWMPhydrologicYearType[contractor]
                 totalLocalSupply = []
                 groundwaterLocalSupply = []
 
-                
+                # Create time series based on local contractor hydrologic year type
                 for i in range(len(globalAssumptions.historicHydrologyYears)):
                     if self.contractorYearType[i] == "NB": #Normal or Better
                         totalLocalSupply.append(self.totalLocalSupplyNormalYear.loc[contractor])
