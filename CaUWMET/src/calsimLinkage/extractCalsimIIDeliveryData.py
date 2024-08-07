@@ -17,7 +17,7 @@ import pandas as pd
 import logging
 import traceback
 
-logging.basicConfig(filename = 'logfile.log', filemode = 'w', level = logging.INFO)
+logging.basicConfig(filename = 'logfileCalsimII.log', filemode = 'w', level = logging.INFO)
 
 # Helper function that checks if the last digit of a non-empty string is a digit or an alphabet.
 def isDigitOrAlpha(string):
@@ -54,7 +54,6 @@ try:
     switch_convertCFStoAcreFeetYear = True  # Switch to convert output supplies (originally in monthly mean cfs) to Acre Feet Year
     conversion_CFStoAcreFeetYear = (365.25 * 24. * 60. * 60.) * (1 / 43560.)   # (365.24 days/year * 24 hours * 60 minutes * 60 seconds) * (1 acre / 43560 sq. ft)
     outputFileName = "swpCVPSupplyData_CalsimII.csv"
-    outputFile = os.path.join(dirname, outputFileName)
 
     # Read dss file catalog
     with pyhecdss.DSSFile(inputDSSFile) as d:
@@ -136,10 +135,3 @@ try:
 
 except Exception as exception:
     logging.error(traceback.format_exc())
-
-## Optional for QA
-# pathnamesOutput = {}
-# pathnamesOutput['allNodes'] = allNodes
-# pathnamesOutput['nodePathnames'] = nodePathnames
-# pathnamesDataframe = pd.DataFrame(pathnamesOutput)
-# pathnamesDataframe.to_csv(os.path.join(dirname, "outputPathnames.csv"))
