@@ -41,8 +41,8 @@ class SystemOperationsAssumptions:
             for i in range(len(globalAssumptions.historicHydrologyYears)):
                 if contractorYearType[i] == "NB": #Normal or Better
                     contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
-                elif contractorYearType[i] == "SD": #Single Dry
-                        contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
+                # elif contractorYearType[i] == "SD": #Single Dry
+                #         contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorYearType[i] == "MD": #Multi-Dry
                         contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostMultiDryYears.loc[contractor][int(globalAssumptions.futureYear)])
             self.groundwaterPumpingUnitCost[contractor] = contractorGroundwaterPumpingUnitCost

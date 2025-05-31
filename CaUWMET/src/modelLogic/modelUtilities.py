@@ -18,18 +18,20 @@ def reclassifyYearType(yearType):
     :return rType: list or array of reclassified year type
      (NB - Normal or better, SD - Single Dry, MD - Multiple Dry)
     """
-    dryYears = ['BN', 'D', 'C']
+    #dryYears = ['BN', 'D', 'C']  # using latest guidance on WYT classification
+    dryYears = ['D', 'C']
     yearType = list(yearType)
     length = len(yearType)
     rType = []
     for i in range(length):
-        if yearType[i] in dryYears:
+        if yearType[i] == 'C':
+            rType.append('MD')
+            continue
+        if yearType[i] == 'D':
             if (i != 0) and (yearType[i-1] in dryYears):
                 rType.append('MD')
                 continue
-            rType.append('SD')
-        else:
-            rType.append('NB')
+        rType.append('NB')
     return rType
 
 #TODO: Shorten function by iterating over supplies by priority dataframe columns
