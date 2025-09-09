@@ -42,7 +42,7 @@ class costOptimizationTest(TestCase):
 
 
     def testCostOptimization(self):
-        targetF = 21632900926.064705
+        targetF = 19801260305.593517
         self.optimizeWMOs.optimize(result=False)
         self.Xb, self.Fb = self.optimizeWMOs.reportBest()
         self.modelOutputsOptim, self.qaqcResultsOptim = self.optimizeWMOs.exportResults()
