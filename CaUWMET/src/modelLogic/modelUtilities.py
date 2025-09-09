@@ -12,87 +12,29 @@ def lookupCorrespondingValue(df, item, colA, colB):
     """
     return df[df[colA] == item][colB].values[0]
 
-def reclassifyYearType(yearType):
+def reclassifyYearType(inputYearType):
     """
+    Reclassify the hydrologic year type from DWR's weighted water year index (WYI) to UWMP's 3-tiered system.
+    Method sourced from CWEST - Assign "multi-dry" year type when:
+        WYI = critical
+        WYI = dry or critical for 3 or more years in a row
     :param yearType: list or array of strings (W, AN, N, BN, D, C)
     :return rType: list or array of reclassified year type
      (NB - Normal or better, SD - Single Dry, MD - Multiple Dry)
     """
-    dryYears = ['BN', 'D', 'C']
-    yearType = list(yearType)
-    length = len(yearType)
-    rType = []
-    for i in range(length):
-        if yearType[i] in dryYears:
-            if (i != 0) and (yearType[i-1] in dryYears):
-                rType.append('MD')
-                continue
-            rType.append('SD')
-        else:
-            rType.append('NB')
-    return rType
-
-#TODO: Shorten function by iterating over supplies by priority dataframe columns
-def meetDemandsBySupplyPriority(
-    i, 
-    contractorDemandsAfterSupplyPriority1,
-    contractorSupplyPriority2, 
-    contractorSupplyPriority3, 
-    contractorSupplyPriority4, 
-    contractorSupplyPriority5, 
-    contractorSupplyPriority6, 
-    contractorSupplyPriority7, 
-    contractorSWPCVPSupply):
-
-    contractorDemandsToBeMetBySWPCVP = 0
-    contractorExcessSupply = 0
-    contractorDemandsToBeMetByCarryover = 0
-
-    if contractorDemandsAfterSupplyPriority1[i] > 0:
-        contractorDemandsAfterSupplyPriority2 = contractorDemandsAfterSupplyPriority1[i] - contractorSupplyPriority2
-        
-        if contractorDemandsAfterSupplyPriority2 > 0:
-            contractorDemandsAfterSupplyPriority3 = contractorDemandsAfterSupplyPriority2 - contractorSupplyPriority3
-        
-            if contractorDemandsAfterSupplyPriority3 > 0:
-                contractorDemandsAfterSupplyPriority4 = contractorDemandsAfterSupplyPriority3 - contractorSupplyPriority4
-            
-                if contractorDemandsAfterSupplyPriority4 > 0:
-                    contractorDemandsAfterSupplyPriority5 = contractorDemandsAfterSupplyPriority4 - contractorSupplyPriority5
-
-                    if contractorDemandsAfterSupplyPriority5 > 0:
-                        contractorDemandsAfterSupplyPriority6 = contractorDemandsAfterSupplyPriority5 - contractorSupplyPriority6
-
-                        if contractorDemandsAfterSupplyPriority6 > 0:
-                            contractorDemandsToBeMetBySWPCVP = contractorDemandsAfterSupplyPriority6 - contractorSupplyPriority7
-                            
-                            if contractorDemandsToBeMetBySWPCVP > 0:
-                                contractorDemandsToBeMetByCarryover = contractorDemandsToBeMetBySWPCVP - contractorSWPCVPSupply
-                            else:
-                                contractorExcessSupply = -1*contractorDemandsToBeMetBySWPCVP
-                                contractorDemandsToBeMetByCarryover= 0
-                        else:
-                            contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                            contractorDemandsToBeMetBySWPCVP = 0
-                            contractorDemandsToBeMetByCarryover = 0
-                    else:
-                        contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                        contractorDemandsToBeMetBySWPCVP = 0
-                        contractorDemandsToBeMetByCarryover = 0
-                else:
-                    contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                    contractorDemandsToBeMetBySWPCVP = 0
-                    contractorDemandsToBeMetByCarryover = 0
-            else:
-                contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-                contractorDemandsToBeMetBySWPCVP = 0
-                contractorDemandsToBeMetByCarryover = 0
-        else:
-            contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-            contractorDemandsToBeMetBySWPCVP = 0
-            contractorDemandsToBeMetByCarryover = 0
-    else:
-        contractorExcessSupply = -1*contractorDemandsAfterSupplyPriority1 + contractorSupplyPriority2 + contractorSupplyPriority3 + contractorSupplyPriority4 + contractorSupplyPriority5 + contractorSupplyPriority6 + contractorSupplyPriority7 + contractorSWPCVPSupply
-        contractorDemandsToBeMetBySWPCVP = 0
+    dryYears = ['D', 'C']
+    inputYearType = list(inputYearType)
+    cauwmetYearType = []
+    dryStreak = 0
     
-    return [contractorDemandsToBeMetBySWPCVP, contractorExcessSupply, contractorDemandsToBeMetByCarryover]
+    for yt in inputYearType:
+        if yt in dryYears:
+            dryStreak += 1
+        else:
+            dryStreak = 0
+
+        if yt == 'C' or dryStreak >= 3:
+            cauwmetYearType.append('MD')
+        else:
+            cauwmetYearType.append('NB')
+    return cauwmetYearType

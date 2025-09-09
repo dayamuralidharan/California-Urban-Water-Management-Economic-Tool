@@ -56,7 +56,7 @@ class ContingentWMOsAssumptions:
 
         for contractor in globalAssumptions.contractorsList:
             contractorYearType = globalAssumptions.hydroYearType[contractor] # Wet, Above Normal, Below Normal, Dry, Critically Dry
-            contractorUWMPYearType = globalAssumptions.UWMPhydrologicYearType[contractor] # Normal or Better, Single Dry, Multi-Dry
+            contractorUWMPYearType = globalAssumptions.UWMPhydrologicYearType[contractor] # Normal or Better, Multi-Dry
             contractorTransferLimit = []
             contractorWaterMarketTransferCost = []
             
@@ -75,8 +75,8 @@ class ContingentWMOsAssumptions:
                     
                 if contractorUWMPYearType[i] == 'NB':
                     contractorTransferLimit.append(transferLimit_NormalOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
-                elif contractorUWMPYearType[i] == 'SD':
-                    contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][int(globalAssumptions.futureYear)])  
+                # elif contractorUWMPYearType[i] == 'SD':
+                #     contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][int(globalAssumptions.futureYear)])  
                 elif contractorUWMPYearType[i] == 'MD':
                     contractorTransferLimit.append(transferLimit_DryYears.loc[contractor][int(globalAssumptions.futureYear)] * (transferLimitPortion_ConsecutiveDryYears.loc[contractor][int(globalAssumptions.futureYear)] / 100))
             
