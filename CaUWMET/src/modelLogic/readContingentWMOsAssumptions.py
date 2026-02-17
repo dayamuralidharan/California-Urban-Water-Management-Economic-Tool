@@ -20,7 +20,7 @@ class ContingentWMOsAssumptions:
         self.contingentConservationUseReduction = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Use Reduction with Contingency Conservation Campaign (% of Total Applied Use)']
         self.contingentConservationStorageTrigger = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Storage Volume Trigger for Contingency Conservation (AF)']
         self.contingentConservationUnitCost = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Contingency Conservation Publicity Campaign Cost ($/capita)']
-        self.urbanPopulation = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Urban Population (thousands)']
+        self.urbanPopulation = contingentConservationInputData[contingentConservationInputData['Variable'] == 'Urban Population']
 
         self.contingentConservationUnitCost.set_index('Contractor', inplace = True)
         self.urbanPopulation.set_index('Contractor', inplace = True)
