@@ -20,7 +20,7 @@ def reclassifyYearType(inputYearType):
         WYI = dry or critical for 3 or more years in a row
     :param yearType: list or array of strings (W, AN, N, BN, D, C)
     :return rType: list or array of reclassified year type
-     (NB - Normal or better, SD - Single Dry, MD - Multiple Dry)
+     (NB - Normal or better, MD - Multiple Dry)
     """
     dryYears = ['D', 'C']
     inputYearType = list(inputYearType)

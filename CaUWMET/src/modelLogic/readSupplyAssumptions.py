@@ -10,7 +10,7 @@ class SupplyAssumptions:
         baseSupplyInputAsTimeSeries = inputData_supplyInputType.columns
         baseSupplyInputAsTimeSeries = baseSupplyInputAsTimeSeries[0]
         
-        swpCVPSupplyDataInput = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 984, nrows = 94, usecols = 'A:AR')
+        swpCVPSupplyDataInput = pd.read_excel(inputDataLocations.inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 665, nrows = 94, usecols = 'A:AR')
         self.swpCVPSupply = swpCVPSupplyDataInput
 
 
@@ -63,21 +63,6 @@ class SupplyAssumptions:
             self.totalLocalSupplyNormalYear =  filteredNormalYearSupplies[int(globalAssumptions.futureYear)].groupby(['Contractor']).sum() #surfaceSupplyNormalYear + groundwaterSupplyNormalYear + recycleSupplyNormalYear + potableReuseSupplyNormalYear +desalinationSupplyNormalYear + exchangesSupplyNormalYear + otherSupplyNormalYear
             groundwaterSupplyNormalYear.drop('Variable', axis=1, inplace=True)
 
-            # Set up local supply dataframe for Single Dry Year Types
-            singleDryYearSupplies = ['Surface for Single Dry Years (acre-feet/year)', 
-                                     'Groundwater for Single Dry Years (acre-feet/year)', 
-                                     'Recycled for Single Dry Years (acre-feet/year)',
-                                     'Potable Reuse for Single Dry Years (acre-feet/year)',
-                                     'Desalination for Single Dry Years (acre-feet/year)',
-                                     'Long-term Contractual Transfers and Exchanges Supply for Single Dry Years (acre-feet/year)',
-                                     'Other Supply Types for Single Dry Years (acre-feet/year)']
-            
-            groundwaterSupplySingleDryYear = localSuppliesByType[localSuppliesByType['Variable'] == 'Groundwater for Single Dry Years (acre-feet/year)']
-
-            filteredSingleDryYearSupplies = localSuppliesByType[localSuppliesByType['Variable'].isin(singleDryYearSupplies)]
-            self.totalLocalSupplySingleDryYear = filteredSingleDryYearSupplies[int(globalAssumptions.futureYear)].groupby(['Contractor']).sum()
-            groundwaterSupplySingleDryYear.drop('Variable', axis=1, inplace=True)
-
             # Set up local supply dataframe for Multi-Dry Year Types
             multiDryYearSupplies = ['Surface for Multiple Dry Years (acre-feet/year)',
                                      'Groundwater for Multiple Dry Years (acre-feet/year)',
@@ -104,12 +89,9 @@ class SupplyAssumptions:
                     if self.contractorYearType[i] == "NB": #Normal or Better
                         totalLocalSupply.append(self.totalLocalSupplyNormalYear.loc[contractor])
                         groundwaterLocalSupply.append(groundwaterSupplyNormalYear.loc[contractor][int(globalAssumptions.futureYear)])
-                    elif self.contractorYearType[i] == "SD": #Single Dry
-                            totalLocalSupply.append(self.totalLocalSupplySingleDryYear.loc[contractor])
-                            groundwaterLocalSupply.append(groundwaterSupplySingleDryYear.loc[contractor][int(globalAssumptions.futureYear)])
                     elif self.contractorYearType[i] == "MD": #Multi-Dry
                             totalLocalSupply.append(self.totalLocalSupplyMultiDryYear.loc[contractor])
-                            groundwaterLocalSupply.append(groundwaterSupplySingleDryYear.loc[contractor][int(globalAssumptions.futureYear)])
+                            groundwaterLocalSupply.append(groundwaterSupplyMultiDryYear.loc[contractor][int(globalAssumptions.futureYear)])
                 self.totalLocalSupply[contractor] = totalLocalSupply
                 self.groundwaterLocalSupply[contractor] = groundwaterLocalSupply
 

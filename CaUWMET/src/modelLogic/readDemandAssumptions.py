@@ -30,9 +30,11 @@ class DemandAssumptions:
             contractorDemands = []
             
             mapYearType = {
+                # Apply normal or better UWMP data to years characterized as "NB" in the readGlobalAssumptions.py file
+                # Apply the maximum demands to years characterized as "MD" in the readGlobalAssumptions.py file
+                # Sometimes contractors report lower demands for multi-dry year categories than normal or better, accounting for conservation measures already, we want to take the maximum of the demand assumptions so we don't double count conservation actions
                 'NB': 'Normal or Better Demands (AFY)',
-                'SD': 'Single Dry-Year Demands (AFY)',
-                'MD': 'Multiple Dry-Year Demands (AFY)',
+                'MD': 'Maximum Demands (AFY)',
             }
             if totalDemandInputDataType == "Use ETAW adjusted input data":
                 for i, Year in enumerate(globalAssumptions.historicHydrologyYears):
