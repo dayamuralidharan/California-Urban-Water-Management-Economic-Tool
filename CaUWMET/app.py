@@ -47,16 +47,16 @@ outputDataFile_zeroedLTWMOS = "src/outputData/ModelOutputs_Zero.xlsx"
 #---------------------------------------------------------------#
 # INITIALIZE GLOBAL ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-simulationSettings = fetch_data(inputDataFile, sheet_name = 'Simulation Settings', nrows = 3, usecols = 'B')
+simulationSettings = fetch_data(inputDataFile, sheet_name = 'Simulation Settings', header=None)
 
 if 'futurePlanningYear' not in st.session_state:
-    st.session_state['futurePlanningYear'] = str(simulationSettings.columns.values[0])
+    st.session_state['futurePlanningYear'] = str(simulationSettings.iloc[0, 1])
 
 if 'hydrologicReferencePeriodStartYear' not in st.session_state:
-    st.session_state['hydrologicReferencePeriodStartYear'] = simulationSettings[simulationSettings.columns.values[0]][0]
+    st.session_state['hydrologicReferencePeriodStartYear'] = simulationSettings.iloc[1, 1]
 
 if 'hydrologicReferencePeriodEndYear' not in st.session_state:
-    st.session_state['hydrologicReferencePeriodEndYear'] = simulationSettings[simulationSettings.columns.values[0]][1]
+    st.session_state['hydrologicReferencePeriodEndYear'] = simulationSettings.iloc[2, 1]
 
 if 'contractorInfo' not in st.session_state:
     st.session_state['contractorInfo'] = fetch_data(inputDataFile, sheet_name = 'Contractor Assumptions', skiprows = 4, nrows = 44, usecols = 'A:I')
@@ -98,8 +98,8 @@ if 'baseLongTermConservationdf' not in st.session_state:
 #---------------------------------------------------------------#
 # INITIALIZE SUPPLY ASSUMPTION SESSION STATE VARIABLES
 #---------------------------------------------------------------#
-inputData_LocalSupplies = fetch_data(inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 11, nrows = 965, usecols = 'A:I')
-inputData_SWPCVP = fetch_data(inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 984, nrows = 95, usecols = 'A:AR')
+inputData_LocalSupplies = fetch_data(inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 11, nrows = 648, usecols = 'A:I')
+inputData_SWPCVP = fetch_data(inputDataFile, sheet_name = 'Supply Assumptions', skiprows = 665, nrows = 95, usecols = 'A:AR')
 
 # #### Initialize input datasets with input data 
 if 'localSuppliesdf' not in st.session_state:

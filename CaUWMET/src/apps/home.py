@@ -28,5 +28,5 @@ def app():
         - Results: Review CaUWMET model results
 ]""", unsafe_allow_html=True)
         st.write("")
-        st.write("""If you would like to view or modify the source code, please visit the GitHub repository at: <repository link>.
+        st.write("""If you would like to view or modify the source code, please visit the GitHub repository at: https://github.com/dayamuralidharan/California-Urban-Water-Management-Economic-Tool.
         Additional information on the model approach, and documentation can be found in the Model Overview page.""")

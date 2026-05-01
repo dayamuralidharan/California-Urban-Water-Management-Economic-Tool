@@ -3,6 +3,7 @@ from src.globalUtilities import opt_echo
 from src.pageUtilities.summaryPlots_Helper import displaySummaryPlots
 import plotly.express as px
 from src.globalUtilities import roundValues
+import pandas as pd
 
 
 
@@ -15,7 +16,7 @@ def app():
 
         st.markdown("""
         :green[There are two groups of base water supply assumptions entered into CaUWMET including:  
-                    1) Supply assumptions for local and regional supplies for normal or better, single-dry, and multiple dry year types  
+                    1) Supply assumptions for local and regional supplies for normal or better and multi-dry year types  
                     2) Supply assumptions for State Water Project and Central Valley Project supplies]""", unsafe_allow_html=True)
         st.write("")
         st.markdown("""
@@ -36,7 +37,16 @@ def app():
         
         with st.expander("State Water Project and Central Valley Project Base Water Supplies"):
             st.markdown(swpCVPExplanationText)
-            st.session_state.swpCVPSuppliesdf.loc[:,st.session_state.swpCVPSuppliesdf.columns != 'Year'].astype(int)
+
+            # Retrieve SWP and CVP data and convert to numeric format (remove any comma)
+            cols = st.session_state.swpCVPSuppliesdf.columns != 'Year'
+            st.session_state.swpCVPSuppliesdf.loc[:, cols] = (
+                st.session_state.swpCVPSuppliesdf.loc[:, cols]
+                .replace(',', '', regex=True)
+                .apply(pd.to_numeric, errors='coerce')
+                )
+            #st.session_state.swpCVPSuppliesdf.loc[:,st.session_state.swpCVPSuppliesdf.columns != 'Year'].astype(int)
+
             contractorView = st.selectbox("Select contractor to view SWP/CVP supplies", st.session_state.contractorList)
             fig = px.line(st.session_state.swpCVPSuppliesdf, x= "Year", y = contractorView)
             fig.update_layout(yaxis_title = "Annual SWP and/or CVP Supply (acre-feet)")
@@ -52,7 +62,7 @@ def app():
 localSuppliesExplanationText = ("""Local supply data includes all existing and planned sources of water available for 
                                 each supplier excluding supplies sourced from the State Water and Central Valley Projects (SWP and CVP). 
                                 SWP and CVP supplies are input separately via the second variable on this page. Local supplies are input for
-                                anticipated availability under a normal or better water year, single dry, and multiple dry year conditions. Local supplies
+                                anticipated availability under a normal or better water year and multi-dry year conditions. Local supplies
                                 are input separately by type to account for the varying costs associated with each supply type. 
                                 Default data was developed utilizing information reported in each supplier's 2020 Urban Water Management Plan.
                                 Local supplies reported on this page should only include verified supplies. Any local supplies that are still 
