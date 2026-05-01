@@ -11,7 +11,7 @@ def app():
 
         st.markdown("""
         :green[There are three groups of demand assumptions entered into CaUWMET including:  
-                    1) Total Demands Scenarios for Normal or Better, Single-Dry, and Multiple Dry year types  
+                    1) Total Demands Scenarios for Normal or Better and Multi-Dry year types, and the maximum of the two 
                     2) Total Water Use by Type for Single-Family and Multi-Family Residential, Industrial, Commercial and Governmental, Agricultural, Large Landscape and Other use type categories  
                     3)  Planned Long-term Conservation]""", unsafe_allow_html=True)
         st.write("")
