@@ -138,3 +138,10 @@ distribution.zip
 *.dsc
 *.dsd
 *.dsk
+
+# user defined
+CaUWMET/graphics/*
+optimization_plot.html
+src/outputData/test_excel.xlsx
+*.exe
+CaUWMET/.venv/*

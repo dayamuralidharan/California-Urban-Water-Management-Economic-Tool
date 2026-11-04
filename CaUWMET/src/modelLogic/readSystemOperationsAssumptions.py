@@ -22,7 +22,7 @@ class SystemOperationsAssumptions:
         self.groundwaterBankPutUnitCost = storageOperationsCosts.loc[storageOperationsCosts['Variable'] == "Groundwater bank put cost ($/acre-feet)"]
         self.groundwaterBankTakeUnitCost = storageOperationsCosts.loc[storageOperationsCosts['Variable'] == "Groundwater bank take cost ($/acre-feet)"]
         self.swpCVPDeliveryUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "SWP or CVP Delivery Costs ($/acre-foot)"]
-        groundwaterPumpingUnitCostSingleDryOrBetterYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping (Single Dry or Better Year Types, $/acre-foot)"]
+        groundwaterPumpingUnitCostNormalOrBetterYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping (Normal or Better Year Types, $/acre-foot)"]
         groundwaterPumpingUnitCostMultiDryYears = deliveryCostData.loc[deliveryCostData['Variable'] == "Groundwater Pumping (Multi-Dry Year Types, $/acre-foot)"]
         self.swpCVPDeliveryUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "SWP or CVP Delivery Costs ($/acre-foot)"]
         self.waterTreatmentUnitCost = deliveryCostData.loc[deliveryCostData['Variable'] == "Cost of M&I potable water treatment ($/acre-foot)"]
@@ -40,7 +40,7 @@ class SystemOperationsAssumptions:
 
             for i in range(len(globalAssumptions.historicHydrologyYears)):
                 if contractorYearType[i] == "NB": #Normal or Better
-                    contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
+                    contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostNormalOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
                 # elif contractorYearType[i] == "SD": #Single Dry
                 #         contractorGroundwaterPumpingUnitCost.append(groundwaterPumpingUnitCostSingleDryOrBetterYears.loc[contractor][int(globalAssumptions.futureYear)])
                 elif contractorYearType[i] == "MD": #Multi-Dry
